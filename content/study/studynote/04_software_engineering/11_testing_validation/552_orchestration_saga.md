@@ -1,10 +1,9 @@
-+++
-weight = 552
-title = "552. 오케스트레이션 사가 (Orchestration Saga) - 중앙 통제기가 흐름 제어"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 552. 오케스트레이션 사가 (Orchestration Saga) - 중앙 통제기가 흐름 제어
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

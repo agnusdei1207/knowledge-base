@@ -1,10 +1,9 @@
-+++
-weight = 116
-title = "116. 컨테이너 이미지 보안 스캐닝 (Container Image Security Scanning) - CVE·SBOM·정책"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 116. 컨테이너 이미지 보안 스캐닝 (Container Image Security Scanning) - CVE·SBOM·정책
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[561_container_based_deployment|컨테이너]] 이미지 보안 스캐닝은 [[063_docker_architecture|Docker]]/[[333_process|OCI]] 이미지의 **OS 패키지·언어 라이브러리에 포함된 알려진 취약점([[409_cve_lifecycle|CVE]])**을 자동으로 탐지하고, [[890_sbom_cyclonedx_spdx|SBOM]](Software [[124_bom_bill_of_materials|Bill of Materials]])을 [[087_process_state_transition|생성]]하여 [[374_supply_chain_security|공급망 보안]]을 확보하는 프로세스다.

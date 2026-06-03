@@ -1,10 +1,9 @@
-+++
-weight = 159
-title = "159. Snowflake on Data Lake — External Table과 Iceberg 지원"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 159. Snowflake on Data Lake — External Table과 Iceberg 지원
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. Snowflake는 전통적 SQL 중심 DW를 넘어 External Tables와 Iceberg Tables를 통해 **객체 스토리지(S3/ADLS/GCS)의 [[001_dikw_pyramid|데이터]]를 직접 [[298_qkv_attention|쿼리]]**하는 [[146_lakehouse|레이크하우스]] 방향으로 확장하고 있다.

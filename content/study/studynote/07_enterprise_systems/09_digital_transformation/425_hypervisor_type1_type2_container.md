@@ -1,10 +1,9 @@
-+++
-weight = 425
-title = "425. 하이퍼바이저 Type 1/2 전반가상화 컨테이너 비교 (Hypervisor)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 425. 하이퍼바이저 Type 1/2 전반가상화 컨테이너 비교 (Hypervisor)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 373
-title = "373. 오픈 소스 소프트웨어 (OSS) 거버넌스 - 라이선스(GPL, MIT, Apache 등) 컴플라이언스"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 373. 오픈 소스 소프트웨어 (OSS) 거버넌스 - 라이선스(GPL, MIT, Apache 등) 컴플라이언스
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 212
-title = "212. 서비스 지향 아키텍처 (SOA, Service Oriented Architecture) - ESB 기반"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 212. 서비스 지향 아키텍처 (SOA, Service Oriented Architecture) - ESB 기반
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

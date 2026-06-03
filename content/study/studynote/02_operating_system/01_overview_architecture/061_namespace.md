@@ -1,10 +1,9 @@
-+++
-weight = 61
-title = "61. 네임스페이스 (Namespace) - 자원 격리"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 61. 네임스페이스 (Namespace) - 자원 격리
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

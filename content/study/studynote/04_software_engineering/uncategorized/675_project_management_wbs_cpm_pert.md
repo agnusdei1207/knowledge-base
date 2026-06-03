@@ -1,10 +1,9 @@
-+++
-weight = 675
-title = "675. 프로젝트 관리 WBS, CPM, PERT"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 675. 프로젝트 관리 WBS, CPM, PERT
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

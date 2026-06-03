@@ -1,10 +1,9 @@
-+++
-weight = 85
-title = "10. 워터마크 (Watermark) — 지연 이벤트 허용 임계"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 10. 워터마크 (Watermark) — 지연 이벤트 허용 임계
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

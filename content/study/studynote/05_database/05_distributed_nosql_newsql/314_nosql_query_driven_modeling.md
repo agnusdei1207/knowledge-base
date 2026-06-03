@@ -1,10 +1,9 @@
-+++
-weight = 314
-title = "314. NoSQL 모델링 전략"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 314. NoSQL 모델링 전략
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

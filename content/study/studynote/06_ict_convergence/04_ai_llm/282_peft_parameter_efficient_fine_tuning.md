@@ -1,10 +1,9 @@
-+++
-weight = 282
-title = "282. 파라미터 효율적 미세 조정 (PEFT, Parameter-Efficient Fine-Tuning)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 282. 파라미터 효율적 미세 조정 (PEFT, Parameter-Efficient Fine-Tuning)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

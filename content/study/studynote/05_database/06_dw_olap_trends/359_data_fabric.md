@@ -1,10 +1,9 @@
-+++
-weight = 359
-title = "359. 데이터 패브릭 (Data Fabric) 플랫폼 (가상화 연계망)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 359. 데이터 패브릭 (Data Fabric) 플랫폼 (가상화 연계망)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

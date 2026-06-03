@@ -1,7 +1,8 @@
-+++
-title = "82. Kubelet (큐블렛) - 마스터 노드의 명령을 받아 파드(Pod)를 생성/관리하고 헬스체크 결과를 보고하는 노드별 에이전트"
-weight = 82
-+++
+---
+title: 82. Kubelet (큐블렛) - 마스터 노드의 명령을 받아 파드(Pod)를 생성/관리하고 헬스체크 결과를 보고하는 노드별 에이전트
+tags:
+- cloud_architecture
+---
 
 # Kubelet (큐블렛) - [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 워커 노드의 마스터 에이전트
 

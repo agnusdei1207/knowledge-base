@@ -1,10 +1,9 @@
-+++
-weight = 783
-title = "783. 모바일 환경 에너지 인지 스케줄러 (Mobile Energy Aware Scheduler Eas)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 783. 모바일 환경 에너지 인지 스케줄러 (Mobile Energy Aware Scheduler Eas)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 87
-title = "87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

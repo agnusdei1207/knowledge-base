@@ -1,10 +1,9 @@
-+++
-title = "045. 컬럼형 저장 형식 — Parquet & ORC"
-weight = 45
-date = "2026-04-05"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 045. 컬럼형 저장 형식 — Parquet & ORC
+date: '2026-04-05'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. 컬럼형 저장 형식([[234_columnar_storage_parquet_orc|Columnar Storage]] Format)은 행(Row) 대신 열(Column) 단위로 [[001_dikw_pyramid|데이터]]를 저장해 분석 [[298_qkv_attention|쿼리]]의 I/O를 극적으로 줄이는 빅데이터 핵심 기술 — 수백만 행에서 특정 열 5개만 조회할 때 행 기반은 전체 행을 읽지만, 컬럼형은 해당 열만 읽는다.

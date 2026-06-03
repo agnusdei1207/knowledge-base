@@ -1,10 +1,9 @@
-+++
-weight = 569
-title = "569. 분산 추적 (Distributed Tracing) - 트랜잭션 경로 추적 (OpenTelemetry, Jaeger, Zipkin)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 569. 분산 추적 (Distributed Tracing) - 트랜잭션 경로 추적 (OpenTelemetry, Jaeger, Zipkin)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 833
-title = "833. 전송 중 암호화 (Encryption in Transit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 833. 전송 중 암호화 (Encryption in Transit)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

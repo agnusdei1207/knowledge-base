@@ -1,10 +1,9 @@
-+++
-weight = 98
-title = "98. 블록체인 데이터 인덱싱 (The Graph Blockchain Indexing Protocol)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 98. 블록체인 데이터 인덱싱 (The Graph Blockchain Indexing Protocol)
+date: '2026-04-21'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

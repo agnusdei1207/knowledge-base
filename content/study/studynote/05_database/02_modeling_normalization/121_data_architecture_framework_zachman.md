@@ -1,10 +1,9 @@
-+++
-weight = 121
-title = "121. 데이터 아키텍처 프레임워크 (Zachman Framework) - 엔터프라이즈 데이터 설계 체계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 121. 데이터 아키텍처 프레임워크 (Zachman Framework) - 엔터프라이즈 데이터 설계 체계
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[243_zachman_framework_matrix|Zachman]] Framework는 **6가지 관점(Planner·Owner·Designer·[[256_builder_pattern_step_by_step_creation|Builder]]·Subcontractor·User) × 6가지 질문(What·How·Where·Who·When·Why)**의 36셀 매트릭스로 엔터프라이즈 아키텍처를 **체계적으로 [[104_classification_analysis|분류]]·정리**하는 [[104_classification_analysis|분류]] 체계다.

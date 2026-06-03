@@ -1,10 +1,9 @@
-+++
-weight = 501
-title = "501. 파일 (File)의 정의 - 논리적 레코드의 연속, OS가 관리하는 정보의 기본 단위"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 501. 파일 (File)의 정의 - 논리적 레코드의 연속, OS가 관리하는 정보의 기본 단위
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 110
-title = "110. 무중단 DB 스키마 롤아웃 (Zero-Downtime) - Expand and Contract 패턴"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 110. 무중단 DB 스키마 롤아웃 (Zero-Downtime) - Expand and Contract 패턴
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Expand and Contract 패턴은 DB [[005_schema|스키마]] 변경([[020_ddl|DDL]])을 **확장(Expand) → 병행(Migrate) → 수축(Contract)**의 3단계로 분리하여, 신·구버전 앱이 동시에 운영 DB를 사용해도 **[[090_service_kubernetes_network_load_balancing|서비스]] 중단 없이([[585_zero_skipping|Zero]]-Downtime)** [[005_schema|스키마]]를 진화시키는 기법이다.

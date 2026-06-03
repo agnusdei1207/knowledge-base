@@ -1,10 +1,9 @@
-+++
-weight = 398
-title = "398. 데이터옵스 CI CD 파이프라인 자동 테스팅 (DataOps)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 398. 데이터옵스 CI CD 파이프라인 자동 테스팅 (DataOps)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

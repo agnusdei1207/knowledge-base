@@ -1,10 +1,9 @@
-+++
-weight = 374
-title = "374. 사이드카 패턴 메인 로직 횡단 관심사 분리 (Sidecar Pattern)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 374. 사이드카 패턴 메인 로직 횡단 관심사 분리 (Sidecar Pattern)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

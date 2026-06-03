@@ -1,10 +1,9 @@
-+++
-weight = 332
-title = "332. 그로스 해킹 AARRR 퍼널 해적 지표 (Growth Hacking AARRR Pirate Metrics)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 332. 그로스 해킹 AARRR 퍼널 해적 지표 (Growth Hacking AARRR Pirate Metrics)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

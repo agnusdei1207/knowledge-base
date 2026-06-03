@@ -1,10 +1,9 @@
-+++
-weight = 369
-title = "369. 논리炸弾 (Logic Bomb)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 369. 논리炸弾 (Logic Bomb)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

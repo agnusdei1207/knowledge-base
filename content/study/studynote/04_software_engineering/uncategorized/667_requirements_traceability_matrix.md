@@ -1,10 +1,9 @@
-+++
-weight = 667
-title = "667. 요구사항 검증 추적성 매트릭스 (RTM)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 667. 요구사항 검증 추적성 매트릭스 (RTM)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

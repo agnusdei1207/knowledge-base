@@ -1,5 +1,5 @@
-+++
-weight = 3
-title = "03. Design Architecture"
-sort_by = "weight"
-+++
+---
+title: 03. Design Architecture
+tags:
+- software_engineering
+---

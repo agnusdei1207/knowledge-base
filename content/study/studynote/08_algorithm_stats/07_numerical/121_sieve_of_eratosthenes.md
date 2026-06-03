@@ -1,10 +1,9 @@
-+++
-title = "002. 에라토스테네스의 체 — Sieve of Eratosthenes"
-weight = 121
-date = "2026-04-05"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 002. 에라토스테네스의 체 — Sieve of Eratosthenes
+date: '2026-04-05'
+tags:
+- studynote-algorithm-stats
+---
 
 > **핵심 인사이트**
 > 1. [[072_sieve_of_eratosthenes|에라토스테네스의 체]]([[072_sieve_of_eratosthenes|Sieve of Eratosthenes]])는 2~N까지 소수를 한 번에 구하는 O(N log log N) [[001_algorithm_definition|알고리즘]] — "소수의 배수를 모두 제거"하는 원리로, N이 클 때 개별 소수 판별을 N번 반복하는 O(N√N)보다 압도적으로 효율적이다.

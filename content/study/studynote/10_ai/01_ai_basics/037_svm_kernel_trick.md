@@ -1,9 +1,9 @@
-+++
-title = "037. SVM 커널 트릭 (Kernel Trick)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 037. SVM 커널 트릭 (Kernel Trick)
+date: '2026-03-03'
+tags:
+- studynote-ai
+---
 
 > **핵심 인사이트**
 > 1. [[059_kernel_trick_rbf_polynomial|커널 트릭]]([[059_kernel_trick_rbf_polynomial|Kernel Trick]])은 원래 특징 공간에서 선형적으로 분리 불가능한 [[001_dikw_pyramid|데이터]]를 고차원(심지어 무한 차원)으로 변환해 선형 분리 가능하게 만들되, 실제 변환 계산 없이 [[022_kernel_role|커널]] 함수 K(xi, xj) = φ(xi)·φ(xj)만으로 내적을 계산하는 수학적 기법이다.

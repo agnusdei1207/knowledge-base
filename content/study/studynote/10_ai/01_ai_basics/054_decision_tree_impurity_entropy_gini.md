@@ -1,10 +1,9 @@
-+++
-weight = 54
-title = "54. 의사결정나무의 불순도 (Decision Tree Impurity: Entropy/Gini)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: '54. 의사결정나무의 불순도 (Decision Tree Impurity: Entropy/Gini)'
+date: '2026-05-01'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

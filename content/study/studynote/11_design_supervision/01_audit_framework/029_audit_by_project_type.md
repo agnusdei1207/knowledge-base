@@ -1,10 +1,9 @@
-+++
-weight = 29
-title = "29. 프로젝트 유형별 감리 (Audit by Project Type)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 29. 프로젝트 유형별 감리 (Audit by Project Type)
+date: '2026-04-29'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[187_information_system_audit|정보시스템 감리]]는 프로젝트 특성(신규 개발, 운영·유지보수, 패키지 도입, 클라우드 전환)에 따라 감리 초점과 점검 항목이 달라진다. 단순히 체크리스트를 적용하는 것이 아니라 프로젝트 유형에 맞는 맞춤형 감리가 필요하다.

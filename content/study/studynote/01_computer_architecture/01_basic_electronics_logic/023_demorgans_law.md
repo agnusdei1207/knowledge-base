@@ -1,10 +1,9 @@
-+++
-weight = 23
-title = "23. 드모르간의 법칙 (De Morgan's Law)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 23. 드모르간의 법칙 (De Morgan's Law)
+date: '2026-04-29'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 드모르간의 법칙 (De Morgan's Law)은 [[369_logic_bomb|논리]]식 전체를 부정(NOT)할 때, AND([[369_logic_bomb|논리]]곱)와 OR([[369_logic_bomb|논리]]합) 연산자가 서로 뒤집히고 개별 변수에 각각 NOT이 분배된다는 [[022_boolean_algebra|부울 대수]] ([[022_boolean_algebra|Boolean Algebra]])의 이중성 (Duality) 정리다.

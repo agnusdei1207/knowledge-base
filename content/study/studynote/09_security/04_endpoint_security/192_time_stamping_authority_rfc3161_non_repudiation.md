@@ -1,10 +1,9 @@
-+++
-weight = 192
-title = "192. TSA (Time Stamping Authority)와 RFC 3161 (Time Stamping Authority)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 192. TSA (Time Stamping Authority)와 RFC 3161 (Time Stamping Authority)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

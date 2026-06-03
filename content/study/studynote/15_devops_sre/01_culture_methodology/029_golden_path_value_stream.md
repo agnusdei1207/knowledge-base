@@ -1,10 +1,9 @@
-+++
-weight = 29
-title = "29. 골든 패스와 가치 흐름 (Golden Path & Value Stream)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 29. 골든 패스와 가치 흐름 (Golden Path & Value Stream)
+date: '2026-04-29'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 골든 패스(Golden Path)는 플랫폼 팀이 개발자에게 권장하는 표준 개발·배포 경로이고, 가치 흐름(Value [[467_http2_stream_multiplexing_tcp_hol|Stream]])은 아이디어에서 고객 전달까지 모든 단계의 흐름을 [[003_bigdata_7v|시각화]]하는 린([[087_lean_software_development_7_principles|Lean]]) 개념이다. 둘 다 [[652_devops_calms_culture|DevOps]] 흐름의 최적화를 목표로 한다.

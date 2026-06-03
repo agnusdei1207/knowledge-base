@@ -1,10 +1,9 @@
-+++
-weight = 301
-title = "301. 다중 인스턴스 환경의 회피 - 은행원 알고리즘 (Banker's Algorithm, 에츠허르 데이크스트라 제안)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 301. 다중 인스턴스 환경의 회피 - 은행원 알고리즘 (Banker's Algorithm, 에츠허르 데이크스트라 제안)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

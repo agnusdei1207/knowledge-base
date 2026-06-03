@@ -1,10 +1,10 @@
-+++
-weight = 160
-title = "160. UWB (Ultra-Wideband / 초광대역) 통신 - 매우 짧은 임펄스(Impulse) 신호를 넒은 주파수에 걸쳐 송신, 수 센티미터 단위 정밀 위치 측정(스마트 태그, 디지털 키)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 160. UWB (Ultra-Wideband / 초광대역) 통신 - 매우 짧은 임펄스(Impulse) 신호를 넒은 주파수에 걸쳐 송신,
+  수 센티미터 단위 정밀 위치 측정(스마트 태그, 디지털 키)
+date: '2026-05-05'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트
 

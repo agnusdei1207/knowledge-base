@@ -1,10 +1,10 @@
-+++
-weight = 554
-title = "554. FUSE (Filesystem in Userspace) - 커널 수정 없이 유저 공간에서 커스텀 파일시스템 구현 (SSHFS 등)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 554. FUSE (Filesystem in Userspace) - 커널 수정 없이 유저 공간에서 커스텀 파일시스템 구현 (SSHFS
+  등)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

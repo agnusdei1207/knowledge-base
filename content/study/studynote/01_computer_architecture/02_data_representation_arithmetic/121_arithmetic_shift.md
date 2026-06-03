@@ -1,10 +1,9 @@
-+++
-weight = 121
-title = "121. 산술 시프트 (Arithmetic Shift)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 121. 산술 시프트 (Arithmetic Shift)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 산술 시프트(Arithmetic Shift)는 부호가 있는 정수([[082_signed_integer|Signed Integer]])를 우측으로 [[119_shift_operations|시프트 연산]]할 때, [[001_dikw_pyramid|데이터]]의 양/음 속성을 유지하기 위해 **빈자리에 최상위 부호 [[073_bit|비트]]([[080_msb|MSB]])를 강제로 [[016_replication_factor|복제]]해 채워 넣는** 연산이다.

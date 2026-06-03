@@ -1,10 +1,9 @@
-+++
-weight = 213
-title = "213. 락킹 기법 (Locking)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 213. 락킹 기법 (Locking)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

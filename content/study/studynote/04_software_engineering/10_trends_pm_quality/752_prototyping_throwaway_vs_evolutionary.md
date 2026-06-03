@@ -1,10 +1,9 @@
-+++
-weight = 752
-title = "752. 프로토타입 버리기 모델 vs 진화적 모델"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 752. 프로토타입 버리기 모델 vs 진화적 모델
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 155
-title = "155. 타임아웃 (Timeout) 동기화 전략"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 155. 타임아웃 (Timeout) 동기화 전략
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

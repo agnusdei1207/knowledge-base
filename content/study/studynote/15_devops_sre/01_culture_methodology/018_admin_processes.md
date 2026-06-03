@@ -1,13 +1,11 @@
-+++
-weight = 18
-title = "18. 관리 프로세스 (Admin Processes) - 일회성 관리/스크립트 작업도 동일한 환경에서 실행"
-description = "12 팩터 앱의 마지막 원칙으로, 데이터베이스 마이그레이션이나 일회성 스크립트 실행 등 관리 작업을 일반 서비스와 동일한 환경(코드, 설정, 릴리스)에서 실행하여 안정성을 확보하는 기법"
-date = "2026-03-04"
-
-[taxonomies]
-tags = ["DevOps", "12Factor", "Management", "Kubernetes", "Migration"]
-categories = ["studynote-devops-sre"]
-+++
+---
+title: 18. 관리 프로세스 (Admin Processes) - 일회성 관리/스크립트 작업도 동일한 환경에서 실행
+date: '2026-03-04'
+description: 12 팩터 앱의 마지막 원칙으로, 데이터베이스 마이그레이션이나 일회성 스크립트 실행 등 관리 작업을 일반 서비스와 동일한 환경(코드,
+  설정, 릴리스)에서 실행하여 안정성을 확보하는 기법
+tags:
+- devops_sre
+---
 
 # 18. 관리 프로세스 (Admin Processes)
 

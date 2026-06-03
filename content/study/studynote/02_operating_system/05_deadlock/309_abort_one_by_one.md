@@ -1,10 +1,9 @@
-+++
-weight = 309
-title = "309. 프로세스 순차 종료 방식 (Abort One By One)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 309. 프로세스 순차 종료 방식 (Abort One By One)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

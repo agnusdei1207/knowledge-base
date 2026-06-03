@@ -1,10 +1,9 @@
-+++
-weight = 218
-title = "218. 클러스터 오토스케일러 (CA) / 수평적 파드 오토스케일러 (HPA) 연동"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 218. 클러스터 오토스케일러 (CA) / 수평적 파드 오토스케일러 (HPA) 연동
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

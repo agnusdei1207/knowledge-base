@@ -1,10 +1,9 @@
-+++
-weight = 245
-title = "245. 고전적 동기화 문제들 (Classic Synchronization Problems)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 245. 고전적 동기화 문제들 (Classic Synchronization Problems)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

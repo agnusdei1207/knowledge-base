@@ -1,10 +1,9 @@
-+++
-title = "092. AEAD (Authenticated Encryption with Associated Data) — 암호화+인증 동시"
-date = "2026-04-05"
-weight = 92
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 092. AEAD (Authenticated Encryption with Associated Data) — 암호화+인증 동시
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: AEAD (Authenticated Encryption with Associated [[001_dikw_pyramid|Data]])는 [[001_dikw_pyramid|데이터]]를 해커가 볼 수 없게 숨기는 '암호화'와 중간에 조작되지 않았음을 보장하는 '[[303_authentication_authorization_patterns|인증]]([[673_mac_message_authentication_code|MAC]])'을 단일 [[001_algorithm_definition|알고리즘]]으로 묶어 처리하는 현대 암호학의 표준 프레임워크다.

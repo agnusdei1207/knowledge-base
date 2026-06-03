@@ -1,10 +1,9 @@
-+++
-weight = 53
-title = "53. DB 파서와 파스 트리 (DB Parser Parse Tree)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 53. DB 파서와 파스 트리 (DB Parser Parse Tree)
+date: '2026-05-01'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

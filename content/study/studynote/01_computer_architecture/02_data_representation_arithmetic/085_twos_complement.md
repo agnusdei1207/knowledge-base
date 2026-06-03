@@ -1,10 +1,9 @@
-+++
-weight = 85
-title = "85. 2의 보수 (2's Complement)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 85. 2의 보수 (2's Complement)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

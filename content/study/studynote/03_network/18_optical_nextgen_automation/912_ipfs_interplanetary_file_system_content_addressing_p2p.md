@@ -1,10 +1,10 @@
-+++
-weight = 912
-title = "912. IPFS (InterPlanetary File System 콘텐츠 주소 지정 영구 분산 P2P 해시 기반 웹 스토리지 프로토콜 파일 망 탈중앙 분산망 구성 기술 요지 HTTP 위치 지정 대체망 구조 분석 원리망)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 912. IPFS (InterPlanetary File System 콘텐츠 주소 지정 영구 분산 P2P 해시 기반 웹 스토리지 프로토콜
+  파일 망 탈중앙 분산망 구성 기술 요지 HTTP 위치 지정 대체망 구조 분석 원리망)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

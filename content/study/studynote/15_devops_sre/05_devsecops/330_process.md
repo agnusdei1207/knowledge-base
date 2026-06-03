@@ -1,10 +1,10 @@
-+++
-weight = 330
-title = "330. 마이크로 세그멘테이션 제로 트러스트 네트워크 (Micro-segmentation ZTNA Zero Trust Network Access Cilium eBPF Kubernetes NetworkPolicy)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 330. 마이크로 세그멘테이션 제로 트러스트 네트워크 (Micro-segmentation ZTNA Zero Trust Network Access
+  Cilium eBPF Kubernetes NetworkPolicy)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

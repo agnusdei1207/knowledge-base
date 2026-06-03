@@ -1,10 +1,9 @@
-+++
-weight = 673
-title = "673. 다중 프로그래밍 (Multiprogramming) 한계 자원"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 673. 다중 프로그래밍 (Multiprogramming) 한계 자원
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

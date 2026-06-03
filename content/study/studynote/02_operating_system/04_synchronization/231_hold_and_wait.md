@@ -1,10 +1,9 @@
-+++
-weight = 231
-title = "231. 점유 대기 (Hold and Wait)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 231. 점유 대기 (Hold and Wait)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

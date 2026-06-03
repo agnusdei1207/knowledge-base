@@ -1,10 +1,9 @@
-+++
-weight = 111
-title = "111. EA 프레임워크 (EA Framework)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 111. EA 프레임워크 (EA Framework)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[110_enterprise_architecture_ea|EA]] 프레임워크 ([[110_enterprise_architecture_ea|EA]] Framework)의 본질은 [[110_enterprise_architecture_ea|EA]] 구축을 위한 방법론, 산출물 정의, 메타모델 구조 체계를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

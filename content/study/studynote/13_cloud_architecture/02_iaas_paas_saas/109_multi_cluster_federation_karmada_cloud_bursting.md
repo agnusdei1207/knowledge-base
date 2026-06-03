@@ -1,10 +1,9 @@
-+++
-weight = 109
-title = "109. K8s 멀티 클러스터 및 연합(Federation) - Karmada·클라우드 버스팅"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 109. K8s 멀티 클러스터 및 연합(Federation) - Karmada·클라우드 버스팅
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 멀티 클러스터 연합([[543_federation|Federation]])은 전 세계에 분산된 **복수의 독립 K8s 클러스터를 단일 제어 평면(Control Plane)에서 통합 관리**하여 단일 클러스터의 확장성 한계(5,000 노드)와 [[454_spof|단일 장애점]]([[454_spof|SPOF]])을 제거하는 상위 아키텍처다.

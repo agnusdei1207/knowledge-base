@@ -1,10 +1,9 @@
-+++
-weight = 53
-title = "53. DataOps CI/CD 데이터 파이프라인 (DataOps CI/CD Data Pipeline)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 53. DataOps CI/CD 데이터 파이프라인 (DataOps CI/CD Data Pipeline)
+date: '2026-05-01'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

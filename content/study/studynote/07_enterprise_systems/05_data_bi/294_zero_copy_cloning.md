@@ -1,10 +1,9 @@
-+++
-weight = 294
-title = "294. 제로 카피 클론 (Zero-Copy Cloning)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 294. 제로 카피 클론 (Zero-Copy Cloning)
+date: '2026-03-04'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 실제 [[001_dikw_pyramid|데이터]]를 물리적으로 [[016_replication_factor|복제]]하지 않고, [[012_metadata|메타데이터]] [[022_snapshot_backup_architecture|스냅샷]]만을 복사하여 원본과 동일한 [[001_dikw_pyramid|데이터]]를 가진 새로운 [[002_database_definition|데이터베이스]] 환경을 즉시 [[087_process_state_transition|생성]]하는 기술이다.

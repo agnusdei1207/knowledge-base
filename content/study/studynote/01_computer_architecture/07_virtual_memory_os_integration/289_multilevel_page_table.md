@@ -1,10 +1,9 @@
-+++
-weight = 289
-title = "289. 다단계 페이지 테이블 (Multilevel Page Table)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 289. 다단계 페이지 테이블 (Multilevel Page Table)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 289. 다단계 [[353_page_table|페이지 테이블]] (Multilevel [[353_page_table|Page Table]])
 

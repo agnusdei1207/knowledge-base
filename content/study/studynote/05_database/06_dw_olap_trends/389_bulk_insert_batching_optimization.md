@@ -1,10 +1,9 @@
-+++
-weight = 389
-title = "389. 대용량 트랜잭션의 배칭(Batching) 삽입 최적화 (Bulk Insert / COPY 명령어)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 389. 대용량 트랜잭션의 배칭(Batching) 삽입 최적화 (Bulk Insert / COPY 명령어)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 495
-title = "495. 5G 3대 특성과 네트워크 슬라이싱 (5G eMBB uRLLC mMTC Network Slicing)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 495. 5G 3대 특성과 네트워크 슬라이싱 (5G eMBB uRLLC mMTC Network Slicing)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

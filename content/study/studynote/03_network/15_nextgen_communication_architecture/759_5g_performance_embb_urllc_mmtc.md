@@ -1,10 +1,9 @@
-+++
-weight = 759
-title = "759. 5G 통신 성능 목표 3대 특징 (초고속, 초연결, 초저지연) 기능적 체계 진화 특징 비교"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 759. 5G 통신 성능 목표 3대 특징 (초고속, 초연결, 초저지연) 기능적 체계 진화 특징 비교
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

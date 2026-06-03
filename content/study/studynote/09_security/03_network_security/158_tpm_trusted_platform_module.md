@@ -1,10 +1,9 @@
-+++
-weight = 158
-title = "158. TPM (Trusted Platform Module) — 플랫폼 키 저장, 원격 증명"
-date = "2026-05-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 158. TPM (Trusted Platform Module) — 플랫폼 키 저장, 원격 증명
+date: '2026-05-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트
 

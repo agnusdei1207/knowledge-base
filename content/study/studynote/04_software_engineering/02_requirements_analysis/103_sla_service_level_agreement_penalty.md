@@ -1,7 +1,8 @@
-+++
-title = "103. SLA (Service Level Agreement)"
-weight = 103
-+++
+---
+title: 103. SLA (Service Level Agreement)
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[085_sla|SLA]] ([[085_sla|Service Level Agreement]], [[090_service_kubernetes_network_load_balancing|서비스]] 수준 협약)는 IT [[090_service_kubernetes_network_load_balancing|서비스]] 제공자(벤더)와 고객 간에 맺어지는 **가장 최상위의 비즈니스적, 법적 [[090_service_kubernetes_network_load_balancing|서비스]] 품질 보증 계약서**이다.

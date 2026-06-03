@@ -1,10 +1,9 @@
-+++
-weight = 49
-title = "49. 유지보수 이관 및 운영자 교육·매뉴얼 적정성 진단 (Hand-over, Training and Manual Audit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 49. 유지보수 이관 및 운영자 교육·매뉴얼 적정성 진단 (Hand-over, Training and Manual Audit)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

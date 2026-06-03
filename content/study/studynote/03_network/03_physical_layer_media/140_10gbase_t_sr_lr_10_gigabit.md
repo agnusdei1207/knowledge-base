@@ -1,10 +1,9 @@
-+++
-weight = 140
-title = "140. 10GBASE-T / 10GBASE-SR / 10GBASE-LR"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 140. 10GBASE-T / 10GBASE-SR / 10GBASE-LR
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

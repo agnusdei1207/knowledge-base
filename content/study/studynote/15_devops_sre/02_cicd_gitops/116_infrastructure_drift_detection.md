@@ -1,10 +1,9 @@
-+++
-weight = 116
-title = "116. 인프라 드리프트 감지 (Infrastructure Drift Detection) - IaC 상태 불일치 자동 탐지"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 116. 인프라 드리프트 감지 (Infrastructure Drift Detection) - IaC 상태 불일치 자동 탐지
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인프라 드리프트(Drift)란 **[[793_iac_idempotency_template|IaC]] 코드([[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]]/CloudFormation)에 정의된 기대 상태와 실제 클라우드 인프라 상태가 불일치**하는 현상이며, Drift Detection은 이를 자동으로 탐지·알림·복원하는 프로세스다.

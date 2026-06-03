@@ -1,10 +1,9 @@
-+++
-weight = 140
-title = "140. 기능 점수 (FP, Function Point) 규모 산정"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 140. 기능 점수 (FP, Function Point) 규모 산정
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기능 점수 ([[293_fp_function_point|FP]], Function Point) 규모 산정의 본질은 사용자 관점의 논리적 [[191_transaction_concept_states|트랜잭션]]/[[001_dikw_pyramid|데이터]] 양을 기반으로 소프트웨어 규모 산정 국제 모델을 단계별 산출물과 품질 게이트로 관리하는 데 있다.

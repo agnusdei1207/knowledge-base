@@ -1,10 +1,9 @@
-+++
-weight = 538
-title = "538. 다중 모델 데이터베이스 융합 조회 연동성"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 538. 다중 모델 데이터베이스 융합 조회 연동성
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

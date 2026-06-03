@@ -1,10 +1,10 @@
-+++
-weight = 64
-title = "64. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron) - 은닉층(Hidden Layer) 도입으로 비선형 문제 해결 가능"
-date = "2026-04-07"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 64. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron) - 은닉층(Hidden Layer) 도입으로 비선형 문제 해결
+  가능
+date: '2026-04-07'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

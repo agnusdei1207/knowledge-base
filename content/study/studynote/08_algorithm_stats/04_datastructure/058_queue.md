@@ -1,10 +1,10 @@
-+++
-weight = 58
-title = "큐 (Queue)"
-date = "2024-03-24"
-[extra]
-categories = ["studynote-algorithm", "datastructure"]
-+++
+---
+title: 큐 (Queue)
+date: '2024-03-24'
+tags:
+- datastructure
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **[[261_fifo_page_replacement|FIFO]](First-In, First-Out)** 원칙에 따라 먼저 삽입된 [[001_dikw_pyramid|데이터]]가 먼저 제거되는 선형 자료구조이다.

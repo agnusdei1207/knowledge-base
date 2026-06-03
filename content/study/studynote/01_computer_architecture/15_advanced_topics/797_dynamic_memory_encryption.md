@@ -1,10 +1,9 @@
-+++
-weight = 797
-title = "797. 동적 메모리 암호화 (Dynamic Memory Encryption)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 797. 동적 메모리 암호화 (Dynamic Memory Encryption)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

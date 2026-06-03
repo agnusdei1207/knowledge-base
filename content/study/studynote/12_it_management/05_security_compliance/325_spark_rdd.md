@@ -1,10 +1,9 @@
-+++
-weight = 325
-title = "325. 스파크 RDD 인메모리 병렬 처리"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 325. 스파크 RDD 인메모리 병렬 처리
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스파크 [[310_audit|RDD]] 인메모리 [[430_index_fast_full_scan|병렬]] 처리의 본질은 수집, 저장, 품질, 활용, 거버넌스가 분리되지 않아야 [[001_dikw_pyramid|데이터]] 자산이 실제 의사결정 가치로 전환된다.

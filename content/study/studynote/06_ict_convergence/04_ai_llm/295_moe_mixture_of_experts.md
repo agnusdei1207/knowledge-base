@@ -1,10 +1,9 @@
-+++
-weight = 295
-title = "295. MoE 아키텍처 (Mixture of Experts / 전문가 혼합 모델)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 295. MoE 아키텍처 (Mixture of Experts / 전문가 혼합 모델)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

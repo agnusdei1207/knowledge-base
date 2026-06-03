@@ -1,10 +1,9 @@
-+++
-weight = 144
-title = "144. 상관 서브쿼리 (Correlated Subquery) - 외부 참조 Nested Loop"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 144. 상관 서브쿼리 (Correlated Subquery) - 외부 참조 Nested Loop
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 상관 서브쿼리는 **내부 서브쿼리가 외부 [[298_qkv_attention|쿼리]]의 행을 [[316_reference_pattern_nosql|참조]]**하여, 외부 [[298_qkv_attention|쿼리]]의 **각 행마다 서브쿼리가 반복 실행**되는 구조이며, Nested Loop와 유사한 O(N×M) 특성을 가진다.

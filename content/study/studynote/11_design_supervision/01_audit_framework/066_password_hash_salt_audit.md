@@ -1,10 +1,9 @@
-+++
-weight = 66
-title = "66. 비밀번호 암호화 저장 방식 진단 (Password Hash and Salt Audit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 66. 비밀번호 암호화 저장 방식 진단 (Password Hash and Salt Audit)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

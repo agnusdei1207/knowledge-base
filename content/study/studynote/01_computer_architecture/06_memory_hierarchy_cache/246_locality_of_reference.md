@@ -1,10 +1,9 @@
-+++
-weight = 246
-title = "246. 참조의 지역성 (Locality of Reference)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 246. 참조의 지역성 (Locality of Reference)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 246. [[253_locality_of_reference|참조의 지역성]] ([[253_locality_of_reference|Locality of Reference]])
 

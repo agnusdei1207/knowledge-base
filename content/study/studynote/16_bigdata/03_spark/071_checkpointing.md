@@ -1,10 +1,9 @@
-+++
-weight = 71
-title = "20. 체크포인팅 (Checkpointing) — Lineage 단절 및 장애 복구"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 20. 체크포인팅 (Checkpointing) — Lineage 단절 및 장애 복구
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

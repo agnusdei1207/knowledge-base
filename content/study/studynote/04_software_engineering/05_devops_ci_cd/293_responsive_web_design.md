@@ -1,10 +1,9 @@
-+++
-weight = 293
-title = "293. 반응형 웹 디자인 (Responsive Web Design)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 293. 반응형 웹 디자인 (Responsive Web Design)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

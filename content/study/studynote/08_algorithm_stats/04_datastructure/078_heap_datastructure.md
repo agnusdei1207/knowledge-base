@@ -1,10 +1,9 @@
-+++
-weight = 78
-title = "26. 힙 (Heap) — 우선순위 큐 구현의 완전 이진 트리"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 26. 힙 (Heap) — 우선순위 큐 구현의 완전 이진 트리
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 힙(Heap)은 완전 [[060_binary_tree|이진 트리]](Complete [[060_binary_tree|Binary Tree]]) 형태의 자료구조로, 최대 힙(Max-Heap)에서는 부모 노드가 항상 자식보다 크고, 최소 힙(Min-Heap)에서는 부모가 항상 자식보다 작다. 이 힙 [[082_attribute_types_er_model|속성]](Heap Property)으로 인해 루트(Root)는 항상 최댓값(또는 최솟값)이 되어 O(1)에 최우선 원소를 반환한다.

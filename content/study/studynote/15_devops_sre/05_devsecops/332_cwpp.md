@@ -1,10 +1,10 @@
-+++
-weight = 332
-title = "332. CWPP 런타임 워크로드 보호 (CWPP Cloud Workload Protection Platform Falco eBPF seccomp Container Escape)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 332. CWPP 런타임 워크로드 보호 (CWPP Cloud Workload Protection Platform Falco eBPF seccomp
+  Container Escape)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

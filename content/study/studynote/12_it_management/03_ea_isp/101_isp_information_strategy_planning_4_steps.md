@@ -1,10 +1,9 @@
-+++
-weight = 101
-title = "101. 정보화 전략 계획 (ISP) 수행 4단계 절차"
-date = "2026-04-10"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 101. 정보화 전략 계획 (ISP) 수행 4단계 절차
+date: '2026-04-10'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

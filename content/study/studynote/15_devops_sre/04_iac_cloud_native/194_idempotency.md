@@ -1,10 +1,9 @@
-+++
-weight = 194
-title = "194. 멱등성 (Idempotency)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 194. 멱등성 (Idempotency)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

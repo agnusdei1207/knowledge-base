@@ -1,10 +1,9 @@
-+++
-title = "049. 인수인계 및 유지보수 매뉴얼 검증"
-weight = 49
-date = "2026-04-05"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 049. 인수인계 및 유지보수 매뉴얼 검증
+date: '2026-04-05'
+tags:
+- studynote-design-supervision
+---
 
 > **핵심 인사이트**
 > 1. 인수인계(Hand-Over) 검증은 개발 완료 시스템이 운영 조직에 안전하게 이관되었는지를 확인하는 공식 절차 — 단순한 서류 이관이 아니라 운영팀이 실제로 시스템을 유지·운영할 수 있는 역량과 문서가 갖춰졌는지를 검증한다.

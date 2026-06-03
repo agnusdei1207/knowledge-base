@@ -1,10 +1,9 @@
-+++
-weight = 159
-title = "159. Level 1 - 리소스별 고유 URI 할당"
-date = "2026-05-05"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 159. Level 1 - 리소스별 고유 URI 할당
+date: '2026-05-05'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트
 

@@ -1,10 +1,9 @@
-+++
-weight = 68
-title = "68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선"
-date = "2026-04-10"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선
+date: '2026-04-10'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

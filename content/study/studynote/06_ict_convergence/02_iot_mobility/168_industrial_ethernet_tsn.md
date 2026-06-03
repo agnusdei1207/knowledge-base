@@ -1,10 +1,9 @@
-+++
-weight = 168
-title = "168. 산업용 이더넷 및 TSN (Time-Sensitive Networking)"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ict"
-+++
+---
+title: 168. 산업용 이더넷 및 TSN (Time-Sensitive Networking)
+date: '2026-04-10'
+tags:
+- studynote-ict
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

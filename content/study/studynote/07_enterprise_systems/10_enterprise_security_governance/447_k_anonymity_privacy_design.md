@@ -1,10 +1,9 @@
-+++
-weight = 447
-title = "447. 데이터 익명성 K-익명화 프라이버시 설계 (K-Anonymity & Privacy by Design)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 447. 데이터 익명성 K-익명화 프라이버시 설계 (K-Anonymity & Privacy by Design)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

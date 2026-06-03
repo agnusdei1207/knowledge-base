@@ -1,10 +1,9 @@
-+++
-weight = 113
-title = "113. 스레드 로컬 저장소 (TLS, Thread-Local Storage)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 113. 스레드 로컬 저장소 (TLS, Thread-Local Storage)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

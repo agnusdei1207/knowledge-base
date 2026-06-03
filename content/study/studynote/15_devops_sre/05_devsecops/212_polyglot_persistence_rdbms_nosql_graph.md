@@ -1,10 +1,9 @@
-+++
-weight = 212
-title = "212. 폴리글랏 퍼시스턴스 (Polyglot Persistence)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 212. 폴리글랏 퍼시스턴스 (Polyglot Persistence)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

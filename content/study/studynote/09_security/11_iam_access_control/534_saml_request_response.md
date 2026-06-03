@@ -1,10 +1,9 @@
-+++
-weight = 534
-title = "534. SAML Request/Response (SAML Request/Response)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 534. SAML Request/Response (SAML Request/Response)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

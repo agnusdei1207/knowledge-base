@@ -1,9 +1,9 @@
-+++
-title = "의사결정 트리 (Decision Tree)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 의사결정 트리 (Decision Tree)
+date: '2026-03-03'
+tags:
+- studynote-ai
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[124_decision_tree|의사결정 트리]]([[124_decision_tree|Decision Tree]])는 특성 기반 조건 분기를 통해 [[104_classification_analysis|분류]]·회귀를 수행하는 화이트박스 모델로, 결과 해석이 직관적이다.

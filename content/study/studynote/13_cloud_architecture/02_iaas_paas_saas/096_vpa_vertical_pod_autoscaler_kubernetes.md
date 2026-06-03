@@ -1,10 +1,9 @@
-+++
-weight = 96
-title = "96. VPA (Vertical Pod Autoscaler) - 파드 수직 자원 자동 조절"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 96. VPA (Vertical Pod Autoscaler) - 파드 수직 자원 자동 조절
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 1
-title = "1. 빅데이터 정의 — 3V: Volume(양) / Velocity(속도) / Variety(다양성) (Laney, 2001)"
-date = "2026-03-26"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: '1. 빅데이터 정의 — 3V: Volume(양) / Velocity(속도) / Variety(다양성) (Laney, 2001)'
+date: '2026-03-26'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트**
 > 1. **본질**: 단일 컴퓨터의 물리적 한계를 초월하는 막대한 규모, 속도, 다양성을 지닌 [[001_dikw_pyramid|데이터]]를 수천 대의 범용 서버 클러스터에서 [[136_variance|분산]] [[430_index_fast_full_scan|병렬]] 처리하는 패러다임.

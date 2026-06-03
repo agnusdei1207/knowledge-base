@@ -1,7 +1,8 @@
-+++
-title = "86. 누적 흐름도 (CFD, Cumulative Flow Diagram)"
-weight = 86
-+++
+---
+title: 86. 누적 흐름도 (CFD, Cumulative Flow Diagram)
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

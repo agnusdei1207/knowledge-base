@@ -1,10 +1,9 @@
-+++
-weight = 179
-title = "179. 통합 배치/스트리밍 플랫폼 (Unified Batch/Streaming) — Spark/Flink 통합"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 179. 통합 배치/스트리밍 플랫폼 (Unified Batch/Streaming) — Spark/Flink 통합
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

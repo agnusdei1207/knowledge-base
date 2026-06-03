@@ -1,10 +1,9 @@
-+++
-weight = 549
-title = "549. ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 549. ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,7 +1,8 @@
-+++
-title = "74. 순열과 조합 (Permutation and Combination)"
-weight = 74
-+++
+---
+title: 74. 순열과 조합 (Permutation and Combination)
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

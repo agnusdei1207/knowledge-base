@@ -1,7 +1,8 @@
-+++
-title = "88. 가치 스트림 맵 (Value Stream Mapping)"
-weight = 88
-+++
+---
+title: 88. 가치 스트림 맵 (Value Stream Mapping)
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

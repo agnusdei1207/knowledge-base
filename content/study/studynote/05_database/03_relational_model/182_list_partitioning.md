@@ -1,10 +1,9 @@
-+++
-weight = 182
-title = "182. 리스트 파티셔닝 (List Partitioning) - 명시적 특정 값(지역명 등) 기준"
-date = "2026-05-06"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 182. 리스트 파티셔닝 (List Partitioning) - 명시적 특정 값(지역명 등) 기준
+date: '2026-05-06'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

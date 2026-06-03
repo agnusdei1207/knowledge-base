@@ -1,10 +1,9 @@
-+++
-weight = 457
-title = "457. 핫 스탠바이 (Hot Standby)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 457. 핫 스탠바이 (Hot Standby)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

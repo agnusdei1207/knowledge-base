@@ -1,10 +1,9 @@
-+++
-weight = 241
-title = "236. 데이터 옵저버빌리티 (Monte Carlo, Bigeye) 데이터 파이프라인 신뢰성"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 236. 데이터 옵저버빌리티 (Monte Carlo, Bigeye) 데이터 파이프라인 신뢰성
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

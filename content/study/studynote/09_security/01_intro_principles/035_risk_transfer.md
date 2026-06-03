@@ -1,9 +1,9 @@
-+++
-title = "035. 위험 전가 (Risk Transfer)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 035. 위험 전가 (Risk Transfer)
+date: '2026-03-03'
+tags:
+- studynote-security
+---
 
 > **핵심 인사이트**
 > 1. [[051_risk_transfer|위험 전가]]([[051_risk_transfer|Risk Transfer]])는 조직이 특정 위험의 재정적 결과를 보험, 계약, 아웃소싱 등을 통해 제3자에게 이전하는 위험 처리([[042_risk_response_strategies|Risk Response]]) [[268_strategy_pattern|전략]]이다.

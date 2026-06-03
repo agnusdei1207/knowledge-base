@@ -1,10 +1,9 @@
-+++
-weight = 58
-title = "58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)"
-date = "2026-04-10"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)
+date: '2026-04-10'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

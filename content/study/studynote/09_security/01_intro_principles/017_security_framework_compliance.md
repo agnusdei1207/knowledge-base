@@ -1,12 +1,10 @@
-+++
-weight = 17
-title = "17. 보안 프레임워크 및 컴플라이언스 (Security Framework & Compliance)"
-description = "ISMS-P, ISO 27001, NIST CSF, SOC 2 등 정보보호 관리체계 및 IT 거버넌스 아키텍처 통합 분석"
-date = "2025-02-24"
-[taxonomies]
-tags = ["Compliance", "ISMS-P", "ISO 27001", "NIST CSF", "Governance"]
-categories = ["studynote-security"]
-+++
+---
+title: 17. 보안 프레임워크 및 컴플라이언스 (Security Framework & Compliance)
+date: '2025-02-24'
+description: ISMS-P, ISO 27001, NIST CSF, SOC 2 등 정보보호 관리체계 및 IT 거버넌스 아키텍처 통합 분석
+tags:
+- security
+---
 
 # 보안 프레임워크 및 컴플라이언스 ([[283_security_tactics|Security]] Framework & [[058_it_compliance_sox_basel_gdpr_isms|Compliance]])
 

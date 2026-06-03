@@ -1,10 +1,9 @@
-+++
-weight = 254
-title = "254. CP 시스템 / AP 시스템 / CA 시스템 (HBase, MongoDB 기본)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 254. CP 시스템 / AP 시스템 / CA 시스템 (HBase, MongoDB 기본)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

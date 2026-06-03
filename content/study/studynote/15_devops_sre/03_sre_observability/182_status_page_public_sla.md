@@ -1,10 +1,9 @@
-+++
-weight = 182
-title = "182. 상태 페이지 (Status Page) - 대외 공개 SLA 운영"
-date = "2026-04-21"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 182. 상태 페이지 (Status Page) - 대외 공개 SLA 운영
+date: '2026-04-21'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

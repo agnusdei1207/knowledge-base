@@ -1,10 +1,9 @@
-+++
-weight = 219
-title = "219. 파이프라인 단계 (IF, ID, EX, MEM, WB)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 219. 파이프라인 단계 (IF, ID, EX, MEM, WB)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

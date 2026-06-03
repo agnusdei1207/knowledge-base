@@ -1,10 +1,9 @@
-+++
-weight = 372
-title = "372. 제로 트러스트 아키텍처 신원 기반 접근 제어 (Zero Trust Architecture ZTNA SASE NIST SP 800-207)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 372. 제로 트러스트 아키텍처 신원 기반 접근 제어 (Zero Trust Architecture ZTNA SASE NIST SP 800-207)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

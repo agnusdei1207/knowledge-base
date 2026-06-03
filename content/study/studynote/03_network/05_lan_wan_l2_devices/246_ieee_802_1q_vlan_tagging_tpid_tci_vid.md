@@ -1,10 +1,9 @@
-+++
-weight = 246
-title = "246. IEEE 802.1Q"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 246. IEEE 802.1Q
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

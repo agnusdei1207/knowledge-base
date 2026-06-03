@@ -1,10 +1,9 @@
-+++
-weight = 95
-title = "95. 합성곱 신경망 (CNN) - 공간 정보 보존 이미지 인식 아키텍처"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 95. 합성곱 신경망 (CNN) - 공간 정보 보존 이미지 인식 아키텍처
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 22
-title = "22. 가치 사슬 (Value Chain) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 분류 분석"
-date = "2026-04-02"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 22. 가치 사슬 (Value Chain) - 마이클 포터, 주활동(본원적 활동)과 지원 활동 분류 분석
+date: '2026-04-02'
+tags:
+- studynote-it-management
+---
 
 # [[249_value_chain_competitive_analysis|가치 사슬]] ([[249_value_chain_competitive_analysis|Value Chain]]) 분석 - IT 결합을 통한 경쟁 우위 창출 모델
 

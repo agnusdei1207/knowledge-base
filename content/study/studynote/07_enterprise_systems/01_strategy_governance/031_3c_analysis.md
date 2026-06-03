@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "31. 3C 분석 — 고객·경쟁자·자사 전략 삼각형"
-date = "2026-04-29"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 31. 3C 분석 — 고객·경쟁자·자사 전략 삼각형
+date: '2026-04-29'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 3C 분석([[026_3c_analysis|3C Analysis]])은 [[026_three_c_analysis|Customer]](고객)·Competitor(경쟁자)·Company(자사)의 세 관점을 통합하여 [[268_strategy_pattern|전략]]적 포지셔닝을 도출하는 프레임워크다. 오마에 겐이치(大前研一)가 제시한 경영 [[268_strategy_pattern|전략]] 기법이다.

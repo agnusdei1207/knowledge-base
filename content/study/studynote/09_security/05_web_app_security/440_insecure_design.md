@@ -1,10 +1,9 @@
-+++
-weight = 440
-title = "440. A04. 안전하지 않은 설계 (Insecure Design)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 440. A04. 안전하지 않은 설계 (Insecure Design)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 222
-title = "222. 노이즈 있는 중간 규모 양자 기술 (NISQ, Noisy Intermediate-Scale Quantum)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 222. 노이즈 있는 중간 규모 양자 기술 (NISQ, Noisy Intermediate-Scale Quantum)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,11 +1,11 @@
-+++
-weight = 152
-title = "152. 단순 뷰 (Simple View) vs 복합 뷰 (Complex View) - DML 관통성과 논리적 환상의 두 얼굴"
-description = "데이터베이스의 가짜 유리창(View)을 깎을 때, 테이블 딱 1개만 써서 수정(Update)이 콱콱 뚫고 들어가는 투명한 창문(단순 뷰)과, 조인(Join)과 믹서기(SUM)를 떡칠해서 오직 구경만 가능한 무거운 색유리 창문(복합 뷰)을 가르는 차가운 잣대"
-date = "2026-05-03"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 152. 단순 뷰 (Simple View) vs 복합 뷰 (Complex View) - DML 관통성과 논리적 환상의 두 얼굴
+date: '2026-05-03'
+description: 데이터베이스의 가짜 유리창(View)을 깎을 때, 테이블 딱 1개만 써서 수정(Update)이 콱콱 뚫고 들어가는 투명한 창문(단순
+  뷰)과, 조인(Join)과 믹서기(SUM)를 떡칠해서 오직 구경만 가능한 무거운 색유리 창문(복합 뷰)을 가르는 차가운 잣대
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: **단순 뷰(Simple [[151_sql_view_virtual_table|View]])**는 오직 1개의 쌩 테이블에서 컬럼이나 로우(Row)만 핀셋으로 도려낸(가공 없는) 1:1 [[016_replication_factor|복제]] 껍데기이며, **복합 뷰(Complex [[151_sql_view_virtual_table|View]])**는 2개 이상의 테이블을 조인([[521_join|Join]])하거나 `SUM`, `AVG` 같은 믹서기(집계)를 돌려 비빔밥처럼 뭉개놓은 [[098_many_to_one_model|다대일]](N:1) 융합 껍데기다.

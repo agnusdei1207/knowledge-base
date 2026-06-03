@@ -1,7 +1,8 @@
-+++
-title = "66. 제품 백로그 (Product Backlog) - 요구사항 우선순위 목록"
-weight = 66
-+++
+---
+title: 66. 제품 백로그 (Product Backlog) - 요구사항 우선순위 목록
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

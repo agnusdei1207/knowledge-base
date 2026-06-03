@@ -1,10 +1,9 @@
-+++
-weight = 311
-title = "311. 오디오/비디오 생성 AI (Audio Video GEN AI)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 311. 오디오/비디오 생성 AI (Audio Video GEN AI)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

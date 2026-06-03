@@ -1,10 +1,9 @@
-+++
-weight = 418
-title = "418. 오버 샘플링 SMOTE 보간 벡터 난수 발생 수식 증강망 (Smote Oversampling Interpolation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 418. 오버 샘플링 SMOTE 보간 벡터 난수 발생 수식 증강망 (Smote Oversampling Interpolation)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

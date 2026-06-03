@@ -1,10 +1,9 @@
-+++
-weight = 180
-title = "180. 레인지 파티셔닝 (Range Partitioning) - 범위(날짜 등) 기준"
-date = "2026-05-06"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 180. 레인지 파티셔닝 (Range Partitioning) - 범위(날짜 등) 기준
+date: '2026-05-06'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

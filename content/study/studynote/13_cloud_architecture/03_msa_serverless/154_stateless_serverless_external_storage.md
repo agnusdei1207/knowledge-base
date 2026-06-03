@@ -1,10 +1,9 @@
-+++
-weight = 154
-title = "154. 서버리스 상태 비저장 제약 (Stateless Serverless) - 무한 스케일 아웃의 물리적 댓가"
-date = "2026-05-03"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 154. 서버리스 상태 비저장 제약 (Stateless Serverless) - 무한 스케일 아웃의 물리적 댓가
+date: '2026-05-03'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[206_serverless_cold_start|서버리스]]([[206_serverless_cold_start|Serverless]]/AWS [[216_lambda_kappa_architecture_batch_realtime|Lambda]]) 함수 봇은 유저가 핑을 찌르는 단 0.1초의 찰나에만 허공에 켜져 연산을 치고 ➔ 일이 끝나면 1초의 미련도 없이 [[561_container_based_deployment|컨테이너]]와 램(RAM) 메모리를 100% 완전 소각 삭제(Terminate) 자살해 버리는 **태생적 '상태 비저장([[239_stateless_redis|Stateless]] 기억 상실)' 깡통 뇌 구조**를 가진다.

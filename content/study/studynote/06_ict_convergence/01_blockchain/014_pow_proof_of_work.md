@@ -1,12 +1,10 @@
-+++
-weight = 14
-title = "14. 작업 증명 (PoW, Proof of Work) - 해시 퍼즐 연산 경쟁 (비트코인), 막대한 전력 소모"
-description = "해시 퍼즐 연산 경쟁, 비트코인의 핵심 합의 알고리즘"
-date = "2024-05-18"
-[taxonomies]
-tags = ["블록체인", "PoW", "작업 증명", "비트코인", "채굴"]
-categories = ["studynote-ict-convergence"]
-+++
+---
+title: 14. 작업 증명 (PoW, Proof of Work) - 해시 퍼즐 연산 경쟁 (비트코인), 막대한 전력 소모
+date: '2024-05-18'
+description: 해시 퍼즐 연산 경쟁, 비트코인의 핵심 합의 알고리즘
+tags:
+- ict_convergence
+---
 
 # 작업 증명 (PoW, Proof of Work)
 

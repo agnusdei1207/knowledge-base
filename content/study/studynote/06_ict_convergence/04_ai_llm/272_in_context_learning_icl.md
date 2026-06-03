@@ -1,10 +1,9 @@
-+++
-weight = 272
-title = "272. 제로샷 / 원샷 (One-shot) / 퓨샷 (Few-shot) 프롬프팅 (Zero-shot)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 272. 제로샷 / 원샷 (One-shot) / 퓨샷 (Few-shot) 프롬프팅 (Zero-shot)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

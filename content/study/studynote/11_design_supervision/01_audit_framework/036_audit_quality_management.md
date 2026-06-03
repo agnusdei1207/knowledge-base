@@ -1,10 +1,9 @@
-+++
-weight = 36
-title = "36. 감리 품질 관리 (Audit Quality Management)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 36. 감리 품질 관리 (Audit Quality Management)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

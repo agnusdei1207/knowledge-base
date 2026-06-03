@@ -1,10 +1,9 @@
-+++
-weight = 109
-title = "109. 저전력 광역 통신망 (LPWAN) - LoRa·Sigfox·NB-IoT 기술 비교"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 109. 저전력 광역 통신망 (LPWAN) - LoRa·Sigfox·NB-IoT 기술 비교
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LPWAN([[615_lpwan_low_power_wide_area_network|Low-Power Wide-Area Network]])은 **배터리 5~10년, 커버리지 15~30km, 속도 수백 bps~수십 kbps**라는 극한 트레이드오프를 수용한 [[101_iot_concept|IoT]] 센서 전용 무선 통신 기술이다.

@@ -1,10 +1,9 @@
-+++
-weight = 89
-title = "31. Red-Black 트리 — STL·JVM의 표준 균형 BST"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 31. Red-Black 트리 — STL·JVM의 표준 균형 BST
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Red-Black Tree는 각 노드에 색(Red/Black)을 부여하는 5가지 규칙으로 균형을 유지하는 자가 균형 BST다. AVL보다 균형 조건이 덜 엄격하지만, 삽입·삭제가 더 빠르다.

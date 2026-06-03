@@ -1,10 +1,9 @@
-+++
-weight = 680
-title = "680. 모놀리식 vs 마이크로 커널 성능 비교 (Monolithic Vs Microkernel Performance)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 680. 모놀리식 vs 마이크로 커널 성능 비교 (Monolithic Vs Microkernel Performance)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

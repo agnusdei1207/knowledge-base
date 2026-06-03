@@ -1,9 +1,10 @@
-+++
-weight = 446
-title = "446. 공공 클라우드 CSAP 보안 인증 점검 통제 (CSAP Security Certification Control for Public Cloud)"
-date = "2026-05-10"
-categories = "studynote-design-supervision"
-+++
+---
+title: 446. 공공 클라우드 CSAP 보안 인증 점검 통제 (CSAP Security Certification Control for Public
+  Cloud)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

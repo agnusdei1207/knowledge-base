@@ -1,10 +1,9 @@
-+++
-weight = 714
-title = "714. Ping of Death 대형 패킷 단편화 버퍼 오버플로우 문제"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 714. Ping of Death 대형 패킷 단편화 버퍼 오버플로우 문제
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

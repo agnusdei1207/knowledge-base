@@ -1,10 +1,9 @@
-+++
-weight = 249
-title = "249. 이벤트 소싱 (Event Sourcing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 249. 이벤트 소싱 (Event Sourcing)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

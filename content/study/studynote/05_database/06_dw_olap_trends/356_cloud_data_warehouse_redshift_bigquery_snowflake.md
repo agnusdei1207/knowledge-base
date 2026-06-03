@@ -1,10 +1,9 @@
-+++
-weight = 356
-title = "356. 클라우드 데이터 웨어하우스 솔루션"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 356. 클라우드 데이터 웨어하우스 솔루션
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

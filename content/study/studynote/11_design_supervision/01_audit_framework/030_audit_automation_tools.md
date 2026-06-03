@@ -1,10 +1,9 @@
-+++
-weight = 30
-title = "30. 감리 자동화 도구 — AI 기반 감사 효율화"
-date = "2026-04-29"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 30. 감리 자동화 도구 — AI 기반 감사 효율화
+date: '2026-04-29'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 감리 자동화는 전통 수작업 감리의 한계(문서 검토 병목, 전문가 의존, 비용)를 [[190_ai_llm_requirements_specification|AI]]·분석 도구로 극복하는 접근이다. [[331_static_analysis|정적 분석]]·코드 품질·아키텍처 적합성·보안 취약점을 자동화 도구로 검증한다.

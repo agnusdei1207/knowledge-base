@@ -1,10 +1,9 @@
-+++
-title = "106. GMAC (Galois MAC) — GCM의 인증 부분"
-date = "2026-04-05"
-weight = 106
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 106. GMAC (Galois MAC) — GCM의 인증 부분
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

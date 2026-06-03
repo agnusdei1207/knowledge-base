@@ -1,10 +1,9 @@
-+++
-weight = 250
-title = "250. 시크릿 매니지먼트 (Secret Management)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 250. 시크릿 매니지먼트 (Secret Management)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

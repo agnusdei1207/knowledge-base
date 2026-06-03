@@ -1,10 +1,9 @@
-+++
-weight = 275
-title = "275. 전자서명과 개인정보보호법 감리 (Digital Signature and Privacy Law Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 275. 전자서명과 개인정보보호법 감리 (Digital Signature and Privacy Law Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

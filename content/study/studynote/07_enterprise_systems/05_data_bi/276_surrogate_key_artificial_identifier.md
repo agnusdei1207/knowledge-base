@@ -1,10 +1,9 @@
-+++
-weight = 276
-title = "276. 서로게이트 키 (Surrogate Key) - PK 충돌 방지 인조 식별자"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 276. 서로게이트 키 (Surrogate Key) - PK 충돌 방지 인조 식별자
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 125
-title = "125. 내장형 프로그램 (Stored-program Concept)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 125. 내장형 프로그램 (Stored-program Concept)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 내장형 프로그램(Stored-program)은 컴퓨터가 실행할 '[[158_instruction|명령어]]([[158_instruction|Instruction]])'를 외부 [[238_switch_operation_principles|스위치]]나 천공카드가 아닌, **컴퓨터 내부의 고속 메모리에 '[[001_dikw_pyramid|데이터]]'와 동일한 2진수 형태로 적재(Load)해 두고 순차적으로 꺼내 쓰는 설계 사상**이다.

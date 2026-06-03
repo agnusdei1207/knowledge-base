@@ -1,10 +1,9 @@
-+++
-weight = 155
-title = "155. 이벤트 트리거 기반 실행 (Event Trigger Serverless)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 155. 이벤트 트리거 기반 실행 (Event Trigger Serverless)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[206_serverless_cold_start|서버리스]] 함수는 특정 이벤트([[501_file_definition_logical_record|파일]] 업로드, 메시지 큐 알람, [[461_http_stateless_connection_oriented|HTTP]] 요청, [[208_schedule_history_transaction_execution_order|스케줄]] 등)가 발생할 때만 자동 실행되며, 이벤트 소스 매핑 (Event Source [[010_schema_mapping|Mapping]])이 [[507_acid_properties|트리거]]와 함수를 연결한다.

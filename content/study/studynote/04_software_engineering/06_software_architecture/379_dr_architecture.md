@@ -1,10 +1,9 @@
-+++
-weight = 379
-title = "379. 재해 복구 (DR) 아키텍처 - RTO (Recovery Time Objective), RPO (Recovery Point Objective)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 379. 재해 복구 (DR) 아키텍처 - RTO (Recovery Time Objective), RPO (Recovery Point Objective)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

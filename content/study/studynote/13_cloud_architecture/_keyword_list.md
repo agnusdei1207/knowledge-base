@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "13. 클라우드 컴퓨팅 및 아키텍처 키워드 목록"
-date = "2026-03-04"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 13. 클라우드 컴퓨팅 및 아키텍처 키워드 목록
+date: '2026-03-04'
+tags:
+- studynote-cloud
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # [[052_cloud_computing_os|클라우드 컴퓨팅]] 및 아키텍처 (Cloud [[319_architecture|Architecture]]) 키워드 목록 (심화 확장판)

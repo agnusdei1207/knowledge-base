@@ -1,10 +1,9 @@
-+++
-weight = 156
-title = "156. 폴백 (Fallback) 메커니즘"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 156. 폴백 (Fallback) 메커니즘
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

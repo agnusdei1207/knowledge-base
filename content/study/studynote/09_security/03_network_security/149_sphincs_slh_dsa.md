@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "149. SPHINCS+ (SLH-DSA) — 무상태 해시 기반 양자 내성 서명 최후의 방패"
-date = "2026-05-03"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 149. SPHINCS+ (SLH-DSA) — 무상태 해시 기반 양자 내성 서명 최후의 방패
+date: '2026-05-03'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SPHINCS+(표준명 SLH-DSA)는 난해한 대수학이나 격자 암호 난제를 전혀 쓰지 않고, 오직 [[395_verification_process_review|검증]]된 `SHA-256` 같은 **[[667_hash_function_integrity_one_way|해시 함수]]([[667_hash_function_integrity_one_way|Hash Function]]) 연산만을 수억 번의 다중 트리([[007_merkle_tree|Merkle Tree]]) 잔가지로 엮어 1회용 도장처럼 찍어내는 무상태([[239_stateless_redis|Stateless]]) 기반의 양자 내성 [[675_digital_signature_process_asymmetric_key|전자서명]]([[351_quantum_computing_pqc_transition|PQC]])**이다.

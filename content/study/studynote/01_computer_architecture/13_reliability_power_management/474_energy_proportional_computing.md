@@ -1,10 +1,9 @@
-+++
-weight = 474
-title = "474. 에너지 비례 컴퓨팅 (Energy Proportional Computing)"
-date = "2026-03-22"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 474. 에너지 비례 컴퓨팅 (Energy Proportional Computing)
+date: '2026-03-22'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 234
-title = "234. 컬럼 지향 스토리지 (Columnar Storage) - Parquet / ORC"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 234. 컬럼 지향 스토리지 (Columnar Storage) - Parquet / ORC
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 컬럼 지향 스토리지(Columnar Storage)는 [[001_dikw_pyramid|데이터]]를 **행(Row) 단위가 아닌 열(Column) 단위로 [[347_compaction|압축]] 저장**하여 [[316_olap|OLAP]] 분석 [[298_qkv_attention|쿼리]] 시 필요한 열만 읽어 I/O를 극적으로 절감한다.

@@ -1,9 +1,9 @@
-+++
-title = "039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층"
-date = "2026-03-04"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 039. 레이어1 메인넷 (Layer 1 Mainnet) — 블록체인 기반 계층
+date: '2026-03-04'
+tags:
+- studynote-ict-convergence
+---
 
 > **핵심 인사이트**
 > 1. 레이어1(Layer 1)은 [[004_blockchain|블록체인]] 스택의 기반 계층으로, 자체 합의 메커니즘과 네이티브 토큰을 통해 [[136_variance|분산]] 원장의 보안·[[010_decentralization|탈중앙화]]·[[139_throughput|처리량]](Scalability) 세 가지를 모두 달성하려는 [[040_blockchain_trilemma|블록체인 트릴레마]](Trilemma)의 최전선이다.

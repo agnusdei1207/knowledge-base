@@ -1,10 +1,9 @@
-+++
-weight = 143
-title = "데이터 레이크 (Data Lake)"
-date = "2024-05-22"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 데이터 레이크 (Data Lake)
+date: '2024-05-22'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. 정형, 반정형, [[004_unstructured_data|비정형 데이터]]를 포함한 방대한 원시 [[001_dikw_pyramid|데이터]]([[225_raw|Raw]] [[001_dikw_pyramid|Data]])를 목적에 [[083_relationship_in_er_model|관계]]없이 **원래의 형식 그대로 저장**하는 거대 저장소이다.

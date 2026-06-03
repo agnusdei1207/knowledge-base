@@ -1,10 +1,9 @@
-+++
-weight = 136
-title = "136. CROSS JOIN & Cartesian Product - 카테시안 곱 결합"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 136. CROSS JOIN & Cartesian Product - 카테시안 곱 결합
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CROSS JOIN은 **두 테이블의 모든 행을 서로 조합([[412_cartesian_product|Cartesian Product]])**하여 N×M 행을 [[087_process_state_transition|생성]]하는 연산이며, 조인 조건 없이 모든 가능한 조합을 만든다.

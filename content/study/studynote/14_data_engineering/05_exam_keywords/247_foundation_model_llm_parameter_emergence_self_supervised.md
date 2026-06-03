@@ -1,10 +1,9 @@
-+++
-weight = 247
-title = "247. 파운데이션 모델 (Foundation Model) LLM 파라미터 창발성 (Emergence) 자기 지도 학습"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 247. 파운데이션 모델 (Foundation Model) LLM 파라미터 창발성 (Emergence) 자기 지도 학습
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[225_foundation_model_peft_lora|파운데이션 모델]]([[225_foundation_model_peft_lora|Foundation Model]])은 방대한 비라벨 [[001_dikw_pyramid|데이터]]로 [[266_self_supervised_learning|자기 지도 학습]]([[266_self_supervised_learning|Self-Supervised Learning]])을 통해 사전 훈련된 후, 다양한 다운스트림 [[150_task|태스크]]에 적응할 수 있는 범용 기반 모델이다.

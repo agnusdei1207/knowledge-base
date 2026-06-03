@@ -1,10 +1,9 @@
-+++
-weight = 150
-title = "150. 할루시네이션(Hallucination)과 RAG(검색 증강 생성) 융합 방어막"
-date = "2026-05-03"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 150. 할루시네이션(Hallucination)과 RAG(검색 증강 생성) 융합 방어막
+date: '2026-05-03'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[251_hallucination_rag_augmented_retrieval_vector_db|할루시네이션]]([[345_llm_foundation_model_hallucination|Hallucination]])은 거대 언어 모델([[263_llm_large_language_model|LLM]])이 자신이 모르는 빈칸 지식을 그럴싸한 통계 확률로 뇌피셜 지어내어 뱉는 기만적 [[352_defect_definition|결함]]이며, **[[276_fine_tuning|RAG]]([[222_rag_retrieval_augmented_generation|검색 증강 생성]])**는 이를 척살하기 위해 모델이 대답하기 직전에 사내 DB 문서 팩트를 먼저 1초 컷 스캔 쳐서 입에 떠먹여 주는(오픈북 커닝) 실무 표준 방패다.

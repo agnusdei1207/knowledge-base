@@ -1,7 +1,8 @@
-+++
-title = "69. 시그모이드 함수 (Sigmoid) - 0~1 사이 반환, 기울기 소실(Vanishing Gradient) 문제 발생"
-weight = 69
-+++
+---
+title: 69. 시그모이드 함수 (Sigmoid) - 0~1 사이 반환, 기울기 소실(Vanishing Gradient) 문제 발생
+tags:
+- ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 188
-title = "188. 리눅스 퍼포먼스 툴 (perf, iostat, vmstat, tcpdump) SRE 활용"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 188. 리눅스 퍼포먼스 툴 (perf, iostat, vmstat, tcpdump) SRE 활용
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

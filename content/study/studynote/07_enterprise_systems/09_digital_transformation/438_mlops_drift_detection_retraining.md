@@ -1,10 +1,9 @@
-+++
-weight = 438
-title = "438. MLOps 드리프트 탐지 재학습 파이프라인 자동화 (MLOps)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 438. MLOps 드리프트 탐지 재학습 파이프라인 자동화 (MLOps)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

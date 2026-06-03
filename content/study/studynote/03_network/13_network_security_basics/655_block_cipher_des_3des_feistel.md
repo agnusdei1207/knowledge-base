@@ -1,10 +1,9 @@
-+++
-weight = 655
-title = "655. 블록 암호 (Block Cipher)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 655. 블록 암호 (Block Cipher)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

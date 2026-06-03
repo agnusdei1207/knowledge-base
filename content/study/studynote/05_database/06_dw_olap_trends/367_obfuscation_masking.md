@@ -1,10 +1,9 @@
-+++
-weight = 367
-title = "367. 난독화 (Obfuscation) 및 데이터 마스킹 (Data Masking)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 367. 난독화 (Obfuscation) 및 데이터 마스킹 (Data Masking)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 923
-title = "923. 시맨틱 통신 망"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 923. 시맨틱 통신 망
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 103
-title = "로지스틱 회귀 (Logistic Regression) 및 시그모이드 (Sigmoid) 함수"
-date = "2024-05-22"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 로지스틱 회귀 (Logistic Regression) 및 시그모이드 (Sigmoid) 함수
+date: '2024-05-22'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

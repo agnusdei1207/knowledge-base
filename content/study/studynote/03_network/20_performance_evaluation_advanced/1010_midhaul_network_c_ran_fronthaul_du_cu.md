@@ -1,10 +1,9 @@
-+++
-weight = 1010
-title = "1010. 미드홀 (Midhaul)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1010. 미드홀 (Midhaul)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

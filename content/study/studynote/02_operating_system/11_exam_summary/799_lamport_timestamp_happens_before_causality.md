@@ -1,10 +1,9 @@
-+++
-weight = 799
-title = "799. 람포트 타임스탬프 인과 관계 정렬 (Lamport Timestamp Happens Before Causality)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 799. 람포트 타임스탬프 인과 관계 정렬 (Lamport Timestamp Happens Before Causality)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

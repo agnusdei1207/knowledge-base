@@ -1,10 +1,9 @@
-+++
-weight = 369
-title = "369. 배치 정규화 (Batch Normalization) in CNN"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 369. 배치 정규화 (Batch Normalization) in CNN
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

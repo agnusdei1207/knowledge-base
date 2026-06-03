@@ -1,10 +1,9 @@
-+++
-weight = 472
-title = "472. IT 프로젝트 관리 PERT CPM 주경로 여유 계산 (PERT/CPM, Critical Path Method)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 472. IT 프로젝트 관리 PERT CPM 주경로 여유 계산 (PERT/CPM, Critical Path Method)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

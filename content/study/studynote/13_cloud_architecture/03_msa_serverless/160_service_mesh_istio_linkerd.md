@@ -1,10 +1,9 @@
-+++
-weight = 160
-title = "160. 이스티오 / 링커디 서비스 메시 (Istio / Linkerd Service Mesh)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 160. 이스티오 / 링커디 서비스 메시 (Istio / Linkerd Service Mesh)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[829_istio_envoy_service_mesh_control_plane|이스티오]] ([[302_service_mesh_istio|Istio]])와 링커디 (Linkerd)는 [[619_msa_traffic_hardware|MSA]] ([[122_msa_microservices_architecture|Microservices Architecture]]) 환경에서 [[090_service_kubernetes_network_load_balancing|서비스]] 간 통신의 트래픽 관리·보안([[831_mtls_mutual_tls_microservices_zero_trust|mTLS]])·관찰 가능성([[642_observability_telemetry|Observability]])을 애플리케이션 코드 변경 없이 인프라 레이어에서 처리하는 [[302_service_mesh_istio|서비스 메시]] ([[828_service_mesh_microservice_communication_infrastructure|Service Mesh]]) [[191_oss_license_compliance|오픈소스]] 프레임워크다.

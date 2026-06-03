@@ -1,10 +1,9 @@
-+++
-weight = 635
-title = "635. IETF (Internet Engineering Task Force) 산하 IoT CoRE 워킹그룹 동향"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 635. IETF (Internet Engineering Task Force) 산하 IoT CoRE 워킹그룹 동향
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

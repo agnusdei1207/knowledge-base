@@ -1,10 +1,9 @@
-+++
-weight = 209
-title = "209. 데이터 웨어하우스 (DW)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 209. 데이터 웨어하우스 (DW)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] 웨어하우스 (DW)의 본질은 [[005_schema|스키마]] 정제([[010_schema_on_write|Schema-on-write]]) 전사 통합 관계형 저장소를 예방·탐지·대응 통제와 증적으로 운영하는 데 있다.

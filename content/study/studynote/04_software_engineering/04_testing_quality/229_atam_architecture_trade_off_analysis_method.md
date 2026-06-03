@@ -1,10 +1,9 @@
-+++
-weight = 229
-title = "229. ATAM (Architecture Trade-off Analysis Method) - 품질 속성 간 상충 관계 분석"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 229. ATAM (Architecture Trade-off Analysis Method) - 품질 속성 간 상충 관계 분석
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,7 +1,9 @@
-+++
-title = "91. 컴포저블 ERP (Composable ERP) - 비즈니스 블록을 조합하듯 API 중심으로 유연하게 조립/변경 가능한 최신 ERP 아키텍처"
-weight = 91
-+++
+---
+title: 91. 컴포저블 ERP (Composable ERP) - 비즈니스 블록을 조합하듯 API 중심으로 유연하게 조립/변경 가능한 최신 ERP
+  아키텍처
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

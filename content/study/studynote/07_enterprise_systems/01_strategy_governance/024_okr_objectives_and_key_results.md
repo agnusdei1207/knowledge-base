@@ -1,10 +1,9 @@
-+++
-weight = 24
-title = "24. OKR (Objectives and Key Results) — 도전적 목표와 측정 가능한 핵심 결과"
-date = "2026-04-29"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 24. OKR (Objectives and Key Results) — 도전적 목표와 측정 가능한 핵심 결과
+date: '2026-04-29'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[039_okr_objectives_key_results|OKR]] ([[039_okr_objectives_key_results|Objectives and Key Results]], 목표 및 핵심 결과)은 인텔 앤디 그로브(Andy Grove)가 [[025_mbo_management_by_objectives|MBO]]([[025_mbo_management_by_objectives|Management by Objectives]])를 개선하여 개발하고 구글이 전사 도입한 성과 관리 프레임워크로, 정성적 O (목표)와 정량적 KR (핵심 결과 3~5개)의 쌍으로 목표와 측정을 연결한다.

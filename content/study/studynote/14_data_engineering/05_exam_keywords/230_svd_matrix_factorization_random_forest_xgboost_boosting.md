@@ -1,10 +1,9 @@
-+++
-weight = 230
-title = "230. SVD (Singular Value Decomposition) 행렬 분해 랜덤 포레스트 XGBoost 부스팅"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 230. SVD (Singular Value Decomposition) 행렬 분해 랜덤 포레스트 XGBoost 부스팅
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SVD(Singular Value Decomposition, [[342_svd|특이값 분해]])는 임의의 행렬을 세 행렬의 곱으로 분해하여 잠재 구조를 추출하며, 이를 추천·[[347_compaction|압축]]·노이즈 제거에 활용한다.

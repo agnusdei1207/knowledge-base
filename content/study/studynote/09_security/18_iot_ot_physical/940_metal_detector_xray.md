@@ -1,10 +1,9 @@
-+++
-weight = 940
-title = "940. 금속 탐지기 및 X-ray (Metal Detector & X-ray)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 940. 금속 탐지기 및 X-ray (Metal Detector & X-ray)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

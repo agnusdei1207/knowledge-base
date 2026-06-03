@@ -1,10 +1,9 @@
-+++
-weight = 1056
-title = "1056. ONOS / OpenDaylight 구조 모델 비교"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1056. ONOS / OpenDaylight 구조 모델 비교
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

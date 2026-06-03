@@ -1,10 +1,9 @@
-+++
-weight = 94
-title = "94. 인그레스 (Ingress) - K8s L7 URL 라우팅 통합 게이트웨이"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 94. 인그레스 (Ingress) - K8s L7 URL 라우팅 통합 게이트웨이
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 396
-title = "396. 시뮬레이티드 어닐링 볼츠만 확률 기반 지역 최적해 탈출 (모의 담금질)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 396. 시뮬레이티드 어닐링 볼츠만 확률 기반 지역 최적해 탈출 (모의 담금질)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

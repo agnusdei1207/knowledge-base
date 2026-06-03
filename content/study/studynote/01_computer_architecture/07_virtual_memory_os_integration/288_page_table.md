@@ -1,10 +1,9 @@
-+++
-weight = 288
-title = "288. 페이지 테이블 (Page Table)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 288. 페이지 테이블 (Page Table)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

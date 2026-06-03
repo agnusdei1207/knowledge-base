@@ -1,10 +1,9 @@
-+++
-weight = 51
-title = "29. Apache Oozie — Hadoop 워크플로 스케줄러"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 29. Apache Oozie — Hadoop 워크플로 스케줄러
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Oozie는 [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] [[031_에코_반향|에코]]시스템 기반 워크플로(Workflow)와 코디네이터([[250_coordinator_participant_2pc_roles|Coordinator]]) 잡을 관리하는 서버 기반 [[079_kube_scheduler_pod_placement|스케줄러]]다. [[018_mapreduce|MapReduce]]·[[544_hive|Hive]]·Pig·Sqoop 등 [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 잡을 [[401_bayesian_network_dag_causality|DAG]](방향성 비순환 [[070_graph_datastructure|그래프]])로 구성하여 복잡한 [[215_etl_vs_elt_pipeline|ETL]] [[123_pipe|파이프]]라인을 자동화한다.

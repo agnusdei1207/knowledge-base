@@ -1,10 +1,9 @@
-+++
-weight = 137
-title = "137. EduTech & 적응형 학습 (Adaptive Learning) - LMS/LXP"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 137. EduTech & 적응형 학습 (Adaptive Learning) - LMS/LXP
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EduTech는 **교육에 [[190_ai_llm_requirements_specification|AI]]·빅데이터·VR을 적용**하는 기술이며, 적응형 학습(Adaptive [[240_switch_learning_forwarding_flooding|Learning]])은 **학습자의 수준·패턴을 AI가 분석하여 맞춤 콘텐츠·속도·난이도를 자동 조절**하는 개인화 학습 시스템이다.

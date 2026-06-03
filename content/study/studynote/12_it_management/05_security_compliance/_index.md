@@ -1,8 +1,8 @@
-+++
-weight = 5
-title = "05. 보안 거버넌스 및 글로벌 컴플라이언스"
-sort_by = "weight"
-+++
+---
+title: 05. 보안 거버넌스 및 글로벌 컴플라이언스
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,5 +1,7 @@
 ---
-title: "🌐 Neo4j vs Dgraph 그래프 DB 심층 비교 가이드"
+title: 🌐 Neo4j vs Dgraph 그래프 DB 심층 비교 가이드
+tags:
+- r-and-d
 ---
 
 # 🌐 Neo4j vs Dgraph 그래프 DB 심층 비교 가이드

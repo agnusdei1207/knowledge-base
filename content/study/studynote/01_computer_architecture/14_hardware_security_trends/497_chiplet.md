@@ -1,10 +1,9 @@
-+++
-weight = 497
-title = "497. 칩렛 (Chiplet) 아키텍처"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 497. 칩렛 (Chiplet) 아키텍처
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

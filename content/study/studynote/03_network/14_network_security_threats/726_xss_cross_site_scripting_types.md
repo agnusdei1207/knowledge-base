@@ -1,10 +1,9 @@
-+++
-weight = 726
-title = "726. XSS (Cross Site Scripting) 개요와 3대 기법 (Stored / Reflected / DOM)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 726. XSS (Cross Site Scripting) 개요와 3대 기법 (Stored / Reflected / DOM)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

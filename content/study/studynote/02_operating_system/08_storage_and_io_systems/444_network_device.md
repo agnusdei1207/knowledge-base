@@ -1,10 +1,9 @@
-+++
-weight = 444
-title = "444. 네트워크 장치 (소켓 인터페이스) (Network Device)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 444. 네트워크 장치 (소켓 인터페이스) (Network Device)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

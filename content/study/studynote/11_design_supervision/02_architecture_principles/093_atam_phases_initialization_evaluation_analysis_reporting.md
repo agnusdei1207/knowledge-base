@@ -1,10 +1,9 @@
-+++
-weight = 93
-title = "93. 아키텍처 평가 방법론 ATAM 4단계 페이즈 프로세스"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 93. 아키텍처 평가 방법론 ATAM 4단계 페이즈 프로세스
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

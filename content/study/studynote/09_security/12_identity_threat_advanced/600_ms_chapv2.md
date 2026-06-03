@@ -1,10 +1,9 @@
-+++
-weight = 600
-title = "600. MS-CHAPv2 (MS-CHAPv2)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 600. MS-CHAPv2 (MS-CHAPv2)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

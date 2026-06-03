@@ -1,10 +1,9 @@
-+++
-weight = 39
-title = "11. 위상 정렬 (Topological Sort) — DAG, Kahn's / DFS 기반"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 11. 위상 정렬 (Topological Sort) — DAG, Kahn's / DFS 기반
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,10 @@
-+++
-weight = 560
-title = "560. 멀티코어 인터럽트 라우팅 (GIC: Generic Interrupt Controller, APIC: Advanced Programmable Interrupt Controller)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: '560. 멀티코어 인터럽트 라우팅 (GIC: Generic Interrupt Controller, APIC: Advanced Programmable
+  Interrupt Controller)'
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

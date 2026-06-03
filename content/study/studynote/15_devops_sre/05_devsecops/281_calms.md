@@ -1,10 +1,9 @@
-+++
-weight = 281
-title = "281. 데브옵스 CALMS (문화 자동화 린 측정 공유)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 281. 데브옵스 CALMS (문화 자동화 린 측정 공유)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

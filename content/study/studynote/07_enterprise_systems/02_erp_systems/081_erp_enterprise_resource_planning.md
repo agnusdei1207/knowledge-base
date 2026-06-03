@@ -1,10 +1,9 @@
-+++
-weight = 81
-title = "81. ERP (Enterprise Resource Planning)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 81. ERP (Enterprise Resource Planning)
+date: '2026-05-08'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

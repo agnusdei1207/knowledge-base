@@ -1,7 +1,8 @@
-+++
-title = "96. 완전 함수적 종속 (Full Functional Dependency)"
-weight = 96
-+++
+---
+title: 96. 완전 함수적 종속 (Full Functional Dependency)
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

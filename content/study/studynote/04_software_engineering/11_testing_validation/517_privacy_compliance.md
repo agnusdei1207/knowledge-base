@@ -1,10 +1,9 @@
-+++
-weight = 517
-title = "517. 데이터 3법 및 GDPR 컴플라이언스 대응 SW 기능"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 517. 데이터 3법 및 GDPR 컴플라이언스 대응 SW 기능
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

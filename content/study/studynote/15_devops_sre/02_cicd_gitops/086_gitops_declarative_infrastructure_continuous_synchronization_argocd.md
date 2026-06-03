@@ -1,10 +1,9 @@
-+++
-weight = 86
-title = "86. GitOps (깃옵스) - 선언적 인프라 자동화 및 지속적 동기화"
-date = "2026-04-10"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: 86. GitOps (깃옵스) - 선언적 인프라 자동화 및 지속적 동기화
+date: '2026-04-10'
+tags:
+- studynote-devops
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

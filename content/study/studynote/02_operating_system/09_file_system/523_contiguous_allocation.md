@@ -1,10 +1,9 @@
-+++
-weight = 523
-title = "523. 연속 할당 (Contiguous Allocation) - 시작 블록과 길이 저장, 속도 빠름, 외부 단편화 심각"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 523. 연속 할당 (Contiguous Allocation) - 시작 블록과 길이 저장, 속도 빠름, 외부 단편화 심각
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

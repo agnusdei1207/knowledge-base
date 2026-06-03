@@ -1,10 +1,9 @@
-+++
-weight = 751
-title = "751. 3GPP (3rd Generation Partnership Project) 표준 개발"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 751. 3GPP (3rd Generation Partnership Project) 표준 개발
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

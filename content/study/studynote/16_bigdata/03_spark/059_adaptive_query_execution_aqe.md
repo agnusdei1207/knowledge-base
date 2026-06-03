@@ -1,10 +1,9 @@
-+++
-weight = 59
-title = "적응형 쿼리 실행 (Adaptive Query Execution, AQE)"
-date = "2024-03-23"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 적응형 쿼리 실행 (Adaptive Query Execution, AQE)
+date: '2024-03-23'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - AQE는 Spark 3.0의 핵심 기능으로, [[298_qkv_attention|쿼리]] 실행 도중에 수집된 실제 통계 [[001_dikw_pyramid|데이터]]를 바탕으로 [[166_execution_plan_optimizer_navigation_tree|실행 계획]]을 동적으로 변경한다.

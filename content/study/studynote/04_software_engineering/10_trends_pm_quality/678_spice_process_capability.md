@@ -1,10 +1,9 @@
-+++
-weight = 678
-title = "678. SPICE 프로세스 역량 평가"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 678. SPICE 프로세스 역량 평가
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 932
-title = "932. 스니핑 탐지 (ARP 핑 테스트, 네트워크 지연 감지, Promiscuous 모드)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 932. 스니핑 탐지 (ARP 핑 테스트, 네트워크 지연 감지, Promiscuous 모드)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

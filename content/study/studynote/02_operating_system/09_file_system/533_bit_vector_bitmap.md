@@ -1,10 +1,9 @@
-+++
-weight = 533
-title = "533. 비트 벡터 (Bit Vector / Bitmap) - 0과 1로 표현, 1워드 크기 연속 빈 공간 탐색 최적"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 533. 비트 벡터 (Bit Vector / Bitmap) - 0과 1로 표현, 1워드 크기 연속 빈 공간 탐색 최적
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 816
-title = "816. 언더레이 네트워크 (Underlay Network) 오버레이 터널을 품는 물리 망 패킷 포워딩 베이스"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 816. 언더레이 네트워크 (Underlay Network) 오버레이 터널을 품는 물리 망 패킷 포워딩 베이스
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

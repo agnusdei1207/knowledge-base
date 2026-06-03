@@ -1,12 +1,12 @@
-+++
-weight = 1
-title = "1. 빅데이터 3V / 5V - 볼륨(Volume), 속도(Velocity), 다양성(Variety), + 진실성(Veracity), 가치(Value)"
-description = "빅데이터를 정의하는 5가지 핵심 차원(Volume, Velocity, Variety, Veracity, Value)과 아키텍처적 대응 전략"
-date = "2024-05-24"
-[taxonomies]
-tags = ["빅데이터", "3V", "5V", "데이터엔지니어링"]
-categories = ["studynote", "14_data_engineering"]
-+++
+---
+title: 1. 빅데이터 3V / 5V - 볼륨(Volume), 속도(Velocity), 다양성(Variety), + 진실성(Veracity),
+  가치(Value)
+date: '2024-05-24'
+description: 빅데이터를 정의하는 5가지 핵심 차원(Volume, Velocity, Variety, Veracity, Value)과 아키텍처적
+  대응 전략
+tags:
+- data_engineering
+---
 
 # 01. 빅데이터 3V / 5V (Big [[001_dikw_pyramid|Data]] 3V / 5V)
 

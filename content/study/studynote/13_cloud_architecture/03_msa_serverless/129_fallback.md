@@ -1,10 +1,9 @@
-+++
-weight = 129
-title = "129. Fallback 패턴 - MSA 장애 시 대체 응답 전략"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 129. Fallback 패턴 - MSA 장애 시 대체 응답 전략
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Fallback은 **원격 [[090_service_kubernetes_network_load_balancing|서비스]] 호출 실패 시 미리 정의된 대체 응답을 반환**하는 복원력 패턴이며, [[304_circuit_breaker|Circuit Breaker]]·Retry와 함께 사용되어 사용자에게 **부분적이라도 [[090_service_kubernetes_network_load_balancing|서비스]]를 유지**한다.

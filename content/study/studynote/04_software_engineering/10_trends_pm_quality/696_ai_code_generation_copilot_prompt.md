@@ -1,10 +1,9 @@
-+++
-weight = 696
-title = "696. AI 기반 코드 생성 코파일럿 프롬프트"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 696. AI 기반 코드 생성 코파일럿 프롬프트
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

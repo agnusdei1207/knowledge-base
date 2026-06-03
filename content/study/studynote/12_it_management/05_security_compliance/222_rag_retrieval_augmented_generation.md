@@ -1,10 +1,9 @@
-+++
-weight = 222
-title = "222. 검색 증강 생성 (RAG, Retrieval-Augmented Generation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 222. 검색 증강 생성 (RAG, Retrieval-Augmented Generation)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 검색 증강 [[087_process_state_transition|생성]] ([[276_fine_tuning|RAG]], [[585_rag_retrieval_augmented_generation|Retrieval-Augmented Generation]])의 본질은 내부 프라이빗 DB 문서를 벡터 [[001_dikw_pyramid|데이터]]베이스에 [[278_instruction_tuning|임베딩]] 저장 후, 질문 시 [[359_cosine_similarity|코사인 유사도]] 검색을 거쳐 찾은 정답 문단을 [[263_llm_large_language_model|LLM]] 프롬프트에 주입하여 사내 전문 답변을 [[275_react_framework|환각]] 없이 [[087_process_state_transition|생성]]하는 기업형 [[190_ai_llm_requirements_specification|AI]] 아키텍처를 [[001_dikw_pyramid|데이터]], 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.

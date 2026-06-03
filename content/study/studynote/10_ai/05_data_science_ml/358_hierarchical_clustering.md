@@ -1,10 +1,9 @@
-+++
-weight = 358
-title = "358. 계층적 군집화 (Hierarchical Clustering)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 358. 계층적 군집화 (Hierarchical Clustering)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

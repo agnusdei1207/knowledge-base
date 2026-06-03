@@ -1,9 +1,9 @@
-+++
-title = "036. 키-값 저장소 (Key-Value Store)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 036. 키-값 저장소 (Key-Value Store)
+date: '2026-03-03'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. 키-값 저장소([[067_db_key_uniqueness_minimality|Key]]-Value Store)는 고유한 키([[067_db_key_uniqueness_minimality|Key]])에 임의의 값(Value)을 연결해 저장하는 가장 단순한 [[035_nosql|NoSQL]] 구조로, 해시 테이블의 [[136_variance|분산]]·영속화 버전이다.

@@ -1,10 +1,9 @@
-+++
-weight = 743
-title = "743. CSPM / CWPP 보안 설정 모니터링 관리 및 워크로드 분산망 보안 맵 체계 가시화 기술 모델화 적용 시스템"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 743. CSPM / CWPP 보안 설정 모니터링 관리 및 워크로드 분산망 보안 맵 체계 가시화 기술 모델화 적용 시스템
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

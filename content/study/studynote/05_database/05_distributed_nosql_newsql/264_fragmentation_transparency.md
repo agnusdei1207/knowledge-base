@@ -1,10 +1,9 @@
-+++
-weight = 264
-title = "264. 분할 투명성 (Fragmentation/Partition Transparency)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 264. 분할 투명성 (Fragmentation/Partition Transparency)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

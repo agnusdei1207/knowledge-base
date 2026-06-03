@@ -1,10 +1,9 @@
-+++
-weight = 224
-title = "224. 데이터 리니지 (Data Lineage) 흐름 족보 카탈로그 태그 거버넌스"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 224. 데이터 리니지 (Data Lineage) 흐름 족보 카탈로그 태그 거버넌스
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[214_data_lineage_tracking|데이터 리니지]]([[214_data_lineage_tracking|Data Lineage]])는 [[001_dikw_pyramid|데이터]]가 어디서 왔고(Origin), 어떻게 변환됐고(Transformation), 어디로 흘러갔는지(Destination)를 추적하는 "[[001_dikw_pyramid|데이터]]의 족보"로, 신뢰할 수 있는 [[001_dikw_pyramid|데이터]] 분석의 전제조건이다.

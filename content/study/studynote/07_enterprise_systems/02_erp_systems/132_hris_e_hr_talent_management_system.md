@@ -1,10 +1,9 @@
-+++
-weight = 132
-title = "132. HRIS·e-HR·인재관리시스템 (Talent Management) - 디지털 인사 관리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 132. HRIS·e-HR·인재관리시스템 (Talent Management) - 디지털 인사 관리
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: HRIS(Human Resource Information System)는 **인사 [[001_dikw_pyramid|데이터]](급여·근태·조직)를 통합 관리**하는 시스템이고, e-HR은 **웹 기반 셀프서비스(휴가신청·급여조회)**를 제공하며, [[098_tms_transportation_management_system|TMS]](Talent [[372_management|Management]] System)는 **채용→육성→평가→승계의 인재 라이프사이클을 관리**한다.

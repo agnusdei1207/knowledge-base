@@ -1,10 +1,9 @@
-+++
-weight = 91
-title = "16. Amazon Kinesis Data Streams — AWS 관리형 스트리밍"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 16. Amazon Kinesis Data Streams — AWS 관리형 스트리밍
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

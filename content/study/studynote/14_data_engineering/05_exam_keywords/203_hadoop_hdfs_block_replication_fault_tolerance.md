@@ -1,10 +1,9 @@
-+++
-weight = 203
-title = "203. 하둡 HDFS (Hadoop Distributed File System) 블록 복제 내결함성"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 203. 하둡 HDFS (Hadoop Distributed File System) 블록 복제 내결함성
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[013_hdfs|HDFS]] ([[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] [[553_distributed_file_system|Distributed File System]])는 [[501_file_definition_logical_record|파일]]을 고정 크기 블록(128MB)으로 분할하고, 각 블록을 여러 DataNode에 자동 [[016_replication_factor|복제]](기본 3회)하여, 범용 하드웨어 위에서 페타바이트급 [[136_variance|분산]] 저장을 실현한다.

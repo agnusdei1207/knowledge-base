@@ -1,10 +1,9 @@
-+++
-weight = 56
-title = "56. 표본화 (Sampling)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 56. 표본화 (Sampling)
+date: '2026-05-01'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

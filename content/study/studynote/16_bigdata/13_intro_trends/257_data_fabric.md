@@ -1,10 +1,9 @@
-+++
-title = "045. 데이터 패브릭 — Data Fabric"
-weight = 257
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 045. 데이터 패브릭 — Data Fabric
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트**
 > 1. [[212_data_fabric_virtualization|데이터 패브릭]]([[212_data_fabric_virtualization|Data Fabric]])은 이기종 [[001_dikw_pyramid|데이터]] 소스를 [[012_metadata|메타데이터]]와 AI로 통합·자동화하는 아키텍처 패러다임 — [[211_data_mesh_domain_ownership|데이터 메시]]([[320_data_mesh|Data Mesh]])가 조직·[[064_relation_domain|도메인]] 중심의 [[136_variance|분산]]이라면, [[212_data_fabric_virtualization|데이터 패브릭]]은 기술 자동화 중심의 통합으로 두 접근법은 상호 보완적이다.

@@ -1,10 +1,9 @@
-+++
-weight = 375
-title = "375. 시계열 DB 보간 (Interpolation) 쿼리 기능"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 375. 시계열 DB 보간 (Interpolation) 쿼리 기능
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "044. BPO — 비즈니스 프로세스 아웃소싱"
-weight = 44
-date = "2026-04-05"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 044. BPO — 비즈니스 프로세스 아웃소싱
+date: '2026-04-05'
+tags:
+- studynote-it-management
+---
 
 > **핵심 인사이트**
 > 1. [[044_bpo_business_process_outsourcing|BPO]]([[044_bpo_business_process_outsourcing|Business Process Outsourcing]])는 기업의 비핵심 비즈니스 프로세스(인사, 회계, 고객 [[090_service_kubernetes_network_load_balancing|서비스]], [[520_supply_chain_attack_and_ci_cd_security|공급망]] 등)를 전문 외부 기업에 위탁하는 [[268_strategy_pattern|전략]]으로 — 핵심 역량(Core Competency)에 집중하고 규모의 경제·전문성을 활용하여 비용 절감과 품질 향상을 동시에 달성한다.

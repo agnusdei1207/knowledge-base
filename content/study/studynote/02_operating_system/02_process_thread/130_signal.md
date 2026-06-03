@@ -1,10 +1,9 @@
-+++
-weight = 130
-title = "130. 신호 (Signal) - 소프트웨어 인터럽트 방식 IPC (kill, SIGINT, SIGKILL)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 130. 신호 (Signal) - 소프트웨어 인터럽트 방식 IPC (kill, SIGINT, SIGKILL)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

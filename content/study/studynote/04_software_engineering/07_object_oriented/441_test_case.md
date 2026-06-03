@@ -1,10 +1,9 @@
-+++
-weight = 441
-title = "441. 테스트 케이스 (Test Case) 구조 - 식별자, 전제조건, 입력 데이터, 기대 결과"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 441. 테스트 케이스 (Test Case) 구조 - 식별자, 전제조건, 입력 데이터, 기대 결과
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

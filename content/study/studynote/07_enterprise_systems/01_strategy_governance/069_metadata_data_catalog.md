@@ -1,7 +1,8 @@
-+++
-title = "69. 메타데이터 (Metadata) 관리 / 데이터 카탈로그 (Data Catalog)"
-weight = 69
-+++
+---
+title: 69. 메타데이터 (Metadata) 관리 / 데이터 카탈로그 (Data Catalog)
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

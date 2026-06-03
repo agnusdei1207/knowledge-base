@@ -1,9 +1,9 @@
-+++
-title = "마이데이터 (MyData)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 마이데이터 (MyData)
+date: '2026-03-03'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[012_mydata|마이데이터]]([[266_mydata_open_api_token_security|MyData]])는 개인이 자신의 [[001_dikw_pyramid|데이터]] 수집·이용·제공을 직접 통제하는 [[781_personal_information|개인정보]] 자기결정권 기반 [[001_dikw_pyramid|데이터]] 유통 패러다임이다.

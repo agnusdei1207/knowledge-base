@@ -1,10 +1,9 @@
-+++
-weight = 474
-title = "474. 데이터 마트 부서용 Kimball 상향식"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 474. 데이터 마트 부서용 Kimball 상향식
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 219
-title = "219. CAP 정리 (CAP Theorem)와 PACELC 정리 분산 트레이드오프"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 219. CAP 정리 (CAP Theorem)와 PACELC 정리 분산 트레이드오프
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[341_process|CAP]] 정리([[341_process|CAP]] Theorem)는 [[136_variance|분산]] 시스템에서 [[194_consistency_database_integrity|일관성]]([[194_consistency_database_integrity|Consistency]])·[[452_availability|가용성]]([[452_availability|Availability]])·[[514_partition_slice_volume|파티션]] 내결함성([[514_partition_slice_volume|Partition]] Tolerance) 세 가지를 **동시에 모두 보장하는 것은 불가능**함을 수학적으로 증명한 원칙이다.

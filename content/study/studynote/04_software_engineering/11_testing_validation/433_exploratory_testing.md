@@ -1,10 +1,9 @@
-+++
-weight = 433
-title = "433. 탐색적 테스팅 (Exploratory Testing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 433. 탐색적 테스팅 (Exploratory Testing)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 134
-title = "134. 요구사항 공학 프로세스 - 도출→분석→명세→검증→관리 상세"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 134. 요구사항 공학 프로세스 - 도출→분석→명세→검증→관리 상세
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구 도출(Elicitation)→분석(Analysis)→명세([[148_requirements_specification_formal_informal|Specification]], SRS)→[[395_verification_process_review|검증]]([[396_validation|Validation]])→관리([[372_management|Management]]) 5단계를 반복 순환하며, 각 단계마다 고유한 기법과 산출물이 있다.

@@ -1,10 +1,10 @@
-+++
-title = "87. FP-Growth 알고리즘 - 트리 기반의 고속 빈발 항목 추출"
-date = "2026-03-04"
-weight = 87
-[extra]
-categories = ["studynote-data-engineering", "math-mining"]
-+++
+---
+title: 87. FP-Growth 알고리즘 - 트리 기반의 고속 빈발 항목 추출
+date: '2026-03-04'
+tags:
+- math-mining
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

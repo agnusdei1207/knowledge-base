@@ -1,10 +1,9 @@
-+++
-weight = 433
-title = "433. 파이프 필터 쉘 데이터 스트리밍 변환 (Pipe-Filter Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 433. 파이프 필터 쉘 데이터 스트리밍 변환 (Pipe-Filter Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [[134_pipe_filter_pattern|파이프-필터 패턴]]([[207_pipe_filter_architecture_data_stream|Pipe-Filter]] Pattern)은 입력 [[001_dikw_pyramid|데이터]]를 독립 필터가 순차 또는 병렬로 변환하고, [[123_pipe|파이프]]가 그 결과를 다음 단계로 전달하는 [[383_data_centric_architecture|데이터 중심]] 처리 구조다.

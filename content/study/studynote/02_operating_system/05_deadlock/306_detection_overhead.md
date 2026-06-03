@@ -1,10 +1,9 @@
-+++
-weight = 306
-title = "306. 탐지 알고리즘의 오버헤드 (Detection Overhead)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 306. 탐지 알고리즘의 오버헤드 (Detection Overhead)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 685
-title = "685. TLS 1.3 업그레이드 변화와 0-RTT/1-RTT 성능 향상 차이"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 685. TLS 1.3 업그레이드 변화와 0-RTT/1-RTT 성능 향상 차이
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

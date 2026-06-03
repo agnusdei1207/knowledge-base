@@ -1,12 +1,10 @@
-+++
-weight = 20
-title = "20. 조치 결과 확인 (시정조치 확인 보고서 발행)"
-description = "정보시스템 감리의 최종 완성 단계인 조치 결과 확인의 목적, 확인 방법론 및 법적 효력을 심층 분석합니다."
-date = "2026-03-04"
-[taxonomies]
-tags = ["정보시스템감리", "조치결과확인", "Follow-up", "시정조치", "형상관리"]
-categories = ["studynote-design-supervision"]
-+++
+---
+title: 20. 조치 결과 확인 (시정조치 확인 보고서 발행)
+date: '2026-03-04'
+description: 정보시스템 감리의 최종 완성 단계인 조치 결과 확인의 목적, 확인 방법론 및 법적 효력을 심층 분석합니다.
+tags:
+- design_supervision
+---
 
 # 20. 조치 결과 [[396_validation|확인]] ([[013_follow_up_audit|Follow-up Audit]] / 시정조치 [[396_validation|확인]]) - 보고서 발행
 

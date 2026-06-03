@@ -1,7 +1,8 @@
-+++
-title = "67. 스프린트 (Sprint) - 1~4주의 개발 주기"
-weight = 67
-+++
+---
+title: 67. 스프린트 (Sprint) - 1~4주의 개발 주기
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

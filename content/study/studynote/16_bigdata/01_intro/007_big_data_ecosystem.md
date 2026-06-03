@@ -1,12 +1,10 @@
-+++
-weight = 7
-title = "7. 빅데이터 생태계 — 수집→저장→처리→분석→시각화→활용"
-description = "수집, 저장, 처리, 분석, 시각화로 이어지는 빅데이터 파이프라인의 전체 아키텍처와 실무 적용 전략"
-date = "2024-05-20"
-[taxonomies]
-tags = ["빅데이터", "생태계", "파이프라인", "Hadoop", "Spark"]
-categories = ["studynote", "16_bigdata"]
-+++
+---
+title: 7. 빅데이터 생태계 — 수집→저장→처리→분석→시각화→활용
+date: '2024-05-20'
+description: 수집, 저장, 처리, 분석, 시각화로 이어지는 빅데이터 파이프라인의 전체 아키텍처와 실무 적용 전략
+tags:
+- bigdata
+---
 
 # 빅데이터 생태계 (Big [[001_dikw_pyramid|Data]] Ecosystem)
 

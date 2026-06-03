@@ -1,8 +1,9 @@
-+++
-title = "Taint and Toleration"
-date = "2026-05-09"
-categories = ["studynote-devops-sre"]
-+++
+---
+title: Taint and Toleration
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > - [[106_taint_toleration_kubernetes_node_scheduling_repel|Taint]] ([[106_taint_toleration_kubernetes_node_scheduling_repel|테인트]])는 노드에 붙이는 "거부 스티커"이고, Toleration (톨러레이션)은 [[085_pod_kubernetes_container_unit|파드]]가 그 스티커를 허용하는 "면역 카드"다.

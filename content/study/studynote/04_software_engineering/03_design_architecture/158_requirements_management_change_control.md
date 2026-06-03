@@ -1,10 +1,9 @@
-+++
-weight = 158
-title = "158. 요구사항 관리 (Management) - 변경 통제, 버전 관리"
-date = "2026-04-03"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 158. 요구사항 관리 (Management) - 변경 통제, 버전 관리
+date: '2026-04-03'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

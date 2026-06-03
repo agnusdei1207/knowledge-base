@@ -1,10 +1,9 @@
-+++
-weight = 224
-title = "224. 안티 코럽션 레이어 (ACL, Anti-Corruption Layer)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 224. 안티 코럽션 레이어 (ACL, Anti-Corruption Layer)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

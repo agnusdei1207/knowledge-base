@@ -1,10 +1,9 @@
-+++
-title = "169. 클러스터링 팩터 (Clustering Factor) - 인덱스 정렬 순서와 실제 물리적 데이터 정렬 순서의 일치 정도"
-date = "2026-04-03"
-weight = 169
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 169. 클러스터링 팩터 (Clustering Factor) - 인덱스 정렬 순서와 실제 물리적 데이터 정렬 순서의 일치 정도
+date: '2026-04-03'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

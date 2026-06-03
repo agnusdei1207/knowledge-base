@@ -1,10 +1,9 @@
-+++
-weight = 150
-title = "150. Unity Catalog (Databricks) — 레이크하우스 통합 거버넌스"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 150. Unity Catalog (Databricks) — 레이크하우스 통합 거버넌스
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. Unity Catalog는 Databricks의 통합 거버넌스 솔루션으로, **3-수준 [[061_namespace|네임스페이스]]([[394_catalog_metadata|catalog]].[[505_schema|schema]].table)**를 통해 [[001_dikw_pyramid|데이터]]·ML 모델·[[501_file_definition_logical_record|파일]]을 단일 제어 지점에서 관리한다.

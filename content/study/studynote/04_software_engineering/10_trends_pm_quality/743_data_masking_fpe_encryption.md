@@ -1,10 +1,9 @@
-+++
-weight = 743
-title = "743. 데이터 마스킹 FPE 암호 유지"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 743. 데이터 마스킹 FPE 암호 유지
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

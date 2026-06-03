@@ -1,10 +1,9 @@
-+++
-weight = 274
-title = "274. 스타 스키마 (Star Schema) - 팩트 중심 방사형 구조"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 274. 스타 스키마 (Star Schema) - 팩트 중심 방사형 구조
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

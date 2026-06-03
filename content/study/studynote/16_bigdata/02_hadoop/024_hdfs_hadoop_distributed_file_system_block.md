@@ -1,10 +1,10 @@
-+++
-title = "02. HDFS (Hadoop Distributed File System) - 하둡 분산 파일 시스템"
-date = "2026-03-04"
-weight = 24
-[extra]
-categories = ["studynote-bigdata", "hadoop"]
-+++
+---
+title: 02. HDFS (Hadoop Distributed File System) - 하둡 분산 파일 시스템
+date: '2026-03-04'
+tags:
+- hadoop
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **초대용량 [[501_file_definition_logical_record|파일]] [[136_variance|분산]] 스토리지**: HDFS는 테라바이트/페타바이트 급의 거대한 단일 [[501_file_definition_logical_record|파일]]을 디스크 기본 128MB 블록 단위로 잘게 쪼개어 수백 대의 노드에 뿌려 저장하는 [[553_distributed_file_system|분산 파일 시스템]]입니다.

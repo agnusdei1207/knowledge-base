@@ -1,10 +1,9 @@
-+++
-weight = 122
-title = "122. PLM (Product Lifecycle Management) - 제품 전주기 관리 시스템"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 122. PLM (Product Lifecycle Management) - 제품 전주기 관리 시스템
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PLM은 제품의 **기획→설계→제조→[[090_service_kubernetes_network_load_balancing|서비스]]→폐기까지 전 생명주기에 걸친 [[001_dikw_pyramid|데이터]]·프로세스·사람을 통합 관리**하는 [[_keyword_list|엔터프라이즈 시스템]]이다.

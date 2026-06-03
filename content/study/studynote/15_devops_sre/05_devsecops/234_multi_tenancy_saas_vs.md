@@ -1,10 +1,9 @@
-+++
-weight = 234
-title = "234. 멀티 테넌시 (Multi-Tenancy) SaaS 데이터베이스 격리 스키마 아키텍처 (논리 격리 vs 물리 격리)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 234. 멀티 테넌시 (Multi-Tenancy) SaaS 데이터베이스 격리 스키마 아키텍처 (논리 격리 vs 물리 격리)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

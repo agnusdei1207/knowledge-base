@@ -1,10 +1,9 @@
-+++
-weight = 194
-title = "194. 컨테이너 가상화 (Container)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 194. 컨테이너 가상화 (Container)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

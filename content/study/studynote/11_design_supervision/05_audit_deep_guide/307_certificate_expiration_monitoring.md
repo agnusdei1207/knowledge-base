@@ -1,10 +1,9 @@
-+++
-weight = 307
-title = "307. 서버 인증서 수명주기 모니터링 체계 (Server Certificate Lifecycle Monitoring Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 307. 서버 인증서 수명주기 모니터링 체계 (Server Certificate Lifecycle Monitoring Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

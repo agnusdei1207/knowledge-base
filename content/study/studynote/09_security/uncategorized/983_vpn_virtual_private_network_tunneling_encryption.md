@@ -1,10 +1,9 @@
-+++
-weight = 983
-title = "983. VPN (가상 사설망)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 983. VPN (가상 사설망)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

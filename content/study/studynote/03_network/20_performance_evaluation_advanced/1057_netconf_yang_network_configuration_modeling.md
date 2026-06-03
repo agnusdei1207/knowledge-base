@@ -1,7 +1,8 @@
-+++
-title = "1057. NETCONF / YANG 모델링 규격체 - 차세대 네트워크 자동화"
-weight = 1057
-+++
+---
+title: 1057. NETCONF / YANG 모델링 규격체 - 차세대 네트워크 자동화
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

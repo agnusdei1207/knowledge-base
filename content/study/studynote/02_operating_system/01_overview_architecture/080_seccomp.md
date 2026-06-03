@@ -1,10 +1,9 @@
-+++
-weight = 80
-title = "080. seccomp (Secure Computing Mode)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 080. seccomp (Secure Computing Mode)
+date: '2026-05-05'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: seccomp(Secure Computing Mode)는 리눅스 [[022_kernel_role|커널]]에서 프로세스가 호출할 수 있는 **시스템 콜([[013_system_call|System Call]])의 종류를 화이트리스트(Whitelist) 방식으로 엄격하게 제한**하여 권한을 축소시키는 보안 [[602_sandboxing_kernel_wrapper|샌드박싱]] 메커니즘이다.

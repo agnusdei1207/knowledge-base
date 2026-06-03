@@ -1,10 +1,9 @@
-+++
-weight = 37
-title = "37. 피벗 (Pivot)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 37. 피벗 (Pivot)
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

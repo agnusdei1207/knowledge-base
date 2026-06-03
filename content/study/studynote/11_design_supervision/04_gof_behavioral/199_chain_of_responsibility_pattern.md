@@ -1,10 +1,9 @@
-+++
-weight = 199
-title = "199. 책임 연쇄 패턴 (Chain of Responsibility Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 199. 책임 연쇄 패턴 (Chain of Responsibility Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 14
-title = "14. 트랜지스터 (Transistor)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 14. 트랜지스터 (Transistor)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 트랜지스터 (Transistor)는 제어 단자(게이트)에 가해지는 미세한 [[001_voltage|전압]]으로 두 단자(소스-드레인) 사이의 대전류 흐름을 켜고 끄는 마찰 없는 [[009_semiconductor|반도체]] [[238_switch_operation_principles|스위치]]다.

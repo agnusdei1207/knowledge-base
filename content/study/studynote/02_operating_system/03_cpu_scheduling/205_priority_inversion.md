@@ -1,10 +1,9 @@
-+++
-weight = 205
-title = "205. 우선순위 역전 (Priority Inversion)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 205. 우선순위 역전 (Priority Inversion)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

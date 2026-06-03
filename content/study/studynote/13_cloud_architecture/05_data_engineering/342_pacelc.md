@@ -1,10 +1,9 @@
-+++
-weight = 342
-title = "342. PACELC 정상 시 지연 일관성 차이 한계 모델 (PACELC)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 342. PACELC 정상 시 지연 일관성 차이 한계 모델 (PACELC)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PACELC 정상 시 [[015_지연_데이터_관점|지연]] [[194_consistency_database_integrity|일관성]] 차이 한계 모델는 [[001_dikw_pyramid|데이터]] 플랫폼에서 [[015_지연_데이터_관점|지연]]시간 단축를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

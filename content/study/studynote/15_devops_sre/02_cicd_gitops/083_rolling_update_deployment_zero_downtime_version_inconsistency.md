@@ -1,10 +1,9 @@
-+++
-weight = 83
-title = "83. 롤링 배포 (Rolling Update) - K8s 기본 점진적 무중단 배포"
-date = "2026-04-10"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: 83. 롤링 배포 (Rolling Update) - K8s 기본 점진적 무중단 배포
+date: '2026-04-10'
+tags:
+- studynote-devops
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [[193_rolling_update_deployment_kubernetes|롤링 배포]] (Rolling Update)는 기존 Pod를 한 번에 하나 또는 소수씩 새 [[288_version_ihl_tos_total_length|버전]]으로 교체하면서 원하는 replica 수를 유지하는 배포 [[268_strategy_pattern|전략]]이다.

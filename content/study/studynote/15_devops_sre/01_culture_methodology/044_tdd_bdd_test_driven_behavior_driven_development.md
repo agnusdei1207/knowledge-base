@@ -1,10 +1,9 @@
-+++
-title = "044. TDD & BDD — 테스트 주도 개발"
-weight = 44
-date = "2026-04-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 044. TDD & BDD — 테스트 주도 개발
+date: '2026-04-05'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > 1. [[164_tdd_test_driven_development|TDD]]([[411_process|Test-Driven Development]])는 "테스트 먼저 작성 → 최소 코드로 통과 → [[213_refactoring_cloud_native_rearchitecture|리팩토링]]"의 Red-Green-[[213_refactoring_cloud_native_rearchitecture|Refactor]] 사이클로 — 테스트가 설계 도구가 되어 과도한 설계(Over-Engineering)를 방지하고, 변경에 안전한 [[007_codebase|코드베이스]]를 만드는 개발 방법론이다.

@@ -1,10 +1,9 @@
-+++
-title = "4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)"
-weight = 133
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

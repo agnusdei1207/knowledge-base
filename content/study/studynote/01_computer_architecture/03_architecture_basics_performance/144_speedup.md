@@ -1,10 +1,9 @@
-+++
-weight = 144
-title = "144. 속도 향상도 (Speedup)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 144. 속도 향상도 (Speedup)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

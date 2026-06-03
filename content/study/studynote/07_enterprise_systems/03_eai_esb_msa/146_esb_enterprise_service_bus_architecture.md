@@ -1,10 +1,9 @@
-+++
-weight = 146
-title = "146. ESB (Enterprise Service Bus) - 엔터프라이즈 서비스 버스"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 146. ESB (Enterprise Service Bus) - 엔터프라이즈 서비스 버스
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ESB는 **[[152_hub_dummy_switching_intelligent|Hub]]-and-Spoke의 Hub를 [[136_variance|분산]] [[389_mesh_topology|메시]]징 [[344_bus|버스]]로 확장**한 통합 미들웨어이며, [[389_mesh_topology|메시]]지 변환·[[339_routing_overview_best_path_selection|라우팅]]·[[073_container_orchestration_tools|오케스트레이션]]·[[295_protocol_field_tcp_udp_icmp|프로토콜]] 중재·보안을 **표준화된 [[344_bus|버스]] 인프라**에서 수행한다.

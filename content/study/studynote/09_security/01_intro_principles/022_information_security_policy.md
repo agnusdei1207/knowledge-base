@@ -1,10 +1,9 @@
-+++
-weight = 22
-title = "22. 정보보안 정책 — 최고 경영진 승인, 문서화된 규칙"
-date = "2026-04-02"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 22. 정보보안 정책 — 최고 경영진 승인, 문서화된 규칙
+date: '2026-04-02'
+tags:
+- studynote-security
+---
 
 # 정보보안 [[164_policy|정책]] ([[007_security_policy|Security Policy]])
 

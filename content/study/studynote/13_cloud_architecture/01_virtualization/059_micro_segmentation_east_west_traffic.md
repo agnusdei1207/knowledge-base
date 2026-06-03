@@ -1,10 +1,9 @@
-+++
-weight = 59
-title = "59. 마이크로 세그멘테이션 (Micro-segmentation) - 동서(East-West) 트래픽 차단"
-date = "2026-04-07"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 59. 마이크로 세그멘테이션 (Micro-segmentation) - 동서(East-West) 트래픽 차단
+date: '2026-04-07'
+tags:
+- studynote-cloud
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

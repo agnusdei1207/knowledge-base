@@ -1,10 +1,9 @@
-+++
-weight = 113
-title = "113. 장기 의존성 문제 (Long-term Dependency in RNN) - 기울기 소실·폭발과 LSTM 해법"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 113. 장기 의존성 문제 (Long-term Dependency in RNN) - 기울기 소실·폭발과 LSTM 해법
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[291_long_term_dependency|장기 의존성]] 문제([[291_long_term_dependency|Long-term Dependency]])는 RNN이 시퀀스가 길어질 때 **[[459_quic_fec_forward_error_correction|초기]] 시간 단계의 정보를 후반 단계까지 유지하지 못하는** 근본적 한계이며, [[272_backpropagation|역전파]] 시 기울기가 시간 축을 따라 **기하급수적으로 소실(Vanishing)하거나 폭발(Exploding)**하는 것이 수학적 원인이다.

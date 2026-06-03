@@ -1,10 +1,9 @@
-+++
-weight = 332
-title = "332. 베이스라인 형상 통제 검증"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 332. 베이스라인 형상 통제 검증
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[159_baseline_requirements_configuration_management|베이스라인]] [[022_configuration_control|형상 통제]] 검증의 본질은 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

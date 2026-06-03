@@ -1,10 +1,9 @@
-+++
-weight = 1036
-title = "1036. EPCglobal 망 아키텍처"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1036. EPCglobal 망 아키텍처
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

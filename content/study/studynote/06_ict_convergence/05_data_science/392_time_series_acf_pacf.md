@@ -1,10 +1,9 @@
-+++
-weight = 392
-title = "392. 시계열 자기 상관 함수 지표도 (ACF, PACF)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 392. 시계열 자기 상관 함수 지표도 (ACF, PACF)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

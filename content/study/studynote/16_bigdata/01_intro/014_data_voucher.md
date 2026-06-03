@@ -1,12 +1,10 @@
-+++
-weight = 14
-title = "14. 데이터바우처 사업 — 중소기업 데이터 구매·가공 지원"
-description = "중소기업의 데이터 활용 격차 해소를 위한 지원 체계 및 실무 도입 전략"
-date = "2024-05-23"
-[taxonomies]
-tags = ["빅데이터", "데이터바우처", "데이터 경제", "중소기업 지원", "데이터 가공"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 14. 데이터바우처 사업 — 중소기업 데이터 구매·가공 지원
+date: '2024-05-23'
+description: 중소기업의 데이터 활용 격차 해소를 위한 지원 체계 및 실무 도입 전략
+tags:
+- bigdata
+---
 
 # [[246_data_voucher|데이터바우처 사업]] ([[001_dikw_pyramid|Data]] Voucher)
 

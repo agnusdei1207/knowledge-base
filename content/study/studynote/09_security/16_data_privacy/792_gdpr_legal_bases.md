@@ -1,10 +1,9 @@
-+++
-weight = 792
-title = "792. GDPR 6 Legal Bases (GDPR의 6가지 처리 근거)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 792. GDPR 6 Legal Bases (GDPR의 6가지 처리 근거)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

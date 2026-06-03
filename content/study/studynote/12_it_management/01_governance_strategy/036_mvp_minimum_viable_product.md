@@ -1,10 +1,9 @@
-+++
-weight = 36
-title = "36. MVP (Minimum Viable Product, 최소 존립 제품)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 36. MVP (Minimum Viable Product, 최소 존립 제품)
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

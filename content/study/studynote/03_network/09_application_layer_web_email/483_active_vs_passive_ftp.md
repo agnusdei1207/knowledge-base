@@ -1,10 +1,9 @@
-+++
-weight = 483
-title = "483. 액티브(Active) FTP vs 패시브(Passive) FTP 동작 원리 차이"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 483. 액티브(Active) FTP vs 패시브(Passive) FTP 동작 원리 차이
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

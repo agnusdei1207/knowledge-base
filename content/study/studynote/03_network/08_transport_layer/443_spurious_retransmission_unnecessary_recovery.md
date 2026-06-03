@@ -1,10 +1,9 @@
-+++
-weight = 443
-title = "443. 불필요한 재전송 (Spurious Retransmission) 해결 방안"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 443. 불필요한 재전송 (Spurious Retransmission) 해결 방안
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

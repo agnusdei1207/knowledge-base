@@ -1,10 +1,9 @@
-+++
-weight = 110
-title = "110. 해밍 거리 (Hamming Distance)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 110. 해밍 거리 (Hamming Distance)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 해밍 거리(Hamming Distance)는 길이가 같은 두 [[001_dikw_pyramid|데이터]] [[073_bit|비트]]열을 비교했을 때, **서로 값이 다른 [[073_bit|비트]]의 개수**를 수학적으로 측정한 논리적 거리다.

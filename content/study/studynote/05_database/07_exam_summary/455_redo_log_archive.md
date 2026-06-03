@@ -1,10 +1,9 @@
-+++
-weight = 455
-title = "455. 리두 (Redo 복구 로그 아카이브)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 455. 리두 (Redo 복구 로그 아카이브)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

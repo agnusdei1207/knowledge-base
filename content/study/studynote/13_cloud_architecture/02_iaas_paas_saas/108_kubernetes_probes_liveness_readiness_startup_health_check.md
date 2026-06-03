@@ -1,10 +1,9 @@
-+++
-weight = 108
-title = "108. K8s 프로브(Probes) 생명주기 관리"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 108. K8s 프로브(Probes) 생명주기 관리
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]의 프로브(Probes)는 [[085_pod_kubernetes_container_unit|파드]]([[198_pod_kubernetes_minimum_deployment_unit|Pod]]) 내부의 [[561_container_based_deployment|컨테이너]]가 단순히 '실행 중(Running)'인지 여부를 넘어, 실제 애플리케이션이 트래픽을 처리할 준비가 되었는지, 혹은 [[281_deadlock_definition|교착 상태]]([[281_deadlock_definition|Deadlock]])에 빠지지 않았는지를 주기적으로 찔러 [[396_validation|확인]]하는 자가 진단 및 치유(Auto-Healing) 메커니즘이다.

@@ -1,10 +1,9 @@
-+++
-weight = 429
-title = "429. 배깅 랜덤 포레스트 (Bagging Random Forest)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 429. 배깅 랜덤 포레스트 (Bagging Random Forest)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

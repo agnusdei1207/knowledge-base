@@ -1,10 +1,9 @@
-+++
-weight = 204
-title = "204. 불변 인프라 (Immutable Infrastructure)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 204. 불변 인프라 (Immutable Infrastructure)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "040. 트렁크 기반 개발 (Trunk-Based Development)"
-weight = 40
-date = "2026-04-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 040. 트렁크 기반 개발 (Trunk-Based Development)
+date: '2026-04-05'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > 1. 트렁크 기반 개발(TBD, Trunk-Based Development)은 모든 개발자가 하나의 공유 브랜치(trunk/main)에 소규모 코드를 빈번하게 통합하는 방식으로, 장기 브랜치로 인한 병합 지옥(Merge Hell)과 통합 늦음(Integration Late) 문제를 근본적으로 해결한다.

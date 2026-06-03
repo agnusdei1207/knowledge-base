@@ -1,7 +1,8 @@
-+++
-title = "65. 개발 팀 (Development Team) - 자기 조직화, 다기능 팀"
-weight = 65
-+++
+---
+title: 65. 개발 팀 (Development Team) - 자기 조직화, 다기능 팀
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

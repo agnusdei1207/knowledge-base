@@ -1,10 +1,9 @@
-+++
-weight = 94
-title = "94. 스레드의 독립 자원 - Thread ID, PC, 레지스터 집합, 스택"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 94. 스레드의 독립 자원 - Thread ID, PC, 레지스터 집합, 스택
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[092_thread_lwp|스레드]] ([[092_thread_lwp|Thread]])는 프로세스의 자원을 공유하지만, 독립적인 실행 흐름 (Execution Flow)을 유지하기 위해 [[092_thread_lwp|스레드]] ID (TID), [[164_pc|프로그램 카운터]] ([[164_pc|PC]]), [[057_register|레지스터]] (Registers), [[057_stack|스택]] ([[057_stack|Stack]])은 [[092_thread_lwp|스레드]]별로 고유하게 할당받는다.

@@ -1,10 +1,9 @@
-+++
-weight = 299
-title = "299. RESTful API 무상태성 HATEOAS"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 299. RESTful API 무상태성 HATEOAS
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[974_restful_api_stateless_http_methods_uri|RESTful API]] [[162_rest_statelessness|무상태성]] HATEOAS의 본질은 자산, 위협, [[571_protection_vs_security|보호]] 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

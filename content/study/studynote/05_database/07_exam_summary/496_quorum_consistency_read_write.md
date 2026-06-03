@@ -1,10 +1,9 @@
-+++
-weight = 496
-title = "496. Quorum 읽기 쓰기 일관성 보정 정족수 합의 구조"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 496. Quorum 읽기 쓰기 일관성 보정 정족수 합의 구조
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

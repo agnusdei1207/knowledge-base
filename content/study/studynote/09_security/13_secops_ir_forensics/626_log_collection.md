@@ -1,10 +1,9 @@
-+++
-weight = 626
-title = "626. 로그 수집 (Log Collection)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 626. 로그 수집 (Log Collection)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

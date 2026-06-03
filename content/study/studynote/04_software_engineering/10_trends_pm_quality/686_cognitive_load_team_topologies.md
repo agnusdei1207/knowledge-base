@@ -1,10 +1,9 @@
-+++
-weight = 686
-title = "686. 인지 부하 (Cognitive Load) 팀 토폴로지"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 686. 인지 부하 (Cognitive Load) 팀 토폴로지
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

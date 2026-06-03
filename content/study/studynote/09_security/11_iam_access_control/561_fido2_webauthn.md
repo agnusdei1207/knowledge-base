@@ -1,10 +1,9 @@
-+++
-weight = 561
-title = "561. FIDO2 / WebAuthn (FIDO2 / WebAuthn)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 561. FIDO2 / WebAuthn (FIDO2 / WebAuthn)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

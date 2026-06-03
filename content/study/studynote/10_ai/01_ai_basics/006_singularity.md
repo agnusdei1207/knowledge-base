@@ -1,12 +1,11 @@
-+++
-weight = 6
-title = "6. 싱귤래리티 (Singularity / 특이점) - 인공지능이 스스로 자신보다 나은 AI를 만들어내어 기술 발전이 무한히 폭발하는 시점"
-description = "인공지능이 스스로 진화하여 인류의 지능을 초월하는 지능 폭발의 시점과 시스템적 함의"
-date = "2024-05-20"
-[taxonomies]
-tags = ["Singularity", "ASI", "AGI", "지능폭발", "AI윤리"]
-categories = ["10_ai"]
-+++
+---
+title: 6. 싱귤래리티 (Singularity / 특이점) - 인공지능이 스스로 자신보다 나은 AI를 만들어내어 기술 발전이 무한히 폭발하는
+  시점
+date: '2024-05-20'
+description: 인공지능이 스스로 진화하여 인류의 지능을 초월하는 지능 폭발의 시점과 시스템적 함의
+tags:
+- ai
+---
 
 # 6. 기술적 특이점 (Singularity)
 

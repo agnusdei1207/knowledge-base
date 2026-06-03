@@ -1,10 +1,9 @@
-+++
-weight = 250
-title = "250. 레그테크 활용 내부 통제 및 IT 컴플라이언스 상시 감사 (RegTech: Regulatory Technology)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: '250. 레그테크 활용 내부 통제 및 IT 컴플라이언스 상시 감사 (RegTech: Regulatory Technology)'
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

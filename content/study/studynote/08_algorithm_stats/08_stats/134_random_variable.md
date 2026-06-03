@@ -1,10 +1,9 @@
-+++
-title = "5. 확률 변수 (Random Variable) — 이산/연속"
-weight = 134
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 5. 확률 변수 (Random Variable) — 이산/연속
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

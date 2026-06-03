@@ -1,10 +1,9 @@
-+++
-weight = 283
-title = "283. 12 팩터 앱 (클라우드 네이티브 설계 원칙)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 283. 12 팩터 앱 (클라우드 네이티브 설계 원칙)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

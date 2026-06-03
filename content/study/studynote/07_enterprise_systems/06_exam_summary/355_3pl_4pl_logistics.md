@@ -1,10 +1,9 @@
-+++
-weight = 355
-title = "355. 3PL 4PL 물류 아웃소싱 비교 (Third Party Logistics Fourth Party Logistics)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 355. 3PL 4PL 물류 아웃소싱 비교 (Third Party Logistics Fourth Party Logistics)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

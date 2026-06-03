@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "149. 바운디드 컨텍스트 (Bounded Context)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 149. 바운디드 컨텍스트 (Bounded Context)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[221_bounded_context_ddd_msa_boundary|바운디드 컨텍스트]] ([[221_bounded_context_ddd_msa_boundary|Bounded Context]])란 [[310_architecture|DDD]] ([[127_ddd_domain_driven_design|Domain-Driven Design]])에서 특정 [[064_relation_domain|도메인]] 모델이 유효한 논리적 경계로, 동일 단어도 경계 안에서 서로 다른 의미를 가질 수 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 737
-title = "737. 백도어 (Backdoor 포트 / C2 서버 Beacon 정주기 통신 이상 징후 망 행위 분석 대응 기계학습 모델 개발 방향)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 737. 백도어 (Backdoor 포트 / C2 서버 Beacon 정주기 통신 이상 징후 망 행위 분석 대응 기계학습 모델 개발 방향)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

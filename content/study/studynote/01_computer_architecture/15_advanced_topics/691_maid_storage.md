@@ -1,10 +1,9 @@
-+++
-weight = 691
-title = "691. MAID (Massive Array of Idle Disks)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 691. MAID (Massive Array of Idle Disks)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 332
-title = "332. 베어메탈 클라우드 물리 서버 통 대여 (Bare Metal Cloud)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 332. 베어메탈 클라우드 물리 서버 통 대여 (Bare Metal Cloud)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[629_bare_metal_cloud|베어메탈 클라우드]] 물리 서버 통 대여는 클라우드 시스템에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

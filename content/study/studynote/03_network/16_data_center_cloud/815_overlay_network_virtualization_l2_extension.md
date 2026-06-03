@@ -1,10 +1,9 @@
-+++
-weight = 815
-title = "815. 오버레이 네트워크 (Overlay Network) 논리 스위치 L2 확장 터널 구조 터널링"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 815. 오버레이 네트워크 (Overlay Network) 논리 스위치 L2 확장 터널 구조 터널링
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

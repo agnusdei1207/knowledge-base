@@ -1,10 +1,9 @@
-+++
-weight = 304
-title = "304. 블루/그린 배포 무중단 롤백 용이 (Blue-Green Deployment)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 304. 블루/그린 배포 무중단 롤백 용이 (Blue-Green Deployment)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 블루/그린 배포 무중단 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 용이는 클라우드 시스템에서 안전한 배포를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

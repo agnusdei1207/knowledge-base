@@ -1,10 +1,9 @@
-+++
-weight = 585
-title = "585. 서브쿼리 언네스팅 (Subquery Unnesting) 메인 쿼리 조인 변환 옵티마이저 룰"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 585. 서브쿼리 언네스팅 (Subquery Unnesting) 메인 쿼리 조인 변환 옵티마이저 룰
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

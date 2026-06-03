@@ -1,10 +1,9 @@
-+++
-weight = 97
-title = "97. CBAM (Cost Benefit Analysis Method) - 아키텍처 경제성 ROI 평가"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 97. CBAM (Cost Benefit Analysis Method) - 아키텍처 경제성 ROI 평가
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

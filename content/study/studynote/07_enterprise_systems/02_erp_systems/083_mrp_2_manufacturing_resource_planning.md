@@ -1,7 +1,9 @@
-+++
-title = "83. MRP II (Manufacturing Resource Planning) - 자재뿐 아니라 설비, 인력 등 생산 자원 전체 포괄 계획 (1980년대)"
-weight = 83
-+++
+---
+title: 83. MRP II (Manufacturing Resource Planning) - 자재뿐 아니라 설비, 인력 등 생산 자원 전체 포괄
+  계획 (1980년대)
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

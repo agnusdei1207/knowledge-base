@@ -1,10 +1,9 @@
-+++
-weight = 477
-title = "477. OWASP Top 10 (2021 기준 주요 취약점)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 477. OWASP Top 10 (2021 기준 주요 취약점)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

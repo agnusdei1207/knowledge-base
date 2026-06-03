@@ -1,10 +1,9 @@
-+++
-weight = 800
-title = "800. 시스템 아키텍처 결함 허용 (Fault Tolerance) 듀얼 구성"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 800. 시스템 아키텍처 결함 허용 (Fault Tolerance) 듀얼 구성
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

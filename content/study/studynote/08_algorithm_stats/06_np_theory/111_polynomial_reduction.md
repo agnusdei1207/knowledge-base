@@ -1,10 +1,9 @@
-+++
-title = "006. 다항 시간 환산 (Polynomial Reduction)"
-weight = 111
-date = "2026-04-05"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 006. 다항 시간 환산 (Polynomial Reduction)
+date: '2026-04-05'
+tags:
+- studynote-algorithm-stats
+---
 
 > **핵심 인사이트**
 > 1. 다항 시간 환산([[195_polynomial_generator_crc|Polynomial]] Reduction, A ≤_p B)은 "문제 A를 문제 B로 변환할 수 있고, B를 다항 시간에 풀 수 있으면 A도 다항 시간에 풀린다"는 원리로 — NP-완전 증명의 핵심 도구이며, Cook-Levin 정리에서 SAT이 NP-완전임을 보인 방법이다.

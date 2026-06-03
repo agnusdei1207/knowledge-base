@@ -1,10 +1,9 @@
-+++
-weight = 301
-title = "301. 베이스라인과 Hot fix 통제 감리 (Baseline and Hot Fix Control Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 301. 베이스라인과 Hot fix 통제 감리 (Baseline and Hot Fix Control Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 308
-title = "308. 벌크헤드 (Bulkhead) 패턴 - 스레드 풀 격리로 장애 전파 차단"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 308. 벌크헤드 (Bulkhead) 패턴 - 스레드 풀 격리로 장애 전파 차단
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

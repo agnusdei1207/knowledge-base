@@ -1,7 +1,9 @@
-+++
-title = "89. 포스트 모던 ERP (Postmodern ERP) - 거대하고 무거운 단일 모놀리식 벤더 중심에서 벗어나, 코어 ERP와 각 부문별 최적의 SaaS(HR, CRM 등) 솔루션을 느슨하게 결합하는 차세대 전략"
-weight = 89
-+++
+---
+title: 89. 포스트 모던 ERP (Postmodern ERP) - 거대하고 무거운 단일 모놀리식 벤더 중심에서 벗어나, 코어 ERP와 각 부문별
+  최적의 SaaS(HR, CRM 등) 솔루션을 느슨하게 결합하는 차세대 전략
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 포스트 모던 [[081_erp_enterprise_resource_planning|ERP]] (Postmodern [[081_erp_enterprise_resource_planning|ERP]])는 모든 기능을 단일 벤더(SAP, [[188_pl_sql_t_sql_procedural|Oracle]] 등)의 거대한 패키지 하나로 해결하려던 기존의 모놀리식(Monolithic) 접근을 버리고, 재무·생산 등 핵심 코어만 남긴 채 인사나 마케팅은 최고 수준의 외부 [[309_saas|SaaS]](클라우드) 앱들로 조립하는 '하이브리드 [[136_variance|분산]] 아키텍처' [[268_strategy_pattern|전략]]이다.

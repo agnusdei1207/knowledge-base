@@ -1,10 +1,9 @@
-+++
-weight = 765
-title = "765. 누적 흐름도 병목 지점 병목 분석"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 765. 누적 흐름도 병목 지점 병목 분석
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

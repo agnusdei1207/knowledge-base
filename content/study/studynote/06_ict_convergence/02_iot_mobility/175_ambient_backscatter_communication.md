@@ -1,10 +1,9 @@
-+++
-title = "175. 백스캐터 통신 (Ambient Backscatter Communication) - 주변 전파를 활용하는 무전원 IoT"
-date = "2026-05-06"
-weight = 175
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 175. 백스캐터 통신 (Ambient Backscatter Communication) - 주변 전파를 활용하는 무전원 IoT
+date: '2026-05-06'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

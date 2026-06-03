@@ -1,10 +1,9 @@
-+++
-weight = 798
-title = "798. 유출 신고 의무 (Breach Notification)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 798. 유출 신고 의무 (Breach Notification)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

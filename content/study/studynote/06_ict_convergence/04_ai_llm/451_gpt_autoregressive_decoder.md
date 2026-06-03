@@ -1,10 +1,9 @@
-+++
-weight = 451
-title = "451. GPT 자가 회귀 디코더 생성 (GPT Autoregressive Decoder)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 451. GPT 자가 회귀 디코더 생성 (GPT Autoregressive Decoder)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

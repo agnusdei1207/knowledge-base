@@ -1,10 +1,10 @@
-+++
-weight = 189
-title = "189. 사이드카 통합 로깅 및 모니터링 수집망 아키텍처 패턴 (Sidecar Integrated Logging and Monitoring Architecture Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 189. 사이드카 통합 로깅 및 모니터링 수집망 아키텍처 패턴 (Sidecar Integrated Logging and Monitoring
+  Architecture Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [[182_sidecar_pattern_proxy_container|사이드카 패턴]]은 주 애플리케이션 옆에 보조 [[561_container_based_deployment|컨테이너]]를 붙여 [[568_logs_distributed_logging_elk_fluentd|로그]], [[342_routing_metric_hop_bandwidth_delay|메트릭]], 트레이스를 수집하게 함으로써 [[090_service_kubernetes_network_load_balancing|서비스]] 코드를 오염시키지 않고 관측성을 표준화하는 구조다.

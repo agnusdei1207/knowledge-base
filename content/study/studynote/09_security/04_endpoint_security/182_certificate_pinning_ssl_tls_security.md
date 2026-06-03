@@ -1,10 +1,9 @@
-+++
-weight = 182
-title = "182. 인증서 핀닝 (Certificate Pinning) — 已知 인증서 목록 하드코딩"
-date = "2026-05-06"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 182. 인증서 핀닝 (Certificate Pinning) — 已知 인증서 목록 하드코딩
+date: '2026-05-06'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 416
-title = "416. 워킹 셋 모델 (Working-Set Model) - 특정 시간 구간(윈도우) 동안 참조된 페이지 집합 보장"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 416. 워킹 셋 모델 (Working-Set Model) - 특정 시간 구간(윈도우) 동안 참조된 페이지 집합 보장
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

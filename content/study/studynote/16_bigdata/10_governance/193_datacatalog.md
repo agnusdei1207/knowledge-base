@@ -1,10 +1,9 @@
-+++
-weight = 193
-title = "03. 데이터 카탈로그 (Data Catalog) - 데이터 검색 및 발견의 중앙 허브"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 03. 데이터 카탈로그 (Data Catalog) - 데이터 검색 및 발견의 중앙 허브
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # [[213_data_catalog_metadata|데이터 카탈로그]] ([[213_data_catalog_metadata|Data Catalog]]) - [[001_dikw_pyramid|데이터]] 검색 및 발견의 중앙 [[152_hub_dummy_switching_intelligent|허브]]
 

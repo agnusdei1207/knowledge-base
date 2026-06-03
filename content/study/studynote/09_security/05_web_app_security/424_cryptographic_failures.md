@@ -1,10 +1,9 @@
-+++
-weight = 424
-title = "424. A02. 암호화 실패 (Cryptographic Failures)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 424. A02. 암호화 실패 (Cryptographic Failures)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

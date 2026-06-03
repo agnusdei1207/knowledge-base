@@ -1,10 +1,9 @@
-+++
-weight = 120
-title = "120. POP (Point of Production) - 생산 현장 실적 수집 시스템"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 120. POP (Point of Production) - 생산 현장 실적 수집 시스템
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: POP(Point of Production)는 **생산 현장의 각 공정·설비에서 실적 [[001_dikw_pyramid|데이터]](생산량·불량·가동시간)를 실시간으로 수집**하여 [[119_mes_manufacturing_execution_system|MES]]·ERP에 전달하는 현장 [[001_dikw_pyramid|데이터]] 수집 시스템이다.

@@ -1,10 +1,9 @@
-+++
-weight = 237
-title = "237. 로그 기반 회복 기법 (Log-based Recovery)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 237. 로그 기반 회복 기법 (Log-based Recovery)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

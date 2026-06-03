@@ -1,10 +1,9 @@
-+++
-weight = 85
-title = "85. 스택 (Stack) 영역 - 지역 변수, 매개변수, 리턴 주소"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 85. 스택 (Stack) 영역 - 지역 변수, 매개변수, 리턴 주소
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 955
-title = "955. 프롬프트 인젝션 (Prompt Injection)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 955. 프롬프트 인젝션 (Prompt Injection)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

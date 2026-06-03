@@ -1,10 +1,9 @@
-+++
-weight = 285
-title = "285. 풀링 (Pooling)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 285. 풀링 (Pooling)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

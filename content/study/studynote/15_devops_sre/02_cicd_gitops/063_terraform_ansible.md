@@ -1,10 +1,9 @@
-+++
-weight = 63
-title = "63. Terraform vs Ansible"
-date = "2026-04-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 63. Terraform vs Ansible
+date: '2026-04-05'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 499
-title = "499. 클라우드 서비스 모델 통합: IaaS~FaaS (Cloud Service Models IaaS PaaS SaaS FaaS)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: '499. 클라우드 서비스 모델 통합: IaaS~FaaS (Cloud Service Models IaaS PaaS SaaS FaaS)'
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

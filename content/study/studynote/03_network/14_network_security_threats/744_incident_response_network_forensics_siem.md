@@ -1,10 +1,10 @@
-+++
-weight = 744
-title = "744. 침해 사고 대응 체계 분석 (패킷 미러 포트, 네트워크 포렌식 (Network Forensics), 실시간 로그 (SIEM 인프라) 수집 체계 연계 방법)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 744. 침해 사고 대응 체계 분석 (패킷 미러 포트, 네트워크 포렌식 (Network Forensics), 실시간 로그 (SIEM 인프라)
+  수집 체계 연계 방법)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

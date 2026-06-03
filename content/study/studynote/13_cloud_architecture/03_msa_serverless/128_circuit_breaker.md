@@ -1,10 +1,9 @@
-+++
-weight = 128
-title = "128. Circuit Breaker - MSA 장애 전파 차단 패턴"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 128. Circuit Breaker - MSA 장애 전파 차단 패턴
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Circuit Breaker는 **원격 [[090_service_kubernetes_network_load_balancing|서비스]] 호출 실패가 임계치를 초과하면 자동으로 회로를 열어(Open) 호출을 차단**하고, 일정 시간 후 반 열림(Half-Open)으로 [[658_ir_recovery|복구]]를 시도하는 [[619_msa_traffic_hardware|MSA]] 복원력(Resilience) 패턴이다.

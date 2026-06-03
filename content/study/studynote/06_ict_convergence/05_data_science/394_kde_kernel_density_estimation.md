@@ -1,10 +1,9 @@
-+++
-weight = 394
-title = "394. 커널 밀도 추정 비모수 데이터 스무딩 대역폭 (Bandwidth) (KDE)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 394. 커널 밀도 추정 비모수 데이터 스무딩 대역폭 (Bandwidth) (KDE)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

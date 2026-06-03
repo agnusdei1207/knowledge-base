@@ -1,10 +1,9 @@
-+++
-weight = 450
-title = "450. PWA 프로그레시브 오프라인 캐시 (PWA, Progressive Web App)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 450. PWA 프로그레시브 오프라인 캐시 (PWA, Progressive Web App)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 756
-title = "756. 기지국: eNodeB 분산 데이터 평면 라우팅 고속망 이동성 통제 진화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: '756. 기지국: eNodeB 분산 데이터 평면 라우팅 고속망 이동성 통제 진화'
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

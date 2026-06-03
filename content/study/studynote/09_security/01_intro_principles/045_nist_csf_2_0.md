@@ -1,10 +1,9 @@
-+++
-title = "045. NIST 사이버보안 프레임워크 2.0 — NIST CSF 2.0"
-weight = 45
-date = "2026-04-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 045. NIST 사이버보안 프레임워크 2.0 — NIST CSF 2.0
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 > **핵심 인사이트**
 > 1. NIST [[017_csf|CSF]](Cybersecurity Framework) 2.0(2024)은 기존 5대 기능([[655_ir_detection_analysis|식별]]·[[571_protection_vs_security|보호]]·탐지·대응·[[658_ir_recovery|복구]])에 "거버넌스(Govern)"를 추가해 6대 기능으로 확장 — 사이버보안을 기술 문제가 아닌 경영 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]로 보는 관점 전환이 핵심이다.

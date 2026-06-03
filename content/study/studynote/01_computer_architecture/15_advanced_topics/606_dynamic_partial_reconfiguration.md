@@ -1,10 +1,9 @@
-+++
-weight = 606
-title = "606. FPGA (Field-Programmable Gate Array) 동적 재구성 (Dynamic Reconfiguration)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 606. FPGA (Field-Programmable Gate Array) 동적 재구성 (Dynamic Reconfiguration)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

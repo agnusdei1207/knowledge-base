@@ -1,10 +1,9 @@
-+++
-weight = 28
-title = "28. 데이터베이스 사용자 유형 (Database Users)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 28. 데이터베이스 사용자 유형 (Database Users)
+date: '2026-04-29'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[002_database_definition|데이터베이스]] 사용자는 DB와 상호작용하는 방식에 따라 최종 사용자(Naive/Sophisticated/[[150_5g_sa_standalone_architecture|Standalone]]), 응용 프로그래머(Application Programmer), [[025_dba_database_administrator|DBA]]([[025_dba_database_administrator|Database Administrator]])로 [[104_classification_analysis|분류]]된다.

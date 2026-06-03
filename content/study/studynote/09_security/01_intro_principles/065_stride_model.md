@@ -1,10 +1,9 @@
-+++
-title = "065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation"
-date = "2026-04-05"
-weight = 65
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

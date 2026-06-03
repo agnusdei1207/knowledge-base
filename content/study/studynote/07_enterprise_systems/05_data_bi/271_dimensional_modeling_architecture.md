@@ -1,10 +1,9 @@
-+++
-weight = 271
-title = "271. 다차원 모델링 (Dimensional Modeling) 아키텍처 설계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 271. 다차원 모델링 (Dimensional Modeling) 아키텍처 설계
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

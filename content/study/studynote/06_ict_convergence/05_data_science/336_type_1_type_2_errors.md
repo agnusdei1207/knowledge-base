@@ -1,10 +1,9 @@
-+++
-weight = 336
-title = "336. 1종 오류 / 2종 오류 (Type II Error, 베타) (Type I Error, 알파)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 336. 1종 오류 / 2종 오류 (Type II Error, 베타) (Type I Error, 알파)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

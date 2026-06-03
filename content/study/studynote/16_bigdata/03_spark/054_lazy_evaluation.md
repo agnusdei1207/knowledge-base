@@ -1,10 +1,9 @@
-+++
-weight = 54
-title = "03. 지연 평가 (Lazy Evaluation) — 연산 최적화 전략"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 03. 지연 평가 (Lazy Evaluation) — 연산 최적화 전략
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # [[023_lazy_evaluation|지연 평가]] ([[023_lazy_evaluation|Lazy Evaluation]]) - 계산을 미루는 지혜의 모든 것
 

@@ -1,10 +1,9 @@
-+++
-weight = 181
-title = "181. 역공학을 통한 요구사항 추출"
-date = "2026-05-06"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 181. 역공학을 통한 요구사항 추출
+date: '2026-05-06'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

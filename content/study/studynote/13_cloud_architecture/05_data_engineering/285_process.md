@@ -1,10 +1,9 @@
-+++
-weight = 285
-title = "285. API 게이트웨이 인증 스로틀링 라우팅 단일 진입 (API)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 285. API 게이트웨이 인증 스로틀링 라우팅 단일 진입 (API)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 스로틀링 [[339_routing_overview_best_path_selection|라우팅]] 단일 진입는 클라우드 시스템에서 인터페이스 [[194_consistency_database_integrity|일관성]]를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

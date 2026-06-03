@@ -1,7 +1,8 @@
-+++
-title = "90. AI 내재화 ERP (Intelligent ERP) - 머신러닝을 통한 재무 이상 탐지, 수요 예측 자동화"
-weight = 90
-+++
+---
+title: 90. AI 내재화 ERP (Intelligent ERP) - 머신러닝을 통한 재무 이상 탐지, 수요 예측 자동화
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 154
-title = "154. 인스트럭션 튜닝 (Instruction Tuning) - 앵무새를 비서로 각성시키는 지시 복종 세뇌"
-date = "2026-05-03"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 154. 인스트럭션 튜닝 (Instruction Tuning) - 앵무새를 비서로 각성시키는 지시 복종 세뇌
+date: '2026-05-03'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[147_instruction_tuning_rlhf_alignment|인스트럭션 튜닝]]([[147_instruction_tuning_rlhf_alignment|Instruction Tuning]])은 인터넷 글자만 무지성으로 읽고 '다음 단어 맞추기(빈칸 채우기)'만 할 줄 알던 깡통 범용 모델([[225_foundation_model_peft_lora|Foundation Model]])에게 ➔ 인간의 텍스트가 **단순한 글씨가 아니라 '나에게 내리는 명령([[158_instruction|Instruction]])' 이라는 의도([[416_prompt_injection_semantic_routing|Intent]])를 파악하고 그 양식에 맞춰 대답하도록 세뇌시키는 1차 예절 교육(SFT)**이다.

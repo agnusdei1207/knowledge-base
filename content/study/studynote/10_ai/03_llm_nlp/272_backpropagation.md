@@ -1,10 +1,9 @@
-+++
-weight = 272
-title = "272. 역전파 (Backpropagation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 272. 역전파 (Backpropagation)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

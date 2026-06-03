@@ -1,10 +1,9 @@
-+++
-weight = 795
-title = "795. 린 개발 7원칙 낭비 제거 전체 최적화 배포망"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 795. 린 개발 7원칙 낭비 제거 전체 최적화 배포망
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

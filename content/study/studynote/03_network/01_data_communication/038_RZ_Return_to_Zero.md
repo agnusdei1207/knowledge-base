@@ -1,9 +1,9 @@
-+++
-title = "038. RZ — 복귀 제로 라인 코딩 (Return to Zero)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 038. RZ — 복귀 제로 라인 코딩 (Return to Zero)
+date: '2026-03-03'
+tags:
+- studynote-network
+---
 
 > **핵심 인사이트**
 > 1. RZ(Return to [[585_zero_skipping|Zero]])는 각 [[073_bit|비트]] 주기의 절반에서 [[130_signal|신호]]가 반드시 0V로 복귀하는 라인 코딩으로, [[130_signal|신호]] 전환 자체가 클락 정보를 내포해 별도 클락 선 없이 [[212_synchronization_mechanisms|동기화]]가 가능한 자기 클락킹(Self-Clocking) 코딩이다.

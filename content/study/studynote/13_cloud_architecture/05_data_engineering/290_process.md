@@ -1,10 +1,9 @@
-+++
-weight = 290
-title = "290. 이벤트 소싱 상태 변경 이력 순차 저장 스트림 (Cloud Architecture Concept)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 290. 이벤트 소싱 상태 변경 이력 순차 저장 스트림 (Cloud Architecture Concept)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] 상태 변경 이력 순차 저장 스트림는 클라우드 시스템에서 이벤트 기반 연계를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

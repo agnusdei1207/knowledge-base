@@ -1,10 +1,9 @@
-+++
-weight = 410
-title = "410. 프로미스·퓨처 기반 비동기 처리 설계 (Promise/Future)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 410. 프로미스·퓨처 기반 비동기 처리 설계 (Promise/Future)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 프로미스 (Promise)와 퓨처 (Future)는 비동기 결과를 값처럼 다루어 호출자와 실행 주체를 느슨하게 연결하는 설계 장치다.

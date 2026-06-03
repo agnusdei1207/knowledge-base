@@ -1,10 +1,9 @@
-+++
-weight = 243
-title = "243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CNN([[089_CNN_Convolutional|Convolutional Neural Network]])은 [[228_cnn_1d_2d_3d_video_medical|합성곱]] 필터([[284_convolution_stride_padding|Convolution]] Filter)로 [[248_spatial_locality|공간적 지역성]]([[248_spatial_locality|Spatial Locality]])과 이동 불변성(Translation Invariance)을 활용해 이미지 특성을 계층적으로 추출하는 신경망이다.

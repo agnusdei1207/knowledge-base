@@ -1,10 +1,9 @@
-+++
-weight = 320
-title = "320. 데이터 메시 도메인 주도 데이터 오너십 분산"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 320. 데이터 메시 도메인 주도 데이터 오너십 분산
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[211_data_mesh_domain_ownership|데이터 메시]] [[064_relation_domain|도메인]] 주도 [[001_dikw_pyramid|데이터]] 오너십 분산의 본질은 수집, 저장, 품질, 활용, 거버넌스가 분리되지 않아야 [[001_dikw_pyramid|데이터]] 자산이 실제 의사결정 가치로 전환된다.

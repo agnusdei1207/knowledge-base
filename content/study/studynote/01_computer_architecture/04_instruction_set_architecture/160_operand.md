@@ -1,10 +1,9 @@
-+++
-weight = 160
-title = "160. 피연산자 (Operand)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 160. 피연산자 (Operand)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

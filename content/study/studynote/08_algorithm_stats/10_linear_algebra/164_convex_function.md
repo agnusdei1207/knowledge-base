@@ -1,10 +1,9 @@
-+++
-weight = 164
-title = "5. 볼록 함수 (Convex Function) — 전역 최적 보장"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 5. 볼록 함수 (Convex Function) — 전역 최적 보장
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

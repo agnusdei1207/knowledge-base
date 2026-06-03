@@ -1,10 +1,9 @@
-+++
-weight = 454
-title = "454. 언두 (Undo 롤백/읽기 일관성 세그먼트)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 454. 언두 (Undo 롤백/읽기 일관성 세그먼트)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 617
-title = "617. 완전 동형 암호 (FHE)용 대규모 모듈러 곱셈기"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 617. 완전 동형 암호 (FHE)용 대규모 모듈러 곱셈기
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

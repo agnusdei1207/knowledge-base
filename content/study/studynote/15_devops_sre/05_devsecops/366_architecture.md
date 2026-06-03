@@ -1,10 +1,9 @@
-+++
-weight = 366
-title = "366. 퍼듀 모델 산업 제어망 스마트팩토리 보안 (Purdue Model ICS OT Security IEC 62443 Smart Factory)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 366. 퍼듀 모델 산업 제어망 스마트팩토리 보안 (Purdue Model ICS OT Security IEC 62443 Smart Factory)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

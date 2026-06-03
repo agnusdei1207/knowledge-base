@@ -1,10 +1,9 @@
-+++
-weight = 189
-title = "189. 데이터 이동 비용 (Egress 비용, 리전 내 데이터 로컬화)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 189. 데이터 이동 비용 (Egress 비용, 리전 내 데이터 로컬화)
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

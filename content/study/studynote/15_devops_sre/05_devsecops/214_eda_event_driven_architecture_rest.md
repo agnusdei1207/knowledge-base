@@ -1,10 +1,9 @@
-+++
-weight = 214
-title = "214. 이벤트 주도 아키텍처 (EDA, Event-Driven Architecture)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 214. 이벤트 주도 아키텍처 (EDA, Event-Driven Architecture)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

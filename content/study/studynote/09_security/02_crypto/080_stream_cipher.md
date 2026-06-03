@@ -1,10 +1,9 @@
-+++
-weight = 80
-title = "080. 스트림 암호 (Stream Cipher - RC4, ChaCha20)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 080. 스트림 암호 (Stream Cipher - RC4, ChaCha20)
+date: '2026-05-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[654_stream_cipher_rc4_chacha20|스트림 암호]]([[654_stream_cipher_rc4_chacha20|Stream Cipher]])는 [[001_dikw_pyramid|데이터]]를 뭉텅이(Block)로 모아서 처리하는 [[655_block_cipher_des_3des_feistel|블록 암호]]와 달리, 평문 [[001_dikw_pyramid|데이터]]를 물 흐르듯 연속적으로 들이부으며 **[[486_trng|난수 생성기]]가 뽑아낸 '키 스트림([[067_db_key_uniqueness_minimality|Key]] [[467_http2_stream_multiplexing_tcp_hol|Stream]])'과 1비트(또는 1바이트) 단위로 실시간 XOR(배타적 [[369_logic_bomb|논리]]합) 연산을 때려버리는 [[148_5g_embb_urllc_mmtc|초고속]] 암호화 아키텍처**다.

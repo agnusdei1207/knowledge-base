@@ -1,10 +1,9 @@
-+++
-weight = 350
-title = "350. 홀드다운 타이머 (Hold-down Timer), 트리거드 업데이트 (Triggered Update)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 350. 홀드다운 타이머 (Hold-down Timer), 트리거드 업데이트 (Triggered Update)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

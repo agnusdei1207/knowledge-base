@@ -1,10 +1,9 @@
-+++
-weight = 134
-title = "134. 광증폭기 (EDFA, SOA, 라만 증폭기)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 134. 광증폭기 (EDFA, SOA, 라만 증폭기)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

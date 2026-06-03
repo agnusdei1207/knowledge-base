@@ -1,10 +1,9 @@
-+++
-weight = 343
-title = "343. 공공데이터 개방 JSON 규격 (Public Data JSON Standard)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 343. 공공데이터 개방 JSON 규격 (Public Data JSON Standard)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

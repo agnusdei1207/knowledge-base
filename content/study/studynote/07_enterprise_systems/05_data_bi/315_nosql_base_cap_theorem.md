@@ -1,10 +1,9 @@
-+++
-weight = 315
-title = "315. NoSQL BASE 결과적 일관성 CAP 정리 트레이드오프 (NoSQL BASE CAP Theorem)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 315. NoSQL BASE 결과적 일관성 CAP 정리 트레이드오프 (NoSQL BASE CAP Theorem)
+date: '2026-04-21'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

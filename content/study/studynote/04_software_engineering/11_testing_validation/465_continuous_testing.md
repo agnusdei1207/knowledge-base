@@ -1,10 +1,9 @@
-+++
-weight = 465
-title = "465. 지속적 테스팅 (Continuous Testing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 465. 지속적 테스팅 (Continuous Testing)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

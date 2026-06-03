@@ -1,10 +1,9 @@
-+++
-title = "042. 객관적 증거 수집 원칙 (Objective Evidence Collection)"
-weight = 42
-date = "2026-04-05"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 042. 객관적 증거 수집 원칙 (Objective Evidence Collection)
+date: '2026-04-05'
+tags:
+- studynote-design-supervision
+---
 
 > **핵심 인사이트**
 > 1. 감리 과정에서 [[056_objective_evidence_collection|객관적 증거]]([[056_objective_evidence_collection|Objective Evidence]])는 면담·관찰·문서 검토·직접 진단(테스트)의 4가지 기법으로 수집되며, 각 기법의 특성상 단일 기법보다 복수 기법 조합(증거 삼각화)이 감리 결론의 신뢰성을 높인다.

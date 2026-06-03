@@ -1,10 +1,9 @@
-+++
-weight = 145
-title = "145. 사이드카 프록시 패턴 (Sidecar Proxy) - Envoy 기반"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 145. 사이드카 프록시 패턴 (Sidecar Proxy) - Envoy 기반
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]] [[264_proxy_pattern_surrogate_access_control|프록시]]는 **메인 [[561_container_based_deployment|컨테이너]](비즈니스 로직) 옆에 보조 [[561_container_based_deployment|컨테이너]]([[264_proxy_pattern_surrogate_access_control|프록시]])를 배치**하여, 네트워크 통신의 로드밸런싱·재시도·[[831_mtls_mutual_tls_microservices_zero_trust|mTLS]]·[[342_routing_metric_hop_bandwidth_delay|메트릭]]·트레이싱을 투명하게 처리하는 패턴이다.

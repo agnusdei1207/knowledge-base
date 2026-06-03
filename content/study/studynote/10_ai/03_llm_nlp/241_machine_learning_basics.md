@@ -1,10 +1,9 @@
-+++
-weight = 241
-title = "241. 머신러닝 (경험 기반 학습) 기초"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 241. 머신러닝 (경험 기반 학습) 기초
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

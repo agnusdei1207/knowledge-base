@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. 보편적 언어 (Ubiquitous Language)"
-date = "2026-05-03"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 148. 보편적 언어 (Ubiquitous Language)
+date: '2026-05-03'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 보편적 언어([[220_ubiquitous_language_ddd_communication|Ubiquitous Language]])는 기획자([[064_relation_domain|도메인]] 전문가), 설계자, 개발자가 프로젝트의 모든 과정에서 100% 동일한 의미로 사용하는 단일화된 공통 언어 체계다.

@@ -1,10 +1,9 @@
-+++
-weight = 947
-title = "947. OFDM 사이클릭 프리픽스 (Cyclic Prefix, CP)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 947. OFDM 사이클릭 프리픽스 (Cyclic Prefix, CP)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

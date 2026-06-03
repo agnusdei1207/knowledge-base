@@ -1,10 +1,9 @@
-+++
-weight = 156
-title = "156. 추천 시스템 DeepFM (Deep Factorization Machine) 협업 필터링"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 156. 추천 시스템 DeepFM (Deep Factorization Machine) 협업 필터링
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 딥러닝 기반 [[211_recommendation_system|추천 시스템]]은 [[345_collaborative_filtering|협업 필터링]]([[186_graph_db_recommendation_collaborative_filtering_cold_start|Collaborative Filtering]])의 잠재 요인과 딥러닝의 비선형 특징 상호작용을 결합해, 사용자-아이템 매핑의 복잡한 패턴을 포착한다.

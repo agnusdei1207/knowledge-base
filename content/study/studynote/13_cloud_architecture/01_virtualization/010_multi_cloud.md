@@ -1,12 +1,11 @@
-+++
-weight = 10
-title = "10. 멀티 클라우드 (Multi-Cloud) - 특정 벤더 종속(Lock-in) 회피 및 가용성 극대화를 위해 2개 이상의 퍼블릭 클라우드(AWS + Azure 등)를 동시 사용"
-description = "단일 벤더 종속(Lock-in)의 치명적 리스크를 피하고 글로벌 가용성을 극대화하기 위한 이기종 클라우드 분산 아키텍처"
-date = "2024-05-24"
-[taxonomies]
-tags = ["Multi-Cloud", "Vendor Lock-in", "High Availability", "Kubernetes", "Cloud Architecture"]
-categories = ["studynote-cloud"]
-+++
+---
+title: 10. 멀티 클라우드 (Multi-Cloud) - 특정 벤더 종속(Lock-in) 회피 및 가용성 극대화를 위해 2개 이상의 퍼블릭 클라우드(AWS
+  + Azure 등)를 동시 사용
+date: '2024-05-24'
+description: 단일 벤더 종속(Lock-in)의 치명적 리스크를 피하고 글로벌 가용성을 극대화하기 위한 이기종 클라우드 분산 아키텍처
+tags:
+- cloud_architecture
+---
 
 # [[489_raid_10_hybrid|10]]. [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] ([[202_multi_cloud_hybrid_cloud_governance|Multi-Cloud]])
 

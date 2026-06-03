@@ -1,7 +1,8 @@
-+++
-title = "68. 스택/큐 (Stack / Queue)"
-weight = 68
-+++
+---
+title: 68. 스택/큐 (Stack / Queue)
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

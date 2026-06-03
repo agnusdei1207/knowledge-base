@@ -1,10 +1,9 @@
-+++
-weight = 436
-title = "436. 클라우드 랜딩 존 하이브리드 거버넌스 (Cloud Landing Zone Hybrid Governance)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 436. 클라우드 랜딩 존 하이브리드 거버넌스 (Cloud Landing Zone Hybrid Governance)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 클라우드 랜딩 존은 계정·구독, 네트워크, 보안, 로깅, [[164_policy|정책]]을 표준화한 [[459_quic_fec_forward_error_correction|초기]] 운영 기반이며, 하이브리드 거버넌스는 이를 [[061_on_premise_legacy_infrastructure|온프레미스]]와 다중 클라우드까지 일관되게 확장하는 통제 체계다.

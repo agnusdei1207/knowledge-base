@@ -1,10 +1,9 @@
-+++
-weight = 730
-title = "730. RAID 0, 1, 5, 6 성능 신뢰성 (RAID Levels Performance Reliability)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 730. RAID 0, 1, 5, 6 성능 신뢰성 (RAID Levels Performance Reliability)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

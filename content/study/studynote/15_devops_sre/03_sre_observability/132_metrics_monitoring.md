@@ -1,10 +1,9 @@
-+++
-weight = 132
-title = "132. Metrics & 모니터링 심화 - Prometheus·Grafana 기반 메트릭 수집·시각화"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 132. Metrics & 모니터링 심화 - Prometheus·Grafana 기반 메트릭 수집·시각화
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Metrics는 **시계열 수치 [[001_dikw_pyramid|데이터]](CPU·메모리·요청 수·에러율)**이며, Prometheus가 Pull 방식으로 수집하고 PromQL로 조회하며 Grafana로 [[003_bigdata_7v|시각화]]하는 것이 [[531_cloud_native_architecture|클라우드 네이티브]] [[342_routing_metric_hop_bandwidth_delay|메트릭]] 표준이다.

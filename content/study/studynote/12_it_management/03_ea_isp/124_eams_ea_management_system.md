@@ -1,10 +1,9 @@
-+++
-weight = 124
-title = "124. EA 관리 시스템 (EAMS)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 124. EA 관리 시스템 (EAMS)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[110_enterprise_architecture_ea|EA]] 관리 시스템 (EAMS)의 본질은 [[110_enterprise_architecture_ea|EA]] 산출물, 메타모델, 모델링 정보를 통합 저장/조회하는 아키텍처 포털 시스템을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

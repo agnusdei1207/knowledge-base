@@ -1,7 +1,8 @@
-+++
-title = "10. 백트래킹 (Backtracking) — 가지치기"
-weight = 10
-+++
+---
+title: 10. 백트래킹 (Backtracking) — 가지치기
+tags:
+- algorithm_stats
+---
 
 # [[489_raid_10_hybrid|10]]. 백트래킹 (Backtracking)
 

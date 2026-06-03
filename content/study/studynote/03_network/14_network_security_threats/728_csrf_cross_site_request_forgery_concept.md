@@ -1,10 +1,9 @@
-+++
-weight = 728
-title = "728. CSRF (Cross-Site Request Forgery) 인증 세션 권한 도용"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 728. CSRF (Cross-Site Request Forgery) 인증 세션 권한 도용
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

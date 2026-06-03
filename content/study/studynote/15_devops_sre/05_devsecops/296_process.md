@@ -1,10 +1,9 @@
-+++
-weight = 296
-title = "296. 바운디드 컨텍스트 애그리게이트 루트 (Process)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 296. 바운디드 컨텍스트 애그리게이트 루트 (Process)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

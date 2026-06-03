@@ -1,10 +1,9 @@
-+++
-weight = 419
-title = "419. ROC AUC 0.5 하한 임계 모델 무작위성 평가망 (ROC AUC Threshold Evaluation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 419. ROC AUC 0.5 하한 임계 모델 무작위성 평가망 (ROC AUC Threshold Evaluation)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

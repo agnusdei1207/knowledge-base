@@ -1,10 +1,9 @@
-+++
-weight = 106
-title = "106. Copy-on-Write (COW) - fork() 최적화 기법"
-date = "2026-03-22"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 106. Copy-on-Write (COW) - fork() 최적화 기법
+date: '2026-03-22'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[542_cow_file_system|Copy-on-Write]] ([[542_cow_file_system|COW]])는 `fork()` 시스템 콜 시 자식 프로세스에게 부모의 물리 메모리를 즉시 복사하지 않고 [[353_page_table|페이지 테이블]]만 매핑한 뒤, 실제 [[289_cqrs_db|쓰기]] (Write) 작업이 발생할 때만 해당 [[286_page_frame|페이지]]를 독립적으로 복사하는 [[015_지연_데이터_관점|지연]] 할당 기법이다.

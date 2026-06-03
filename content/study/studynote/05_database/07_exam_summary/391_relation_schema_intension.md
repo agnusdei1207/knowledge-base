@@ -1,10 +1,9 @@
-+++
-weight = 391
-title = "391. 릴레이션 스키마 (내포 / Intension) 구조"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 391. 릴레이션 스키마 (내포 / Intension) 구조
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 657
-title = "657. 가상화 VMX root 모드"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 657. 가상화 VMX root 모드
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

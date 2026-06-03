@@ -1,10 +1,9 @@
-+++
-weight = 38
-title = "38. 양손잡이 조직 (Ambidextrous Organization)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 38. 양손잡이 조직 (Ambidextrous Organization)
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 184
-title = "184. 큐 간 스케줄링 (고정 우선순위 vs 시간 할당)"
-date = "2026-05-06"
-[extra]
-categories = ["studynote-operating-system"]
-+++
+---
+title: 184. 큐 간 스케줄링 (고정 우선순위 vs 시간 할당)
+date: '2026-05-06'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

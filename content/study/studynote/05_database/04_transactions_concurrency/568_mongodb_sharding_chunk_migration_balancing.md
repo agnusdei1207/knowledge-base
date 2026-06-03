@@ -1,10 +1,9 @@
-+++
-weight = 568
-title = "568. 몽고DB 샤딩 청크 마이그레이션 백그라운드 밸런싱 모형 분석망"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 568. 몽고DB 샤딩 청크 마이그레이션 백그라운드 밸런싱 모형 분석망
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

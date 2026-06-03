@@ -1,10 +1,10 @@
-+++
-weight = 182
-title = "182. 서버리스 빅데이터 (Serverless Big Data) — Amazon Athena/Google BigQuery/Amazon Redshift Serverless"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 182. 서버리스 빅데이터 (Serverless Big Data) — Amazon Athena/Google BigQuery/Amazon
+  Redshift Serverless
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

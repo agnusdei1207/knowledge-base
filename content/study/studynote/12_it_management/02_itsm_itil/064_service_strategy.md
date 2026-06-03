@@ -1,10 +1,9 @@
-+++
-weight = 64
-title = "64. 서비스 전략 (Service Strategy)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 64. 서비스 전략 (Service Strategy)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[090_service_kubernetes_network_load_balancing|서비스]] [[268_strategy_pattern|전략]] ([[090_service_kubernetes_network_load_balancing|Service]] [[268_strategy_pattern|Strategy]])의 본질은 포트폴리오 관리, 수요 관리, 재무 관리를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

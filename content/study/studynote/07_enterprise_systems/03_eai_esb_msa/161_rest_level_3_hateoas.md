@@ -1,10 +1,10 @@
-+++
-weight = 161
-title = "161. Level 3 - HATEOAS (Hypermedia As The Engine Of Application State), 응답에 다음 상태 전이용 하이퍼링크 동적 포함"
-date = "2026-05-05"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 161. Level 3 - HATEOAS (Hypermedia As The Engine Of Application State), 응답에
+  다음 상태 전이용 하이퍼링크 동적 포함
+date: '2026-05-05'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트
 

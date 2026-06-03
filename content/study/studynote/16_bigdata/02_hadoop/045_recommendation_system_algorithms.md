@@ -1,10 +1,9 @@
-+++
-weight = 45
-title = "23. 추천 시스템 알고리즘 (Recommendation System Algorithms)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 23. 추천 시스템 알고리즘 (Recommendation System Algorithms)
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[211_recommendation_system|추천 시스템]]([[093_recommendation_system|Recommendation System]])은 사용자의 과거 행동 [[001_dikw_pyramid|데이터]]와 아이템 특성을 분석하여 개인화된 콘텐츠·상품·[[090_service_kubernetes_network_load_balancing|서비스]]를 자동으로 제시하는 [[001_algorithm_definition|알고리즘]] 체계로, [[345_collaborative_filtering|협업 필터링]](CF, [[186_graph_db_recommendation_collaborative_filtering_cold_start|Collaborative Filtering]])·[[346_content_based_filtering|콘텐츠 기반 필터링]](CBF, [[346_content_based_filtering|Content-Based Filtering]])·하이브리드 방식이 주요 3대 접근법이다.

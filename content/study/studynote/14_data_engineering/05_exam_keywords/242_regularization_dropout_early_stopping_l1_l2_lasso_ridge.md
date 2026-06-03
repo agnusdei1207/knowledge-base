@@ -1,10 +1,9 @@
-+++
-weight = 242
-title = "242. 규제 드롭아웃 (Dropout) 조기 종료 L1 L2 라쏘 릿지 종합"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 242. 규제 드롭아웃 (Dropout) 조기 종료 L1 L2 라쏘 릿지 종합
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[093_normalization|정규화]]([[134_regularization_dropout_batch_norm|Regularization]])는 모델이 훈련 [[001_dikw_pyramid|데이터]]에만 과도하게 적합하는 과적합([[245_overfitting_variance|Overfitting]])을 막아 새로운 [[001_dikw_pyramid|데이터]]에도 잘 작동하게 만드는 제약 [[268_strategy_pattern|전략]]이다.

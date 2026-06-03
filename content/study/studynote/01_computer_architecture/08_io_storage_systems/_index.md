@@ -1,8 +1,8 @@
-+++
-weight = 8
-title = "08. 입출력 시스템 및 저장장치 구조"
-sort_by = "weight"
-+++
+---
+title: 08. 입출력 시스템 및 저장장치 구조
+tags:
+- computer_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

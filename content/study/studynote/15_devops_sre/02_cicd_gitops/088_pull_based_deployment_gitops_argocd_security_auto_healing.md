@@ -1,10 +1,9 @@
-+++
-weight = 88
-title = "88. 풀 기반(Pull-based) 배포 - ArgoCD와 GitOps 무적 보안"
-date = "2026-04-10"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: 88. 풀 기반(Pull-based) 배포 - ArgoCD와 GitOps 무적 보안
+date: '2026-04-10'
+tags:
+- studynote-devops
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

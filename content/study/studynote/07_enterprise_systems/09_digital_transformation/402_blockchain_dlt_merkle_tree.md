@@ -1,10 +1,9 @@
-+++
-weight = 402
-title = "402. 블록체인 DLT 머클 트리 분산 원장 (Blockchain / DLT)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 402. 블록체인 DLT 머클 트리 분산 원장 (Blockchain / DLT)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

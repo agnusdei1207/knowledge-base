@@ -1,10 +1,9 @@
-+++
-weight = 164
-title = "164. 정책 (Policy, π)"
-date = "2026-04-17"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 164. 정책 (Policy, π)
+date: '2026-04-17'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

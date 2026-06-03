@@ -1,10 +1,9 @@
-+++
-weight = 400
-title = "400. 머신러닝 비용 기반 모델 (AIC, BIC 정보 기준)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 400. 머신러닝 비용 기반 모델 (AIC, BIC 정보 기준)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 150
-title = "150. SQL 집합 연산자 - UNION, UNION ALL, INTERSECT, MINUS/EXCEPT"
-date = "2026-05-03"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 150. SQL 집합 연산자 - UNION, UNION ALL, INTERSECT, MINUS/EXCEPT
+date: '2026-05-03'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 집합 연산자(Set [[565_operator_pattern_kubernetes_automation|Operator]])는 2개 이상의 독립적인 `SELECT` [[298_qkv_attention|쿼리]] 결과물(Result Set)들을 위아래로 이어 붙여 **합집합(UNION), 교집합(INTERSECT), 차집합(MINUS/EXCEPT)**이라는 수학적 벤 다이어그램 형태의 1개의 거대한 테이블 덩어리로 뽑아내는 뼈대 연산자다.

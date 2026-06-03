@@ -1,10 +1,9 @@
-+++
-weight = 297
-title = "297. 데이터 가상화 (Data Virtualization)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 297. 데이터 가상화 (Data Virtualization)
+date: '2026-03-04'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 여러 이기종 [[001_dikw_pyramid|데이터]] 소스를 물리적으로 통합하거나 이동시키지 않고, [[198_abstraction_control_data_process|추상화]] 계층을 통해 마치 하나의 [[002_database_definition|데이터베이스]]인 것처럼 실시간으로 조회하고 활용하는 기술이다.

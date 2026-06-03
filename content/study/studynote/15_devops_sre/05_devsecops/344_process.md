@@ -1,10 +1,9 @@
-+++
-weight = 344
-title = "344. 데이터 패브릭 가상화·메타·지식 연결망 (Data Fabric)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 344. 데이터 패브릭 가상화·메타·지식 연결망 (Data Fabric)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

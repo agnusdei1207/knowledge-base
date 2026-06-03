@@ -1,10 +1,10 @@
-+++
-weight = 296
-title = "296. 서드파티 API 타임아웃과 서킷브레이커 감리 (Third Party API Timeout and Circuit Breaker Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 296. 서드파티 API 타임아웃과 서킷브레이커 감리 (Third Party API Timeout and Circuit Breaker
+  Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

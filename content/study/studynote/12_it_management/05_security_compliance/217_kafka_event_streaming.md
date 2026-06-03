@@ -1,10 +1,9 @@
-+++
-weight = 217
-title = "217. 이벤트 스트리밍 브로커"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 217. 이벤트 스트리밍 브로커
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 이벤트 스트리밍 브로커의 본질은 [[214_kafka_pubsub_topic_partition_offset_broker|아파치 카프카]] ([[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]]) Pub/Sub [[136_variance|분산]] 큐 토폴로지를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

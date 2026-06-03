@@ -1,10 +1,9 @@
-+++
-title = "049. 크로스체인 브릿지 — Cross-Chain Bridge"
-weight = 49
-date = "2026-04-05"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 049. 크로스체인 브릿지 — Cross-Chain Bridge
+date: '2026-04-05'
+tags:
+- studynote-ict-convergence
+---
 
 > **핵심 인사이트**
 > 1. 크로스체인 브릿지(Cross-Chain [[260_bridge_pattern_abstraction_implementation|Bridge]])는 서로 다른 [[004_blockchain|블록체인]] 네트워크 간 자산·데이터를 전송하는 [[295_protocol_field_tcp_udp_icmp|프로토콜]] — 이더리움의 [[072_erc_20_fungible_token_standard|ERC-20]] 토큰을 솔라나·[[019_bsc|BSC]]·폴리곤으로 이동하거나, 비트코인을 DeFi에서 사용할 수 있게 해주는 [[004_blockchain|블록체인]] 인터넷의 기반 인프라다.

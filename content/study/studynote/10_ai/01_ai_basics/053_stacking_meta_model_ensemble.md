@@ -1,10 +1,9 @@
-+++
-weight = 53
-title = "53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)
+date: '2026-05-01'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

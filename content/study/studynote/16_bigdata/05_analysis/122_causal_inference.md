@@ -1,10 +1,9 @@
-+++
-weight = 122
-title = "26. 인과 추론 (Causal Inference) — 상관관계를 넘어 인과관계 규명"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 26. 인과 추론 (Causal Inference) — 상관관계를 넘어 인과관계 규명
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인과 추론(Causal Inference)은 관찰 [[001_dikw_pyramid|데이터]] 또는 실험 [[001_dikw_pyramid|데이터]]에서 "X가 Y의 원인인가?" 즉 X를 변화시켰을 때 Y가 어떻게 달라지는가를 통계적으로 추정하는 방법론으로, 단순 상관관계(Correlation) 분석과 근본적으로 다르다.

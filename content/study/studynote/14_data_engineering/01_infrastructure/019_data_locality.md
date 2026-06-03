@@ -1,12 +1,11 @@
-+++
-weight = 19
-title = "19. 데이터 지역성 (Data Locality) - 연산 코드를 데이터가 이미 존재하는 노드로 전송하여 네트워크 전송 오버헤드 최소화 (연산 이동이 데이터 이동보다 싸다)"
-description = "네트워크 대역폭 병목을 극복하기 위해 연산 코드를 데이터가 위치한 노드로 이동시키는 분산 컴퓨팅의 핵심 최적화 원리"
-date = "2025-01-01"
-[taxonomies]
-tags = ["Data Locality", "Hadoop", "MapReduce", "Spark", "Distributed System"]
-categories = ["14_data_engineering"]
-+++
+---
+title: 19. 데이터 지역성 (Data Locality) - 연산 코드를 데이터가 이미 존재하는 노드로 전송하여 네트워크 전송 오버헤드 최소화
+  (연산 이동이 데이터 이동보다 싸다)
+date: '2025-01-01'
+description: 네트워크 대역폭 병목을 극복하기 위해 연산 코드를 데이터가 위치한 노드로 이동시키는 분산 컴퓨팅의 핵심 최적화 원리
+tags:
+- data_engineering
+---
 
 # [[001_dikw_pyramid|데이터]] 지역성 ([[001_dikw_pyramid|Data]] Locality)
 

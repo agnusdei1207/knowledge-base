@@ -1,10 +1,9 @@
-+++
-weight = 453
-title = "453. I/O 서브시스템의 커널 서비스 (I/O Subsystem Kernel Services)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 453. I/O 서브시스템의 커널 서비스 (I/O Subsystem Kernel Services)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

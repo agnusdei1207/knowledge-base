@@ -1,12 +1,10 @@
-+++
-weight = 1
-title = "1. 경영 정보 시스템 (MIS, Management Information System)의 정의"
-description = "조직의 목표 달성을 위해 비즈니스 프로세스와 정보 기술을 융합하는 MIS의 핵심 개념, 구조 및 실무 적용 방안"
-date = "2026-03-04"
-[taxonomies]
-tags = ["MIS", "경영정보시스템", "IT전략", "비즈니스프로세스"]
-categories = ["studynote-enterprise"]
-+++
+---
+title: 1. 경영 정보 시스템 (MIS, Management Information System)의 정의
+date: '2026-03-04'
+description: 조직의 목표 달성을 위해 비즈니스 프로세스와 정보 기술을 융합하는 MIS의 핵심 개념, 구조 및 실무 적용 방안
+tags:
+- enterprise_systems
+---
 
 # 경영 정보 시스템 (MIS, [[372_management|Management]] Information System)
 #### 핵심 인사이트 (3줄 요약)

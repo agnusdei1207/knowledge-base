@@ -1,10 +1,9 @@
-+++
-weight = 81
-title = "81. 차원 축소 (Dimensionality Reduction) 및 PCA"
-date = "2026-04-12"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 81. 차원 축소 (Dimensionality Reduction) 및 PCA
+date: '2026-04-12'
+tags:
+- studynote-data-engineering
+---
 
 # 81. 차원 축소 ([[079_dimensionality_reduction|Dimensionality Reduction]]) 및 [[163_pca|PCA]] ([[338_pca_principal_component_analysis|주성분 분석]])
 

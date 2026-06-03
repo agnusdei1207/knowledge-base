@@ -1,12 +1,10 @@
-+++
-weight = 16
-title = "16. 유럽 데이터 전략 — Data Spaces, Gaia-X"
-description = "데이터 주권 확보와 안전한 데이터 공유를 위한 유럽의 Data Spaces 및 Gaia-X 연합 아키텍처 분석"
-date = "2024-05-24"
-[taxonomies]
-tags = ["빅데이터", "유럽 데이터 전략", "Data Spaces", "Gaia-X", "데이터 주권", "데이터 경제"]
-categories = ["16_bigdata"]
-+++
+---
+title: 16. 유럽 데이터 전략 — Data Spaces, Gaia-X
+date: '2024-05-24'
+description: 데이터 주권 확보와 안전한 데이터 공유를 위한 유럽의 Data Spaces 및 Gaia-X 연합 아키텍처 분석
+tags:
+- bigdata
+---
 
 # 16. 유럽 [[001_dikw_pyramid|데이터]] [[268_strategy_pattern|전략]] ([[248_european_data_strategy|European Data Strategy]]: [[001_dikw_pyramid|Data]] Spaces & Gaia-X)
 

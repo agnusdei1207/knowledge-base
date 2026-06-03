@@ -1,10 +1,9 @@
-+++
-weight = 586
-title = "586. 부동소수점 곱셈기 파이프라인 (Floating-Point Multiplier Pipeline)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 586. 부동소수점 곱셈기 파이프라인 (Floating-Point Multiplier Pipeline)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

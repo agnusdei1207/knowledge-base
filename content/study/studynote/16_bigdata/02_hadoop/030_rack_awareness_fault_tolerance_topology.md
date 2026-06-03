@@ -1,10 +1,10 @@
-+++
-title = "08. 랙 인지 (Rack Awareness) - 물리적 장애 격리를 위한 데이터 복제 전략"
-date = "2026-03-04"
-weight = 30
-[extra]
-categories = ["studynote-bigdata", "hadoop"]
-+++
+---
+title: 08. 랙 인지 (Rack Awareness) - 물리적 장애 격리를 위한 데이터 복제 전략
+date: '2026-03-04'
+tags:
+- hadoop
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **물리적 장애 그룹 인지**: 수많은 서버가 꽂혀 있는 '랙(Rack)' 단위의 장애([[238_switch_operation_principles|스위치]] 고전압, 전원 차단 등)에 대비하여 [[001_dikw_pyramid|데이터]]를 물리적으로 [[136_variance|분산]] 배치하는 지능형 [[001_algorithm_definition|알고리즘]]입니다.

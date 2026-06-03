@@ -1,10 +1,9 @@
-+++
-weight = 106
-title = "106. 객체 탐지 (Object Detection) - 위치 좌표 바운딩 박스 판별"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 106. 객체 탐지 (Object Detection) - 위치 좌표 바운딩 박스 판별
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,7 +1,8 @@
-+++
-title = "73. XP (e/Xtreme Programming) - 5가지 가치, 12가지 실천 방법"
-weight = 73
-+++
+---
+title: 73. XP (e/Xtreme Programming) - 5가지 가치, 12가지 실천 방법
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

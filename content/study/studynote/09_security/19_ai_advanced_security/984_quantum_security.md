@@ -1,10 +1,9 @@
-+++
-weight = 984
-title = "984. 양자 컴퓨팅 보안 (Quantum Security)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 984. 양자 컴퓨팅 보안 (Quantum Security)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

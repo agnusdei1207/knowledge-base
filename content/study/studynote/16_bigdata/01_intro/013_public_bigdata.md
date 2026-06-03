@@ -1,12 +1,10 @@
-+++
-weight = 13
-title = "13. 공공 빅데이터 — 공공데이터포털, 행정안전부, 데이터 개방 정책"
-description = "데이터 개방 정책, 공공데이터포털 기반 생태계 아키텍처 및 공공 서비스 혁신 방안"
-date = "2024-05-23"
-[taxonomies]
-tags = ["빅데이터", "공공데이터", "공공 빅데이터", "데이터 개방", "데이터 거버넌스"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 13. 공공 빅데이터 — 공공데이터포털, 행정안전부, 데이터 개방 정책
+date: '2024-05-23'
+description: 데이터 개방 정책, 공공데이터포털 기반 생태계 아키텍처 및 공공 서비스 혁신 방안
+tags:
+- bigdata
+---
 
 # [[245_public_bigdata|공공 빅데이터]] ([[245_public_bigdata|Public Big Data]])
 

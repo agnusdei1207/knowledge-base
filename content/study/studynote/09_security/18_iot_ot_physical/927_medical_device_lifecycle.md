@@ -1,10 +1,9 @@
-+++
-weight = 927
-title = "927. 의료기기 사이버보안 관리 (Lifecycle Management)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 927. 의료기기 사이버보안 관리 (Lifecycle Management)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

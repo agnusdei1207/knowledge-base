@@ -1,10 +1,9 @@
-+++
-weight = 17
-title = "17. 하드웨어 인터럽트 (비동기적)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 17. 하드웨어 인터럽트 (비동기적)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 # 하드웨어 [[016_interrupt_mechanism|인터럽트]] (Hardware [[016_interrupt_mechanism|Interrupt]])
 

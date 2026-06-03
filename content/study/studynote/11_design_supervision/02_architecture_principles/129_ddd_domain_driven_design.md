@@ -1,10 +1,9 @@
-+++
-weight = 129
-title = "129. 도메인 주도 설계 (DDD: Domain-Driven Design)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: '129. 도메인 주도 설계 (DDD: Domain-Driven Design)'
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

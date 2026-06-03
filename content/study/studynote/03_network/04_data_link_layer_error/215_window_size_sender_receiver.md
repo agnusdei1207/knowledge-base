@@ -1,10 +1,9 @@
-+++
-weight = 215
-title = "215. 윈도우 크기 (Window Size), 송신/수신 윈도우"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 215. 윈도우 크기 (Window Size), 송신/수신 윈도우
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

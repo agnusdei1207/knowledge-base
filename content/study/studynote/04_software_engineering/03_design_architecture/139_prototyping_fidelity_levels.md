@@ -1,10 +1,9 @@
-+++
-weight = 139
-title = "139. 프로토타입 충실도 (Fidelity Levels) - Lo-Fi·Mid-Fi·Hi-Fi"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 139. 프로토타입 충실도 (Fidelity Levels) - Lo-Fi·Mid-Fi·Hi-Fi
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[257_prototype_pattern_object_cloning|프로토타입]] 충실도는 **Lo-Fi(종이 스케치)·Mid-Fi(와이어프레임)·Hi-Fi(인터랙티브 목업)** 3단계로 구분되며, 프로젝트 단계·목적에 따라 적절한 수준을 선택한다.

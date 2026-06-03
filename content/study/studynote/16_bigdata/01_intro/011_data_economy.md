@@ -1,12 +1,10 @@
-+++
-weight = 11
-title = "11. 데이터 경제 (Data Economy) — 데이터 자산화, 데이터 거래소"
-description = "데이터 자산화, 데이터 거래소, 데이터 기반 비즈니스 모델의 진화와 실무적 가치 창출 방안"
-date = "2024-05-23"
-[taxonomies]
-tags = ["빅데이터", "데이터 경제", "데이터 자산화", "데이터 거래소", "가치 창출"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 11. 데이터 경제 (Data Economy) — 데이터 자산화, 데이터 거래소
+date: '2024-05-23'
+description: 데이터 자산화, 데이터 거래소, 데이터 기반 비즈니스 모델의 진화와 실무적 가치 창출 방안
+tags:
+- bigdata
+---
 
 # [[001_dikw_pyramid|데이터]] 경제 ([[001_dikw_pyramid|Data]] Economy)
 

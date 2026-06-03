@@ -1,12 +1,10 @@
-+++
-weight = 3
-title = "3. 기업 거버넌스 (Corporate Governance) 와의 관계"
-description = "전사적 가치 창출을 위한 기업 거버넌스의 핵심 하위 구조로서 IT 거버넌스가 수행하는 역할과 연계 메커니즘"
-date = "2026-03-04"
-[taxonomies]
-tags = ["기업 거버넌스", "IT 거버넌스", "Corporate Governance", "이사회 책임", "전략적 정렬"]
-categories = ["12_it_management"]
-+++
+---
+title: 3. 기업 거버넌스 (Corporate Governance) 와의 관계
+date: '2026-03-04'
+description: 전사적 가치 창출을 위한 기업 거버넌스의 핵심 하위 구조로서 IT 거버넌스가 수행하는 역할과 연계 메커니즘
+tags:
+- it_management
+---
 
 # 기업 거버넌스 (Corporate Governance)와 IT 거버넌스의 [[083_relationship_in_er_model|관계]]
 

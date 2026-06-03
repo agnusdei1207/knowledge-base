@@ -1,10 +1,9 @@
-+++
-weight = 196
-title = "196. 데이터옵스 (DataOps) CI/CD dbt 데이터 검증 테스트 코드"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 196. 데이터옵스 (DataOps) CI/CD dbt 데이터 검증 테스트 코드
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DataOps는 [[645_data_pipeline_acceleration|데이터 파이프라인]]에 [[652_devops_calms_culture|DevOps]]([[090_configuration_item|CI]]/CD, 자동화, 테스팅) 원칙을 적용해 [[001_dikw_pyramid|데이터]] 품질과 배포 속도를 동시에 향상하는 방법론이다.

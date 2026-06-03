@@ -1,10 +1,9 @@
-+++
-weight = 600
-title = "600. 양자 컴퓨팅 대응 포스트 퀀텀 암호화 DB 트랜잭션 서명 보안 체계 적용 방안 연구 동향"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 600. 양자 컴퓨팅 대응 포스트 퀀텀 암호화 DB 트랜잭션 서명 보안 체계 적용 방안 연구 동향
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

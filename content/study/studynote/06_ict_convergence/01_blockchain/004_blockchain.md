@@ -1,7 +1,8 @@
-+++
-title = "4. 블록체인 (Blockchain) - 분산 원장 기술(DLT, Distributed Ledger Technology)"
-weight = 4
-+++
+---
+title: 4. 블록체인 (Blockchain) - 분산 원장 기술(DLT, Distributed Ledger Technology)
+tags:
+- ict_convergence
+---
 
 # 04. 블록체인 (Blockchain)
 

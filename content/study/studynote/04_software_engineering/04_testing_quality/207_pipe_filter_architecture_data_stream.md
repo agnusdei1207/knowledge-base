@@ -1,10 +1,9 @@
-+++
-weight = 207
-title = "207. 파이프-필터 아키텍처 (Pipe-Filter) - 데이터 스트림 처리"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 207. 파이프-필터 아키텍처 (Pipe-Filter) - 데이터 스트림 처리
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

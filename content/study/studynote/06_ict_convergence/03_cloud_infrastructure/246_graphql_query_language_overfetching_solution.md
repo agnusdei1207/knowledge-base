@@ -1,10 +1,9 @@
-+++
-weight = 246
-title = "246. GraphQL (Graphql Query Language Overfetching Solution)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 246. GraphQL (Graphql Query Language Overfetching Solution)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

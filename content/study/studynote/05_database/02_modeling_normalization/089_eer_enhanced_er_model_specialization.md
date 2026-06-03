@@ -1,7 +1,8 @@
-+++
-title = "89. 확장 ER 모델 (EER) - 서브클래스, 슈퍼클래스, 상속(일반화/특수화) 개념 추가"
-weight = 89
-+++
+---
+title: 89. 확장 ER 모델 (EER) - 서브클래스, 슈퍼클래스, 상속(일반화/특수화) 개념 추가
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 확장 ER 모델 (Enhanced Entity-Relationship Model, EER)은 기존 ER 모델에 객체지향의 [[234_uml_class_relationships_generalization_dependency|상속]](Inheritance) 개념인 슈퍼클래스와 서브클래스를 결합하여, 복잡한 [[001_dikw_pyramid|데이터]] 계층 구조를 정밀하게 표현하는 진화된 [[001_dikw_pyramid|데이터]] 스케치 도구다.

@@ -1,10 +1,9 @@
-+++
-weight = 281
-title = "281. NAT-T (NAT Traversal)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 281. NAT-T (NAT Traversal)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

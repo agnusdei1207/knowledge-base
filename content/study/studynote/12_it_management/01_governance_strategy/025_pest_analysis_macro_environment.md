@@ -1,10 +1,9 @@
-+++
-weight = 25
-title = "25. PEST 분석 — 거시 환경 분석 프레임워크"
-date = "2026-04-29"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 25. PEST 분석 — 거시 환경 분석 프레임워크
+date: '2026-04-29'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[102_isp_environmental_analysis_pest_5forces|PEST]] 분석은 기업 외부의 거시 환경을 P (Political, 정치), E (Economic, 경제), S (Social, 사회), T (Technological, 기술)의 4가지 관점으로 체계적으로 분석하는 [[268_strategy_pattern|전략]] 경영 프레임워크로, IT 프로젝트·신사업 기획·[[055_digital_transformation|디지털 전환]]([[726_platform_engineering_idp_dx|DX]]) [[268_strategy_pattern|전략]] 수립의 외부 [[102_environmental_analysis_pest_5forces_value_chain|환경 분석]] 도구다.

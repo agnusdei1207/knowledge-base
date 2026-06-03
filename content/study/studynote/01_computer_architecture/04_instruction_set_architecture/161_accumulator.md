@@ -1,10 +1,9 @@
-+++
-weight = 161
-title = "161. 누산기 (Accumulator)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 161. 누산기 (Accumulator)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

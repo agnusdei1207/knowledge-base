@@ -1,10 +1,9 @@
-+++
-weight = 287
-title = "287. IPv4 헤더 구조 (기본 20바이트 ~ 최대 60바이트)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 287. IPv4 헤더 구조 (기본 20바이트 ~ 최대 60바이트)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

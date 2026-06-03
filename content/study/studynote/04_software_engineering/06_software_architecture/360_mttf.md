@@ -1,10 +1,9 @@
-+++
-weight = 360
-title = "360. MTTF (Mean Time To Failure) - 평균 고장 시간"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 360. MTTF (Mean Time To Failure) - 평균 고장 시간
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 119
-title = "119. GitOps (Single Source of Truth) - Git을 단일 진실 원천으로 한 선언적 운영"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 119. GitOps (Single Source of Truth) - Git을 단일 진실 원천으로 한 선언적 운영
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: GitOps는 **Git 리포지토리를 인프라·애플리케이션의 단일 진실 원천(Single Source of Truth)**으로 삼고, Git에 선언된 상태와 실제 클러스터 상태를 **자동으로 [[212_synchronization_mechanisms|동기화]](Reconciliation)**하는 운영 패러다임이다.

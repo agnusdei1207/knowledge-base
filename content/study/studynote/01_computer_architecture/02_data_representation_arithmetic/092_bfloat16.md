@@ -1,10 +1,9 @@
-+++
-weight = 92
-title = "92. bfloat16 (Brain Floating Point)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 92. bfloat16 (Brain Floating Point)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: bfloat16 (Brain [[087_floating_point|Floating Point]] 16)은 지수부 8비트를 유지하여 [[089_single_precision|단정밀도]](FP32)와 동일한 표현 범위를 가지면서, 가수부를 7비트로 줄여 크기를 16비트로 압축한 [[190_ai_llm_requirements_specification|AI]] 특화 [[087_floating_point|부동소수점]] 포맷이다.

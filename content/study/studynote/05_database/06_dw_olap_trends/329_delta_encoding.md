@@ -1,10 +1,9 @@
-+++
-weight = 329
-title = "329. OLAP 연산 (Operation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 329. OLAP 연산 (Operation)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

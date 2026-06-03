@@ -1,12 +1,10 @@
-+++
-weight = 12
-title = "12. 다단계 인증 원칙 (Defense in Depth) — 심층 방어"
-description = "단일 보안 계층의 실패를 보완하기 위해 여러 계층의 독립적인 보안 통제를 중첩하여 시스템을 보호하는 보안 설계 원칙"
-date = "2026-03-25"
-[taxonomies]
-tags = ["보안원칙", "심층방어", "Defense in Depth", "다층방어", "보안아키텍처"]
-categories = ["Security"]
-+++
+---
+title: 12. 다단계 인증 원칙 (Defense in Depth) — 심층 방어
+date: '2026-03-25'
+description: 단일 보안 계층의 실패를 보완하기 위해 여러 계층의 독립적인 보안 통제를 중첩하여 시스템을 보호하는 보안 설계 원칙
+tags:
+- security
+---
 
 # 12. 심층 방어 원칙 (Defense in Depth)
 

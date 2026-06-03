@@ -1,10 +1,9 @@
-+++
-weight = 533
-title = "533. SAML Assertion (SAML 어서션)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 533. SAML Assertion (SAML 어서션)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

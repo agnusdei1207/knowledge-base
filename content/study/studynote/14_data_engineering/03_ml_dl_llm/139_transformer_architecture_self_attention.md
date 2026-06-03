@@ -1,10 +1,9 @@
-+++
-weight = 139
-title = "139. Transformer 아키텍처 - Self-Attention 기반 병렬 처리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 139. Transformer 아키텍처 - Self-Attention 기반 병렬 처리
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Transformer는 **RNN의 순차 처리를 Self-Attention으로 대체**하여 시퀀스 전체를 [[430_index_fast_full_scan|병렬]] 처리하는 아키텍처이며, "Attention Is All You Need"(2017, Google)에서 제안되었다.

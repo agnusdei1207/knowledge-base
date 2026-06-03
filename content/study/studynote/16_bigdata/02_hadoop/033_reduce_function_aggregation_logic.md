@@ -1,10 +1,9 @@
-+++
-weight = 33
-title = "Reduce 함수: 분산 데이터의 최종 집계 및 요약"
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 'Reduce 함수: 분산 데이터의 최종 집계 및 요약'
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - 맵(Map) 단계에서 [[087_process_state_transition|생성]]된 동일한 키([[067_db_key_uniqueness_minimality|Key]])를 가진 모든 값들을 모아 하나의 결과로 집계하는 [[018_mapreduce|맵리듀스]]의 최종 처리 단계임.

@@ -1,10 +1,9 @@
-+++
-weight = 644
-title = "644. 마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 644. 마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 133
-title = "133. SQL INNER JOIN - 교집합 결합의 기본"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 133. SQL INNER JOIN - 교집합 결합의 기본
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: INNER JOIN은 **두 테이블에서 조인 조건을 만족하는 행만 반환**하는 교집합(∩) 연산이며, 가장 기본적이고 빈번한 [[521_join|JOIN]] 유형이다.

@@ -1,10 +1,9 @@
-+++
-weight = 503
-title = "503. 보안 기능 (Security Features)의 설계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 503. 보안 기능 (Security Features)의 설계
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

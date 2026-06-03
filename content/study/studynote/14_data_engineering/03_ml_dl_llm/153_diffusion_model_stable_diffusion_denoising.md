@@ -1,10 +1,9 @@
-+++
-weight = 153
-title = "153. 디퓨전 모델 (Diffusion Model) - 파괴와 복원의 노이즈 예술, 생성형 AI의 제왕"
-date = "2026-05-03"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 153. 디퓨전 모델 (Diffusion Model) - 파괴와 복원의 노이즈 예술, 생성형 AI의 제왕
+date: '2026-05-03'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 디퓨전 모델(Diffusion Model)은 선명한 진짜 사진에 수천 번의 모래 가루(Gaussian Noise)를 뿌려 100% 형태 없는 쓰레기 노이즈([[235_forward_backward_chaining|Forward]] [[300_process|Process]])로 파괴시킨 뒤 ➔ 이 모래 가루를 한 톨씩 역추적하며 걷어내어 **순수한 지지직 노이즈 깡통에서부터 완벽한 고해상도 이미지를 0.01초씩 깎아 조각해 환생 복원(Reverse [[300_process|Process]] 흑마법 ✨)해 내는 수학적 연금술 [[087_process_state_transition|생성]] [[190_ai_llm_requirements_specification|AI]] 엔진**이다.

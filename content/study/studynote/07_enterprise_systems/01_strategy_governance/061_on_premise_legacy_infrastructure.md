@@ -1,10 +1,9 @@
-+++
-weight = 61
-title = "61. 온프레미스 (On-Premise) 프라이빗 IT 인프라"
-date = "2026-04-07"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 61. 온프레미스 (On-Premise) 프라이빗 IT 인프라
+date: '2026-04-07'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

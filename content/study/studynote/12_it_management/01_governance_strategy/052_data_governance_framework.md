@@ -1,10 +1,9 @@
-+++
-weight = 52
-title = "52. 데이터 거버넌스 (Data Governance)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 52. 데이터 거버넌스 (Data Governance)
+date: '2026-05-01'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

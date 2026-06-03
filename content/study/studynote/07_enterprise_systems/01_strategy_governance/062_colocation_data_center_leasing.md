@@ -1,10 +1,9 @@
-+++
-weight = 62
-title = "62. 코로케이션 (Colocation) - 데이터센터 공간 임대 서비스"
-date = "2026-04-07"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 62. 코로케이션 (Colocation) - 데이터센터 공간 임대 서비스
+date: '2026-04-07'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

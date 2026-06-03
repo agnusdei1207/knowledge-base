@@ -1,10 +1,9 @@
-+++
-weight = 376
-title = "376. 마르코프 체인 몬테카를로 샘플링 통계 기법 베이지안 근사 (MCMC)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 376. 마르코프 체인 몬테카를로 샘플링 통계 기법 베이지안 근사 (MCMC)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

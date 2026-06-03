@@ -1,10 +1,9 @@
-+++
-weight = 359
-title = "359. MTTR (Mean Time To Repair) - 평균 수리 시간"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 359. MTTR (Mean Time To Repair) - 평균 수리 시간
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

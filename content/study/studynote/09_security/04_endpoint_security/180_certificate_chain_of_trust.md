@@ -1,10 +1,9 @@
-+++
-weight = 180
-title = "180. 인증서 체인 검증 (Certificate Chain of Trust)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 180. 인증서 체인 검증 (Certificate Chain of Trust)
+date: '2026-05-06'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

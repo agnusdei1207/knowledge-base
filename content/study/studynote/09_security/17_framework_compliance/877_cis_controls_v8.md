@@ -1,10 +1,9 @@
-+++
-weight = 877
-title = "877. CIS Controls v8 (CIS Controls v8)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 877. CIS Controls v8 (CIS Controls v8)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

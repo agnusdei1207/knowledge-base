@@ -1,10 +1,9 @@
-+++
-weight = 577
-title = "577. 다대다 관계 해소 교차 릴레이션 (Intersection Entity / Mapping Table) 분해"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 577. 다대다 관계 해소 교차 릴레이션 (Intersection Entity / Mapping Table) 분해
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

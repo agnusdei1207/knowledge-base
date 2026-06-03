@@ -1,7 +1,8 @@
-+++
-title = "85. 참여 제약조건 (Participation Constraint) - 필수 참여(전체), 선택 참여(부분)"
-weight = 85
-+++
+---
+title: 85. 참여 제약조건 (Participation Constraint) - 필수 참여(전체), 선택 참여(부분)
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

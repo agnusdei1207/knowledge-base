@@ -1,10 +1,9 @@
-+++
-weight = 182
-title = "182. 망분리 (Network Separation) 모델"
-date = "2026-05-06"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 182. 망분리 (Network Separation) 모델
+date: '2026-05-06'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

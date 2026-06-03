@@ -1,10 +1,9 @@
-+++
-weight = 36
-title = "Apache Hive: 하둡 기반의 SQL 온 하둡(SQL-on-Hadoop) 데이터 웨어하우스"
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 'Apache Hive: 하둡 기반의 SQL 온 하둡(SQL-on-Hadoop) 데이터 웨어하우스'
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - 복잡한 자바 [[018_mapreduce|맵리듀스]] 코드를 작성하지 않고도, 표준 SQL과 유사한 HiveQL을 통해 대규모 [[136_variance|분산]] [[001_dikw_pyramid|데이터]]를 질의할 수 있는 [[198_abstraction_control_data_process|추상화]] 계층임.

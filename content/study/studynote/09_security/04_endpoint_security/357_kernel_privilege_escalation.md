@@ -1,10 +1,9 @@
-+++
-weight = 357
-title = "357. 커널 권한 상승 (Kernel Privilege Escalation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 357. 커널 권한 상승 (Kernel Privilege Escalation)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

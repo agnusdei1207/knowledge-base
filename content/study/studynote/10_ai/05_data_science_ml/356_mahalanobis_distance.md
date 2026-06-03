@@ -1,10 +1,9 @@
-+++
-weight = 356
-title = "356. 마할라노비스 거리 (Mahalanobis Distance)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 356. 마할라노비스 거리 (Mahalanobis Distance)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

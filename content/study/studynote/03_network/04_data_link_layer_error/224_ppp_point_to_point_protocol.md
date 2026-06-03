@@ -1,10 +1,9 @@
-+++
-weight = 224
-title = "224. PPP (Point-to-Point Protocol)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 224. PPP (Point-to-Point Protocol)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

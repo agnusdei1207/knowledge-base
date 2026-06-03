@@ -1,10 +1,9 @@
-+++
-weight = 355
-title = "355. TOCTOU (Time-of-Check to Time-of-Use)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 355. TOCTOU (Time-of-Check to Time-of-Use)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

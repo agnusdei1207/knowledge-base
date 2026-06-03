@@ -1,10 +1,9 @@
-+++
-title = "041. 데이터 품질 진단 (Data Quality Audit)"
-weight = 41
-date = "2026-04-05"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 041. 데이터 품질 진단 (Data Quality Audit)
+date: '2026-04-05'
+tags:
+- studynote-design-supervision
+---
 
 > **핵심 인사이트**
 > 1. [[001_dikw_pyramid|데이터]] 품질 진단은 정보 시스템 내 [[001_dikw_pyramid|데이터]]가 의사결정과 업무 수행에 적합한지를 6대 품질 지표(완전성·유효성·[[194_consistency_database_integrity|일관성]]·[[002_bigdata_5v|정확성]]·적시성·[[283_security_tactics|보안성]])로 체계적으로 측정하고 개선하는 활동이다.

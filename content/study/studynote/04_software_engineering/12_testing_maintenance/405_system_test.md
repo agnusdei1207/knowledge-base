@@ -1,10 +1,9 @@
-+++
-weight = 405
-title = "405. 시스템 테스트 (System Test) - 전체 시스템의 기능 및 비기능 검증"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 405. 시스템 테스트 (System Test) - 전체 시스템의 기능 및 비기능 검증
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

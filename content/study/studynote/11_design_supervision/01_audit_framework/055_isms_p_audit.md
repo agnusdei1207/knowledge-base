@@ -1,10 +1,9 @@
-+++
-weight = 55
-title = "55. ISMS-P 감사 (ISMS-P Audit)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 55. ISMS-P 감사 (ISMS-P Audit)
+date: '2026-05-01'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

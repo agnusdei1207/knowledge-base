@@ -1,10 +1,9 @@
-+++
-weight = 65
-title = "B+트리 (B+Tree)"
-date = "2026-03-05"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: B+트리 (B+Tree)
+date: '2026-03-05'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **모든 [[001_dikw_pyramid|데이터]]를 리프 노드에만 저장**하고, 리프 노드끼리 [[056_linked_list|연결 리스트]]([[056_linked_list|Linked List]])로 연결하여 **순차 검색(Full Scan)** [[282_performance_tactics|성능]]을 극대화한 B-트리의 변형 구조임.

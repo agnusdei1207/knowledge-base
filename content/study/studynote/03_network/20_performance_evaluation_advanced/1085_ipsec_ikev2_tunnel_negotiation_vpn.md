@@ -1,10 +1,9 @@
-+++
-weight = 1085
-title = "1085. IPsec IKEv2 터널 협상"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1085. IPsec IKEv2 터널 협상
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

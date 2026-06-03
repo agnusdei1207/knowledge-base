@@ -1,10 +1,9 @@
-+++
-title = "011. 배낭 문제 — Knapsack Problem"
-weight = 116
-date = "2026-04-05"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 011. 배낭 문제 — Knapsack Problem
+date: '2026-04-05'
+tags:
+- studynote-algorithm-stats
+---
 
 > **핵심 인사이트**
 > 1. 배낭 문제(Knapsack Problem)는 NP-완전 문제의 대표적 최적화 문제 — 무게 제한이 있는 배낭에 가치 합계를 최대화하는 물건을 고르는 문제로, 0/1 배낭(물건 전체 또는 선택 안 함)과 분수 배낭(일부 가능)으로 나뉜다.

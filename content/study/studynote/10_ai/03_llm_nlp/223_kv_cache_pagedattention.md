@@ -1,10 +1,9 @@
-+++
-weight = 223
-title = "223. vLLM KV 캐시와 PagedAttention (KV Cache Pagedattention)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 223. vLLM KV 캐시와 PagedAttention (KV Cache Pagedattention)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

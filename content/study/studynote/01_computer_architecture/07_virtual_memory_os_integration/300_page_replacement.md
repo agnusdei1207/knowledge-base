@@ -1,10 +1,9 @@
-+++
-weight = 300
-title = "300. 페이지 교체 알고리즘 (Page Replacement)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 300. 페이지 교체 알고리즘 (Page Replacement)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

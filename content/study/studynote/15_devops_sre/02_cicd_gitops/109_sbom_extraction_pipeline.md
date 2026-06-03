@@ -1,10 +1,9 @@
-+++
-weight = 109
-title = "109. SBOM 추출 파이프라인 (Software Bill of Materials) - 공급망 보안 의무화"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 109. SBOM 추출 파이프라인 (Software Bill of Materials) - 공급망 보안 의무화
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[890_sbom_cyclonedx_spdx|SBOM]]([[890_sbom_cyclonedx_spdx|Software Bill of Materials]])은 소프트웨어를 구성하는 **모든 [[191_oss_license_compliance|오픈소스]] [[336_library_vs_framework|라이브러리]]·[[288_version_ihl_tos_total_length|버전]]·의존성 [[083_relationship_in_er_model|관계]]를 기계 판독 가능한 표준 포맷(SPDX, CycloneDX)으로 기록한 디지털 자재 명세서**다.

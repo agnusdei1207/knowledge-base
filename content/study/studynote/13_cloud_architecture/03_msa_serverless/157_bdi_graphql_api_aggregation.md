@@ -1,10 +1,9 @@
-+++
-weight = 157
-title = "157. BFF / GraphQL API 집계 (BFF Pattern / GraphQL)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 157. BFF / GraphQL API 집계 (BFF Pattern / GraphQL)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[619_msa_traffic_hardware|MSA]] ([[122_msa_microservices_architecture|Microservices Architecture]]) 환경에서 클라이언트가 N개 [[090_service_kubernetes_network_load_balancing|서비스]]를 각각 호출하는 N+1 문제를 해결하기 위해, [[543_bff_backend_for_frontend|BFF]] ([[543_bff_backend_for_frontend|Backend for Frontend]]) 패턴은 클라이언트 유형별 전용 집계 레이어를 두고, GraphQL은 단일 엔드포인트에서 원하는 [[001_dikw_pyramid|데이터]]만 선택적으로 조회한다.

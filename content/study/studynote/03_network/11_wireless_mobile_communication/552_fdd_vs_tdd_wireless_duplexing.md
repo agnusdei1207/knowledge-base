@@ -1,10 +1,9 @@
-+++
-weight = 552
-title = "552. 주파수 분할 방식(FDD) vs 시분할 방식(TDD) 무선 환경 적용"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 552. 주파수 분할 방식(FDD) vs 시분할 방식(TDD) 무선 환경 적용
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 85
-title = "85. 적응형 학습률 - Adagrad와 RMSProp의 보폭 조절 마법"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 85. 적응형 학습률 - Adagrad와 RMSProp의 보폭 조절 마법
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

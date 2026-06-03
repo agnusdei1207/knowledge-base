@@ -1,10 +1,9 @@
-+++
-weight = 160
-title = "160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)
+date: '2026-05-05'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트
 

@@ -1,7 +1,8 @@
-+++
-title = "102. SLI (Service Level Indicator) / SLO (Service Level Objective)"
-weight = 102
-+++
+---
+title: 102. SLI (Service Level Indicator) / SLO (Service Level Objective)
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[100_sre_site_reliability_engineering_error_budget|SRE]] ([[100_sre_site_reliability_engineering_error_budget|Site Reliability Engineering]])에서 시스템의 신뢰성을 측정하는 근간으로, **SLI (지표)**는 사용자가 체감하는 현재의 객관적 수치이며, **[[181_slo_service_level_objective|SLO]] (목표)**는 그 지표가 도달해야 할 사내 합의 기준선이다.

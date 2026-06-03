@@ -1,10 +1,9 @@
-+++
-weight = 151
-title = "151. 구조 패턴: 어댑터 (Adapter Pattern) - 인터페이스 불일치 융합 변환 젠더"
-date = "2026-05-03"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: '151. 구조 패턴: 어댑터 (Adapter Pattern) - 인터페이스 불일치 융합 변환 젠더'
+date: '2026-05-03'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[383_adapter_pattern_summary|어댑터 패턴]]([[259_adapter_pattern_interface_wrapper|Adapter]] Pattern)은 클라이언트가 쓰고자 하는 표준 인터페이스 규격(Target)과, 낡아서 규격이 안 맞는 남의 쇳덩이 코드(Adaptee) 사이의 불일치를 ➔ **중간에서 감싸 안아 강제 변환시켜 100% 호환되게 엮어주는 구조(Structural) 패턴**이다.

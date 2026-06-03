@@ -1,10 +1,9 @@
-+++
-weight = 226
-title = "226. 생성형 AI 법적 논쟁 및 저작권 (Genai Legal Copyright Scraping)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 226. 생성형 AI 법적 논쟁 및 저작권 (Genai Legal Copyright Scraping)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

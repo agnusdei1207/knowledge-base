@@ -1,10 +1,9 @@
-+++
-weight = 294
-title = "294. 데브옵스 CALMS 문화 자동화 측정 공유 (DevOps)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 294. 데브옵스 CALMS 문화 자동화 측정 공유 (DevOps)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[652_devops_calms_culture|데브옵스]] [[281_calms|CALMS]] 문화 자동화 측정 공유는 변경 관리와 운영 자동화에서 자동화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

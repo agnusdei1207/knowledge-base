@@ -1,10 +1,9 @@
-+++
-weight = 287
-title = "287. 자원 할당 그래프 (Resource-Allocation Graph) - 정점(프로세스, 자원)과 간선(요청, 할당)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 287. 자원 할당 그래프 (Resource-Allocation Graph) - 정점(프로세스, 자원)과 간선(요청, 할당)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

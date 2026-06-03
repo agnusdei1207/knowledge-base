@@ -1,10 +1,9 @@
-+++
-weight = 75
-title = "75. IT 예산 및 계약 행정 처리, 정산 요건(과업 완료) 부합 검토 감리"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 75. IT 예산 및 계약 행정 처리, 정산 요건(과업 완료) 부합 검토 감리
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

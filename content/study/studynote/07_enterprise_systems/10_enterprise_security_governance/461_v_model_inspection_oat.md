@@ -1,10 +1,9 @@
-+++
-weight = 461
-title = "461. V-모델 인스펙션 정적 검증 OAT 인수 테스트 (V-Model, Inspection, OAT)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 461. V-모델 인스펙션 정적 검증 OAT 인수 테스트 (V-Model, Inspection, OAT)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 475
-title = "475. PoW와 PoS 합의 메커니즘 비교 (PoW vs PoS Consensus Mechanism)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 475. PoW와 PoS 합의 메커니즘 비교 (PoW vs PoS Consensus Mechanism)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 236
-title = "236. 수퍼스칼라 (Superscalar)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 236. 수퍼스칼라 (Superscalar)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

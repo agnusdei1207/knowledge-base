@@ -1,10 +1,9 @@
-+++
-weight = 729
-title = "729. AMD Cool'n'Quiet"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 729. AMD Cool'n'Quiet
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

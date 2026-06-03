@@ -1,10 +1,9 @@
-+++
-weight = 391
-title = "391. 하이퍼큐브 (Hypercube)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 391. 하이퍼큐브 (Hypercube)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 하이퍼큐브 (Hypercube)
 

@@ -1,12 +1,10 @@
-+++
-weight = 16
-title = "16. 망형 데이터 모델 (Network Model) - 그래프 구조 (N:M 허용)"
-description = "다대다(N:M) 관계의 복잡성을 포인터 그래프 구조로 해결하려 했던 CODASYL 표준 모델과 그 한계점"
-date = "2024-05-18"
-[taxonomies]
-tags = ["Database", "Data Model", "Network Model", "Graph Structure", "CODASYL"]
-categories = ["studynote", "5_database"]
-+++
+---
+title: 16. 망형 데이터 모델 (Network Model) - 그래프 구조 (N:M 허용)
+date: '2024-05-18'
+description: 다대다(N:M) 관계의 복잡성을 포인터 그래프 구조로 해결하려 했던 CODASYL 표준 모델과 그 한계점
+tags:
+- database
+---
 
 # 16. 망형 [[014_data_model_components|데이터 모델]] (Network Model) - [[070_graph_datastructure|그래프]] 구조
 

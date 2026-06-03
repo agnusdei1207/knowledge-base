@@ -1,10 +1,9 @@
-+++
-weight = 284
-title = "284. 프로세스 마이닝 이벤트 로그 병목 진단"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 284. 프로세스 마이닝 이벤트 로그 병목 진단
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[129_process_mining_bpr_event_log_bottleneck_analysis|프로세스 마이닝]] 이벤트 [[568_logs_distributed_logging_elk_fluentd|로그]] 병목 진단의 본질은 자산, 위협, [[571_protection_vs_security|보호]] 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

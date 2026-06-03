@@ -1,10 +1,9 @@
-+++
-weight = 437
-title = "437. 참 오라클 (True Oracle)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 437. 참 오라클 (True Oracle)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

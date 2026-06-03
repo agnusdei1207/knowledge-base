@@ -1,10 +1,9 @@
-+++
-weight = 109
-title = "109. 홀수 패리티 (Odd Parity)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 109. 홀수 패리티 (Odd Parity)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 홀수 패리티(Odd Parity)는 [[001_dikw_pyramid|데이터]] [[073_bit|비트]]열에 1비트를 추가하여, 전체 [[073_bit|비트]] 중 '1'의 개수가 항상 **홀수**가 되도록 맞추는 에러 검출 기법이다.

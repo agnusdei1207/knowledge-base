@@ -1,10 +1,9 @@
-+++
-weight = 459
-title = "459. 페일 세이프 (Fail-Safe)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 459. 페일 세이프 (Fail-Safe)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

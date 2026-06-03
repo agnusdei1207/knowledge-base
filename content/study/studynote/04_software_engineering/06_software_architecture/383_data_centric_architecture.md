@@ -1,10 +1,9 @@
-+++
-weight = 383
-title = "383. 데이터 중심(Data-Centric) 아키텍처의 품질 보증"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 383. 데이터 중심(Data-Centric) 아키텍처의 품질 보증
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

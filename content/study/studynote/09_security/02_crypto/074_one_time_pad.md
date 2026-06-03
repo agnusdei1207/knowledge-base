@@ -1,10 +1,9 @@
-+++
-title = "074. 일회용 패드 (One-Time Pad)"
-date = "2026-04-05"
-weight = 74
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 074. 일회용 패드 (One-Time Pad)
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

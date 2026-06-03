@@ -1,10 +1,9 @@
-+++
-weight = 163
-title = "163. 가치 함수 (Value Function)"
-date = "2026-04-17"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 163. 가치 함수 (Value Function)
+date: '2026-04-17'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

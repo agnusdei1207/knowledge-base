@@ -1,10 +1,9 @@
-+++
-weight = 223
-title = "223. LAPD (Link Access Procedure on the D channel)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 223. LAPD (Link Access Procedure on the D channel)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

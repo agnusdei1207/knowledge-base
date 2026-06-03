@@ -1,8 +1,8 @@
-+++
-weight = 10
-title = "08. 데이터베이스 핵심 심화 분석"
-sort_by = "weight"
-+++
+---
+title: 08. 데이터베이스 핵심 심화 분석
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,9 @@
-+++
-title = "TP 모니터 (Transaction Processing Monitor)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: TP 모니터 (Transaction Processing Monitor)
+date: '2026-03-03'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트 3줄**
 > 1. TP [[229_monitor|모니터]]([[191_transaction_concept_states|Transaction]] Processing [[229_monitor|Monitor]])는 대량의 [[327_hint_handoff|OLTP]] [[191_transaction_concept_states|트랜잭션]]을 안정적으로 처리하기 위해 미들웨어 계층에서 [[191_transaction_concept_states|트랜잭션]] 조율·[[833_load_balancing_l4_l7_switch_traffic_distribution|로드 밸런싱]]·자원 관리를 담당한다.

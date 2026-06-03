@@ -1,9 +1,9 @@
-+++
-title = "콘웨이의 법칙 (Conway's Law)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: 콘웨이의 법칙 (Conway's Law)
+date: '2026-03-03'
+tags:
+- studynote-devops
+---
 
 > **핵심 인사이트 3줄**
 > 1. 콘웨이의 법칙(Conway's Law)은 "조직이 설계하는 시스템은 해당 조직의 커뮤니케이션 구조를 그대로 반영한다"는 원칙으로, 1967년 Mel Conway가 제시했다.

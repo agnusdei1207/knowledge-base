@@ -1,10 +1,9 @@
-+++
-weight = 261
-title = "261. 컴포지트 (Composite) - 부분-전체 트리 구조 (단일 객체/복합 객체 동일 취급)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 261. 컴포지트 (Composite) - 부분-전체 트리 구조 (단일 객체/복합 객체 동일 취급)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

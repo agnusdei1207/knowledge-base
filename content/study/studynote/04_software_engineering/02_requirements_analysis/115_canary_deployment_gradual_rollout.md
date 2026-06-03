@@ -1,10 +1,9 @@
-+++
-weight = 115
-title = "115. 카나리 배포 (Canary Deployment) - 점진적 롤아웃과 트래픽 분배 전략"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 115. 카나리 배포 (Canary Deployment) - 점진적 롤아웃과 트래픽 분배 전략
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[595_canary_stack_smashing_protector|카나리]] 배포는 신버전을 **전체 트래픽의 1~5%에만 먼저 노출**하고, [[342_routing_metric_hop_bandwidth_delay|메트릭]](에러율·레이턴시)을 관찰하여 안전하면 점진적으로 확대([[489_raid_10_hybrid|10]]%→50%→100%)하는 **위험 최소화 배포 [[268_strategy_pattern|전략]]**이다.

@@ -1,10 +1,9 @@
-+++
-weight = 114
-title = "114. TOGAF ADM (Architecture Development Method)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 114. TOGAF ADM (Architecture Development Method)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[113_togaf|TOGAF]] [[066_적응형_델타_변조_ADM|ADM]] ([[319_architecture|Architecture]] Development Method)의 본질은 예비 단계 -> [[103_ba_as_is_analysis|비즈니스 아키텍처]] -> 정보 시스템 아키텍처 -> [[106_ta_as_is_analysis|기술 아키텍처]] -> 기회 및 솔루션 -> 마이그레이션 계획 -> 구현 거버넌스 -> 아키텍처 [[079_change_enablement|변경 관리]] (순환 루프)를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

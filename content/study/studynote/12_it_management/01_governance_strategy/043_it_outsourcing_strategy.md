@@ -1,10 +1,9 @@
-+++
-weight = 43
-title = "43. IT 아웃소싱 (ITO, IT Outsourcing) 전략"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 43. IT 아웃소싱 (ITO, IT Outsourcing) 전략
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 578
-title = "578. 수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 578. 수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

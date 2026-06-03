@@ -1,10 +1,9 @@
-+++
-weight = 632
-title = "632. TSN (Time-Sensitive Networking)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 632. TSN (Time-Sensitive Networking)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

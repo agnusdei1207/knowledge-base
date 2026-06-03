@@ -1,10 +1,9 @@
-+++
-weight = 566
-title = "566. 캐시 스탬피드 뮤텍스 락 및 확률적 갱신(Probabilistic Early Expiration) 회피기법"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 566. 캐시 스탬피드 뮤텍스 락 및 확률적 갱신(Probabilistic Early Expiration) 회피기법
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

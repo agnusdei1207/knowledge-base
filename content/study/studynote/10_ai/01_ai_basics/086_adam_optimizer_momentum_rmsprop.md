@@ -1,10 +1,9 @@
-+++
-weight = 86
-title = "86. Adam (Adaptive Moment Estimation) - 최강의 결합 옵티마이저"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 86. Adam (Adaptive Moment Estimation) - 최강의 결합 옵티마이저
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 291
-title = "291. 데이터 리니지 (Data Lineage) - 데이터 흐름 및 변환 추적"
-date = "2026-04-21"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 291. 데이터 리니지 (Data Lineage) - 데이터 흐름 및 변환 추적
+date: '2026-04-21'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 356
-title = "356. 권한 상승 (Local Privilege Escalation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 356. 권한 상승 (Local Privilege Escalation)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 153
-title = "153. 데이터 메시 관점의 레이크하우스 (Data Mesh on Lakehouse)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 153. 데이터 메시 관점의 레이크하우스 (Data Mesh on Lakehouse)
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. [[211_data_mesh_domain_ownership|데이터 메시]]([[320_data_mesh|Data Mesh]])는 조직 원칙이고 [[146_lakehouse|레이크하우스]]는 기술 플랫폼이며, 둘의 결합은 **[[064_relation_domain|도메인]]별 자율성**과 **전사 거버넌스 [[194_consistency_database_integrity|일관성]]**을 동시에 달성하는 현대 [[104_da_as_is_analysis|데이터 아키텍처]]의 핵심 패턴이다.

@@ -1,10 +1,9 @@
-+++
-weight = 388
-title = "388. 분산 노드 간 클럭 스큐(Clock Skew) 해결용 스패너(Spanner) 트루타임 원리"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 388. 분산 노드 간 클럭 스큐(Clock Skew) 해결용 스패너(Spanner) 트루타임 원리
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

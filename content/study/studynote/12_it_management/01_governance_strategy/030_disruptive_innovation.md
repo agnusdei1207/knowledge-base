@@ -1,10 +1,9 @@
-+++
-weight = 30
-title = "30. 와해성 혁신 — 시장 판도를 뒤집는 파괴적 기술"
-date = "2026-04-29"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 30. 와해성 혁신 — 시장 판도를 뒤집는 파괴적 기술
+date: '2026-04-29'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 와해성 혁신(Disruptive Innovation)은 처음에는 기존 주류 시장보다 [[282_performance_tactics|성능]]이 낮지만 더 저렴하고 간단하여 새로운 시장·고객층을 창출한 뒤, 점차 주류 시장을 잠식하는 현상이다. Clayton Christensen이 1997년 제시한 이론이다.

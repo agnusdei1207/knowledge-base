@@ -1,10 +1,9 @@
-+++
-weight = 51
-title = "051. 애자일 성숙도 평가 (Agile Maturity Assessment)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 051. 애자일 성숙도 평가 (Agile Maturity Assessment)
+date: '2026-05-05'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[004_agile_relation|애자일]] 성숙도 평가([[004_agile_relation|Agile]] Maturity Assessment)는 조직이 겉으로만 스탠드업 미팅을 흉내 내는 '무늬만 [[004_agile_relation|애자일]]([[463_fake_test_double|Fake]] [[004_agile_relation|Agile]])'인지, 실제로 비즈니스 가치를 민첩하게 배포하는 진정한 [[004_agile_relation|애자일]] 상태인지 **정량적/정성적으로 진단하는 측정 프레임워크**다.

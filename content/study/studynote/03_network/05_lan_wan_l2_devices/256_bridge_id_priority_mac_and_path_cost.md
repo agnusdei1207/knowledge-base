@@ -1,10 +1,9 @@
-+++
-weight = 256
-title = "256. 브리지 ID (Priority + MAC), 비용 (Path Cost)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 256. 브리지 ID (Priority + MAC), 비용 (Path Cost)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

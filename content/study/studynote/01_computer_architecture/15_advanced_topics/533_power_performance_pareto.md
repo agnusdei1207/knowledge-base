@@ -1,10 +1,9 @@
-+++
-weight = 533
-title = "533. 전력-성능 트레이드오프 파레토 곡선"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 533. 전력-성능 트레이드오프 파레토 곡선
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 336
-title = "336. 고가용성 모의 페일오버 테스트 (High Availability Failover Test)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 336. 고가용성 모의 페일오버 테스트 (High Availability Failover Test)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

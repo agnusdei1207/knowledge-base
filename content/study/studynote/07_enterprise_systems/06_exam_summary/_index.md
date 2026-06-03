@@ -1,8 +1,8 @@
-+++
-weight = 6
-title = "06. 시험 빈출 핵심 요약 (Enterprise Systems)"
-sort_by = "weight"
-+++
+---
+title: 06. 시험 빈출 핵심 요약 (Enterprise Systems)
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

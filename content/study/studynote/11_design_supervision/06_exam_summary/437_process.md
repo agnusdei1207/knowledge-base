@@ -1,10 +1,10 @@
-+++
-weight = 437
-title = "437. 엣지 네이티브 지연시간 단축 캐싱 분산 (Edge-Native Latency Reduction through Caching and Distribution)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 437. 엣지 네이티브 지연시간 단축 캐싱 분산 (Edge-Native Latency Reduction through Caching and
+  Distribution)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [[231_edge_native|엣지 네이티브]]는 사용자 가까운 지점에서 [[456_caching|캐싱]], [[339_routing_overview_best_path_selection|라우팅]], 간단한 연산을 수행해 중앙 원본 서버까지의 왕복 시간을 줄이는 [[136_variance|분산]] 전달 [[268_strategy_pattern|전략]]이다.

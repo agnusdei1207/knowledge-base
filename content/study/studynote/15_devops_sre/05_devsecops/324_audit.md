@@ -1,8 +1,9 @@
-+++
-title = "Chaos Engineering"
-date = "2026-05-09"
-categories = ["studynote-devops-sre"]
-+++
+---
+title: Chaos Engineering
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > - [[751_chaos_engineering|Chaos Engineering]] ([[751_chaos_engineering|카오스 엔지니어링]])은 프로덕션 시스템에 의도적 장애를 주입해 시스템의 약점을 사전에 발견하는 규율이다.

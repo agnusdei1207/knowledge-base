@@ -1,10 +1,9 @@
-+++
-weight = 35
-title = "YARN: 하둡의 클러스터 자원 관리 및 통합 스케줄링 계층"
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 'YARN: 하둡의 클러스터 자원 관리 및 통합 스케줄링 계층'
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 2.0에서 도입되어, 단순 [[018_mapreduce|맵리듀스]] 전용 자원 관리 구조를 탈피하고 범용 [[136_variance|분산]] 처리를 가능케 한 차세대 클러스터 OS임.

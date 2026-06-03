@@ -1,10 +1,9 @@
-+++
-weight = 680
-title = "680. OCSP Stapling (TLS Handshake 트래픽 성능 확장용 서버 캐시 상태 전송 메커니즘 개선기법)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 680. OCSP Stapling (TLS Handshake 트래픽 성능 확장용 서버 캐시 상태 전송 메커니즘 개선기법)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,9 @@
-+++
-title = "037. 위험 수용 (Risk Acceptance)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 037. 위험 수용 (Risk Acceptance)
+date: '2026-03-03'
+tags:
+- studynote-security
+---
 
 > **핵심 인사이트**
 > 1. 위험 수용([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Acceptance)은 4가지 [[033_risk_response_strategies|위험 대응 전략]](완화·회피·전가·수용) 중 하나로, 위험 처리 비용이 위험 발생 시 손실보다 크거나 비즈니스 필요에 의해 위험을 의도적으로 감내하는 결정이다.

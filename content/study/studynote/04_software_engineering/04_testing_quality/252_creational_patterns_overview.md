@@ -1,10 +1,9 @@
-+++
-weight = 252
-title = "252. 생성 패턴 (Creational Patterns) - 객체 생성 메커니즘"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 252. 생성 패턴 (Creational Patterns) - 객체 생성 메커니즘
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

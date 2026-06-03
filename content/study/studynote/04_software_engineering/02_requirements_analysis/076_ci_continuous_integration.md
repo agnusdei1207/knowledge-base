@@ -1,7 +1,8 @@
-+++
-title = "76. 지속적 통합 (CI, Continuous Integration)"
-weight = 76
-+++
+---
+title: 76. 지속적 통합 (CI, Continuous Integration)
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

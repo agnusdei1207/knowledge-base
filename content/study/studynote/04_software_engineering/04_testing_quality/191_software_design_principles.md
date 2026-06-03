@@ -1,10 +1,9 @@
-+++
-weight = 191
-title = "191. 소프트웨어 설계 원칙 - 추상화, 캡슐화, 모듈화, 정보 은닉"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 191. 소프트웨어 설계 원칙 - 추상화, 캡슐화, 모듈화, 정보 은닉
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 392
-title = "392. 퍼셉트론 수렴 정리 (Perceptron Convergence Theorem)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 392. 퍼셉트론 수렴 정리 (Perceptron Convergence Theorem)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

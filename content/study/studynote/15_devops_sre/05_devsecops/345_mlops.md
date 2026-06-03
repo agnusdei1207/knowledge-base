@@ -1,10 +1,9 @@
-+++
-weight = 345
-title = "345. MLOps 피처 스토어·모델 드리프트·재학습 파이프라인 (Machine Learning Operations)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 345. MLOps 피처 스토어·모델 드리프트·재학습 파이프라인 (Machine Learning Operations)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

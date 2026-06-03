@@ -1,10 +1,9 @@
-+++
-weight = 601
-title = "601. 사물인터넷 (IoT, Internet of Things)의 3대 요소 (디바이스, 네트워크, 클라우드/플랫폼)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 601. 사물인터넷 (IoT, Internet of Things)의 3대 요소 (디바이스, 네트워크, 클라우드/플랫폼)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

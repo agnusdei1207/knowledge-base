@@ -1,10 +1,9 @@
-+++
-weight = 157
-title = "8. 채널 부호화 정리 (Channel Coding Theorem) — 샤논 한계"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 8. 채널 부호화 정리 (Channel Coding Theorem) — 샤논 한계
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

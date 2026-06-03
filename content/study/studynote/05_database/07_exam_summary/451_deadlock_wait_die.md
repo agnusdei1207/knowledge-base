@@ -1,10 +1,9 @@
-+++
-weight = 451
-title = "451. 교착 상태 (Deadlock Wait-Die)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 451. 교착 상태 (Deadlock Wait-Die)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

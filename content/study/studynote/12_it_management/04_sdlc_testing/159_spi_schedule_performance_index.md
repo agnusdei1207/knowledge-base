@@ -1,10 +1,9 @@
-+++
-weight = 159
-title = "159. SPI (Schedule Performance Index, 일정 성과 지수)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 159. SPI (Schedule Performance Index, 일정 성과 지수)
+date: '2026-04-21'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트
 

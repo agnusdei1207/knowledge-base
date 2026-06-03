@@ -1,10 +1,9 @@
-+++
-weight = 584
-title = "584. 윈도우 함수 ROWS BETWEEN 누적 합계 구간 이동 평균 연산 파티션"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 584. 윈도우 함수 ROWS BETWEEN 누적 합계 구간 이동 평균 연산 파티션
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

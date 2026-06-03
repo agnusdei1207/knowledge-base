@@ -1,10 +1,9 @@
-+++
-weight = 543
-title = "543. BFF (Backend For Frontend) - 모바일, 웹 등 클라이언트 전용 맞춤형 게이트웨이"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 543. BFF (Backend For Frontend) - 모바일, 웹 등 클라이언트 전용 맞춤형 게이트웨이
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

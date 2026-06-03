@@ -1,10 +1,9 @@
-+++
-weight = 438
-title = "438. 샘플링 오라클 (Sampling Oracle) - 특정 입력값 샘플링"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 438. 샘플링 오라클 (Sampling Oracle) - 특정 입력값 샘플링
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

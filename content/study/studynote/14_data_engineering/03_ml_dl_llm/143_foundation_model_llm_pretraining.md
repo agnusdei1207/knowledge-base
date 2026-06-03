@@ -1,10 +1,9 @@
-+++
-weight = 143
-title = "143. Foundation Model & LLM 사전 학습 - 기반 모델의 원리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 143. Foundation Model & LLM 사전 학습 - 기반 모델의 원리
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Foundation Model은 **대규모 비라벨 [[001_dikw_pyramid|데이터]]로 사전 학습(Pre-training)된 범용 모델**이며, Fine-tuning이나 Prompt로 다양한 다운스트림 작업에 적응한다. [[302_gpt_autoregressive|GPT]]·[[301_bert_mlm|BERT]]·LLaMA·Stable Diffusion이 대표이다.

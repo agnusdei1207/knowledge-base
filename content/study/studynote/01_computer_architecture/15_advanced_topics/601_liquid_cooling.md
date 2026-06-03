@@ -1,10 +1,9 @@
-+++
-weight = 601
-title = "601. 액체 냉각 시스템 (Liquid Cooling)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 601. 액체 냉각 시스템 (Liquid Cooling)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

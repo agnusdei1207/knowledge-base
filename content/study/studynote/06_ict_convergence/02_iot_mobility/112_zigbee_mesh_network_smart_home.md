@@ -1,10 +1,9 @@
-+++
-weight = 112
-title = "112. Zigbee 메시 네트워크 (Zigbee Mesh Network) - IEEE 802.15.4 스마트 홈 WPAN"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 112. Zigbee 메시 네트워크 (Zigbee Mesh Network) - IEEE 802.15.4 스마트 홈 WPAN
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Zigbee는 IEEE 802.15.4 기반의 **저전력·저속·단거리(~100m) [[604_wpan_wireless_personal_area_network|WPAN]](Wireless Personal Area Network)** [[295_protocol_field_tcp_udp_icmp|프로토콜]]로, **[[389_mesh_topology|메시]]([[389_mesh_topology|Mesh]]) 토폴로지**를 통해 수백 개 센서 노드가 자가 치유(Self-healing) 네트워크를 형성하는 스마트 홈·빌딩 자동화의 핵심 기술이다.

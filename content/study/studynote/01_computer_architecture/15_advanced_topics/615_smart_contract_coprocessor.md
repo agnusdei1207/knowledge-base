@@ -1,10 +1,9 @@
-+++
-weight = 615
-title = "615. 스마트 컨트랙트 검증 보조 코프로세서 (Smart Contract Verification Coprocessor)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 615. 스마트 컨트랙트 검증 보조 코프로세서 (Smart Contract Verification Coprocessor)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 96
-title = "라빈-카프 (Rabin-Karp) 알고리즘"
-date = "2024-03-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 라빈-카프 (Rabin-Karp) 알고리즘
+date: '2024-03-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **해시 기반 탐색**: 문자열을 수치화된 해시(Hash) 값으로 변환하여 매칭 여부를 빠르게 판단하는 [[001_algorithm_definition|알고리즘]]임.

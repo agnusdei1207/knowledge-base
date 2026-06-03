@@ -1,10 +1,9 @@
-+++
-weight = 52
-title = "52. IoT 구축 사업 감리 (IoT Project Audit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 52. IoT 구축 사업 감리 (IoT Project Audit)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

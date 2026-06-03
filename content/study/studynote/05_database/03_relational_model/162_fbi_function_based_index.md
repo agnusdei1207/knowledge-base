@@ -1,10 +1,9 @@
-+++
-weight = 162
-title = "162. 함수 기반 인덱스 (FBI, Function Based Index) - 산술식이나 함수가 적용된 결과 기준 인덱싱"
-date = "2026-05-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 162. 함수 기반 인덱스 (FBI, Function Based Index) - 산술식이나 함수가 적용된 결과 기준 인덱싱
+date: '2026-05-05'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트
 

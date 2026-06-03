@@ -1,10 +1,9 @@
-+++
-weight = 707
-title = "707. ACPI (Advanced Configuration and Power Interface)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 707. ACPI (Advanced Configuration and Power Interface)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

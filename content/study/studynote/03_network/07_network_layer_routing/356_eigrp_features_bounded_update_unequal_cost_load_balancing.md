@@ -1,10 +1,9 @@
-+++
-weight = 356
-title = "356. EIGRP 특징: 부분/바운디드 업데이트, Unequal-Cost 부하분산, Successor / Feasible Successor"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: '356. EIGRP 특징: 부분/바운디드 업데이트, Unequal-Cost 부하분산, Successor / Feasible Successor'
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

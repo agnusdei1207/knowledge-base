@@ -1,10 +1,10 @@
-+++
-weight = 364
-title = "364. 멀티클러스터 쿠버네티스 페더레이션 고가용성 배포 (Multi-cluster Kubernetes Federation High-Availability Deployment)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 364. 멀티클러스터 쿠버네티스 페더레이션 고가용성 배포 (Multi-cluster Kubernetes Federation High-Availability
+  Deployment)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

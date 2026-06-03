@@ -1,10 +1,9 @@
-+++
-title = "105. ISP (Interface Segregation Principle, 인터페이스 분리 원칙)"
-date = "2026-03-04"
-weight = 105
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 105. ISP (Interface Segregation Principle, 인터페이스 분리 원칙)
+date: '2026-03-04'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

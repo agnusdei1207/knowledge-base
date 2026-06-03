@@ -1,10 +1,9 @@
-+++
-weight = 172
-title = "172. 네트워크 시각화 (Network Visualization)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 172. 네트워크 시각화 (Network Visualization)
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

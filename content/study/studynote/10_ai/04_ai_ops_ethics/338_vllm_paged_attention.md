@@ -1,10 +1,9 @@
-+++
-weight = 338
-title = "338. vLLM과 PagedAttention (페이지드 어텐션)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 338. vLLM과 PagedAttention (페이지드 어텐션)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

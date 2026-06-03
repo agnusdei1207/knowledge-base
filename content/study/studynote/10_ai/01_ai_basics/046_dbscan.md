@@ -1,10 +1,9 @@
-+++
-title = "046. DBSCAN — 밀도 기반 군집화"
-weight = 46
-date = "2026-04-05"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 046. DBSCAN — 밀도 기반 군집화
+date: '2026-04-05'
+tags:
+- studynote-ai
+---
 
 > **핵심 인사이트**
 > 1. [[351_dbscan_density_based_clustering|DBSCAN]]([[357_dbscan|Density-Based Spatial Clustering]] of Applications with Noise)은 밀도가 높은 지역을 군집으로 인식하는 [[001_algorithm_definition|알고리즘]] — k-means와 달리 군집 수(k)를 사전에 지정할 필요 없고, 임의 형태의 군집과 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]](Noise)를 자동으로 [[655_ir_detection_analysis|식별]]한다.

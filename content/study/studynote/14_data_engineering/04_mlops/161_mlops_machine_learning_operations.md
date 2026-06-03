@@ -1,10 +1,9 @@
-+++
-weight = 161
-title = "161. MLOps (Machine Learning Operations) - AI 모델 개발~서빙 CI/CD 자동화"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 161. MLOps (Machine Learning Operations) - AI 모델 개발~서빙 CI/CD 자동화
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[348_mlops|MLOps]] ([[220_mlops_machine_learning_operations|Machine Learning Operations]])는 ML 모델의 개발(Dev)과 운영(Ops)을 통합하여, 실험실 모델을 신뢰할 수 있는 프로덕션 [[090_service_kubernetes_network_load_balancing|서비스]]로 자동화하는 전체 생명주기 관리 체계다.

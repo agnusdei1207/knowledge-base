@@ -1,10 +1,9 @@
-+++
-weight = 740
-title = "740. 보호 도메인 최소 권한 원칙 (Protection Domain Least Privilege)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 740. 보호 도메인 최소 권한 원칙 (Protection Domain Least Privilege)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

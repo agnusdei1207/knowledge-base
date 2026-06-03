@@ -1,10 +1,9 @@
-+++
-weight = 339
-title = "339. 차원 축소법 LDA (선형 판별 분석)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 339. 차원 축소법 LDA (선형 판별 분석)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

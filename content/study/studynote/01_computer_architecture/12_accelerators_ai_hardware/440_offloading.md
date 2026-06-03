@@ -1,10 +1,9 @@
-+++
-weight = 440
-title = "440. 오프로딩 (Offloading)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 440. 오프로딩 (Offloading)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

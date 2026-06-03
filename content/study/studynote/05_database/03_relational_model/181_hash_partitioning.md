@@ -1,10 +1,9 @@
-+++
-weight = 181
-title = "181. 해시 파티셔닝 (Hash Partitioning) - 해시 함수 기반 균등 분산"
-date = "2026-05-06"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 181. 해시 파티셔닝 (Hash Partitioning) - 해시 함수 기반 균등 분산
+date: '2026-05-06'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

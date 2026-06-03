@@ -1,10 +1,9 @@
-+++
-weight = 175
-title = "175. 와일드카드 인증서 (Wildcard Certificate)"
-date = "2026-04-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 175. 와일드카드 인증서 (Wildcard Certificate)
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

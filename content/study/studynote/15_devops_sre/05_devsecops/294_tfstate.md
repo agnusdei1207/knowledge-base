@@ -1,10 +1,9 @@
-+++
-weight = 294
-title = "294. 테라폼 상태 파일 tfstate 잠금 (Terraform State)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 294. 테라폼 상태 파일 tfstate 잠금 (Terraform State)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

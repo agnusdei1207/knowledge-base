@@ -1,10 +1,9 @@
-+++
-weight = 238
-title = "238. SVM (Support Vector Machine) 마진 커널 트릭 나이브 베이즈 (Naive Bayes)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 238. SVM (Support Vector Machine) 마진 커널 트릭 나이브 베이즈 (Naive Bayes)
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SVM([[084_support_association_rule_transaction|Support]] Vector Machine)은 클래스 간 마진(Margin)을 최대화하는 하이퍼플레인(Hyperplane)을 찾는 [[104_classification_analysis|분류]]기로, 서포트 벡터([[084_support_association_rule_transaction|Support]] Vector)만이 결정 경계를 결정한다.

@@ -1,10 +1,9 @@
-+++
-weight = 211
-title = "211. 클라우드 마이그레이션 전략 (Cloud Migration)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 211. 클라우드 마이그레이션 전략 (Cloud Migration)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

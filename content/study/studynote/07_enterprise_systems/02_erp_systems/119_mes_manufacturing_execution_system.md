@@ -1,10 +1,9 @@
-+++
-weight = 119
-title = "119. MES (Manufacturing Execution System) - 제조 실행 시스템·스마트 팩토리 핵심"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 119. MES (Manufacturing Execution System) - 제조 실행 시스템·스마트 팩토리 핵심
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MES는 **[[081_erp_enterprise_resource_planning|ERP]](경영 계획)와 [[896_plc_programmable_logic_controller|PLC]]/[[894_scada|SCADA]](설비 제어) 사이**에서 **생산 현장의 실시간 실행·[[229_monitor|모니터]]링·추적·품질 관리**를 수행하는 제조 실행 시스템이다.

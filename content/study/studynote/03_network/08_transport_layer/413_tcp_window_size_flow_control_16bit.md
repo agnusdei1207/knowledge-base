@@ -1,10 +1,9 @@
-+++
-weight = 413
-title = "413. 윈도우 크기 (Window Size, 16bit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 413. 윈도우 크기 (Window Size, 16bit)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

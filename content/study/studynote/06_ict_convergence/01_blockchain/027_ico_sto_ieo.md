@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. ICO / STO / IEO — 블록체인 기반 자금 조달 방식"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 27. ICO / STO / IEO — 블록체인 기반 자금 조달 방식
+date: '2026-04-29'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ICO (Initial Coin Offering), STO ([[283_security_tactics|Security]] Token Offering), IEO (Initial Exchange Offering)는 [[004_blockchain|블록체인]] 기반 디지털 자산을 발행하여 프로젝트 자금을 조달하는 세 가지 방식으로, 규제 강도와 투자자 [[571_protection_vs_security|보호]] 수준에서 큰 차이가 있다.

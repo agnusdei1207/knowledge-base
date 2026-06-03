@@ -1,10 +1,9 @@
-+++
-weight = 311
-title = "311. 컬럼 지향 저장소 Parquet ORC 압축 효율 RLE 메커니즘 (Columnar Storage Compression)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 311. 컬럼 지향 저장소 Parquet ORC 압축 효율 RLE 메커니즘 (Columnar Storage Compression)
+date: '2026-04-21'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

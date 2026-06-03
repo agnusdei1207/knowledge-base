@@ -1,10 +1,9 @@
-+++
-weight = 95
-title = "보이어-무어 (Boyer-Moore) 알고리즘"
-date = "2024-03-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 보이어-무어 (Boyer-Moore) 알고리즘
+date: '2024-03-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **역방향 비교의 승리**: 패턴의 뒤쪽(오른쪽)부터 거꾸로 비교하여 매칭되지 않는 텍스트를 대량으로 건너뛰는(Skip) 고성능 문자열 탐색 [[001_algorithm_definition|알고리즘]]임.

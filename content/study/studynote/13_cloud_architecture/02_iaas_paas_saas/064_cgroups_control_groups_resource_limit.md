@@ -1,10 +1,10 @@
-+++
-weight = 64
-title = "64. cgroups (Control Groups) - 컨테이너가 사용할 수 있는 CPU, 메모리 자원의 상한선을 제한(Limit)하고 모니터링하는 커널 기술"
-date = "2026-04-07"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 64. cgroups (Control Groups) - 컨테이너가 사용할 수 있는 CPU, 메모리 자원의 상한선을 제한(Limit)하고
+  모니터링하는 커널 기술
+date: '2026-04-07'
+tags:
+- studynote-cloud
+---
 
 # [[062_cgroups|cgroups]] ([[668_cgroups_hw_resource_allocation|Control Groups]]) [[561_container_based_deployment|컨테이너]] 리소스 제한 기술
 

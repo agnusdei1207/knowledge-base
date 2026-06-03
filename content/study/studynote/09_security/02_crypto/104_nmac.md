@@ -1,10 +1,9 @@
-+++
-title = "104. NMAC (Nested MAC)"
-date = "2026-04-05"
-weight = 104
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 104. NMAC (Nested MAC)
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NMAC (Nested [[673_mac_message_authentication_code|Message Authentication Code]])은 독립적인 두 개의 비밀 키($K_1$, $K_2$)를 사용하여 내부 해시와 외부 해시를 중첩(Nested)해서 실행하는 [[652_cryptography_concept_encryption_decryption|암호학]]적 해시 아키텍처다.

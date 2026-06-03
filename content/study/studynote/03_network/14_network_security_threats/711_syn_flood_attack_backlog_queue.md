@@ -1,10 +1,9 @@
-+++
-weight = 711
-title = "711. SYN Flood 공격 (TCP 3way-Handshake 약점 Backlog 큐 포화 자원 마비 유도)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 711. SYN Flood 공격 (TCP 3way-Handshake 약점 Backlog 큐 포화 자원 마비 유도)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

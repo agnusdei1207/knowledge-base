@@ -1,10 +1,9 @@
-+++
-weight = 125
-title = "125. 소켓 (Socket) 통신 - 네트워크, 서로 다른 시스템 간 통신"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 125. 소켓 (Socket) 통신 - 네트워크, 서로 다른 시스템 간 통신
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

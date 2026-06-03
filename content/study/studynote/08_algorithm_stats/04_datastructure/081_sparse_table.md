@@ -1,10 +1,9 @@
-+++
-weight = 81
-title = "27. 스파스 테이블 (Sparse Table) — 정적 RMQ 최적 자료구조"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 27. 스파스 테이블 (Sparse Table) — 정적 RMQ 최적 자료구조
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스파스 테이블(Sparse Table)은 [[055_array|배열]]에서 구간 최솟값 [[298_qkv_attention|쿼리]](RMQ, Range Minimum Query)를 O(1) 시간에 응답하기 위해 전처리(Preprocessing) O(n log n)를 수행하는 정적(Static) 자료구조로, 2의 거듭제곱 구간을 미리 계산·저장하여 겹침 허용(Overlap) 방식으로 [[298_qkv_attention|쿼리]]를 처리한다.

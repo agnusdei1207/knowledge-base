@@ -1,7 +1,8 @@
-+++
-title = "57. 재해 복구 (Disaster Recovery, DR) - BIA와 RTO/RPO 설계"
-weight = 57
-+++
+---
+title: 57. 재해 복구 (Disaster Recovery, DR) - BIA와 RTO/RPO 설계
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 131
-title = "131. 시스템 개발 생명주기 (SDLC) 프로세스 관리"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 131. 시스템 개발 생명주기 (SDLC) 프로세스 관리
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시스템 개발 생명주기 (SDLC) 프로세스 관리의 본질은 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

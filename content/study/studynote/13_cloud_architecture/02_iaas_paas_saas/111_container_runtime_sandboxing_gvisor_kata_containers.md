@@ -1,10 +1,9 @@
-+++
-weight = 111
-title = "111. 컨테이너 런타임 샌드박싱 - gVisor·Kata Containers·런타임 보안 격리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 111. 컨테이너 런타임 샌드박싱 - gVisor·Kata Containers·런타임 보안 격리
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기본 [[561_container_based_deployment|컨테이너]]([[667_container_runtime_hw_isolation|runc]])는 호스트 [[022_kernel_role|커널]]을 공유하므로 **[[022_kernel_role|커널]] 취약점을 통한 [[561_container_based_deployment|컨테이너]] 탈출([[252_container_escape_vm_gvisor_kata|Container Escape]])** 위험이 있다. [[602_sandboxing_kernel_wrapper|샌드박싱]] 런타임은 **[[022_kernel_role|커널]] 접근을 차단하는 추가 격리 계층**을 삽입하여 보안을 강화한다.

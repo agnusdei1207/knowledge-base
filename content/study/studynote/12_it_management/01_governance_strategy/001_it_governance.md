@@ -1,12 +1,11 @@
-+++
-weight = 1
-title = "1. IT 거버넌스 (IT Governance) - 기업의 전략과 IT를 연계하여 비즈니스 가치를 창출하고 위험을 통제하는 이사회/경영진의 책임 구조"
-description = "기업의 전략과 IT를 연계하여 비즈니스 가치를 창출하고 위험을 통제하는 이사회 및 경영진의 책임 구조"
-date = "2026-03-04"
-[taxonomies]
-tags = ["IT 거버넌스", "IT Governance", "IT 경영", "비즈니스 연계", "위험 관리"]
-categories = ["12_it_management"]
-+++
+---
+title: 1. IT 거버넌스 (IT Governance) - 기업의 전략과 IT를 연계하여 비즈니스 가치를 창출하고 위험을 통제하는 이사회/경영진의
+  책임 구조
+date: '2026-03-04'
+description: 기업의 전략과 IT를 연계하여 비즈니스 가치를 창출하고 위험을 통제하는 이사회 및 경영진의 책임 구조
+tags:
+- it_management
+---
 
 # IT 거버넌스 (IT Governance)
 

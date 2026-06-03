@@ -1,10 +1,9 @@
-+++
-weight = 511
-title = "511. 하드 링크 (Hard Link) - 동일한 물리 데이터(i-node) 가리킴, 디렉터리 링크 불가"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 511. 하드 링크 (Hard Link) - 동일한 물리 데이터(i-node) 가리킴, 디렉터리 링크 불가
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

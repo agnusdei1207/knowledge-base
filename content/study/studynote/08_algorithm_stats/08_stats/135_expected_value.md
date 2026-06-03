@@ -1,10 +1,9 @@
-+++
-title = "6. 기댓값 (Expected Value, E[X]) — 확률 가중 평균"
-weight = 135
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 6. 기댓값 (Expected Value, E[X]) — 확률 가중 평균
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

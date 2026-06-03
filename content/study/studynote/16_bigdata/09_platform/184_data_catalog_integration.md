@@ -1,10 +1,9 @@
-+++
-weight = 184
-title = "184. 데이터 카탈로그 통합 (Data Catalog Integration) - Glue · DataHub · OpenMetadata"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 184. 데이터 카탈로그 통합 (Data Catalog Integration) - Glue · DataHub · OpenMetadata
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

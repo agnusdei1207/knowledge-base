@@ -1,10 +1,9 @@
-+++
-weight = 226
-title = "226. 셀 기반 아키텍처 (Cell-based Architecture)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 226. 셀 기반 아키텍처 (Cell-based Architecture)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

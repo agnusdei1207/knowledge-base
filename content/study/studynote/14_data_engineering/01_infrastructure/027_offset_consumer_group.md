@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. Kafka 오프셋 & 컨슈머 그룹 (Offset & Consumer Group)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 27. Kafka 오프셋 & 컨슈머 그룹 (Offset & Consumer Group)
+date: '2026-04-29'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Kafka에서 오프셋(Offset)은 [[514_partition_slice_volume|파티션]] 내 메시지의 순서 번호이고, [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]([[191_consumer_group_kafka_partition_load_balancing|Consumer Group]])은 하나의 토픽을 [[430_index_fast_full_scan|병렬]]로 소비하는 컨슈머 집합으로 [[514_partition_slice_volume|파티션]]이 그룹 내 컨슈머에 1:1로 할당된다.

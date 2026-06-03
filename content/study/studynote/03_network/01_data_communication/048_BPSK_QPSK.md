@@ -1,10 +1,9 @@
-+++
-title = "048. BPSK·QPSK — 위상 편이 변조"
-weight = 48
-date = "2026-04-05"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 048. BPSK·QPSK — 위상 편이 변조
+date: '2026-04-05'
+tags:
+- studynote-network
+---
 
 > **핵심 인사이트**
 > 1. [[142_psk_pre_shared_key|PSK]](Phase Shift Keying)는 반송파의 위상(Phase)을 변화시켜 디지털 [[001_dikw_pyramid|데이터]]를 전송 — BPSK는 2가지 위상(0°/180°)으로 1비트, QPSK는 4가지 위상(0°/90°/180°/270°)으로 2비트를 동시에 전송한다.

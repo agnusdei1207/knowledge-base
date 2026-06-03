@@ -1,10 +1,9 @@
-+++
-weight = 321
-title = "321. IOP (I/O Processor / Channel)"
-date = "2026-03-27"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 321. IOP (I/O Processor / Channel)
+date: '2026-03-27'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

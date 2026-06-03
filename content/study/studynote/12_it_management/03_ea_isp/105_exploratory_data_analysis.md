@@ -1,10 +1,9 @@
-+++
-weight = 105
-title = "105. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 105. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

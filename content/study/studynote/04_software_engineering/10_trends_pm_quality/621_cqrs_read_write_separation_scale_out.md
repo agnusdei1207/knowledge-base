@@ -1,10 +1,9 @@
-+++
-weight = 621
-title = "621. CQRS 읽기 쓰기 분리 스케일 아웃"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 621. CQRS 읽기 쓰기 분리 스케일 아웃
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

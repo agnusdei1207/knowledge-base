@@ -1,10 +1,9 @@
-+++
-weight = 923
-title = "923. 자동차 사이버보안 (Vehicle Cybersecurity)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 923. 자동차 사이버보안 (Vehicle Cybersecurity)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,8 +1,8 @@
-+++
-weight = 9
-title = "04. 그래프 알고리즘 (Graph Algorithms)"
-sort_by = "weight"
-+++
+---
+title: 04. 그래프 알고리즘 (Graph Algorithms)
+tags:
+- algorithm_stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

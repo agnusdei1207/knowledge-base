@@ -1,10 +1,9 @@
-+++
-title = "044. 데이터 메시 — Data Mesh"
-weight = 256
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 044. 데이터 메시 — Data Mesh
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트**
 > 1. [[211_data_mesh_domain_ownership|데이터 메시]]([[320_data_mesh|Data Mesh]])는 Zhamak Dehghani(2019)가 제안한 [[136_variance|분산]] [[104_da_as_is_analysis|데이터 아키텍처]] 패러다임으로 — 중앙집중식 [[208_data_lake_schema_on_read|데이터 레이크]]/[[209_data_warehouse_schema_on_write|데이터 웨어하우스]]의 "[[001_dikw_pyramid|데이터]] 병목([[001_dikw_pyramid|Data]] [[617_io_bottleneck|Bottleneck]])"을 해결하기 위해 [[064_relation_domain|도메인]] 팀이 직접 [[154_data_product|데이터 제품]]([[154_data_product|Data Product]])을 소유·운영하는 [[136_variance|분산]] [[052_data_governance_framework|데이터 거버넌스]] 모델이다.

@@ -1,10 +1,9 @@
-+++
-weight = 1026
-title = "1026. 스마트 그리드 통신 인프라망 (Smart Grid Ami Two Way Communication Energy)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 1026. 스마트 그리드 통신 인프라망 (Smart Grid Ami Two Way Communication Energy)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

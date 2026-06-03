@@ -1,10 +1,9 @@
-+++
-weight = 584
-title = "584. 프롬프트 엔지니어링 (Prompt Engineering) 가이드라인 설계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 584. 프롬프트 엔지니어링 (Prompt Engineering) 가이드라인 설계
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

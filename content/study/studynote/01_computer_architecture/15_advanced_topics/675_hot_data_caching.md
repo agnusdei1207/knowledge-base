@@ -1,10 +1,9 @@
-+++
-weight = 675
-title = "675. 핫 데이터 (Hot Data) 캐싱"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 675. 핫 데이터 (Hot Data) 캐싱
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

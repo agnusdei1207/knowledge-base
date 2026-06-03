@@ -1,10 +1,9 @@
-+++
-weight = 343
-title = "343. 정상성 검정 (ADF Test) (Stationarity)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 343. 정상성 검정 (ADF Test) (Stationarity)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

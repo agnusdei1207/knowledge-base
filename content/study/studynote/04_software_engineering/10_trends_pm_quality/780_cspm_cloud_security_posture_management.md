@@ -1,10 +1,9 @@
-+++
-weight = 780
-title = "780. 클라우드 보안 형상 관리 (CSPM) 데브옵스 결합"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 780. 클라우드 보안 형상 관리 (CSPM) 데브옵스 결합
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

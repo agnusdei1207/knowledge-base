@@ -1,10 +1,9 @@
-+++
-weight = 152
-title = "152. 콜드 스타트 지연 (Cold Start Latency) - 서버리스 영면과 부활의 페널티"
-date = "2026-05-03"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 152. 콜드 스타트 지연 (Cold Start Latency) - 서버리스 영면과 부활의 페널티
+date: '2026-05-03'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[559_serverless_cold_start_mitigation|콜드 스타트]]([[347_cold_start_problem|Cold Start]])는 [[206_serverless_cold_start|서버리스]]([[206_serverless_cold_start|Serverless]]/[[342_faas|FaaS]]) 환경에서 한동안 호출되지 않아 램(RAM)에서 완전히 소멸(Scale-to-[[585_zero_skipping|Zero]])되었던 함수 봇이 ➔ 갑자기 유저의 핑을 맞고 깨어나 **[[063_docker_architecture|도커]] [[561_container_based_deployment|컨테이너]]를 새로 파고 언어 런타임(JVM 등)을 부팅하느라 발생하는 1~5초짜리 [[459_quic_fec_forward_error_correction|초기]] 구동 [[015_지연_데이터_관점|지연]]([[141_latency|Latency]]) 랙 병목 현상**이다.

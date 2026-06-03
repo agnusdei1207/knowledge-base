@@ -1,10 +1,9 @@
-+++
-weight = 256
-title = "256. 빌더 (Builder) - 복잡한 객체를 단계별로 생성"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 256. 빌더 (Builder) - 복잡한 객체를 단계별로 생성
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

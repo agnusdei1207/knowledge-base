@@ -1,10 +1,9 @@
-+++
-weight = 159
-title = "159. 페일오버/페일백 아키텍처 (Failover/Failback Architecture)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 159. 페일오버/페일백 아키텍처 (Failover/Failback Architecture)
+date: '2026-04-21'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트
 

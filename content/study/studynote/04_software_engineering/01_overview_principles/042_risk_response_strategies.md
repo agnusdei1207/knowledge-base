@@ -1,10 +1,9 @@
-+++
-title = "042. 위험 대응 전략 — 회피·전가·완화·수용 (Risk Response)"
-weight = 42
-date = "2026-04-05"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 042. 위험 대응 전략 — 회피·전가·완화·수용 (Risk Response)
+date: '2026-04-05'
+tags:
+- studynote-software-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[033_risk_response_strategies|위험 대응 전략]]의 4가지 유형(회피·전가·완화·수용)은 위험 확률과 영향도의 매트릭스에서 최적 [[268_strategy_pattern|전략]]을 선택하며, [[147_pmbok_10_knowledge_areas|PMBOK]] 7판과 ISO 31000은 이를 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 처리([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Treatment) 활동으로 표준화하고 있다.

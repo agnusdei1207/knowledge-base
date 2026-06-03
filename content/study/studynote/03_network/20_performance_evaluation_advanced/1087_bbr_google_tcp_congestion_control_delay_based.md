@@ -1,10 +1,9 @@
-+++
-weight = 1087
-title = "1087. BBR 구글 TCP 동적 모델 지연 기반 혼잡"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1087. BBR 구글 TCP 동적 모델 지연 기반 혼잡
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

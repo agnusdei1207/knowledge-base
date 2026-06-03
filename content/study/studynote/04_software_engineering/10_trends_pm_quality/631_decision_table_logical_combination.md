@@ -1,10 +1,9 @@
-+++
-weight = 631
-title = "631. 결정 테이블 (Decision Table) 논리 조합"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 631. 결정 테이블 (Decision Table) 논리 조합
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

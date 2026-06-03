@@ -1,10 +1,9 @@
-+++
-weight = 882
-title = "882. PbD 7대 기본 원칙 (7 Foundational Principles)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 882. PbD 7대 기본 원칙 (7 Foundational Principles)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

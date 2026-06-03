@@ -1,10 +1,9 @@
-+++
-weight = 90
-title = "90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

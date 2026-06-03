@@ -1,10 +1,9 @@
-+++
-weight = 282
-title = "282. 비즈니스 인텔리전스 (BI, Business Intelligence) 기술 체계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 282. 비즈니스 인텔리전스 (BI, Business Intelligence) 기술 체계
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 584
-title = "584. 딥러닝 텐서 희소성 인코더 (Tensor Sparsity Encoder)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 584. 딥러닝 텐서 희소성 인코더 (Tensor Sparsity Encoder)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

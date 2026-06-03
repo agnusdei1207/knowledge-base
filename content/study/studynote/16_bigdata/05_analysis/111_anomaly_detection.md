@@ -1,10 +1,9 @@
-+++
-weight = 111
-title = "108. 이상 탐지 (Anomaly Detection) — 통계/ML/딥러닝 기반 이상치 감지"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 108. 이상 탐지 (Anomaly Detection) — 통계/ML/딥러닝 기반 이상치 감지
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] ([[530_anomaly|Anomaly]] [[961_deepfake_detection|Detection]])는 [[001_dikw_pyramid|데이터]]의 정상 패턴에서 유의미하게 벗어난 관측치를 자동으로 [[655_ir_detection_analysis|식별]]하는 기법으로, 레이블 없는 [[001_dikw_pyramid|데이터]]에서도 적용 가능한 비지도·준지도 학습의 핵심 응용 분야다.

@@ -1,10 +1,9 @@
-+++
-weight = 745
-title = "745. SOAR (Security Orchestration, Automation and Response)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 745. SOAR (Security Orchestration, Automation and Response)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

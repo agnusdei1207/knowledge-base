@@ -1,10 +1,9 @@
-+++
-weight = 190
-title = "190. 엔터프라이즈 모듈 분리 의존성 주입(DI) 프레임워크 생명주기 관리 구조 (Spring Bean Lifecycle)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 190. 엔터프라이즈 모듈 분리 의존성 주입(DI) 프레임워크 생명주기 관리 구조 (Spring Bean Lifecycle)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [[337_dependency_injection|의존성 주입]](DI, [[337_dependency_injection|Dependency Injection]]) 프레임워크는 객체 [[087_process_state_transition|생성]]과 연결 책임을 [[561_container_based_deployment|컨테이너]]로 역전시켜 강결합을 줄이고, Spring Bean 생명주기는 그 객체가 [[087_process_state_transition|생성]]·주입·초기화·사용·소멸되는 과정을 표준화한다.

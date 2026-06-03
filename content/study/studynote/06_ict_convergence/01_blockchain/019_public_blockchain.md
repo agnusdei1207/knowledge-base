@@ -1,12 +1,11 @@
-+++
-weight = 19
-title = "19. 퍼블릭 블록체인 (Public Blockchain) - 누구나 참여 가능 (비트코인, 이더리움)"
-description = "중앙 통제 기관 없이 누구나 자유롭게 네트워크에 참여하고 트랜잭션을 검증할 수 있는 무허가형(Permissionless) 개방형 분산 원장 기술"
-date = "2026-03-04"
-[taxonomies]
-tags = ["퍼블릭 블록체인", "무허가형", "비트코인", "이더리움", "탈중앙화", "Public Blockchain"]
-categories = ["studynote-ict-convergence"]
-+++
+---
+title: 19. 퍼블릭 블록체인 (Public Blockchain) - 누구나 참여 가능 (비트코인, 이더리움)
+date: '2026-03-04'
+description: 중앙 통제 기관 없이 누구나 자유롭게 네트워크에 참여하고 트랜잭션을 검증할 수 있는 무허가형(Permissionless) 개방형
+  분산 원장 기술
+tags:
+- ict_convergence
+---
 
 # 19. 퍼블릭 [[004_blockchain|블록체인]] (Public [[004_blockchain|Blockchain]])
 

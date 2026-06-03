@@ -1,10 +1,9 @@
-+++
-weight = 62
-title = "62. 백업 및 아카이빙 정책 점검 (Backup and Archiving Policy Audit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 62. 백업 및 아카이빙 정책 점검 (Backup and Archiving Policy Audit)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

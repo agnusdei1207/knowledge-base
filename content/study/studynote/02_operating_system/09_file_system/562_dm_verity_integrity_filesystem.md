@@ -1,10 +1,9 @@
-+++
-weight = 562
-title = "562. 무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 562. 무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

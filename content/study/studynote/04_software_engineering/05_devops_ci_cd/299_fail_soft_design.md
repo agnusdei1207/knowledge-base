@@ -1,10 +1,9 @@
-+++
-weight = 299
-title = "299. 페일 소프트 (Fail-Soft) - 고장 시 기능은 저하되나 시스템 자체는 유지"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 299. 페일 소프트 (Fail-Soft) - 고장 시 기능은 저하되나 시스템 자체는 유지
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

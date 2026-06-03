@@ -1,10 +1,9 @@
-+++
-weight = 51
-title = "51. 플립플롭 (Flip-Flop)"
-date = "2026-04-30"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 51. 플립플롭 (Flip-Flop)
+date: '2026-04-30'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

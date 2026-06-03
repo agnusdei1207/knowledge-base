@@ -1,10 +1,9 @@
-+++
-weight = 130
-title = "130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MELT([[567_metrics_time_series_prometheus_grafana|Metrics]]·Events·[[568_logs_distributed_logging_elk_fluentd|Logs]]·Traces)는 [[111_observability_metrics_logs_traces|관측 가능성]]의 **4가지 [[130_signal|신호]]**이며, [[146_opentelemetry_otel_observability_standard|OpenTelemetry]]([[146_opentelemetry_otel_observability_standard|OTel]])가 이를 **벤더 중립적으로 통합 수집**하는 [[190_cncf_landscape_observability|CNCF]] 표준이다.

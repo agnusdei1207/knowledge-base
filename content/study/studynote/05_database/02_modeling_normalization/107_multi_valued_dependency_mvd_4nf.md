@@ -1,7 +1,8 @@
-+++
-title = "107. 다치 종속성 (MVD, Multi-Valued Dependency) - X->>Y"
-weight = 107
-+++
+---
+title: 107. 다치 종속성 (MVD, Multi-Valued Dependency) - X->>Y
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "046. 상향식 비용 산정 / LOC — Bottom-Up & LOC Estimation"
-weight = 46
-date = "2026-04-05"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 046. 상향식 비용 산정 / LOC — Bottom-Up & LOC Estimation
+date: '2026-04-05'
+tags:
+- studynote-software-engineering
+---
 
 > **핵심 인사이트**
 > 1. 상향식([[403_bottom_up_integration|Bottom-Up]]) 비용 산정은 [[149_wbs_work_breakdown_structure|WBS]]([[149_wbs_work_breakdown_structure|Work Breakdown Structure]])의 개별 작업 단위에서 시작해 합산하는 방식 — 세부 계획이 확정된 후 적용 가능하며, 하향식보다 정확하지만 시간이 많이 소요된다.

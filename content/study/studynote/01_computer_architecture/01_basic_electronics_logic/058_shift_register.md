@@ -1,10 +1,9 @@
-+++
-weight = 58
-title = "58. 시프트 레지스터 (Shift Register)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 58. 시프트 레지스터 (Shift Register)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

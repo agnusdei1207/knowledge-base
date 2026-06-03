@@ -1,10 +1,9 @@
-+++
-weight = 162
-title = "162. 골드 플래팅 (Gold Plating) - 요구사항에 없는 기능 임의 추가 (안티패턴)"
-date = "2026-04-03"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 162. 골드 플래팅 (Gold Plating) - 요구사항에 없는 기능 임의 추가 (안티패턴)
+date: '2026-04-03'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

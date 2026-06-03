@@ -1,10 +1,9 @@
-+++
-weight = 473
-title = "473. 캐시 제어 헤더 (Cache-Control: max-age, no-cache, no-store 등)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: '473. 캐시 제어 헤더 (Cache-Control: max-age, no-cache, no-store 등)'
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

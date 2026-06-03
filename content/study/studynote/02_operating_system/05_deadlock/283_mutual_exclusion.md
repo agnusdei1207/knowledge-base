@@ -1,10 +1,9 @@
-+++
-weight = 283
-title = "283. 상호 배제 (Mutual Exclusion) - 자원은 비공유 모드로만 사용 가능"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 283. 상호 배제 (Mutual Exclusion) - 자원은 비공유 모드로만 사용 가능
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

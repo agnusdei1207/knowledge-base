@@ -1,10 +1,9 @@
-+++
-weight = 702
-title = "702. 다중 스트림 쓰기 (Multi-stream Write)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 702. 다중 스트림 쓰기 (Multi-stream Write)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

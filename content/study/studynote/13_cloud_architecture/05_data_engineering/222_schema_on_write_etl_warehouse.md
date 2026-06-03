@@ -1,10 +1,9 @@
-+++
-weight = 222
-title = "222. 스키마 온 라이트 (Schema-on-Write)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 222. 스키마 온 라이트 (Schema-on-Write)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[010_schema_on_write|스키마 온 라이트]]([[010_schema_on_write|Schema-on-Write]])는 [[001_dikw_pyramid|데이터]]를 저장하기 **전에** 정형 [[005_schema|스키마]]를 강제 [[395_verification_process_review|검증]]하여 [[001_dikw_pyramid|데이터]] 품질을 보장하는 전통적 [[001_dikw_pyramid|데이터]] 관리 [[268_strategy_pattern|전략]]이다.

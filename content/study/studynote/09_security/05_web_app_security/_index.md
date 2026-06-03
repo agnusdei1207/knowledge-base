@@ -1,8 +1,8 @@
-+++
-weight = 5
-title = "05. 웹 및 애플리케이션 보안"
-sort_by = "weight"
-+++
+---
+title: 05. 웹 및 애플리케이션 보안
+tags:
+- security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 352
-title = "352. 동형 암호 데이터 프라이버시 클린 룸 (Homomorphic Encryption)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 352. 동형 암호 데이터 프라이버시 클린 룸 (Homomorphic Encryption)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

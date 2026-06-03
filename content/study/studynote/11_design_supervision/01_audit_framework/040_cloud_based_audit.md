@@ -1,10 +1,9 @@
-+++
-weight = 40
-title = "40. 클라우드 기반 정보화 사업 감리 가이드 (Cloud-based Audit Guide)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 40. 클라우드 기반 정보화 사업 감리 가이드 (Cloud-based Audit Guide)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

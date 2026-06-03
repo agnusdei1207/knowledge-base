@@ -1,10 +1,10 @@
-+++
-weight = 59
-title = "덱 (Deque, Double-Ended Queue)"
-date = "2024-03-24"
-[extra]
-categories = ["studynote-algorithm", "datastructure"]
-+++
+---
+title: 덱 (Deque, Double-Ended Queue)
+date: '2024-03-24'
+tags:
+- datastructure
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **양방향 입출력**이 가능한 선형 자료구조로, [[057_stack|스택]]([[057_stack|Stack]])과 큐([[058_queue|Queue]])의 특성을 모두 결합한 추상 자료형(ADT)이다.

@@ -1,7 +1,8 @@
-+++
-title = "66. 블룸 필터 (Bloom Filter)"
-weight = 66
-+++
+---
+title: 66. 블룸 필터 (Bloom Filter)
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

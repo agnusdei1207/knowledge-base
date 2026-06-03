@@ -1,10 +1,9 @@
-+++
-weight = 702
-title = "702. 생체 인증 (Biometric Authentication)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 702. 생체 인증 (Biometric Authentication)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

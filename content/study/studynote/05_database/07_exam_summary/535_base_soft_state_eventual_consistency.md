@@ -1,10 +1,9 @@
-+++
-weight = 535
-title = "535. NoSQL BASE 특성 소프트 스테이트 결국 일관 상태 전이"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 535. NoSQL BASE 특성 소프트 스테이트 결국 일관 상태 전이
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

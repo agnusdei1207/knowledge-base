@@ -1,10 +1,9 @@
-+++
-weight = 476
-title = "476. OLAP 비정규화 읽기 다차원"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 476. OLAP 비정규화 읽기 다차원
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

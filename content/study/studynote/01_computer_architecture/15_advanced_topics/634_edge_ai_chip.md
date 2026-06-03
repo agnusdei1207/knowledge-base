@@ -1,10 +1,9 @@
-+++
-weight = 634
-title = "634. 엣지 AI 칩 아키텍처"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 634. 엣지 AI 칩 아키텍처
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

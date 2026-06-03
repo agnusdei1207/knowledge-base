@@ -1,10 +1,9 @@
-+++
-weight = 138
-title = "138. 디지털 온보딩 자동화 - 고객·직원 경험 혁신"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 138. 디지털 온보딩 자동화 - 고객·직원 경험 혁신
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 디지털 온보딩은 **고객·직원의 최초 등록·가입 과정을 디지털로 완전 자동화**하는 것이며, eKYC(전자 본인 [[396_validation|확인]])·[[988_digital_signature|전자 서명]]·[[060_rpa_hyperautomation|RPA]]·[[190_ai_llm_requirements_specification|AI]] 문서 인식이 핵심 기술이다.

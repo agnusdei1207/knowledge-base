@@ -1,10 +1,9 @@
-+++
-weight = 297
-title = "297. LLMOps (Llmops Pipeline)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 297. LLMOps (Llmops Pipeline)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

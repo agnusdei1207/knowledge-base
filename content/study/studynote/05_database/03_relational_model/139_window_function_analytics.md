@@ -1,10 +1,9 @@
-+++
-weight = 139
-title = "139. Window Function (분석 함수) - ROW_NUMBER·RANK·LAG·LEAD"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 139. Window Function (분석 함수) - ROW_NUMBER·RANK·LAG·LEAD
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Window Function은 **[[522_group_by|GROUP BY]] 없이 행 단위로 집계·순위·이전/다음 행 [[316_reference_pattern_nosql|참조]]**를 수행하는 SQL:2003 표준 함수이며, OVER([[436_window_function_over|PARTITION BY]] ... ORDER BY ...)로 윈도우를 정의한다.

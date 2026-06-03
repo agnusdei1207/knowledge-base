@@ -1,10 +1,9 @@
-+++
-weight = 600
-title = "600. RFID / NFC 프로토콜 기본 구상"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 600. RFID / NFC 프로토콜 기본 구상
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

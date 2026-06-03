@@ -1,10 +1,9 @@
-+++
-weight = 465
-title = "465. HTTP 1.1 HOL 블로킹 (선행 응답 대기 지연)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 465. HTTP 1.1 HOL 블로킹 (선행 응답 대기 지연)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

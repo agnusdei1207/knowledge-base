@@ -1,10 +1,9 @@
-+++
-weight = 1059
-title = "1059. 디지털 트윈 및 관제 시스템 연동"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1059. 디지털 트윈 및 관제 시스템 연동
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

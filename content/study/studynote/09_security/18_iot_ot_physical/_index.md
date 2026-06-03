@@ -1,9 +1,8 @@
-+++
-weight = 18
-title = "18. IoT / OT / ICS 및 물리 보안 (IoT / OT / ICS & Physical Security)"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 18. IoT / OT / ICS 및 물리 보안 (IoT / OT / ICS & Physical Security)
+tags:
+- studynote-security
+---
 
 # 18. IoT / OT / ICS 및 물리 보안
 

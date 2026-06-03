@@ -1,11 +1,9 @@
-+++
-weight = 713
-title = "713. KVM (Keyboard, Video, Mouse) 오버 IP"
-date = "2026-05-08"
-
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 713. KVM (Keyboard, Video, Mouse) 오버 IP
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

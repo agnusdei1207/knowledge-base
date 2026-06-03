@@ -1,10 +1,9 @@
-+++
-weight = 204
-title = "204. 워크플로우 관리 시스템 (Workflow Management System)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 204. 워크플로우 관리 시스템 (Workflow Management System)
+date: '2026-05-08'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

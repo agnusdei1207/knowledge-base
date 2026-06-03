@@ -1,10 +1,9 @@
-+++
-title = "008. 클리크 문제 — Clique Problem"
-weight = 113
-date = "2026-04-05"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 008. 클리크 문제 — Clique Problem
+date: '2026-04-05'
+tags:
+- studynote-algorithm-stats
+---
 
 > **핵심 인사이트**
 > 1. 클리크(Clique)란 [[070_graph_datastructure|그래프]]에서 모든 정점이 서로 연결된 완전 부분 [[070_graph_datastructure|그래프]](Complete Subgraph)를 말하며 — k-Clique 문제(크기 k 이상의 클리크가 존재하는가?)는 SAT로부터 다항 시간 귀납에 의해 NP-완전임이 증명된다.

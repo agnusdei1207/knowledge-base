@@ -1,10 +1,9 @@
-+++
-weight = 196
-title = "196. 서버리스 아키텍처 - BaaS와 FaaS 기반 엔터프라이즈 통합"
-date = "2026-05-08"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 196. 서버리스 아키텍처 - BaaS와 FaaS 기반 엔터프라이즈 통합
+date: '2026-05-08'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

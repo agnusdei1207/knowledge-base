@@ -1,10 +1,9 @@
-+++
-weight = 617
-title = "617. 서비스 디스커버리 Eureka"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 617. 서비스 디스커버리 Eureka
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

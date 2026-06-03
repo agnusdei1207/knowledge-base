@@ -1,10 +1,9 @@
-+++
-weight = 402
-title = "402. 정수 계획법 선형 완화 분기 한정 최적 탐색 (Branch and Bound)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 402. 정수 계획법 선형 완화 분기 한정 최적 탐색 (Branch and Bound)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

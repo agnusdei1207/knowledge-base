@@ -1,10 +1,9 @@
-+++
-weight = 52
-title = "23. 삽입 정렬 (Insertion Sort)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 23. 삽입 정렬 (Insertion Sort)
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

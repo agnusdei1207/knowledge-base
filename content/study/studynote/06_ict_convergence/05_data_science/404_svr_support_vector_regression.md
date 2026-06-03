@@ -1,10 +1,9 @@
-+++
-weight = 404
-title = "404. 서포트 벡터 회귀 튜브 입실론(ε) 경계 모형 (SVR)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 404. 서포트 벡터 회귀 튜브 입실론(ε) 경계 모형 (SVR)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

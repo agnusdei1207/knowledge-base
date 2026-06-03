@@ -1,10 +1,9 @@
-+++
-weight = 129
-title = "129. 문서형 데이터베이스 (Document DB) — MongoDB/CouchDB/Firestore"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 129. 문서형 데이터베이스 (Document DB) — MongoDB/CouchDB/Firestore
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 문서형 DB는 [[343_json|JSON]]/BSON 형식의 자기 완결적 문서([[037_document|Document]])를 기본 단위로 저장하여, 복잡한 객체 [[070_graph_datastructure|그래프]]를 단일 I/O 연산으로 조회할 수 있는 [[035_nosql|NoSQL]] 모델이다.

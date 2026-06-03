@@ -1,12 +1,10 @@
-+++
-weight = 92
-title = "92. 람다 아키텍처 — 배치(Speed Layer) + 실시간(Batch Layer) + Serving Layer"
-description = "GPT 시리즈의 발전 과정, 생성형 AI의 원리, 프롬프트 엔지니어링, 자연어 처리의 미래"
-date = "2026-04-05"
-[taxonomies]
-tags = ["GPT", "생성형AI", "자연어처리", "Generative", "LLM", "프롬프트", " autoregressive"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 92. 람다 아키텍처 — 배치(Speed Layer) + 실시간(Batch Layer) + Serving Layer
+date: '2026-04-05'
+description: GPT 시리즈의 발전 과정, 생성형 AI의 원리, 프롬프트 엔지니어링, 자연어 처리의 미래
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

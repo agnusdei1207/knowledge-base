@@ -1,10 +1,9 @@
-+++
-weight = 257
-title = "257. 제로 트러스트 아키텍처 (ZTA, Zero Trust Architecture)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 257. 제로 트러스트 아키텍처 (ZTA, Zero Trust Architecture)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

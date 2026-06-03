@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "10. 인공지능 (AI) 및 머신러닝 키워드 목록"
-date = "2026-03-04"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 10. 인공지능 (AI) 및 머신러닝 키워드 목록
+date: '2026-03-04'
+tags:
+- studynote-ai
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # [[231_ai_turing_test|인공지능]] ([[190_ai_llm_requirements_specification|AI]]) / [[241_machine_learning_basics|머신러닝]] / 딥러닝 키워드 목록 (심화 확장판)

@@ -1,7 +1,8 @@
-+++
-title = "106. 외판원 문제 (TSP) — NP-hard"
-weight = 106
-+++
+---
+title: 106. 외판원 문제 (TSP) — NP-hard
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

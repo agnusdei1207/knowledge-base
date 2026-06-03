@@ -1,10 +1,9 @@
-+++
-weight = 83
-title = "83. BSS (Block Started by Symbol) 영역 - 초기화되지 않은 전역 변수"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 83. BSS (Block Started by Symbol) 영역 - 초기화되지 않은 전역 변수
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: BSS (Block Started by Symbol) 영역은 [[459_quic_fec_forward_error_correction|초기]]화되지 않은 전역 변수와 정적 변수를 저장하는 메모리 구역으로, 실행 [[501_file_definition_logical_record|파일]]에는 크기 정보만 남긴다.

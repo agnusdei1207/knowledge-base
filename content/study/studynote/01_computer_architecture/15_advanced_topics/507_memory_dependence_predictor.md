@@ -1,10 +1,9 @@
-+++
-weight = 507
-title = "507. 메모리 의존성 예측기 (Memory Dependence Predictor)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 507. 메모리 의존성 예측기 (Memory Dependence Predictor)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 316
-title = "316. 동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법 (Synchronization Bug Debugging)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 316. 동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법 (Synchronization Bug Debugging)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

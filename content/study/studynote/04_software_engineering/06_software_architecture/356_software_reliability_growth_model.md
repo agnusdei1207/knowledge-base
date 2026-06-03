@@ -1,10 +1,9 @@
-+++
-weight = 356
-title = "356. 신뢰성 성장 모델 (SRGM, Software Reliability Growth Model) - 고장 시간, 고장 간격 모델링"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 356. 신뢰성 성장 모델 (SRGM, Software Reliability Growth Model) - 고장 시간, 고장 간격 모델링
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

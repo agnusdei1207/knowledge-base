@@ -1,10 +1,9 @@
-+++
-weight = 188
-title = "188. 멀티 GPU 분산 학습 전술 (데이터 vs 모델 병렬화)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 188. 멀티 GPU 분산 학습 전술 (데이터 vs 모델 병렬화)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

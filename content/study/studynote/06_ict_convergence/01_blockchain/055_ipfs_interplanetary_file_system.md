@@ -1,10 +1,9 @@
-+++
-weight = 55
-title = "55. IPFS (InterPlanetary File System)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 55. IPFS (InterPlanetary File System)
+date: '2026-05-01'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

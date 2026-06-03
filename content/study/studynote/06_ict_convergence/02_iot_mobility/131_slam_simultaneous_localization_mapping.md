@@ -1,10 +1,9 @@
-+++
-weight = 131
-title = "131. SLAM (동시 위치 추정과 지도 작성) - XR/자율주행의 공간 인식 핵심"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 131. SLAM (동시 위치 추정과 지도 작성) - XR/자율주행의 공간 인식 핵심
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SLAM(Simultaneous Localization and [[010_schema_mapping|Mapping]])은 **센서(카메라·[[140_lidar_light_detection_and_ranging_tof|LiDAR]])로 주변 환경의 지도를 작성하면서 동시에 자신의 위치를 추정**하는 알고리즘으로, 자율주행·XR·로봇의 핵심 기술이다.

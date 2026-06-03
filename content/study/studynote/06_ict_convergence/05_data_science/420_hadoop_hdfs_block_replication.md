@@ -1,10 +1,9 @@
-+++
-weight = 420
-title = "420. 빅데이터 처리 하둡 HDFS 블록 복제 3벌 랙 인지 분산 데이터베이스 연계망 처리 (Hadoop HDFS Block Replication)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 420. 빅데이터 처리 하둡 HDFS 블록 복제 3벌 랙 인지 분산 데이터베이스 연계망 처리 (Hadoop HDFS Block Replication)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

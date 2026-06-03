@@ -1,10 +1,9 @@
-+++
-weight = 112
-title = "112. 분산 트레이싱 (Distributed Tracing) - Span·Trace ID·OpenTelemetry 추적 체계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 112. 분산 트레이싱 (Distributed Tracing) - Span·Trace ID·OpenTelemetry 추적 체계
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[136_variance|분산]] 트레이싱은 [[619_msa_traffic_hardware|MSA]] 환경에서 하나의 사용자 요청이 **N개 [[090_service_kubernetes_network_load_balancing|서비스]]를 거치는 전체 경로(Trace)**를 고유 ID([[303_trace_id|Trace ID]])로 추적하고, 각 [[090_service_kubernetes_network_load_balancing|서비스]] 내 처리 구간(Span)의 **레이턴시·에러를 [[003_bigdata_7v|시각화]]**하여 병목을 특정하는 기법이다.

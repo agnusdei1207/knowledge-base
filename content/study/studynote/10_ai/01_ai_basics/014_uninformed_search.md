@@ -1,12 +1,10 @@
-+++
-weight = 14
-title = "14. 맹목적 탐색 (Uninformed Search) - DFS(깊이 우선 탐색), BFS(너비 우선 탐색)"
-description = "목표 위치에 대한 정보 없이 오직 순서와 구조에만 의존하여 모든 경로를 스캔하는 기초 탐색 알고리즘"
-date = "2024-05-24"
-[taxonomies]
-tags = ["AI", "맹목적 탐색", "BFS", "DFS", "자료구조"]
-categories = ["studynote-ai"]
-+++
+---
+title: 14. 맹목적 탐색 (Uninformed Search) - DFS(깊이 우선 탐색), BFS(너비 우선 탐색)
+date: '2024-05-24'
+description: 목표 위치에 대한 정보 없이 오직 순서와 구조에만 의존하여 모든 경로를 스캔하는 기초 탐색 알고리즘
+tags:
+- ai
+---
 # 14. 맹목적 탐색 (Uninformed Search)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 목표 지점이 어디쯤 있는지에 대한 [[167_sql_hint_optimizer_override|힌트]]([[064_relation_domain|도메인]] 지식)를 전혀 갖지 않고, 문제의 [[459_quic_fec_forward_error_correction|초기]] 상태에서 [[087_process_state_transition|생성]]되는 자식 노드들을 기계적 순서에 따라 맹목적으로 전개해 나가는 탐색 기법.

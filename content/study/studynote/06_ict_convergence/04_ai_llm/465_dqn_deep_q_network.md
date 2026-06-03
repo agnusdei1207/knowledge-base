@@ -1,10 +1,9 @@
-+++
-weight = 465
-title = "465. DQN (Deep Q-Network)과 경험 리플레이, 타겟 네트워크"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 465. DQN (Deep Q-Network)과 경험 리플레이, 타겟 네트워크
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

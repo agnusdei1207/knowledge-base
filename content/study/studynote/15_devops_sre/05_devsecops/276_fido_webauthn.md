@@ -1,10 +1,9 @@
-+++
-weight = 276
-title = "276. FIDO, WebAuthn 생체 기반 패스워드리스 인증 적용 체제 (FIDO / WebAuthn)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 276. FIDO, WebAuthn 생체 기반 패스워드리스 인증 적용 체제 (FIDO / WebAuthn)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

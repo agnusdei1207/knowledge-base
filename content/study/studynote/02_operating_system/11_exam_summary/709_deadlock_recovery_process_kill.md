@@ -1,10 +1,9 @@
-+++
-weight = 709
-title = "709. 교착 상태 복구 (프로세스 킬) (Deadlock Recovery Process Kill)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 709. 교착 상태 복구 (프로세스 킬) (Deadlock Recovery Process Kill)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

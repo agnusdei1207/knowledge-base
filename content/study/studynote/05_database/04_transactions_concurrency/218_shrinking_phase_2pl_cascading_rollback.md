@@ -1,10 +1,9 @@
-+++
-weight = 218
-title = "218. 축소 단계 (Shrinking Phase)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 218. 축소 단계 (Shrinking Phase)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

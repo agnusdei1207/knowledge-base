@@ -1,10 +1,9 @@
-+++
-title = "064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability"
-date = "2026-04-05"
-weight = 64
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

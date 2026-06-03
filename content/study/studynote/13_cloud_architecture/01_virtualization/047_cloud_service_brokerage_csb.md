@@ -1,10 +1,9 @@
-+++
-title = "047. CSB — 클라우드 서비스 브로커리지"
-weight = 47
-date = "2026-04-05"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 047. CSB — 클라우드 서비스 브로커리지
+date: '2026-04-05'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. CSB(Cloud [[090_service_kubernetes_network_load_balancing|Service]] Brokerage)는 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]] 소비자와 제공자 사이에서 중개·통합·커스터마이징·거버넌스 역할을 수행하는 개체 — Gartner가 정의한 [[052_cloud_computing_os|클라우드 컴퓨팅]] [[316_reference_pattern_nosql|참조]] 모델의 핵심 구성 요소로, [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 환경의 복잡성을 관리한다.

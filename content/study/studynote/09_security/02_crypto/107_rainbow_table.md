@@ -1,10 +1,9 @@
-+++
-title = "107. Rainbow Table — 사전 계산 해시 테이블, 역산 공격"
-date = "2026-04-05"
-weight = 107
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 107. Rainbow Table — 사전 계산 해시 테이블, 역산 공격
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

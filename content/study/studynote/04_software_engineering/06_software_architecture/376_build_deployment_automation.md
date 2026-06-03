@@ -1,10 +1,9 @@
-+++
-weight = 376
-title = "376. 소프트웨어 빌드 및 배포 자동화의 품질 검증 단계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 376. 소프트웨어 빌드 및 배포 자동화의 품질 검증 단계
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 357
-title = "357. 인텐트 기반 네트워킹 의도 선언 SDN 자동화 (IBN)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 357. 인텐트 기반 네트워킹 의도 선언 SDN 자동화 (IBN)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[199_intent_based_networking_ibn_ai_traffic_routing|인텐트 기반 네트워킹]] 의도 선언 [[633_sdn_whitebox|SDN]] 자동화는 클라우드 인프라에서 자동화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

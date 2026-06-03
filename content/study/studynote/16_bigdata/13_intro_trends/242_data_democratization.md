@@ -1,10 +1,9 @@
-+++
-weight = 242
-title = "30. 데이터 민주화 — 모든 사람을 위한 데이터 접근"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 30. 데이터 민주화 — 모든 사람을 위한 데이터 접근
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[010_data_democratization|데이터 민주화]]([[010_data_democratization|Data Democratization]])는 [[001_dikw_pyramid|데이터]] 전문가만이 아닌 모든 조직 구성원이 [[001_dikw_pyramid|데이터]]에 쉽게 접근하고 분석할 수 있는 환경을 만드는 [[268_strategy_pattern|전략]]이다. "[[001_dikw_pyramid|데이터]]로 결정하는 문화"를 조직 전체로 확산한다.

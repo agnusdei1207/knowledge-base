@@ -1,10 +1,9 @@
-+++
-weight = 293
-title = "293. AI 에이전트 / 에이전틱 AI (AI Agents)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 293. AI 에이전트 / 에이전틱 AI (AI Agents)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

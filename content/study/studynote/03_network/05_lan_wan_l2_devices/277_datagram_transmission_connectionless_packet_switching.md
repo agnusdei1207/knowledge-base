@@ -1,10 +1,9 @@
-+++
-weight = 277
-title = "277. 데이터그램 전송 방식 (비연결형 패킷 교환)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 277. 데이터그램 전송 방식 (비연결형 패킷 교환)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

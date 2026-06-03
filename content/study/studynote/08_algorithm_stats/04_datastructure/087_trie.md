@@ -1,10 +1,9 @@
-+++
-weight = 87
-title = "30. 트라이 (Trie) — 문자열 검색의 효율적 자료 구조"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 30. 트라이 (Trie) — 문자열 검색의 효율적 자료 구조
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 트라이([[066_trie|Trie]], Prefix Tree)는 문자열 집합을 저장하고 검색하는 트리 자료 구조다. 루트에서 리프까지의 경로가 하나의 문자열을 나타내며, 공통 접두사(Prefix)를 공유하는 문자열들이 같은 노드를 공유한다.

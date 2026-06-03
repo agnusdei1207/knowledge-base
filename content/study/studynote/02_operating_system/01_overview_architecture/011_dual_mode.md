@@ -1,10 +1,9 @@
-+++
-weight = 11
-title = "11. 듀얼 모드 (Dual Mode) - 사용자 모드(User Mode)와 커널 모드(Kernel Mode)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 11. 듀얼 모드 (Dual Mode) - 사용자 모드(User Mode)와 커널 모드(Kernel Mode)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 듀얼 모드 (Dual Mode)는 CPU (Central Processing Unit)가 [[158_instruction|명령어]]를 실행할 때 사용자 모드 (User Mode)와 [[022_kernel_role|커널]] 모드 ([[022_kernel_role|Kernel]] Mode)로 권한을 분리하여 시스템 자원을 [[571_protection_vs_security|보호]]하는 [[001_operating_system_purpose|운영체제]]의 핵심 보안 아키텍처다.

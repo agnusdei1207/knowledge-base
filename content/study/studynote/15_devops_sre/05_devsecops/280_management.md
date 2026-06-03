@@ -1,10 +1,9 @@
-+++
-weight = 280
-title = "280. 양자 내성 암호 (PQC) 마이그레이션 클라우드 인프라 키 관리 체계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 280. 양자 내성 암호 (PQC) 마이그레이션 클라우드 인프라 키 관리 체계
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

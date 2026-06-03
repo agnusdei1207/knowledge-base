@@ -1,10 +1,9 @@
-+++
-weight = 288
-title = "288. 사가 패턴 보상 트랜잭션 2PC 대안 (Saga)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 288. 사가 패턴 보상 트랜잭션 2PC 대안 (Saga)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[305_saga|사가 패턴]] [[551_compensating_transaction_logical_rollback|보상 트랜잭션]] [[549_2pc_two_phase_commit_limitations_msa|2PC]] 대안는 [[136_variance|분산]] 애플리케이션에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

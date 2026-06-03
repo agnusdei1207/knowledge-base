@@ -1,10 +1,9 @@
-+++
-weight = 77
-title = "77. Kube-API Server - 모든 K8s 명령(kubectl)을 REST API로 수신하고 컴포넌트 간 통신을 중계하는 허브"
-date = "2026-04-07"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 77. Kube-API Server - 모든 K8s 명령(kubectl)을 REST API로 수신하고 컴포넌트 간 통신을 중계하는 허브
+date: '2026-04-07'
+tags:
+- studynote-cloud
+---
 
 # Kube-[[014_api_posix|API]] Server - [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 통제망의 [[152_hub_dummy_switching_intelligent|허브]]
 

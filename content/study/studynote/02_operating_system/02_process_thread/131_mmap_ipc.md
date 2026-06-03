@@ -1,10 +1,9 @@
-+++
-weight = 131
-title = "131. 메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 131. 메모리 맵 파일 (Memory-Mapped File, mmap) 기반 IPC
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

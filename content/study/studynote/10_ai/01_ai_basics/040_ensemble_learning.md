@@ -1,10 +1,9 @@
-+++
-title = "040. 앙상블 학습 (Ensemble Learning)"
-weight = 40
-date = "2026-04-05"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 040. 앙상블 학습 (Ensemble Learning)
+date: '2026-04-05'
+tags:
+- studynote-ai
+---
 
 > **핵심 인사이트**
 > 1. [[125_ensemble_learning|앙상블 학습]]([[125_ensemble_learning|Ensemble Learning]])은 여러 약한 학습기(Weak Learner)를 결합하여 단일 강한 학습기보다 우수한 예측 [[282_performance_tactics|성능]]을 달성하는 기법으로, "다수결의 지혜"를 [[001_algorithm_definition|알고리즘]]으로 구현한 것이다.

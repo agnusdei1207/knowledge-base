@@ -1,10 +1,9 @@
-+++
-weight = 658
-title = "658. 블록 암호 운영 모드 (ECB 기본/취약 모드, CBC(IV 필요), CFB, OFB, CTR)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 658. 블록 암호 운영 모드 (ECB 기본/취약 모드, CBC(IV 필요), CFB, OFB, CTR)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

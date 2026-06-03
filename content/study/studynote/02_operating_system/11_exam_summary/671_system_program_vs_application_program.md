@@ -1,10 +1,9 @@
-+++
-weight = 671
-title = "671. 시스템 프로그램과 응용 프로그램의 차이 (System Program Vs Application Program)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 671. 시스템 프로그램과 응용 프로그램의 차이 (System Program Vs Application Program)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

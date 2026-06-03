@@ -1,10 +1,9 @@
-+++
-weight = 714
-title = "714. 동적 할당 First/Best/Worst Fit (Dynamic Allocation First Best Worst Fit)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 714. 동적 할당 First/Best/Worst Fit (Dynamic Allocation First Best Worst Fit)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 447
-title = "447. LSTM 장기 기억 셀 게이트 (LSTM CELL State Forget GATE)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 447. LSTM 장기 기억 셀 게이트 (LSTM CELL State Forget GATE)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

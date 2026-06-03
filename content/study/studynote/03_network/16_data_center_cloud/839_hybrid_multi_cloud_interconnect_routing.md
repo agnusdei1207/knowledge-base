@@ -1,10 +1,9 @@
-+++
-weight = 839
-title = "839. 하이브리드 / 멀티 클라우드 망 연동"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 839. 하이브리드 / 멀티 클라우드 망 연동
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

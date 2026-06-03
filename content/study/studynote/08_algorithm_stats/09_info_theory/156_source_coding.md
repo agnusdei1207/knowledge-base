@@ -1,10 +1,9 @@
-+++
-weight = 156
-title = "7. 소스 부호화 정리 (Source Coding Theorem) — 엔트로피 한계"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 7. 소스 부호화 정리 (Source Coding Theorem) — 엔트로피 한계
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

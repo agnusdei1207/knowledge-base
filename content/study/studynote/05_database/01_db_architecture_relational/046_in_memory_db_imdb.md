@@ -1,10 +1,9 @@
-+++
-title = "046. 인메모리 데이터베이스 — IMDB (In-Memory Database)"
-weight = 46
-date = "2026-04-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 046. 인메모리 데이터베이스 — IMDB (In-Memory Database)
+date: '2026-04-05'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트**
 > 1. 인메모리 DB(IMDB)는 모든 [[001_dikw_pyramid|데이터]]를 RAM에 상주시켜 디스크 I/O를 완전 제거 — 전통 디스크 기반 DB 대비 [[489_raid_10_hybrid|10]]~1,000배 빠른 응답(마이크로초 단위)을 달성하며, [[191_transaction_concept_states|트랜잭션]] 처리([[327_hint_handoff|OLTP]]), [[456_caching|캐싱]], 실시간 분석에서 핵심 역할을 한다.

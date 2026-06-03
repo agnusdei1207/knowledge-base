@@ -1,10 +1,9 @@
-+++
-weight = 175
-title = "힙 정렬 (Heap Sort)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 힙 정렬 (Heap Sort)
+date: '2026-05-06'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

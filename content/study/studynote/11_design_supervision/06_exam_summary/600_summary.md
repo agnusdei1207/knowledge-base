@@ -1,10 +1,10 @@
-+++
-weight = 600
-title = "600. 기술사 합격 최종 아키텍처 및 감리 설계 요약 집대성 (Final Architecture and Audit Design Master Summary)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 600. 기술사 합격 최종 아키텍처 및 감리 설계 요약 집대성 (Final Architecture and Audit Design Master
+  Summary)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 기술사 합격 최종 아키텍처 및 감리 설계 요약 집대성은 분산된 설계·감리 지식을 생명주기, 품질 [[082_attribute_types_er_model|속성]], 통제·증적 관점으로 [[347_compaction|압축]]해 마지막 회상 속도를 높이는 통합 프레임이다.

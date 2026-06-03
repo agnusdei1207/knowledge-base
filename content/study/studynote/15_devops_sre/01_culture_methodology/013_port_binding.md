@@ -1,11 +1,9 @@
-+++
-weight = 13
-title = "13. 포트 바인딩 (Port Binding) - 자체적으로 포트를 바인딩하여 웹 서비스 노출"
-date = "2026-04-05"
-[taxonomies]
-tags = ["Port Binding", "포트 바인딩", "12팩터", "웹 서비스", "서비스 노출"]
-categories = ["15_devops_sre"]
-+++
+---
+title: 13. 포트 바인딩 (Port Binding) - 자체적으로 포트를 바인딩하여 웹 서비스 노출
+date: '2026-04-05'
+tags:
+- devops_sre
+---
 
 # [[446_port_and_bus|포트]] 바인딩
 

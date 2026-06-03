@@ -1,10 +1,9 @@
-+++
-weight = 488
-title = "488. RAG (검색 증강 생성) 프레임워크 DB 매핑"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 488. RAG (검색 증강 생성) 프레임워크 DB 매핑
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 416
-title = "416. 프롬프트 인젝션 방어 시맨틱 라우팅 의도 필터 게이트웨이 (Intent)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 416. 프롬프트 인젝션 방어 시맨틱 라우팅 의도 필터 게이트웨이 (Intent)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

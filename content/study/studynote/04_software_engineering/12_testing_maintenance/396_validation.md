@@ -1,10 +1,9 @@
-+++
-weight = 396
-title = "396. 확인 (Validation) - 올바른 제품을 만들었는가"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 396. 확인 (Validation) - 올바른 제품을 만들었는가
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

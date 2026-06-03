@@ -1,10 +1,9 @@
-+++
-weight = 236
-title = "236. 상태 다이어그램 (State Machine Diagram) - 객체의 상태 변화 (동적)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 236. 상태 다이어그램 (State Machine Diagram) - 객체의 상태 변화 (동적)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

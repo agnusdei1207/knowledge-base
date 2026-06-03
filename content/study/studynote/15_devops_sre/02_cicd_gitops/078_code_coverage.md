@@ -1,13 +1,12 @@
-+++
-weight = 78
-title = "78. 코드 커버리지 (Code Coverage) 분석 도구 (JaCoCo) - 소스코드의 몇 %가 테스트되었는지 측정 (구문, 분기 커버리지)"
-description = "소스코드의 몇 퍼센트가 테스트되었는지 측정하는 JaCoCo, Istanbul 등의 커버리지 분석 도구와 구문/분기/조건 커버리지의 차이, 품질 게이트 연동 방법"
-date = "2026-04-05"
-
-[taxonomies]
-tags = ["DevOps", "CI/CD", "Testing", "Code Coverage", "JaCoCo", "Quality Gate"]
-categories = ["studynote-devops-sre"]
-+++
+---
+title: 78. 코드 커버리지 (Code Coverage) 분석 도구 (JaCoCo) - 소스코드의 몇 %가 테스트되었는지 측정 (구문, 분기
+  커버리지)
+date: '2026-04-05'
+description: 소스코드의 몇 퍼센트가 테스트되었는지 측정하는 JaCoCo, Istanbul 등의 커버리지 분석 도구와 구문/분기/조건 커버리지의
+  차이, 품질 게이트 연동 방법
+tags:
+- devops_sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 174
-title = "퀵 정렬 (Quick Sort)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 퀵 정렬 (Quick Sort)
+date: '2026-05-06'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

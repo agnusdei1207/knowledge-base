@@ -1,10 +1,9 @@
-+++
-title = "049. DataOps — 데이터 운영"
-weight = 49
-date = "2026-04-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 049. DataOps — 데이터 운영
+date: '2026-04-05'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > 1. [[324_dataops|DataOps]]([[001_dikw_pyramid|Data]] Operations)는 [[652_devops_calms_culture|DevOps]] 원칙(자동화·[[090_configuration_item|CI]]/CD·[[229_monitor|모니터]]링)을 [[645_data_pipeline_acceleration|데이터 파이프라인]]에 적용하여 [[001_dikw_pyramid|데이터]]의 개발→테스트→배포→운영 사이클을 자동화하는 방법론 — "[[001_dikw_pyramid|데이터]] 엔지니어링의 [[652_devops_calms_culture|DevOps]]"로, [[645_data_pipeline_acceleration|데이터 파이프라인]]의 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]·품질·속도를 동시에 향상시킨다.

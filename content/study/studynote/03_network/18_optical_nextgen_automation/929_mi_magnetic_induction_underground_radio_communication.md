@@ -1,10 +1,9 @@
-+++
-weight = 929
-title = "929. 지중 통신 (자기유도통신)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 929. 지중 통신 (자기유도통신)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

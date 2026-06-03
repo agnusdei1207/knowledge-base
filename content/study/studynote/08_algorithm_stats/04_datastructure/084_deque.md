@@ -1,10 +1,9 @@
-+++
-weight = 84
-title = "29. 덱 (Deque — Double-Ended Queue)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 29. 덱 (Deque — Double-Ended Queue)
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 덱(Deque, Double-Ended [[058_queue|Queue]])은 양쪽 끝에서 삽입·삭제가 모두 가능한 자료구조다. 큐([[261_fifo_page_replacement|FIFO]])와 [[057_stack|스택]](LIFO)의 기능을 모두 포함하는 슈퍼셋이다.

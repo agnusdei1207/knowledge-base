@@ -1,10 +1,9 @@
-+++
-weight = 102
-title = "SRP (Single Responsibility Principle, 단일 책임 원칙)"
-date = "2026-03-04"
-[extra]
-categories = ["studynote-design-supervision"]
-+++
+---
+title: SRP (Single Responsibility Principle, 단일 책임 원칙)
+date: '2026-03-04'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 78
-title = "78. BPR/ISP 연계 사후 평가 (BPR/ISP Alignment Audit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 78. BPR/ISP 연계 사후 평가 (BPR/ISP Alignment Audit)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

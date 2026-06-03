@@ -1,10 +1,9 @@
-+++
-weight = 293
-title = "293. 구성 편류 방지 불변 인프라 (Architecture)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 293. 구성 편류 방지 불변 인프라 (Architecture)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

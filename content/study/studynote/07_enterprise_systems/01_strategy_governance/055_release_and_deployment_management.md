@@ -1,10 +1,9 @@
-+++
-weight = 55
-title = "55. 릴리스와 배포 관리 (Release and Deployment Management)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 55. 릴리스와 배포 관리 (Release and Deployment Management)
+date: '2026-05-01'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 156
-title = "156. CV (Cost Variance) = EV"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 156. CV (Cost Variance) = EV
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CV (Cost [[136_variance|Variance]]) = EV의 본질은 [[155_ac_actual_cost|AC]] (양수면 예산 절감, 음수면 예산 초과)를 단계별 산출물과 품질 게이트로 관리하는 데 있다.

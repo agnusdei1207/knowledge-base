@@ -1,10 +1,9 @@
-+++
-weight = 279
-title = "279. Kube-API Server etcd Kubelet 프록시 (Kube-API Server etcd Kubelet)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 279. Kube-API Server etcd Kubelet 프록시 (Kube-API Server etcd Kubelet)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Kube-[[014_api_posix|API]] Server [[078_etcd_distributed_key_value_store|etcd]] [[082_kubelet_node_agent|Kubelet]] [[264_proxy_pattern_surrogate_access_control|프록시]]는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]([[205_kubernetes_container_orchestration|Kubernetes]]) 클러스터에서 인터페이스 [[194_consistency_database_integrity|일관성]]를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

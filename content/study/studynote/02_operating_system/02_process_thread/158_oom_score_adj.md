@@ -1,10 +1,9 @@
-+++
-weight = 158
-title = "158. oom_score_adj - OOM 킬러 우선순위 조정"
-date = "2026-03-22"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 158. oom_score_adj - OOM 킬러 우선순위 조정
+date: '2026-03-22'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 373
-title = "373. 릿지 회귀의 L2 정규화 (가중치 0에 가깝게 축소, 다중공선성 대처) (Ridge)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 373. 릿지 회귀의 L2 정규화 (가중치 0에 가깝게 축소, 다중공선성 대처) (Ridge)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

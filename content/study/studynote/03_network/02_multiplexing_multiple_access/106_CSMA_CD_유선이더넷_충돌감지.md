@@ -1,12 +1,10 @@
-+++
-weight = 106
-title = "106. CSMA/CD (Collision Detection) - 유선 이더넷, 충돌 감지"
-description = "초기 유선 이더넷의 다중 접속 제어 프로토콜인 CSMA/CD의 동작 원리와 충돌 도메인의 한계"
-date = "2026-04-01"
-[taxonomies]
-tags = ["Network", "MAC", "Ethernet", "CSMA/CD"]
-categories = ["studynote-network"]
-+++
+---
+title: 106. CSMA/CD (Collision Detection) - 유선 이더넷, 충돌 감지
+date: '2026-04-01'
+description: 초기 유선 이더넷의 다중 접속 제어 프로토콜인 CSMA/CD의 동작 원리와 충돌 도메인의 한계
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[104_csma|CSMA]]/CD (Carrier Sense [[087_다중접속_Multiple_Access|Multiple Access]] with [[563_hash_collision_chaining_linear_probing|Collision]] [[961_deepfake_detection|Detection]])는 여러 노드가 하나의 케이블(공유 [[121_transmission_media_guided_unguided|매체]])을 사용할 때, 전송 전에 회선이 비어있는지 감지(CS)하고 전송 중에 [[130_signal|신호]]가 부딪히는지 감지(CD)하는 [[459_quic_fec_forward_error_correction|초기]] 유선 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 [[183_mac_media_access_control|매체 접근 제어]] 방식이다.

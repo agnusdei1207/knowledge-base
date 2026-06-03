@@ -1,10 +1,9 @@
-+++
-weight = 26
-title = "26. MTTR (Mean Time to Recover) — 평균 복구 시간"
-date = "2026-04-29"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 26. MTTR (Mean Time to Recover) — 평균 복구 시간
+date: '2026-04-29'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[451_mttr|MTTR]] (Mean Time to Recover/Repair, 평균 [[658_ir_recovery|복구]] 시간)은 시스템 장애 발생부터 정상 [[658_ir_recovery|복구]]까지 걸린 평균 시간으로, [[100_sre_site_reliability_engineering_error_budget|SRE]]([[100_sre_site_reliability_engineering_error_budget|Site Reliability Engineering]])의 4대 [[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]] 중 "복원력([[345_reliability_security|Reliability]])"을 측정하는 핵심 지표다.

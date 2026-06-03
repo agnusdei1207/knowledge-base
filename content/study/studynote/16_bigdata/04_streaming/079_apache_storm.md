@@ -1,7 +1,8 @@
-+++
-title = "04. Apache Storm"
-weight = 79
-+++
+---
+title: 04. Apache Storm
+tags:
+- bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[044_apache_storm|아파치 스톰]]([[044_apache_storm|Apache Storm]])은 과거 [[843_hadoop_rack_awareness_data_replication_topology|하둡]]([[843_hadoop_rack_awareness_data_replication_topology|Hadoop]]) 중심의 굼벵이 같은 배치(Batch) 처리 시대에 혜성처럼 등장하여, 수백만 건의 트윗이나 센서 [[001_dikw_pyramid|데이터]]를 **메모리 상에서 '이벤트 1건'이 발생할 때마다 1밀리초(ms) 단위의 미친 속도로 즉각 낚아채어 계산해 내는 1세대 진정한 실시간 스트림(Real-time [[467_http2_stream_multiplexing_tcp_hol|Stream]]) 프로세싱 엔진**이다.

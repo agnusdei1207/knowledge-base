@@ -1,10 +1,9 @@
-+++
-title = "042. 그로스 해킹 (Growth Hacking)"
-weight = 42
-date = "2026-04-05"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 042. 그로스 해킹 (Growth Hacking)
+date: '2026-04-05'
+tags:
+- studynote-it-management
+---
 
 > **핵심 인사이트**
 > 1. [[041_growth_hacking|그로스 해킹]]([[041_growth_hacking|Growth Hacking]])은 마케팅·제품·[[001_dikw_pyramid|데이터]] 분석을 통합해 급속 성장을 달성하는 IT 관리 [[268_strategy_pattern|전략]]으로, [[039_okr_objectives_key_results|OKR]](Objectives and [[067_db_key_uniqueness_minimality|Key]] Results)과 연동하면 측정 가능한 성장 목표를 체계적으로 달성할 수 있다.

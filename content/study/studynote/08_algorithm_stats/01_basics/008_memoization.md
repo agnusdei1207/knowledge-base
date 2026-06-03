@@ -1,7 +1,8 @@
-+++
-title = "8. 메모이제이션 (Memoization) — Top-Down DP"
-weight = 8
-+++
+---
+title: 8. 메모이제이션 (Memoization) — Top-Down DP
+tags:
+- algorithm_stats
+---
 
 # 08. 메모이제이션 (Memoization)
 

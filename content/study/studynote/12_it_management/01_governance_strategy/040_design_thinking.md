@@ -1,10 +1,9 @@
-+++
-weight = 40
-title = "40. 디자인 씽킹 (Design Thinking)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 40. 디자인 씽킹 (Design Thinking)
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

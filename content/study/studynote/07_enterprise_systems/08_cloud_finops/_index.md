@@ -1,8 +1,8 @@
-+++
-weight = 8
-title = "08. 엔터프라이즈 핀옵스 (FinOps)"
-sort_by = "weight"
-+++
+---
+title: 08. 엔터프라이즈 핀옵스 (FinOps)
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

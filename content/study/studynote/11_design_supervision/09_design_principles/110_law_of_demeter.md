@@ -1,10 +1,9 @@
-+++
-weight = 110
-title = "110. 최소 지식의 원칙 (Law of Demeter)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 110. 최소 지식의 원칙 (Law of Demeter)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - 최소 지식의 원칙은 객체가 친구의 친구가 아니라 직접 아는 이웃과만 대화하도록 제한하는 설계 원칙이다.

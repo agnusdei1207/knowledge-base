@@ -1,10 +1,9 @@
-+++
-weight = 232
-title = "232. CDC (Change Data Capture / 변경 데이터 캡처)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 232. CDC (Change Data Capture / 변경 데이터 캡처)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[217_cdc_binlog_change_capture_debezium|CDC]]([[217_cdc_binlog_change_capture_debezium|Change Data Capture]], [[218_cdc_change_data_capture|변경 데이터 캡처]])는 운영 DB의 **[[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]]([[234_redo_roll_forward_durability_recovery|Redo]] Log/Binlog)**를 직접 읽어 INSERT·UPDATE·DELETE 이벤트를 실시간 추출하는 기술로, DB에 추가 부하 없이 변경분만 캡처한다.

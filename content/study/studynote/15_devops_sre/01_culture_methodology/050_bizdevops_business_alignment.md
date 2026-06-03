@@ -1,10 +1,17 @@
-+++
-title = "BizDevOps — 비즈니스 정렬 (BizDevOps Business Alignment)"
-date = 2025-01-01
-description = "BizDevOps의 개념, DevOps에서 비즈니스 팀 통합 필요성, OKR 기반 정렬, 가치 흐름 매핑 적용을 다룬다."
-categories = "studynote-devops"
-tags = ["BizDevOps", "DevOps", "business alignment", "OKR", "value stream mapping", "continuous feedback", "product thinking"]
-+++
+---
+title: BizDevOps — 비즈니스 정렬 (BizDevOps Business Alignment)
+date: '2025-01-01'
+description: BizDevOps의 개념, DevOps에서 비즈니스 팀 통합 필요성, OKR 기반 정렬, 가치 흐름 매핑 적용을 다룬다.
+tags:
+- BizDevOps
+- DevOps
+- OKR
+- business alignment
+- continuous feedback
+- product thinking
+- studynote-devops
+- value stream mapping
+---
 
 > **핵심 인사이트 3줄**
 > 1. BizDevOps는 DevOps의 개발-운영 협업에 비즈니스 팀(기획·마케팅·영업)을 통합하여 IT와 비즈니스 목표를 단일 가치 흐름으로 연결하는 문화·방법론이다.

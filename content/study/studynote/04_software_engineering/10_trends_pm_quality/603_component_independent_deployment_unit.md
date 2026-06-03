@@ -1,10 +1,9 @@
-+++
-weight = 603
-title = "603. 컴포넌트(Component) 독립 배포 단위"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 603. 컴포넌트(Component) 독립 배포 단위
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

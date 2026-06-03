@@ -1,7 +1,8 @@
-+++
-title = "69. 후보 키 (Candidate Key) - 유일성과 최소성을 모두 만족하는 키"
-weight = 69
-+++
+---
+title: 69. 후보 키 (Candidate Key) - 유일성과 최소성을 모두 만족하는 키
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

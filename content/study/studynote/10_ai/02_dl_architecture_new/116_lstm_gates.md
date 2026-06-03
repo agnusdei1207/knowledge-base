@@ -1,10 +1,9 @@
-+++
-weight = 116
-title = "116. LSTM 게이트 상세 (LSTM Gates Detail) - Forget·Input·Output 게이트 수학적 분석"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 116. LSTM 게이트 상세 (LSTM Gates Detail) - Forget·Input·Output 게이트 수학적 분석
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LSTM의 3개 게이트는 모두 **[[268_sigmoid_vanishing_gradient|시그모이드]](σ)로 0~1 사이 값을 출력**하여 정보 흐름을 조절하는 "수도꼭지"이며, 각 게이트의 [[267_weight_bias_activation|가중치]]($W_f, W_i, W_o$)는 **학습을 통해 자동으로 최적화**된다.

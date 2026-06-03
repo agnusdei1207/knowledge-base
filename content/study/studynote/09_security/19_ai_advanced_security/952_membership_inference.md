@@ -1,10 +1,9 @@
-+++
-weight = 952
-title = "952. Membership Inference (멤버십 추론 공격)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 952. Membership Inference (멤버십 추론 공격)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

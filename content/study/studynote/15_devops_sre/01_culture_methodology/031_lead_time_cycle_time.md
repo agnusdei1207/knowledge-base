@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "31. 리드 타임과 사이클 타임 — DevOps 흐름 핵심 지표"
-date = "2026-04-29"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 31. 리드 타임과 사이클 타임 — DevOps 흐름 핵심 지표
+date: '2026-04-29'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[085_lead_time_cycle_time|리드 타임]]([[085_lead_time_cycle_time|Lead Time]])은 고객 요청부터 배포까지 총 시간이고, 사이클 타임(Cycle Time)은 개발 시작부터 배포까지 시간이다. [[085_lead_time_cycle_time|Lead Time]] ≥ Cycle Time이며, 둘의 차이가 "요청 대기 시간"이다.

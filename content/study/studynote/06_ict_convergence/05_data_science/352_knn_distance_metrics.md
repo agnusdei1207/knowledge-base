@@ -1,10 +1,9 @@
-+++
-weight = 352
-title = "352. K-최근접 이웃 / 거리 척도 (K-NN)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 352. K-최근접 이웃 / 거리 척도 (K-NN)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

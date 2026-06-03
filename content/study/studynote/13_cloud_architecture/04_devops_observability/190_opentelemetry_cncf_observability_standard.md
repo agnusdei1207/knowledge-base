@@ -1,10 +1,9 @@
-+++
-weight = 190
-title = "190. 오픈텔레메트리 (OpenTelemetry, CNCF 옵저버빌리티 표준)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 190. 오픈텔레메트리 (OpenTelemetry, CNCF 옵저버빌리티 표준)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[146_opentelemetry_otel_observability_standard|OpenTelemetry]]([[146_opentelemetry_otel_observability_standard|OTel]])는 [[342_routing_metric_hop_bandwidth_delay|메트릭]], [[568_logs_distributed_logging_elk_fluentd|로그]], 트레이스(MELT의 M·L·T) [[001_dikw_pyramid|데이터]]를 [[087_process_state_transition|생성]]·수집·전송하는 벤더 중립 [[190_cncf_landscape_observability|CNCF]]([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] Computing Foundation, [[531_cloud_native_architecture|클라우드 네이티브]] 컴퓨팅 재단) [[191_oss_license_compliance|오픈소스]] 표준으로, "한 번 계측하면 어떤 백엔드로도 전송 가능"한 [[642_observability_telemetry|옵저버빌리티]] 인프라 표준이다.

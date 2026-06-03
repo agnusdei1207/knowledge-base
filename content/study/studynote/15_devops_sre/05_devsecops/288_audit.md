@@ -1,10 +1,9 @@
-+++
-weight = 288
-title = "288. 카나리 배포 (1% 오픈 에러 검증 확대)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 288. 카나리 배포 (1% 오픈 에러 검증 확대)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,7 +1,8 @@
-+++
-title = "74. 순전파 (Forward Propagation) - 신경망 계산 흐름"
-weight = 74
-+++
+---
+title: 74. 순전파 (Forward Propagation) - 신경망 계산 흐름
+tags:
+- ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

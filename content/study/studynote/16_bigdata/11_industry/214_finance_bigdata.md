@@ -1,10 +1,9 @@
-+++
-weight = 214
-title = "209. 금융 빅데이터 (Financial Big Data) — 신용평가/이상거래탐지/알고트레이딩"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 209. 금융 빅데이터 (Financial Big Data) — 신용평가/이상거래탐지/알고트레이딩
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

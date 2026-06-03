@@ -1,10 +1,9 @@
-+++
-weight = 433
-title = "433. 해시 조인 (메모리 해시 영역 빌드 프로브)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 433. 해시 조인 (메모리 해시 영역 빌드 프로브)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

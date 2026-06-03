@@ -1,10 +1,9 @@
-+++
-title = "048. MLOps — 머신러닝 운영"
-weight = 48
-date = "2026-04-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 048. MLOps — 머신러닝 운영
+date: '2026-04-05'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > 1. [[348_mlops|MLOps]]([[220_mlops_machine_learning_operations|Machine Learning Operations]])는 ML 모델의 전체 생애주기(개발→학습→배포→[[229_monitor|모니터]]링→재학습)를 [[652_devops_calms_culture|DevOps]] 원칙으로 자동화하는 방법론 — [[001_dikw_pyramid|데이터]] 사이언티스트가 만든 모델이 "연구실"에 머무는 것을 막고, 안정적으로 프로덕션에 배포·운영되도록 한다.

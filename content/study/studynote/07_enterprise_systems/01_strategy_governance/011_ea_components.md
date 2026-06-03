@@ -1,12 +1,11 @@
-+++
-weight = 11
-title = "11. EA 구성요소 (BA: 비즈니스, DA: 데이터, AA: 애플리케이션, TA: 기술 아키텍처) + SA (보안 아키텍처)"
-description = "전사적 아키텍처(EA)를 구성하는 핵심 도메인별 세부 아키텍처(BA, DA, AA, TA, SA)의 구조와 유기적 연계 메커니즘 심층 분석"
-date = "2024-05-24"
-[taxonomies]
-tags = ["EA", "엔터프라이즈아키텍처", "BA", "DA", "AA", "TA", "SA"]
-categories = ["studynote", "enterprise_systems"]
-+++
+---
+title: '11. EA 구성요소 (BA: 비즈니스, DA: 데이터, AA: 애플리케이션, TA: 기술 아키텍처) + SA (보안 아키텍처)'
+date: '2024-05-24'
+description: 전사적 아키텍처(EA)를 구성하는 핵심 도메인별 세부 아키텍처(BA, DA, AA, TA, SA)의 구조와 유기적 연계 메커니즘
+  심층 분석
+tags:
+- enterprise_systems
+---
 
 # [[308_static_dynamic_nat_pat_port_address_translation|11]]. [[110_enterprise_architecture_ea|EA]] 구성요소 ([[103_ba_as_is_analysis|BA]], [[104_da_as_is_analysis|DA]], [[105_aa_as_is_analysis|AA]], [[106_ta_as_is_analysis|TA]], [[767_sa_standalone_5g_core_network|SA]])
 

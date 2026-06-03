@@ -1,10 +1,9 @@
-+++
-weight = 208
-title = "208. 기계 독해 (MRC, Machine Reading Comprehension)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 208. 기계 독해 (MRC, Machine Reading Comprehension)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

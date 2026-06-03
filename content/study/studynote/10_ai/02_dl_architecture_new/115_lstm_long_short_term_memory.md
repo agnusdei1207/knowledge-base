@@ -1,10 +1,9 @@
-+++
-weight = 115
-title = "115. LSTM (Long Short-Term Memory) - 게이트 메커니즘과 장기 기억 보호"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 115. LSTM (Long Short-Term Memory) - 게이트 메커니즘과 장기 기억 보호
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LSTM은 바닐라 RNN의 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 문제를 해결하기 위해, **Cell [[272_state_pattern|State]]($C_t$, 장기 기억 고속도로)와 3개 게이트(Forget·Input·Output)**를 도입하여 정보의 선택적 보존·추가·출력을 제어하는 시퀀스 모델이다.

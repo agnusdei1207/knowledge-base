@@ -1,10 +1,9 @@
-+++
-weight = 132
-title = "132. Polyglot Persistence - MSA 서비스별 최적 DB 선택"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 132. Polyglot Persistence - MSA 서비스별 최적 DB 선택
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Polyglot Persistence는 **각 마이크로서비스가 자신의 [[001_dikw_pyramid|데이터]] 특성에 가장 적합한 DB 기술을 독립적으로 선택**하는 패턴이며, DB per Service의 자연스러운 확장이다.

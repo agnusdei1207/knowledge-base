@@ -1,10 +1,9 @@
-+++
-weight = 115
-title = "112. 텍스트 요약 (Text Summarization) — 추출적/추상적 요약"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 112. 텍스트 요약 (Text Summarization) — 추출적/추상적 요약
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 텍스트 요약 (Text Summarization)은 긴 문서를 짧고 핵심적인 텍스트로 [[347_compaction|압축]]하는 NLP 기법으로, 원문 문장을 그대로 추출하는 추출적 (Extractive) 방법과 새로운 문장을 [[087_process_state_transition|생성]]하는 추상적 (Abstractive) 방법으로 구분된다.

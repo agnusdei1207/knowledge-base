@@ -1,10 +1,9 @@
-+++
-weight = 114
-title = "114. 데이터베이스 설계 단계 (Database Design Phases) - 개념·논리·물리 3단계 체계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 114. 데이터베이스 설계 단계 (Database Design Phases) - 개념·논리·물리 3단계 체계
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DB 설계는 **개념 설계(ERD, [[502_dbms|DBMS]] 독립) → [[369_logic_bomb|논리]] 설계([[093_normalization|정규화]], [[391_relation_schema_intension|릴레이션 스키마]]) → 물리 설계([[154_database_index_b_tree_search_optimization|인덱스]]·[[111_denormalization_performance_tradeoff|역정규화]]·[[179_table_partitioning_concept|파티셔닝]])**의 3단계로 진행되며, 각 단계는 [[198_abstraction_control_data_process|추상화]] 수준이 다르고 산출물이 명확히 구분된다.

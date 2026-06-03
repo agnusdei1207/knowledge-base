@@ -1,10 +1,9 @@
-+++
-weight = 985
-title = "985. X.509 인증서 (X509 Certificate PKI Digital Signature Format)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 985. X.509 인증서 (X509 Certificate PKI Digital Signature Format)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

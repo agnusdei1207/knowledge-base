@@ -1,10 +1,9 @@
-+++
-weight = 375
-title = "375. 메모리 보호 키 (Memory Protection Keys)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 375. 메모리 보호 키 (Memory Protection Keys)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

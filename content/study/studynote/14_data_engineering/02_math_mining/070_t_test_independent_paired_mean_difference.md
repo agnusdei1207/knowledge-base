@@ -1,10 +1,9 @@
-+++
-weight = 70
-title = "70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증"
-date = "2026-04-10"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증
+date: '2026-04-10'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

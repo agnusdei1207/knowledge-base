@@ -1,10 +1,9 @@
-+++
-weight = 1079
-title = "1079. 망분리 논리적 / 물리적 VDI 전이 모델"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1079. 망분리 논리적 / 물리적 VDI 전이 모델
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

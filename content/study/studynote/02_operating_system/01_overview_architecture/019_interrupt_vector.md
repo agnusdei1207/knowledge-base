@@ -1,10 +1,9 @@
-+++
-weight = 19
-title = "19. 인터럽트 벡터 (Interrupt Vector)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 19. 인터럽트 벡터 (Interrupt Vector)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 # [[016_interrupt_mechanism|인터럽트]] 벡터 및 벡터 테이블 ([[016_interrupt_mechanism|Interrupt]] Vector & Vector Table)
 

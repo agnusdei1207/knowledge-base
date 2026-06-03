@@ -1,10 +1,9 @@
-+++
-weight = 28
-title = "28. L1/L2 규제화 상세 (L1/L2 Regularization)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 28. L1/L2 규제화 상세 (L1/L2 Regularization)
+date: '2026-04-29'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: L1([[102_lasso_ridge_regression_regularization|Lasso]])과 L2(Ridge) 규제화는 [[075_loss_function_cost_function|손실 함수]]에 [[267_weight_bias_activation|가중치]] 크기에 비례하는 패널티를 추가하여 모델 과적합([[245_overfitting_variance|Overfitting]])을 방지한다. L1은 희소(Sparse) [[267_weight_bias_activation|가중치]]를 유도해 Feature [[022_mcts_four_stages|Selection]] 효과를, L2는 [[267_weight_bias_activation|가중치]]를 균등하게 축소해 안정적 일반화를 제공한다.

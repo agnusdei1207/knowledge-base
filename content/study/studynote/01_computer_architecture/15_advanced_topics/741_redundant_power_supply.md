@@ -1,10 +1,9 @@
-+++
-weight = 741
-title = "741. 이중화 전원 공급 장치 (Redundant Power Supply)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 741. 이중화 전원 공급 장치 (Redundant Power Supply)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

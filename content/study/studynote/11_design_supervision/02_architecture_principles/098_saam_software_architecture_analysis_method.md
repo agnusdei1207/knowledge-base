@@ -1,10 +1,9 @@
-+++
-title = "98. SAAM (Software Architecture Analysis Method) - 소프트웨어 아키텍처 평가법의 시초"
-date = "2026-03-04"
-weight = 98
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 98. SAAM (Software Architecture Analysis Method) - 소프트웨어 아키텍처 평가법의 시초
+date: '2026-03-04'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

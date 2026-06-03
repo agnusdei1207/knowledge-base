@@ -1,10 +1,9 @@
-+++
-weight = 239
-title = "239. 퍼셉트론 (Perceptron) MLP 은닉층 가중치 활성화 시그모이드 (Sigmoid)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 239. 퍼셉트론 (Perceptron) MLP 은닉층 가중치 활성화 시그모이드 (Sigmoid)
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[265_single_layer_perceptron_xor|단층 퍼셉트론]]([[265_single_layer_perceptron_xor|Single-Layer Perceptron]])은 선형 결정 경계만 학습할 수 있어 XOR 문제를 풀 수 없지만, [[266_mlp_hidden_layers|다층 퍼셉트론]](MLP, Multi-Layer Perceptron)은 은닉층(Hidden Layer)을 통해 비선형 함수를 근사한다.

@@ -1,10 +1,9 @@
-+++
-weight = 599
-title = "599. 데이터 중심 패브릭 (Data-Centric Fabric)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 599. 데이터 중심 패브릭 (Data-Centric Fabric)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

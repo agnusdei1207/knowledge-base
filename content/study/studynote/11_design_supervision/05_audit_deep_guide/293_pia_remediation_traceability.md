@@ -1,10 +1,9 @@
-+++
-weight = 293
-title = "293. PIA 조치 추적성 감리 (PIA Remediation Traceability Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 293. PIA 조치 추적성 감리 (PIA Remediation Traceability Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

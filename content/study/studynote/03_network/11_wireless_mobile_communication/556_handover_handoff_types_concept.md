@@ -1,10 +1,9 @@
-+++
-weight = 556
-title = "556. 핸드오버 (Handover) / 핸드오프 (Handoff) 종류 개념"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 556. 핸드오버 (Handover) / 핸드오프 (Handoff) 종류 개념
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

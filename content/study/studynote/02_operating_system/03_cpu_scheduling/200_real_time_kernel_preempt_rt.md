@@ -1,10 +1,9 @@
-+++
-weight = 200
-title = "200. 실시간 커널 (Real-time Kernel) / PREEMPT_RT"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 200. 실시간 커널 (Real-time Kernel) / PREEMPT_RT
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

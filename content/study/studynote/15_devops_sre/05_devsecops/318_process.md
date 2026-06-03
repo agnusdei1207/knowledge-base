@@ -1,8 +1,9 @@
-+++
-title = "Toil SRE Automation"
-date = "2026-05-09"
-categories = ["studynote-devops-sre"]
-+++
+---
+title: Toil SRE Automation
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > - [[685_toil_automation_sre|Toil]] ([[685_toil_automation_sre|토일]])은 수동적·반복적·자동화 가능하지만 아직 자동화되지 않은 운영 업무로, SRE가 줄여야 할 핵심 대상이다.

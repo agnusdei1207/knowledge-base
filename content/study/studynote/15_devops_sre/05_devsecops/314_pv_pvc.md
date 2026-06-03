@@ -1,8 +1,9 @@
-+++
-title = "PV PVC PersistentVolume"
-date = "2026-05-09"
-categories = ["studynote-devops-sre"]
-+++
+---
+title: PV PVC PersistentVolume
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > - [[153_pv_planned_value|PV]] (PersistentVolume)는 클러스터 관리자가 준비한 스토리지 자원이고, [[269_pvc_vs_svc_virtual_circuits|PVC]] (PersistentVolumeClaim)는 [[085_pod_kubernetes_container_unit|파드]]가 요청하는 스토리지 주문서다.

@@ -1,12 +1,10 @@
-+++
-weight = 21
-title = "21. 컨소시엄 블록체인 (Consortium Blockchain) - 여러 기업이 연합하여 노드 운영"
-description = "다수의 허가된 기관이 연합하여 권한을 분산하고 공동으로 원장을 관리하는 엔터프라이즈 분산 원장 기술"
-date = "2024-05-18"
-[taxonomies]
-tags = ["Blockchain", "Consortium", "DLT", "Web3", "Hyperledger"]
-categories = ["studynote-ict-convergence"]
-+++
+---
+title: 21. 컨소시엄 블록체인 (Consortium Blockchain) - 여러 기업이 연합하여 노드 운영
+date: '2024-05-18'
+description: 다수의 허가된 기관이 연합하여 권한을 분산하고 공동으로 원장을 관리하는 엔터프라이즈 분산 원장 기술
+tags:
+- ict_convergence
+---
 
 # 21. 컨소시엄 [[004_blockchain|블록체인]] (Consortium [[004_blockchain|Blockchain]])
 

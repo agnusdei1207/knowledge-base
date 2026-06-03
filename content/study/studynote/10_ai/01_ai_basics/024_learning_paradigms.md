@@ -1,10 +1,9 @@
-+++
-weight = 24
-title = "24. 학습 패러다임 3종 — 지도·비지도·강화학습"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 24. 학습 패러다임 3종 — 지도·비지도·강화학습
+date: '2026-04-29'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[241_machine_learning_basics|머신러닝]](ML)의 3대 학습 패러다임은 [[121_supervised_learning|지도 학습]]([[121_supervised_learning|Supervised Learning]], 레이블 있는 [[001_dikw_pyramid|데이터]]), [[122_unsupervised_learning|비지도 학습]]([[122_unsupervised_learning|Unsupervised Learning]], 레이블 없는 [[001_dikw_pyramid|데이터]]), [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]([[094_reinforcement_learning|Reinforcement Learning]], 보상 기반 환경 상호작용)으로 구분되며, 각각 다른 [[001_dikw_pyramid|데이터]] 구조와 목적 함수를 갖는다.

@@ -1,10 +1,9 @@
-+++
-weight = 330
-title = "330. 더미 변수 (Dummy Variable)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 330. 더미 변수 (Dummy Variable)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

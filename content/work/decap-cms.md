@@ -1,4 +1,8 @@
-# ✍️ Decap CMS는 정확히 무엇인가
+---
+title: ✍️ Decap CMS는 정확히 무엇인가
+tags:
+- work
+---
 
 Decap CMS는 정적 사이트용 웹 편집기입니다. 더 정확히 말하면, **Git 저장소를 백엔드로 사용하는 오픈소스 CMS**입니다.
 

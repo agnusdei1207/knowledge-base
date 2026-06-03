@@ -1,10 +1,9 @@
-+++
-weight = 656
-title = "656. x86 Ring 0, 1, 2, 3 보호 모드"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 656. x86 Ring 0, 1, 2, 3 보호 모드
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

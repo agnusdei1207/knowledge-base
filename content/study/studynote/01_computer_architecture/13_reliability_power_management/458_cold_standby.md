@@ -1,10 +1,9 @@
-+++
-weight = 458
-title = "458. 콜드 스탠바이 (Cold Standby)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 458. 콜드 스탠바이 (Cold Standby)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

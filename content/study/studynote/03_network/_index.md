@@ -1,12 +1,8 @@
-+++
-weight = 3
-title = "03: 네트워크 (Network)"
-render = true
-sort_by = "weight"
-insert_anchor_links = "right"
-[extra]
-category = "studynote-network"
-+++
+---
+title: '03: 네트워크 (Network)'
+tags:
+- studynote-network
+---
 # 도메인 03: 네트워크 (Network)
 
 ## 핵심 인사이트 (3줄 요약)

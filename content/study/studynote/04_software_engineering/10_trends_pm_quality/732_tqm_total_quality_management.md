@@ -1,10 +1,9 @@
-+++
-weight = 732
-title = "732. TQM 전사적 품질 관리 예방 위주"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 732. TQM 전사적 품질 관리 예방 위주
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

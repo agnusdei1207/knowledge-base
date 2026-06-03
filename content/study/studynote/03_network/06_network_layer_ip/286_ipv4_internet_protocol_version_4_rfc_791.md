@@ -1,10 +1,9 @@
-+++
-weight = 286
-title = "286. IPv4 (Internet Protocol Version 4)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 286. IPv4 (Internet Protocol Version 4)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

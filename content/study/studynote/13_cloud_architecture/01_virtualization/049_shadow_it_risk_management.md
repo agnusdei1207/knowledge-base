@@ -1,10 +1,9 @@
-+++
-title = "049. 클라우드 섀도 IT — Cloud Shadow IT"
-weight = 49
-date = "2026-04-05"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 049. 클라우드 섀도 IT — Cloud Shadow IT
+date: '2026-04-05'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. 클라우드 시대의 섀도 IT는 개인 [[309_saas|SaaS]] 사용을 넘어 무단 클라우드 인프라 [[528_provisioning|프로비저닝]](Shadow Cloud)으로 확대 — 개발자가 신용카드로 AWS 계정을 직접 개설하거나, 팀이 IT 승인 없이 Azure 구독을 [[087_process_state_transition|생성]]하면서 기업 보안 경계가 무너진다.

@@ -1,10 +1,9 @@
-+++
-weight = 492
-title = "492. 블록체인 스마트 컨트랙트 원장 DB 융합"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 492. 블록체인 스마트 컨트랙트 원장 DB 융합
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

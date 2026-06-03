@@ -1,10 +1,9 @@
-+++
-title = "043. QA vs QC (품질 보증 vs 품질 통제)"
-weight = 43
-date = "2026-04-05"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 043. QA vs QC (품질 보증 vs 품질 통제)
+date: '2026-04-05'
+tags:
+- studynote-software-engineering
+---
 
 > **핵심 인사이트**
 > 1. QA(Quality Assurance, 품질 보증)는 "올바른 프로세스를 따르고 있는가?"를 확인하는 예방적 활동이고, QC(Quality Control, 품질 통제)는 "산출물이 요구사항을 충족하는가?"를 검사하는 탐지적 활동 — 프로세스 중심 vs 제품 중심의 근본적 차이가 있다.

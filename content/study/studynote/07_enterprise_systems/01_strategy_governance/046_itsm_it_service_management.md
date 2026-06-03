@@ -1,10 +1,9 @@
-+++
-title = "046. IT 서비스 관리 — ITSM 심화"
-weight = 46
-date = "2026-04-05"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 046. IT 서비스 관리 — ITSM 심화
+date: '2026-04-05'
+tags:
+- studynote-enterprise-systems
+---
 
 > **핵심 인사이트**
 > 1. [[096_iso_iec_20000_itsm_certification|ITSM]]([[061_itsm|IT Service Management]])은 IT [[090_service_kubernetes_network_load_balancing|서비스]]를 비즈니스 관점에서 설계·제공·개선하는 통합 접근법 — 기술 운영(Technology Operations)이 아닌 [[090_service_kubernetes_network_load_balancing|서비스]] 가치 창출에 초점을 맞추며, ITIL이 사실상 표준 프레임워크를 제공한다.

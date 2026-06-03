@@ -1,10 +1,9 @@
-+++
-weight = 1096
-title = "1096. EIGRP DUAL 지연 스케일 분산"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1096. EIGRP DUAL 지연 스케일 분산
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 57
-title = "Catalyst Optimizer"
-date = "2024-03-23"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: Catalyst Optimizer
+date: '2024-03-23'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - Catalyst는 [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] SQL의 핵심 [[298_qkv_attention|쿼리]] 최적화 엔진으로, Scala의 [[324_functional_programming_core|함수형 프로그래밍]] 특성을 활용해 [[298_qkv_attention|쿼리]] [[166_execution_plan_optimizer_navigation_tree|실행 계획]]을 자동으로 개선한다.

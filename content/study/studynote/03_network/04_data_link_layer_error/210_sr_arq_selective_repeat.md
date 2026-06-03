@@ -1,10 +1,9 @@
-+++
-weight = 210
-title = "210. SR ARQ (Selective Repeat ARQ)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 210. SR ARQ (Selective Repeat ARQ)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

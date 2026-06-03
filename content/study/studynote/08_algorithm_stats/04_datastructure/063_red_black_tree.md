@@ -1,10 +1,9 @@
-+++
-weight = 63
-title = "레드-블랙 트리 (Red-Black Tree, RBT)"
-date = "2026-03-05"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 레드-블랙 트리 (Red-Black Tree, RBT)
+date: '2026-03-05'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **핵심 원리**: 노드에 Red/Black 색상을 부여하고 5가지 [[082_attribute_types_er_model|속성]]을 강제하여 균형을 맞추는 자가 균형 [[061_binary_search_tree_bst|이진 탐색 트리]]다.

@@ -1,10 +1,9 @@
-+++
-weight = 387
-title = "387. 연관 규칙 탐색 Apriori 알고리즘 FP-Growth 성능 개선 구조 (지지도, 신뢰도, 향상도)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 387. 연관 규칙 탐색 Apriori 알고리즘 FP-Growth 성능 개선 구조 (지지도, 신뢰도, 향상도)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

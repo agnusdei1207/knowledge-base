@@ -1,10 +1,9 @@
-+++
-weight = 132
-title = "132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SQL JOIN은 **두 테이블의 공통 컬럼(키)을 기준으로 행을 결합**하는 연산이며, INNER(교집합)·LEFT(좌측 전체+매칭)·RIGHT(우측 전체+매칭)·FULL(합집합)·CROSS(카테시안 곱)·SELF(자기 [[316_reference_pattern_nosql|참조]])로 구분된다.

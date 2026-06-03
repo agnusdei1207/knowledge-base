@@ -1,10 +1,9 @@
-+++
-weight = 185
-title = "185. 확장성 설계 (Scalability Design) — 수평 확장/샤딩/파티셔닝/자동 확장"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 185. 확장성 설계 (Scalability Design) — 수평 확장/샤딩/파티셔닝/자동 확장
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

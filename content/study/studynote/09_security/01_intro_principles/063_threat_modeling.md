@@ -1,10 +1,9 @@
-+++
-title = "063. 위협 모델링 (Threat Modeling)"
-date = "2026-04-05"
-weight = 63
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 063. 위협 모델링 (Threat Modeling)
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

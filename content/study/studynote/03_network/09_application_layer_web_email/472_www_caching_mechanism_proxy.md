@@ -1,10 +1,9 @@
-+++
-weight = 472
-title = "472. WWW 캐싱 메커니즘 / 프록시"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 472. WWW 캐싱 메커니즘 / 프록시
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

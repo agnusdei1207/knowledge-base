@@ -1,10 +1,9 @@
-+++
-weight = 193
-title = "193. 뉴로모픽 반도체 (Neuromorphic Chip) SNN 저전력 추론"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 193. 뉴로모픽 반도체 (Neuromorphic Chip) SNN 저전력 추론
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[445_neuromorphic_computing|뉴로모픽 컴퓨팅]]([[445_neuromorphic_computing|Neuromorphic Computing]])은 인간 뇌의 신경 회로를 모방한 비폰노이만(Non-von Neumann) 아키텍처로, 이벤트 구동(Event-Driven) 처리로 대기 전력을 거의 제로로 만든다.

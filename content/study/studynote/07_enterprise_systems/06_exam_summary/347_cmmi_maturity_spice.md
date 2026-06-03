@@ -1,10 +1,9 @@
-+++
-weight = 347
-title = "347. CMMI 성숙도 5단계 SPICE 비교 (CMMI Maturity Model SPICE)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 347. CMMI 성숙도 5단계 SPICE 비교 (CMMI Maturity Model SPICE)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 212
-title = "212. 충돌 직렬 가능성 (Conflict Serializable)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 212. 충돌 직렬 가능성 (Conflict Serializable)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

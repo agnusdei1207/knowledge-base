@@ -1,10 +1,9 @@
-+++
-weight = 142
-title = "142. WAVE/DSRC - 자율주행 전용 단거리 통신 규격"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 142. WAVE/DSRC - 자율주행 전용 단거리 통신 규격
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[590_wave_ieee_802_11p_dsrc_v2x|WAVE]](Wireless Access in Vehicular Environments)/[[1025_c_v2x_wave_dsrc|DSRC]](Dedicated Short-Range Communications)는 **5.9GHz 전용 주파수에서 차량 간 [[120_direct_communication|직접 통신]](V2V·V2I)**을 제공하는 IEEE 802.11p 기반 규격이다.

@@ -1,10 +1,9 @@
-+++
-weight = 443
-title = "443. 테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 443. 테스트 절차 (Test Procedure) / 테스트 스크립트 (Test Script)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 200
-title = "194. 데이터 소유자 (Data Owner) — 비즈니스 책임자와 접근 승인"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 194. 데이터 소유자 (Data Owner) — 비즈니스 책임자와 접근 승인
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

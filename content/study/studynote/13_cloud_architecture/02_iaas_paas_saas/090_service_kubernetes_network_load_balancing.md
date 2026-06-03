@@ -1,10 +1,9 @@
-+++
-weight = 90
-title = "90. 서비스 (Service) - K8s 파드의 고정된 네트워크 진입점"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 90. 서비스 (Service) - K8s 파드의 고정된 네트워크 진입점
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 서비스(Service)는 수시로 [[087_process_state_transition|생성]]되고 소멸하며 IP가 변하는 [[085_pod_kubernetes_container_unit|파드]]([[198_pod_kubernetes_minimum_deployment_unit|Pod]])들 앞단에 위치하여, 변하지 않는 고정된 진입점(IP 및 [[511_dns_hierarchical_distributed_architecture|DNS]])을 제공하는 논리적 네트워크 [[198_abstraction_control_data_process|추상화]] 계층이다.

@@ -1,10 +1,10 @@
-+++
-weight = 797
-title = "797. 텔레햅틱 체계 기술 네트워크 응답 시간/제어 피드백 (Tactile Internet 극한 응답 한계 분석 및 신뢰 통신 5ms 이내 물리 제어 데이터 패킷 순서 보장 모델 통신 기반 연계 인프라 방식 구성 기초 체재)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 797. 텔레햅틱 체계 기술 네트워크 응답 시간/제어 피드백 (Tactile Internet 극한 응답 한계 분석 및 신뢰 통신 5ms
+  이내 물리 제어 데이터 패킷 순서 보장 모델 통신 기반 연계 인프라 방식 구성 기초 체재)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 97
-title = "97. 클러스터 오토스케일러 (CA) - K8s 물리 노드 자동 스케일링"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 97. 클러스터 오토스케일러 (CA) - K8s 물리 노드 자동 스케일링
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

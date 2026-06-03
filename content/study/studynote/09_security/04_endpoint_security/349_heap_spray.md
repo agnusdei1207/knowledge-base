@@ -1,10 +1,9 @@
-+++
-weight = 349
-title = "349. 힙 스프레이 (Heap Spray)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 349. 힙 스프레이 (Heap Spray)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

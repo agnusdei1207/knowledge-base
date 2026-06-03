@@ -1,10 +1,9 @@
-+++
-weight = 428
-title = "428. 테이블 풀 스캔 (Table Full Scan / FTS)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 428. 테이블 풀 스캔 (Table Full Scan / FTS)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 142
-title = "142. Trace·Span·Context Propagation - 분산 추적의 핵심 구성"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 142. Trace·Span·Context Propagation - 분산 추적의 핵심 구성
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Trace는 **하나의 요청 전체 경로**, Span은 **각 [[090_service_kubernetes_network_load_balancing|서비스]] 구간의 작업 단위**이며, [[033_context|Context]] Propagation은 **[[303_trace_id|Trace ID]]·Span ID를 [[461_http_stateless_connection_oriented|HTTP]] 헤더(traceparent)로 [[090_service_kubernetes_network_load_balancing|서비스]] 간 전파**하여 전체 호출 체인을 연결하는 메커니즘이다.

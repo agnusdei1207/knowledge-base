@@ -1,10 +1,9 @@
-+++
-weight = 187
-title = "187. OOM (Out of Memory) 킬러 커널 로그 파싱 알람"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 187. OOM (Out of Memory) 킬러 커널 로그 파싱 알람
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 239
-title = "239. 자원 할당 그래프 (Resource Allocation Graph, RAG)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 239. 자원 할당 그래프 (Resource Allocation Graph, RAG)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

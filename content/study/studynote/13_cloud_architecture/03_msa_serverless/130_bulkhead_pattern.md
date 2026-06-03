@@ -1,10 +1,9 @@
-+++
-weight = 130
-title = "130. Bulkhead 패턴 - 격벽으로 장애 격리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 130. Bulkhead 패턴 - 격벽으로 장애 격리
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[308_bulkhead_pattern|Bulkhead]](격벽)는 **[[090_service_kubernetes_network_load_balancing|서비스]]·리소스를 격리된 풀(Pool)로 분리**하여 하나의 장애가 다른 [[090_service_kubernetes_network_load_balancing|서비스]]로 전파되지 않도록 하는 [[619_msa_traffic_hardware|MSA]] 복원력 패턴이다.

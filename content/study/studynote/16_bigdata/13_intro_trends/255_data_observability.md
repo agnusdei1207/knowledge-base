@@ -1,10 +1,9 @@
-+++
-title = "043. 데이터 옵저버빌리티"
-weight = 255
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 043. 데이터 옵저버빌리티
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트**
 > 1. [[001_dikw_pyramid|데이터]] [[642_observability_telemetry|옵저버빌리티]]([[001_dikw_pyramid|Data]] [[642_observability_telemetry|Observability]])는 [[123_pipe|파이프]]라인을 통해 흐르는 [[001_dikw_pyramid|데이터]]의 상태를 실시간으로 감지·[[229_monitor|모니터]]링하는 능력으로 — 신선도(Freshness), 분포(Distribution), 볼륨([[001_bigdata_3v_5v|Volume]]), [[005_schema|스키마]]([[505_schema|Schema]]), 계보(Lineage) 5대 기둥으로 구성되며, [[001_dikw_pyramid|데이터]] 품질 이슈가 비즈니스에 도달하기 전에 사전 탐지한다.

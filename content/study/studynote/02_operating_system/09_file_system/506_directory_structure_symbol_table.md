@@ -1,10 +1,9 @@
-+++
-weight = 506
-title = "506. 디렉터리 (Directory) 구조 - 심볼 테이블 (이름 -> 항목 번역)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 506. 디렉터리 (Directory) 구조 - 심볼 테이블 (이름 -> 항목 번역)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

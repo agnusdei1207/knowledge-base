@@ -1,10 +1,9 @@
-+++
-weight = 467
-title = "467. 피처 스토어 (Feature Store)와 특징 변수 공유"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 467. 피처 스토어 (Feature Store)와 특징 변수 공유
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

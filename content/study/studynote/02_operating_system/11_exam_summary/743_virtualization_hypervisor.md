@@ -1,10 +1,9 @@
-+++
-weight = 743
-title = "743. 가상화 하이퍼바이저 (Virtualization Hypervisor)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 743. 가상화 하이퍼바이저 (Virtualization Hypervisor)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 370
-title = "370. DORA 메트릭스 기반 DevOps 조직 성과 민첩성 리포팅 감리"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 370. DORA 메트릭스 기반 DevOps 조직 성과 민첩성 리포팅 감리
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[523_dhcp_dora_process|DORA]] 메트릭스 기반 [[652_devops_calms_culture|DevOps]] 조직 성과 민첩성 리포팅 감리의 본질은 [[164_policy|정책]], 역할, 통제, 증빙이 같은 [[025_baseline|기준선]] 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 750
-title = "750. 아키텍처 런웨이 기술적 기반 조기 확보"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 750. 아키텍처 런웨이 기술적 기반 조기 확보
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 328
-title = "328. 5 Forces 산업 구조 경쟁 요인 분석 (Porter Five Forces)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 328. 5 Forces 산업 구조 경쟁 요인 분석 (Porter Five Forces)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

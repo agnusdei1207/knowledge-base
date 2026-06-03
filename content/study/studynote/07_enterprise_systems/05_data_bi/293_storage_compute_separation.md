@@ -1,10 +1,9 @@
-+++
-weight = 293
-title = "293. 스토리지와 컴퓨팅의 분리 (Separation of Compute and Storage)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 293. 스토리지와 컴퓨팅의 분리 (Separation of Compute and Storage)
+date: '2026-03-04'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] 저장소(Storage)와 연산 엔진(Compute)을 물리적/[[369_logic_bomb|논리]]적으로 독립시켜 각각 필요한 만큼 유연하게 확장하는 [[531_cloud_native_architecture|클라우드 네이티브]] [[104_da_as_is_analysis|데이터 아키텍처]]다.

@@ -1,10 +1,9 @@
-+++
-weight = 416
-title = "416. 모델 역산 공격 방어와 DP-SGD (Differentially Private Stochastic Gradient Descent)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 416. 모델 역산 공격 방어와 DP-SGD (Differentially Private Stochastic Gradient Descent)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

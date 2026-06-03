@@ -1,10 +1,9 @@
-+++
-weight = 366
-title = "366. 데이터 전처리 이상치 제거 (IQR 1.5 규칙, Z-score) (Outlier)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 366. 데이터 전처리 이상치 제거 (IQR 1.5 규칙, Z-score) (Outlier)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

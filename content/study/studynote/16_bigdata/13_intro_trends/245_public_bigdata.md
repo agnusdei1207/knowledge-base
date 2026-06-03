@@ -1,9 +1,9 @@
-+++
-title = "공공 빅데이터 (Public Big Data)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 공공 빅데이터 (Public Big Data)
+date: '2026-03-03'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트 3줄**
 > 1. 공공 빅데이터는 정부·공공기관이 생산·보유한 [[001_dikw_pyramid|데이터]]를 민간에 개방해 사회·경제적 가치를 창출하는 [[010_data_democratization|데이터 민주화]]의 핵심 인프라다.

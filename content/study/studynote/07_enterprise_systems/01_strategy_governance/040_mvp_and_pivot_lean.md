@@ -1,10 +1,9 @@
-+++
-title = "040. MVP (Minimum Viable Product) — 최소 기능 제품"
-weight = 40
-date = "2026-03-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 040. MVP (Minimum Viable Product) — 최소 기능 제품
+date: '2026-03-19'
+tags:
+- studynote-enterprise-systems
+---
 
 > **핵심 인사이트**
 > 1. [[036_mvp|MVP]]([[036_mvp|Minimum Viable Product]], 최소 기능 제품)는 Eric Ries의 [[035_lean_startup|린 스타트업]]([[035_lean_startup|Lean Startup]]) 핵심 개념으로, 최소한의 기능으로 고객 가설을 빠르게 [[395_verification_process_review|검증]](Validated [[240_switch_learning_forwarding_flooding|Learning]])하는 제품 [[288_version_ihl_tos_total_length|버전]]이며, "완성된 제품"이 아닌 "학습 도구"임을 이해하는 것이 핵심이다.

@@ -1,10 +1,9 @@
-+++
-weight = 219
-title = "214. 미디어 빅데이터 (Media Big Data) — 시청분석/콘텐츠추천/광고타겟팅"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 214. 미디어 빅데이터 (Media Big Data) — 시청분석/콘텐츠추천/광고타겟팅
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

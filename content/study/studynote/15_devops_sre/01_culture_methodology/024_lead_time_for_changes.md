@@ -1,10 +1,9 @@
-+++
-weight = 24
-title = "24. Lead Time for Changes — 변경 리드 타임"
-date = "2026-04-29"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 24. Lead Time for Changes — 변경 리드 타임
+date: '2026-04-29'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LTC ([[085_lead_time_cycle_time|Lead Time]] for Changes, 변경 [[085_lead_time_cycle_time|리드 타임]])는 [[523_dhcp_dora_process|DORA]] ([[652_devops_calms_culture|DevOps]] Research and Assessment) 4대 지표 중 하나로, 코드가 커밋된 시점부터 프로덕션(Production)에 성공적으로 배포되기까지 걸리는 총 시간을 측정하는 소프트웨어 딜리버리 속도 지표다.

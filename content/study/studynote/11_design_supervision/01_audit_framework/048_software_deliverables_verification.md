@@ -1,10 +1,9 @@
-+++
-title = "048. 소프트웨어 산출물 검증 — Deliverables Verification"
-weight = 48
-date = "2026-04-05"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 048. 소프트웨어 산출물 검증 — Deliverables Verification
+date: '2026-04-05'
+tags:
+- studynote-design-supervision
+---
 
 > **핵심 인사이트**
 > 1. 소프트웨어 산출물 [[395_verification_process_review|검증]]은 "만든 것이 올바른가([[395_verification_process_review|Verification]])"와 "올바른 것을 만들었는가([[396_validation|Validation]])"의 두 관점 — Verification은 명세 준수, Validation은 고객 요구 충족으로, 두 활동 모두 각 개발 단계에서 수행되어야 [[352_defect_definition|결함]] 발견 비용을 최소화한다.

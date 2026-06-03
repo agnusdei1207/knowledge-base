@@ -1,10 +1,9 @@
-+++
-weight = 79
-title = "079. RPA (Robotic Process Automation)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 079. RPA (Robotic Process Automation)
+date: '2026-05-05'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[060_rpa_hyperautomation|RPA]]([[060_rpa_hyperautomation|Robotic Process Automation]])는 기계 팔(Robot)이 아니라 컴퓨터에 깔리는 **소프트웨어 봇(Bot)**으로, 사람이 [[164_pc|PC]] 화면을 보고 마우스 클릭과 키보드 타이핑을 하는 **반복적인 규칙 기반(Rule-based) 업무를 100% 똑같이 흉내 내는 자동화 아키텍처**다.

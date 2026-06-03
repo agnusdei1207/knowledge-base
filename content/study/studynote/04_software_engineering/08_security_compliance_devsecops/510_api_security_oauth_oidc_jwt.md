@@ -1,10 +1,10 @@
-+++
-weight = 510
-title = "510. API 보안 관리 - OAuth 2.0 (Access Token 인가), OIDC(인증), JWT(JSON Web Token) 서명/만료 검증"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 510. API 보안 관리 - OAuth 2.0 (Access Token 인가), OIDC(인증), JWT(JSON Web Token)
+  서명/만료 검증
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 574
-title = "574. 11n (Wi-Fi 4)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 574. 11n (Wi-Fi 4)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

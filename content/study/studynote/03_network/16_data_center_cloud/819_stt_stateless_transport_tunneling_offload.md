@@ -1,10 +1,9 @@
-+++
-weight = 819
-title = "819. STT (Stateless Transport Tunneling) 가상화 망 패킷 오프로드 LSO 지원 목적 망"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 819. STT (Stateless Transport Tunneling) 가상화 망 패킷 오프로드 LSO 지원 목적 망
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

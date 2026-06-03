@@ -1,10 +1,9 @@
-+++
-weight = 77
-title = "77. 문제 관리 (Problem Management)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 77. 문제 관리 (Problem Management)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 문제 관리 (Problem [[372_management|Management]])의 본질은 다수의 인시던트를 유발하는 '근본 원인(Root Cause)'을 찾아내어 '알려진 오류(Known Error)'로 등록하고 영구적 해결책 제시를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

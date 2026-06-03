@@ -1,10 +1,9 @@
-+++
-weight = 92
-title = "92. NodePort - 워커 노드의 특정 물리 포트 외부 노출"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 92. NodePort - 워커 노드의 특정 물리 포트 외부 노출
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NodePort는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 클러스터의 모든 워커 노드(Worker Node)에 동일한 물리적 [[446_port_and_bus|포트]](30000~32767)를 열어, 외부 트래픽을 내부 [[090_service_kubernetes_network_load_balancing|서비스]]로 유입시키는 [[339_routing_overview_best_path_selection|라우팅]] 정책이다.

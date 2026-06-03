@@ -1,12 +1,10 @@
-+++
-weight = 11
-title = "11. 자가 진단 및 성숙도 모델 (Maturity Model) - CMMI, SPICE 연계 조직 진단"
-description = "조직의 역량 및 프로세스 성숙도를 진단하는 CMMI 및 SPICE 모델 분석"
-date = "2024-05-20"
-[taxonomies]
-tags = ["Maturity Model", "CMMI", "SPICE", "IT Governance", "Process Innovation"]
-categories = ["12_it_management"]
-+++
+---
+title: 11. 자가 진단 및 성숙도 모델 (Maturity Model) - CMMI, SPICE 연계 조직 진단
+date: '2024-05-20'
+description: 조직의 역량 및 프로세스 성숙도를 진단하는 CMMI 및 SPICE 모델 분석
+tags:
+- it_management
+---
 
 # 자가 진단 및 성숙도 모델 (Maturity Model)
 

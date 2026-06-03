@@ -1,10 +1,9 @@
-+++
-title = "100. 아키텍처 전술 (Architecture Tactics) - 품질 속성 달성을 위한 설계 전략"
-date = "2026-03-04"
-weight = 100
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 100. 아키텍처 전술 (Architecture Tactics) - 품질 속성 달성을 위한 설계 전략
+date: '2026-03-04'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 아키텍처 전술([[319_architecture|Architecture]] Tactics)은 [[452_availability|가용성]], [[282_performance_tactics|성능]], [[283_security_tactics|보안성]]과 같은 추상적인 품질 [[082_attribute_types_er_model|속성]]([[279_quality_attributes_scenario|Quality Attributes]])을 실제 시스템에 구현하기 위해 아키텍트가 선택하는 구체적인 설계 결정들의 단위다.

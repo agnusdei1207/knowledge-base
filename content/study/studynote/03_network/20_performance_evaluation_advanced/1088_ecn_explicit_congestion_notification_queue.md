@@ -1,10 +1,9 @@
-+++
-weight = 1088
-title = "1088. ECN 징후 큐 통지"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1088. ECN 징후 큐 통지
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

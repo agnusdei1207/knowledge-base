@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "31. 소프트웨어 유지보수 유형 — 4가지 변경 분류"
-date = "2026-04-29"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 31. 소프트웨어 유지보수 유형 — 4가지 변경 분류
+date: '2026-04-29'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소프트웨어 유지보수(Software Maintenance)는 ISO/IEC 14764에 따라 수정([[380_maintenance_types|Corrective]])·적응(Adaptive)·완전화(Perfective)·예방(Preventive)의 4가지 유형으로 분류된다. 운영 중인 소프트웨어에 가해지는 모든 변경이 이 네 유형 중 하나다.

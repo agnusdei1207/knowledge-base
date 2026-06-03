@@ -1,10 +1,9 @@
-+++
-weight = 244
-title = "244. RNN (Recurrent Neural Network) 시계열 LSTM 셀 게이트 장기 의존성 극복"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 244. RNN (Recurrent Neural Network) 시계열 LSTM 셀 게이트 장기 의존성 극복
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RNN(Recurrent Neural Network)은 순환 구조(Recurrent Structure)로 시퀀스 [[001_dikw_pyramid|데이터]]의 시간 의존성을 포착하지만, [[272_backpropagation|역전파]]([[114_bptt_backpropagation_through_time|Backpropagation Through Time]])에서 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]]) 문제가 발생한다.

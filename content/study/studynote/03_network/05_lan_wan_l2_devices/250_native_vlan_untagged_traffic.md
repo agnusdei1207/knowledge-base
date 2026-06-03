@@ -1,10 +1,9 @@
-+++
-weight = 250
-title = "250. Native VLAN (언태그드 트래픽 처리용)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 250. Native VLAN (언태그드 트래픽 처리용)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

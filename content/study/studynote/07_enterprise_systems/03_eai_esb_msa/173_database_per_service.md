@@ -1,10 +1,9 @@
-+++
-weight = 173
-title = "173. 데이터베이스 퍼 서비스 (Database per Service)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 173. 데이터베이스 퍼 서비스 (Database per Service)
+date: '2026-05-06'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 170
-title = "170. 다이버시티 시스템 (Diversity System) / 경로 이퀄라이저 (Equalizer)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 170. 다이버시티 시스템 (Diversity System) / 경로 이퀄라이저 (Equalizer)
+date: '2026-05-06'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

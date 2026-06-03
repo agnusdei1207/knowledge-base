@@ -1,10 +1,9 @@
-+++
-weight = 266
-title = "266. 페이지 부재 빈도 (PFF, Page Fault Frequency)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 266. 페이지 부재 빈도 (PFF, Page Fault Frequency)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

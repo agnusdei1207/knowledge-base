@@ -1,10 +1,9 @@
-+++
-weight = 266
-title = "266. 병행 투명성 / 장애 투명성 / 지역 사상 투명성 (Concurrency)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 266. 병행 투명성 / 장애 투명성 / 지역 사상 투명성 (Concurrency)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

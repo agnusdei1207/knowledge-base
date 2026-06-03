@@ -1,10 +1,9 @@
-+++
-weight = 937
-title = "937. 하이브리드 암호 시스템 (Hybrid Cryptography Symmetric Asymmetric Ssl Pgp)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 937. 하이브리드 암호 시스템 (Hybrid Cryptography Symmetric Asymmetric Ssl Pgp)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 318
-title = "318. 데이터 패브릭 가상화 메타 기반 융합 (Cloud Architecture Concept)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 318. 데이터 패브릭 가상화 메타 기반 융합 (Cloud Architecture Concept)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[050_data_fabric_virtualization|데이터 패브릭 가상화]] 메타 기반 융합는 클라우드 시스템에서 [[001_dikw_pyramid|데이터]] 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

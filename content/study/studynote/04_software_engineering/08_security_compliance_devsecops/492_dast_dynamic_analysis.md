@@ -1,10 +1,9 @@
-+++
-weight = 492
-title = "492. DAST (Dynamic Application Security Testing) - 런타임 환경에 공격 페이로드 주입 분석 (블랙박스)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 492. DAST (Dynamic Application Security Testing) - 런타임 환경에 공격 페이로드 주입 분석 (블랙박스)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

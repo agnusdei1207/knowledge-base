@@ -1,10 +1,9 @@
-+++
-weight = 135
-title = "135. SQL Non-Equi JOIN & Self JOIN - 범위·자기 참조 결합"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 135. SQL Non-Equi JOIN & Self JOIN - 범위·자기 참조 결합
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Non-Equi JOIN은 **등호(=) 대신 부등호(<, >, BETWEEN)로 조인 조건을 지정**하는 것이며, Self JOIN은 **같은 테이블을 자기 자신과 조인**하여 계층·순위·비교를 수행한다.

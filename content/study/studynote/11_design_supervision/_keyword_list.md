@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "11. 정보시스템 감리 및 소프트웨어 설계 (디자인 패턴/아키텍처) 키워드 목록"
-date = "2026-03-04"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 11. 정보시스템 감리 및 소프트웨어 설계 (디자인 패턴/아키텍처) 키워드 목록
+date: '2026-03-04'
+tags:
+- studynote-design-supervision
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # [[187_information_system_audit|정보시스템 감리]] 및 S/W 아키텍처 설계 키워드 목록 (심화 확장판)

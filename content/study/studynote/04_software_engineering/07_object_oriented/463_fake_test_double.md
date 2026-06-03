@@ -1,10 +1,9 @@
-+++
-weight = 463
-title = "463. Fake (페이크) - 실제 동작하지만 프로덕션에는 적합하지 않은 축소판 (인메모리 DB 등)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 463. Fake (페이크) - 실제 동작하지만 프로덕션에는 적합하지 않은 축소판 (인메모리 DB 등)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

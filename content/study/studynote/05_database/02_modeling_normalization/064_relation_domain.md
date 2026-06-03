@@ -1,7 +1,8 @@
-+++
-title = "64. 도메인 (Domain) - 속성이 가질 수 있는 원자값(Atomic Value)들의 집합"
-weight = 64
-+++
+---
+title: 64. 도메인 (Domain) - 속성이 가질 수 있는 원자값(Atomic Value)들의 집합
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

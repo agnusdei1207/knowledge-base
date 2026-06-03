@@ -1,10 +1,9 @@
-+++
-weight = 181
-title = "181. 클라우드 컴퓨팅 5대 특징 (NIST Cloud Computing Characteristics)"
-date = "2026-04-16"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 181. 클라우드 컴퓨팅 5대 특징 (NIST Cloud Computing Characteristics)
+date: '2026-04-16'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 178
-title = "178. 디지털 후각 / 촉각 텔레햅틱 (Tele-haptics) 통신 지연 제어"
-date = "2026-05-06"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 178. 디지털 후각 / 촉각 텔레햅틱 (Tele-haptics) 통신 지연 제어
+date: '2026-05-06'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 83
-title = "83. 지역 최솟값 (Local Minima) vs 전역 최솟값 (Global Minimum)"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 83. 지역 최솟값 (Local Minima) vs 전역 최솟값 (Global Minimum)
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

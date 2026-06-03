@@ -1,10 +1,9 @@
-+++
-title = "009. 버텍스 커버 — Vertex Cover"
-weight = 114
-date = "2026-04-05"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 009. 버텍스 커버 — Vertex Cover
+date: '2026-04-05'
+tags:
+- studynote-algorithm-stats
+---
 
 > **핵심 인사이트**
 > 1. 버텍스 커버(Vertex Cover)란 그래프의 모든 엣지에 대해 최소한 하나의 끝점을 포함하는 정점 집합으로 — k-버텍스 커버 결정 문제(크기 k 이하의 버텍스 커버가 존재하는가?)는 클리크(Clique)로부터 다항 시간 귀납에 의해 NP-완전임이 증명된다.

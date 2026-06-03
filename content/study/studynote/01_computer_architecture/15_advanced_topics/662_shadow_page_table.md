@@ -1,10 +1,9 @@
-+++
-weight = 662
-title = "662. 그림자 페이지 테이블 (Shadow Page Table)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 662. 그림자 페이지 테이블 (Shadow Page Table)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

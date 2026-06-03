@@ -1,10 +1,9 @@
-+++
-weight = 355
-title = "355. XGBoost / LightGBM (Xgboost Lightgbm)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 355. XGBoost / LightGBM (Xgboost Lightgbm)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

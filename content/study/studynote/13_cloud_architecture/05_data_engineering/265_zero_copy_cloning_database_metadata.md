@@ -1,10 +1,9 @@
-+++
-weight = 265
-title = "265. 제로 카피 클론 - Snowflake (Zero-Copy Cloning)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 265. 제로 카피 클론 - Snowflake (Zero-Copy Cloning)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[294_zero_copy_cloning|제로 카피 클론]] - Snowflake는 [[001_dikw_pyramid|데이터]] 플랫폼에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

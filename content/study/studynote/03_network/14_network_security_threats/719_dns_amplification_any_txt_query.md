@@ -1,10 +1,9 @@
-+++
-weight = 719
-title = "719. DNS 증폭 (위장 IP로 파싱 데이터/TXT 등 다량 요구 패킷 대형화 수백배 반사 대상자 타격)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 719. DNS 증폭 (위장 IP로 파싱 데이터/TXT 등 다량 요구 패킷 대형화 수백배 반사 대상자 타격)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

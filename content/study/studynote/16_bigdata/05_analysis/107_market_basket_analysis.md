@@ -1,10 +1,9 @@
-+++
-weight = 107
-title = "104. 장바구니 분석 (Market Basket Analysis) — 구매 패턴 기반 교차 판매"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 104. 장바구니 분석 (Market Basket Analysis) — 구매 패턴 기반 교차 판매
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 장바구니 분석 (Market Basket Analysis)은 고객이 한 번의 쇼핑에서 함께 구매하는 상품 조합을 분석하여 숨겨진 구매 패턴을 발굴하는 [[284_data_mining_association_classification_clustering_crisp_dm|데이터 마이닝]] 기법이다.

@@ -1,10 +1,9 @@
-+++
-weight = 1030
-title = "1030. 시그폭스 (SigFox) 협대역 통신 (Sigfox Lpwan Ultra Narrow Band IOT)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 1030. 시그폭스 (SigFox) 협대역 통신 (Sigfox Lpwan Ultra Narrow Band IOT)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

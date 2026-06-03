@@ -1,10 +1,18 @@
-+++
-title = "보팅 앙상블 — 하드/소프트 보팅 (Hard vs Soft Voting Ensemble)"
-date = 2025-01-01
-description = "하드 보팅(Hard Voting)과 소프트 보팅(Soft Voting)의 원리, 차이, 가중 보팅, scikit-learn 구현을 다룬다."
-categories = "studynote-ai"
-tags = ["voting ensemble", "hard voting", "soft voting", "weighted voting", "scikit-learn", "VotingClassifier", "ensemble learning"]
-+++
+---
+title: 보팅 앙상블 — 하드/소프트 보팅 (Hard vs Soft Voting Ensemble)
+date: '2025-01-01'
+description: 하드 보팅(Hard Voting)과 소프트 보팅(Soft Voting)의 원리, 차이, 가중 보팅, scikit-learn
+  구현을 다룬다.
+tags:
+- VotingClassifier
+- ensemble learning
+- hard voting
+- scikit-learn
+- soft voting
+- studynote-ai
+- voting ensemble
+- weighted voting
+---
 
 > **핵심 인사이트 3줄**
 > 1. 하드 [[258_voting_ensemble|보팅]](Hard [[258_voting_ensemble|Voting]])은 각 [[104_classification_analysis|분류]]기의 클래스 예측(다수결)을 집계하고, 소프트 [[258_voting_ensemble|보팅]](Soft [[258_voting_ensemble|Voting]])은 각 [[104_classification_analysis|분류]]기의 [[130_probability|확률]]값을 평균해 더 정확한 결과를 낸다.

@@ -1,5 +1,5 @@
-+++
-weight = 7
-title = "07. Object Oriented"
-sort_by = "weight"
-+++
+---
+title: 07. Object Oriented
+tags:
+- software_engineering
+---

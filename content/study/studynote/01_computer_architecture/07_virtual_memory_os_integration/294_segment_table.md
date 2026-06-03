@@ -1,10 +1,9 @@
-+++
-weight = 294
-title = "294. 세그먼트 테이블 (Segment Table)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 294. 세그먼트 테이블 (Segment Table)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

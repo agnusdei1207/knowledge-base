@@ -1,9 +1,9 @@
-+++
-title = "B-트리 (B-Tree)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: B-트리 (B-Tree)
+date: '2026-03-03'
+tags:
+- studynote-algorithm
+---
 
 > **핵심 인사이트 3줄**
 > 1. B-트리([[064_b_tree|B-Tree]])는 디스크 I/O를 최소화하기 위해 설계된 자기 균형 m-원 탐색 트리로, 루트에서 리프까지 모든 경로의 길이가 동일하다.

@@ -1,10 +1,9 @@
-+++
-weight = 231
-title = "231. SMOTE (Synthetic Minority Over-sampling Technique) 불균형 데이터 증강"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 231. SMOTE (Synthetic Minority Over-sampling Technique) 불균형 데이터 증강
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SMOTE(Synthetic Minority Over-[[056_표본화_Sampling|sampling]] Technique)는 소수 클래스 샘플 간 [[352_knn_distance_metrics|k-NN]](k-Nearest Neighbor) 보간([[187_time_series_interpolation_rollup_dashboard|Interpolation]])으로 합성 [[001_dikw_pyramid|데이터]]를 [[087_process_state_transition|생성]]해 클래스 불균형(Class Imbalance)을 해소한다.

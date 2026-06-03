@@ -1,10 +1,9 @@
-+++
-weight = 866
-title = "866. Open Redirect (오픈 리다이렉트)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 866. Open Redirect (오픈 리다이렉트)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

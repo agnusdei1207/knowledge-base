@@ -1,10 +1,9 @@
-+++
-weight = 304
-title = "304. 교착 상태 탐지 (Deadlock Detection) - 알고리즘을 주기적으로 실행하여 데드락 확인"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 304. 교착 상태 탐지 (Deadlock Detection) - 알고리즘을 주기적으로 실행하여 데드락 확인
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

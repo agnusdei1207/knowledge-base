@@ -1,10 +1,9 @@
-+++
-weight = 347
-title = "347. 임베딩 (Embedding) 모델"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 347. 임베딩 (Embedding) 모델
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

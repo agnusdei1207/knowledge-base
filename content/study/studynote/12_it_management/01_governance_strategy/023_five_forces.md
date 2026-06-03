@@ -1,10 +1,9 @@
-+++
-weight = 23
-title = "23. 5 Forces 모델"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 23. 5 Forces 모델
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

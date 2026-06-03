@@ -1,12 +1,10 @@
-+++
-weight = 13
-title = "13. 상태 공간 탐색 (State Space Search)"
-description = "문제 해결 과정을 초기 상태에서 목표 상태로 도달하기 위한 그래프 탐색으로 모델링하는 AI 탐색의 근본 패러다임"
-date = "2024-05-24"
-[taxonomies]
-tags = ["AI", "상태 공간", "State Space", "탐색 트리", "문제 해결"]
-categories = ["studynote-ai"]
-+++
+---
+title: 13. 상태 공간 탐색 (State Space Search)
+date: '2024-05-24'
+description: 문제 해결 과정을 초기 상태에서 목표 상태로 도달하기 위한 그래프 탐색으로 모델링하는 AI 탐색의 근본 패러다임
+tags:
+- ai
+---
 # 13. [[236_state_space_search_dfs_bfs|상태 공간 탐색]] ([[272_state_pattern|State]] Space Search)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 복잡한 현실의 문제를 유한 또는 무한의 노드(상태)와 간선(연산자)으로 이루어진 수학적 [[070_graph_datastructure|그래프]] 모델로 [[198_abstraction_control_data_process|추상화]]하여, 목표 지점을 찾아가는 최적 경로 탐색 [[001_algorithm_definition|알고리즘]] 체계.

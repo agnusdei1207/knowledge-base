@@ -1,10 +1,9 @@
-+++
-weight = 258
-title = "258. 벡터 시계 (Vector Clock) / 타임스탬프"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 258. 벡터 시계 (Vector Clock) / 타임스탬프
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

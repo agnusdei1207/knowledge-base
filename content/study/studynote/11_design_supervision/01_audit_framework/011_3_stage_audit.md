@@ -1,12 +1,10 @@
-+++
-weight = 11
-title = "11. 3단계 감리 - 요구정의 단계 감리, 설계 단계 감리, 종료 단계 감리"
-description = "정보시스템 구축 사업의 효과성, 효율성, 안전성을 검증하는 요구정의, 설계, 종료 단계의 3단계 감리 프레임워크 심층 분석"
-date = "2024-05-20"
-[taxonomies]
-tags = ["정보시스템감리", "3단계감리", "요구정의감리", "설계감리", "종료감리"]
-categories = ["11_design_supervision"]
-+++
+---
+title: 11. 3단계 감리 - 요구정의 단계 감리, 설계 단계 감리, 종료 단계 감리
+date: '2024-05-20'
+description: 정보시스템 구축 사업의 효과성, 효율성, 안전성을 검증하는 요구정의, 설계, 종료 단계의 3단계 감리 프레임워크 심층 분석
+tags:
+- design_supervision
+---
 
 # [[308_static_dynamic_nat_pat_port_address_translation|11]]. [[322_audit|3단계 감리]] (3-Stage [[363_audit|Audit]])
 

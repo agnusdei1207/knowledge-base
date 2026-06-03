@@ -1,10 +1,9 @@
-+++
-weight = 206
-title = "206. Chase Combining / IR (Incremental Redundancy)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 206. Chase Combining / IR (Incremental Redundancy)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

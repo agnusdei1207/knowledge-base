@@ -1,10 +1,9 @@
-+++
-weight = 766
-title = "766. 실시간 스케줄링 마감 시간 (Deadline)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 766. 실시간 스케줄링 마감 시간 (Deadline)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

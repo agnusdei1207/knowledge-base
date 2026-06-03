@@ -1,10 +1,9 @@
-+++
-weight = 25
-title = "25. 작업 추적 매트릭스 (Task Traceability Matrix) — 요구사항 추적 가능성 보장"
-date = "2026-04-29"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 25. 작업 추적 매트릭스 (Task Traceability Matrix) — 요구사항 추적 가능성 보장
+date: '2026-04-29'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 추적 매트릭스([[228_blockchain_smart_contract_traceability|Traceability]] Matrix)는 요구사항(Requirements)부터 설계, 구현, 테스트까지 각 산출물 간의 연관 관계를 매핑한 표로, "이 요구사항이 어느 코드에 구현됐고 어느 [[441_test_case|테스트 케이스]]로 [[395_verification_process_review|검증]]됐는가?"를 추적하는 관리 도구다.

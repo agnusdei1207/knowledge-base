@@ -1,10 +1,9 @@
-+++
-weight = 163
-title = "163. 데이터 드리프트 (Data Drift) - 운영 데이터 통계 분포 이격"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 163. 데이터 드리프트 (Data Drift) - 운영 데이터 통계 분포 이격
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] 드리프트 ([[001_dikw_pyramid|Data]] Drift)는 학습 [[001_dikw_pyramid|데이터]]와 운영(서빙) [[001_dikw_pyramid|데이터]] 간의 통계적 분포 차이로, 시간이 흐름에 따라 모델이 본 적 없는 패턴의 [[001_dikw_pyramid|데이터]]를 처리하게 되어 [[282_performance_tactics|성능]]이 저하되는 현상이다.

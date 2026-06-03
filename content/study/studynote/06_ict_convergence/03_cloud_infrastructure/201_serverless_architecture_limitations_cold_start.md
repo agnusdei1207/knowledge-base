@@ -1,10 +1,9 @@
-+++
-weight = 201
-title = "201. 서버리스 아키텍처 한계점 분석 (Serverless)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 201. 서버리스 아키텍처 한계점 분석 (Serverless)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

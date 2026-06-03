@@ -1,6 +1,7 @@
 ---
-title: "🏠 Personal (개인 서재 및 라이프 로그)"
-weight: 3
+title: 🏠 Personal (개인 서재 및 라이프 로그)
+tags:
+- personal
 ---
 
 # 🏠 Personal (개인 서재 및 라이프 로그)

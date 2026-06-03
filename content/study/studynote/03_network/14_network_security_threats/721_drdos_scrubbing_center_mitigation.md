@@ -1,10 +1,9 @@
-+++
-weight = 721
-title = "721. DRDoS 스크러빙 센터 (Scrubbing Center) 완화 트래픽 정제 대피소"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 721. DRDoS 스크러빙 센터 (Scrubbing Center) 완화 트래픽 정제 대피소
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

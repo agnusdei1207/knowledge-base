@@ -1,10 +1,9 @@
-+++
-weight = 62
-title = "62. 탐색적 데이터 분석 (EDA, Exploratory Data Analysis)"
-date = "2026-04-10"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 62. 탐색적 데이터 분석 (EDA, Exploratory Data Analysis)
+date: '2026-04-10'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

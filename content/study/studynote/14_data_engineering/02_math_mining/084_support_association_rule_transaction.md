@@ -1,10 +1,10 @@
-+++
-title = "84. 지지도 (Support) - 연관 규칙 평가 지표"
-date = "2026-03-04"
-weight = 84
-[extra]
-categories = ["studynote-data-engineering", "math-mining"]
-+++
+---
+title: 84. 지지도 (Support) - 연관 규칙 평가 지표
+date: '2026-03-04'
+tags:
+- math-mining
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

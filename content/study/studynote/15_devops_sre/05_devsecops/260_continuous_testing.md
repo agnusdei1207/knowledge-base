@@ -1,10 +1,9 @@
-+++
-weight = 260
-title = "260. 지속적 테스팅 (Continuous Testing) 통합 파이프라인 아키텍처"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 260. 지속적 테스팅 (Continuous Testing) 통합 파이프라인 아키텍처
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

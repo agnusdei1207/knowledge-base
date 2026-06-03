@@ -1,10 +1,9 @@
-+++
-title = "043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)"
-weight = 43
-date = "2026-04-05"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)
+date: '2026-04-05'
+tags:
+- studynote-enterprise-systems
+---
 
 > **핵심 인사이트**
 > 1. AARRR([[042_aarrr_funnel|Acquisition]] → Activation → [[515_mvcc|Retention]] → Referral → Revenue)은 Dave McClure가 2007년 제안한 스타트업 성장 지표 프레임워크로 — 각 단계별 전환율을 측정하고 병목([[617_io_bottleneck|Bottleneck]]) 단계를 [[655_ir_detection_analysis|식별]]해 집중 개선하는 [[001_dikw_pyramid|데이터]] 기반 성장 [[268_strategy_pattern|전략]]의 핵심이다.

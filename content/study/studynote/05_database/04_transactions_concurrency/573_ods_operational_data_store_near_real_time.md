@@ -1,10 +1,9 @@
-+++
-weight = 573
-title = "573. ODS 준실시간 스냅샷 레코드 마이그레이션 DW 배치 레이어 차이점"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 573. ODS 준실시간 스냅샷 레코드 마이그레이션 DW 배치 레이어 차이점
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

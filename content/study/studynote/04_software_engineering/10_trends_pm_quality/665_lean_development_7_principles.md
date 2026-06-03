@@ -1,10 +1,9 @@
-+++
-weight = 665
-title = "665. 린 스타트업 MVP 피벗 사이클"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 665. 린 스타트업 MVP 피벗 사이클
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 268
-title = "268. 인간 피드백 기반 강화학습 (RLHF, Reinforcement Learning from Human Feedback)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 268. 인간 피드백 기반 강화학습 (RLHF, Reinforcement Learning from Human Feedback)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

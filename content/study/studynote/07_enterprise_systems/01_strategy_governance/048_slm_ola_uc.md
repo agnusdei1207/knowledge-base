@@ -1,10 +1,9 @@
-+++
-title = "048. SLM·OLA·UC — 서비스 수준 관리 체계"
-weight = 48
-date = "2026-04-05"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 048. SLM·OLA·UC — 서비스 수준 관리 체계
+date: '2026-04-05'
+tags:
+- studynote-enterprise-systems
+---
 
 > **핵심 인사이트**
 > 1. [[313_slm|SLM]]([[084_service_level_management|Service Level Management]])은 [[085_sla|SLA]]·[[086_ola|OLA]]·[[087_underpinning_contract|UC]] 계층으로 이루어진 [[090_service_kubernetes_network_load_balancing|서비스]] 수준 보증 체계 — SLA는 고객 대면 계약, OLA는 내부 팀 간 합의, UC는 외부 공급자와의 계약으로, 세 계층이 정합성을 가져야 [[085_sla|SLA]] 이행이 가능하다.

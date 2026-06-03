@@ -1,5 +1,7 @@
 ---
-title: "🧭 Life Goals & Bucket List"
+title: 🧭 Life Goals & Bucket List
+tags:
+- personal
 ---
 
 # 🧭 Life Goals & Bucket List

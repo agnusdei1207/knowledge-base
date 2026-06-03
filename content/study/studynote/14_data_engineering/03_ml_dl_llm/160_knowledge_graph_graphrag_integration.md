@@ -1,10 +1,9 @@
-+++
-weight = 160
-title = "160. 지식 그래프 (Knowledge Graph) + GraphRAG 연동망"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 160. 지식 그래프 (Knowledge Graph) + GraphRAG 연동망
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 지식 [[070_graph_datastructure|그래프]](Knowledge [[104_graph|Graph]])는 엔티티(Entity)와 [[083_relationship_in_er_model|관계]]([[061_relation_schema_instance|Relation]])를 삼중쌍(Triple: 주어-술어-목적어)으로 구조화한 지식 저장 체계이며, GraphRAG는 이를 LLM과 결합해 구조적 추론을 수행한다.

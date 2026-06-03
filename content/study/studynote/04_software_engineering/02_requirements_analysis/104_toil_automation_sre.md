@@ -1,7 +1,8 @@
-+++
-title = "104. 토일 (Toil) - SRE에서 줄여야 할 단순 반복적 운영 작업"
-weight = 104
-+++
+---
+title: 104. 토일 (Toil) - SRE에서 줄여야 할 단순 반복적 운영 작업
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[685_toil_automation_sre|토일]] ([[685_toil_automation_sre|Toil]])은 구글의 [[100_sre_site_reliability_engineering_error_budget|SRE]](사이트 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 공학) 철학에서 정의한 개념으로, 시스템 운영자가 수동적이고 반복적으로 수행하는 '자동화 가능하지만 방치된 기술적 단순 노동'을 뜻한다.

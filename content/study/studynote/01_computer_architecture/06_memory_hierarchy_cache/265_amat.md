@@ -1,10 +1,9 @@
-+++
-weight = 265
-title = "265. 평균 메모리 접근 시간 (AMAT)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 265. 평균 메모리 접근 시간 (AMAT)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

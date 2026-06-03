@@ -1,10 +1,9 @@
-+++
-weight = 354
-title = "354. PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 354. PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 918
-title = "918. RoT 구성要素 (Rot Components)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 918. RoT 구성要素 (Rot Components)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

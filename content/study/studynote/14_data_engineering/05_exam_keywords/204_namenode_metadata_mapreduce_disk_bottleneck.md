@@ -1,10 +1,9 @@
-+++
-weight = 204
-title = "204. NameNode 메타데이터와 MapReduce 디스크 병목 SPOF 극복"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 204. NameNode 메타데이터와 MapReduce 디스크 병목 SPOF 극복
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[013_hdfs|HDFS]] NameNode는 전체 [[501_file_definition_logical_record|파일]]시스템 [[012_metadata|메타데이터]]를 RAM에 단독으로 유지하는 구조로 인해 [[454_spof|SPOF]] (Single Point of Failure)와 메모리 확장 한계를 내포하며, MapReduce는 Shuffle 단계의 반복적 디스크 I/O (Input/Output)가 [[282_performance_tactics|성능]] 병목이 된다.

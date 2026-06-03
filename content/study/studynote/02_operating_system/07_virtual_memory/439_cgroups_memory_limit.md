@@ -1,10 +1,9 @@
-+++
-weight = 439
-title = "439. Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 439. Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

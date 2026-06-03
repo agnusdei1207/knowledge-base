@@ -1,10 +1,9 @@
-+++
-title = "61. Secure by Default (기본값 안전)"
-date = "2026-04-05"
-weight = 61
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 61. Secure by Default (기본값 안전)
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

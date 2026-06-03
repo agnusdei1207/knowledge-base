@@ -1,10 +1,9 @@
-+++
-weight = 363
-title = "363. RoCE (RDMA over Converged Ethernet)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 363. RoCE (RDMA over Converged Ethernet)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

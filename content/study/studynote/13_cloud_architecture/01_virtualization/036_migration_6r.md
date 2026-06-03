@@ -1,9 +1,9 @@
-+++
-title = "036. 클라우드 마이그레이션 6R 전략"
-date = "2026-03-03"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 036. 클라우드 마이그레이션 6R 전략
+date: '2026-03-03'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. 클라우드 마이그레이션 6R은 Rehost([[212_rehost_lift_and_shift_migration_strategy|리호스트]])·Replatform(리플랫폼)·Repurchase(리퍼채스)·[[213_refactoring_cloud_native_rearchitecture|Refactor]](리팩터)·Retire(리타이어)·Retain(리테인)으로 구성된 워크로드별 마이그레이션 [[268_strategy_pattern|전략]] 프레임워크다.

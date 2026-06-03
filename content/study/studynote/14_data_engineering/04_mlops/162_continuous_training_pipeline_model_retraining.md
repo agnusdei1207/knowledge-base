@@ -1,10 +1,9 @@
-+++
-weight = 162
-title = "162. CT (Continuous Training) 파이프라인 - 모델 성능 저하 시 자동 재학습"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 162. CT (Continuous Training) 파이프라인 - 모델 성능 저하 시 자동 재학습
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CT (Continuous [[588_mlops_pipeline_automation|Training]])는 [[001_dikw_pyramid|데이터]] 세계의 변화를 ML 모델이 자동으로 따라잡도록, 재학습 파이프라인을 [[507_acid_properties|트리거]] 기반으로 자동 실행하는 [[348_mlops|MLOps]] 핵심 메커니즘이다.

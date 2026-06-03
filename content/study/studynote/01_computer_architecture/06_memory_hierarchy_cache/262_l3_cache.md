@@ -1,10 +1,9 @@
-+++
-weight = 262
-title = "262. L3 캐시 (Level 3 Cache)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 262. L3 캐시 (Level 3 Cache)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 262. L3 캐시 (Level 3 Cache)
 

@@ -1,10 +1,9 @@
-+++
-weight = 378
-title = "378. 텍스트 토큰화 BPE 서브워드 병합 알고리즘 빈도 확률 (Byte Pair Encoding)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 378. 텍스트 토큰화 BPE 서브워드 병합 알고리즘 빈도 확률 (Byte Pair Encoding)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

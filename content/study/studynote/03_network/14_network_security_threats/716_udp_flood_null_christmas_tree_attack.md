@@ -1,10 +1,9 @@
-+++
-weight = 716
-title = "716. UDP Flood 리소스 고갈 유도 / Null/Christmas Tree 플래그 비대칭공격 타격"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 716. UDP Flood 리소스 고갈 유도 / Null/Christmas Tree 플래그 비대칭공격 타격
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

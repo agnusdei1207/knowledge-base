@@ -1,10 +1,9 @@
-+++
-weight = 329
-title = "329. 다중 공선성 (Multicollinearity)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 329. 다중 공선성 (Multicollinearity)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

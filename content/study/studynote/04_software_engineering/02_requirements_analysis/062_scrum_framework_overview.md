@@ -1,7 +1,8 @@
-+++
-title = "62. 스크럼 (Scrum) 프레임워크 - 역할, 이벤트, 산출물"
-weight = 62
-+++
+---
+title: 62. 스크럼 (Scrum) 프레임워크 - 역할, 이벤트, 산출물
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 207
-title = "207. 널 객체 패턴 (Null Object Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 207. 널 객체 패턴 (Null Object Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

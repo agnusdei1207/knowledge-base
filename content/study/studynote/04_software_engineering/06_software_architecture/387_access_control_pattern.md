@@ -1,10 +1,9 @@
-+++
-weight = 387
-title = "387. 접근 통제 (Access Control) 패턴 로직 구현"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 387. 접근 통제 (Access Control) 패턴 로직 구현
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

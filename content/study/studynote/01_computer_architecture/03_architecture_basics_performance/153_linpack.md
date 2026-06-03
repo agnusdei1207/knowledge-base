@@ -1,10 +1,9 @@
-+++
-weight = 153
-title = "153. Linpack (린팩) 벤치마크"
-date = "2026-05-03"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 153. Linpack (린팩) 벤치마크
+date: '2026-05-03'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 린팩(Linpack)은 미지수(N)가 수백만 개인 거대한 100% 꽉 찬 연립 방정식(Dense [[160_linear_equations|Linear Equations]]) 행렬을 **수만 대의 컴퓨터 노드를 네트워크로 엮어 동시에 씹어 돌리며 푸는, [[087_floating_point|부동소수점]] 수학 연산([[137_flops|FLOPS]]) 테스트의 끝판왕 벤치마크**다.

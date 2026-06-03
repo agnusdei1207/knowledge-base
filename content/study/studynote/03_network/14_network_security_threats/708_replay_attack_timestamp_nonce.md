@@ -1,10 +1,9 @@
-+++
-weight = 708
-title = "708. 재생 공격 (Replay Attack 방어 타임스탬프 원리 / 비표 넌스 Nonce 적용)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 708. 재생 공격 (Replay Attack 방어 타임스탬프 원리 / 비표 넌스 Nonce 적용)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

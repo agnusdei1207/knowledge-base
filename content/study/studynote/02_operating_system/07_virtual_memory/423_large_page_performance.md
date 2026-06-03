@@ -1,10 +1,9 @@
-+++
-weight = 423
-title = "423. 대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 423. 대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

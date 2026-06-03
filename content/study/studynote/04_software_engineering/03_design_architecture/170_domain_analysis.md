@@ -1,10 +1,9 @@
-+++
-weight = 170
-title = "170. 도메인 분석 (Domain Analysis)"
-date = "2026-04-03"
-[extra]
-categories = ["Software Engineering"]
-+++
+---
+title: 170. 도메인 분석 (Domain Analysis)
+date: '2026-04-03'
+tags:
+- Software Engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

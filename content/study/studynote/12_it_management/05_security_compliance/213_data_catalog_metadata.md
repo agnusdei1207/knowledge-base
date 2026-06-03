@@ -1,10 +1,9 @@
-+++
-weight = 213
-title = "213. 데이터 카탈로그 (Data Catalog) 시스템"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 213. 데이터 카탈로그 (Data Catalog) 시스템
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] [[394_catalog_metadata|카탈로그]] ([[001_dikw_pyramid|Data]] [[394_catalog_metadata|Catalog]]) 시스템의 본질은 [[001_dikw_pyramid|데이터]] 자산 위치 탐색 및 [[012_metadata|메타데이터]] 태깅, [[052_data_governance_framework|데이터 거버넌스]]의 핵심을 수집·통합·품질·활용 체계로 정렬하는 데 있다.

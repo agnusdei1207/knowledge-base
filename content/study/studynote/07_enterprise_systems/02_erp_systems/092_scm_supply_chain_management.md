@@ -1,7 +1,9 @@
-+++
-title = "92. SCM (Supply Chain Management, 공급망 관리) - 원자재 조달에서 최종 소비자 전달까지 물류, 정보, 자금의 흐름을 전체 네트워크 관점에서 최적화"
-weight = 92
-+++
+---
+title: 92. SCM (Supply Chain Management, 공급망 관리) - 원자재 조달에서 최종 소비자 전달까지 물류, 정보, 자금의
+  흐름을 전체 네트워크 관점에서 최적화
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[167_scm_software_configuration_management|SCM]] ([[520_supply_chain_attack_and_ci_cd_security|Supply Chain]] [[372_management|Management]])은 원자재 공급업체부터 제조, 물류, 최종 고객에 이르는 전체 공급 사슬을 하나의 유기체처럼 통합하여 물류, 정보, 자금을 최적화하는 [[268_strategy_pattern|전략]]이다.

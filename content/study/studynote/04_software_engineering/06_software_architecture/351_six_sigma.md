@@ -1,10 +1,9 @@
-+++
-weight = 351
-title = "351. 식스 시그마 (6 Sigma) - DMAIC (Define, Measure, Analyze, Improve, Control)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 351. 식스 시그마 (6 Sigma) - DMAIC (Define, Measure, Analyze, Improve, Control)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 69
-title = "69. ITIL 4 의 핵심 개념 변화"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 69. ITIL 4 의 핵심 개념 변화
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[062_itil|ITIL]] 4 의 핵심 개념 변화의 본질은 생명주기 모델에서 [[090_service_kubernetes_network_load_balancing|서비스]] 가치 시스템 (SVS, [[090_service_kubernetes_network_load_balancing|Service]] Value System)으로 진화 ([[004_agile_relation|애자일]], [[652_devops_calms_culture|DevOps]] 통합)를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

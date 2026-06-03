@@ -1,10 +1,9 @@
-+++
-title = "047. COCOMO 모델 — 소프트웨어 비용 추정"
-weight = 47
-date = "2026-04-05"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 047. COCOMO 모델 — 소프트웨어 비용 추정
+date: '2026-04-05'
+tags:
+- studynote-software-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[145_cocomo_model|COCOMO]]([[145_cocomo_model|Constructive Cost Model]])는 Barry Boehm이 1981년 제안한 소프트웨어 개발 비용 추정 모델 — 소스 코드 라인 수(KLOC)를 기반으로 개발 공수(Person-Month)와 일정(Duration)을 계산하며, 프로젝트 규모와 유형에 따라 Basic→Intermediate→Detailed 3단계로 구성된다.

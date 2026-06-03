@@ -1,10 +1,9 @@
-+++
-weight = 353
-title = "353. gRPC 프로토콜 버퍼 직렬화 고속 통신 (gRPC and Protocol Buffers)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 353. gRPC 프로토콜 버퍼 직렬화 고속 통신 (gRPC and Protocol Buffers)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

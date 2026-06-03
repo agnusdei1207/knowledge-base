@@ -1,10 +1,9 @@
-+++
-weight = 267
-title = "267. SSL 스트리핑 (SSL Stripping)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 267. SSL 스트리핑 (SSL Stripping)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

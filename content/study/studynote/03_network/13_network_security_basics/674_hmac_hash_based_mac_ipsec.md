@@ -1,10 +1,9 @@
-+++
-weight = 674
-title = "674. HMAC (Hash-based MAC) 통신 기반 IPsec 등 활용 구조"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 674. HMAC (Hash-based MAC) 통신 기반 IPsec 등 활용 구조
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,10 @@
-+++
-weight = 233
-title = "233. API First Design 및 Swagger/OpenAPI 명세 기반 컨트랙트 테스팅 (API First Design / OpenAPI)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 233. API First Design 및 Swagger/OpenAPI 명세 기반 컨트랙트 테스팅 (API First Design /
+  OpenAPI)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

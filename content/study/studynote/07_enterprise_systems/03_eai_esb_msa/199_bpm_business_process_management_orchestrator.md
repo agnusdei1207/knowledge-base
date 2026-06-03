@@ -1,10 +1,9 @@
-+++
-weight = 199
-title = "199. BPM (Business Process Management) 및 오케스트레이터 모델"
-date = "2026-05-08"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 199. BPM (Business Process Management) 및 오케스트레이터 모델
+date: '2026-05-08'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 481
-title = "481. 피벗 크로스탭 보고서"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 481. 피벗 크로스탭 보고서
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

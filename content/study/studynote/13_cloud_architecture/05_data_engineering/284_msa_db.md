@@ -1,10 +1,9 @@
-+++
-weight = 284
-title = "284. 마이크로서비스 MSA 독립 배포 폴리글랏 DB (MSA DB)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 284. 마이크로서비스 MSA 독립 배포 폴리글랏 DB (MSA DB)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[532_microservices_decomposition_patterns|마이크로서비스]] [[619_msa_traffic_hardware|MSA]] 독립 배포 폴리글랏 DB는 [[136_variance|분산]] 애플리케이션에서 안전한 배포를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

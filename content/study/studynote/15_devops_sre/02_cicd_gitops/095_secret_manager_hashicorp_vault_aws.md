@@ -1,10 +1,11 @@
-+++
-title = "95. 시크릿 매니저 (Secret Manager)"
-date = "2026-03-04"
-weight = 95
-[extra]
-categories = ["studynote-devops-sre", "devsecops", "cicd"]
-+++
+---
+title: 95. 시크릿 매니저 (Secret Manager)
+date: '2026-03-04'
+tags:
+- cicd
+- devsecops
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

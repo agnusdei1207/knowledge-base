@@ -1,10 +1,9 @@
-+++
-weight = 472
-title = "472. 온디바이스 AI와 SLM 엣지 추론 (On-Device AI SLM Edge Inference)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 472. 온디바이스 AI와 SLM 엣지 추론 (On-Device AI SLM Edge Inference)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

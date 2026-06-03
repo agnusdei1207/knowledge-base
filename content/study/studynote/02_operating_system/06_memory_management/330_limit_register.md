@@ -1,10 +1,9 @@
-+++
-weight = 330
-title = "330. 한계 레지스터 (Limit Register) - 메모리 보호, 주소 범위 검사"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 330. 한계 레지스터 (Limit Register) - 메모리 보호, 주소 범위 검사
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

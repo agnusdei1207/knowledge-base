@@ -1,10 +1,9 @@
-+++
-weight = 230
-title = "230. 아파치 카프카 (Apache Kafka)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 230. 아파치 카프카 (Apache Kafka)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Kafka는 [[136_variance|분산]] 이벤트 스트리밍 플랫폼으로, 수천만 TPS(Transactions Per Second)의 대규모 실시간 [[568_logs_distributed_logging_elk_fluentd|로그]]·이벤트를 **내구성 있게 보관하며 다수의 소비자가 독립적으로 읽어갈 수 있는** 고가용 메시지 브로커다.

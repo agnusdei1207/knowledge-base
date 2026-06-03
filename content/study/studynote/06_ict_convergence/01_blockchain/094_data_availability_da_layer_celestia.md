@@ -1,10 +1,9 @@
-+++
-weight = 94
-title = "94. 데이터 가용성 (Data Availability, DA) 계층"
-date = "2024-05-15"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 94. 데이터 가용성 (Data Availability, DA) 계층
+date: '2024-05-15'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

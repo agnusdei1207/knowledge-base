@@ -1,10 +1,9 @@
-+++
-weight = 121
-title = "121. ECDLP (타원곡선 이산 대수 문제)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 121. ECDLP (타원곡선 이산 대수 문제)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

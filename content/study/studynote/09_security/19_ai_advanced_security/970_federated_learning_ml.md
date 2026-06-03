@@ -1,10 +1,9 @@
-+++
-weight = 970
-title = "970. Federated Learning in ML (Federated Learning in ML)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 970. Federated Learning in ML (Federated Learning in ML)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

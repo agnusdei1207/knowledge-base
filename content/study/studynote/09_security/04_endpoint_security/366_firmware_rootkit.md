@@ -1,10 +1,9 @@
-+++
-weight = 366
-title = "366. 펌웨어 루트킷 (Firmware Rootkit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 366. 펌웨어 루트킷 (Firmware Rootkit)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

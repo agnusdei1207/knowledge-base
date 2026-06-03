@@ -1,10 +1,9 @@
-+++
-weight = 664
-title = "664. Chain of Custody (증거 관리 연속성)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 664. Chain of Custody (증거 관리 연속성)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

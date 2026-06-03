@@ -1,10 +1,9 @@
-+++
-weight = 484
-title = "484. 로우해머 공격 (Rowhammer)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 484. 로우해머 공격 (Rowhammer)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

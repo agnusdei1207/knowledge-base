@@ -1,10 +1,9 @@
-+++
-weight = 117
-title = "117. 확장 유클리드 알고리즘 (Extended Euclidean Algorithm)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 117. 확장 유클리드 알고리즘 (Extended Euclidean Algorithm)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 157
-title = "157. 다크 부채 (Dark Debt) / 운영 부채 (Operational Debt) 청산 전략"
-date = "2026-04-21"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 157. 다크 부채 (Dark Debt) / 운영 부채 (Operational Debt) 청산 전략
+date: '2026-04-21'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

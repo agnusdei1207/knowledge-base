@@ -1,10 +1,9 @@
-+++
-weight = 501
-title = "501. XSS 유형 - Reflected XSS, Stored XSS, DOM-based XSS"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 501. XSS 유형 - Reflected XSS, Stored XSS, DOM-based XSS
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

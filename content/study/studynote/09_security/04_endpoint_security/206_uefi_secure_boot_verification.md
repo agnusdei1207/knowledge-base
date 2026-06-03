@@ -1,10 +1,9 @@
-+++
-weight = 206
-title = "206. UEFI Secure Boot (UEFI Secure Boot)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 206. UEFI Secure Boot (UEFI Secure Boot)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 1119
-title = "1119. 6G 융합 테라헤르츠 예측 지표망"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1119. 6G 융합 테라헤르츠 예측 지표망
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

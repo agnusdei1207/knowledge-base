@@ -1,6 +1,7 @@
 ---
-title: "🎓 Study (학습 허브)"
-weight: 2
+title: 🎓 Study (학습 허브)
+tags:
+- study
 ---
 
 # 🎓 Study (학습 허브)

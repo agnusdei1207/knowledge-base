@@ -1,10 +1,9 @@
-+++
-weight = 92
-title = "92. 가용성 관리 (Availability Management)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 92. 가용성 관리 (Availability Management)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[452_availability|가용성]] 관리 ([[452_availability|Availability]] [[372_management|Management]])의 본질은 [[090_service_kubernetes_network_load_balancing|서비스]] 중단 시간을 최소화하고 약속된 [[452_availability|가용성]] %를 보장하기 위한 아키텍처([[456_dual_redundancy|이중화]] 등) 점검을 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

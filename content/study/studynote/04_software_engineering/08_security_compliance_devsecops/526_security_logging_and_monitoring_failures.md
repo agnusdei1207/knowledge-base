@@ -1,10 +1,9 @@
-+++
-weight = 526
-title = "526. 보안 로깅 (Logging) - 6하 원칙 기록, 중앙 집중식 보관(ELK), 위변조 방지 (WORM 스토리지)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 526. 보안 로깅 (Logging) - 6하 원칙 기록, 중앙 집중식 보관(ELK), 위변조 방지 (WORM 스토리지)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

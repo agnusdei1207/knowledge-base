@@ -1,10 +1,9 @@
-+++
-weight = 463
-title = "463. HTTP 1.0 (비지속 연결, 단점)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 463. HTTP 1.0 (비지속 연결, 단점)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

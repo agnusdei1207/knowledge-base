@@ -1,10 +1,9 @@
-+++
-weight = 696
-title = "696. 카나리 토큰 (Canary Token)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 696. 카나리 토큰 (Canary Token)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

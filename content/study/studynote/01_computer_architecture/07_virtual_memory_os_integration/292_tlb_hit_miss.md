@@ -1,10 +1,9 @@
-+++
-weight = 292
-title = "292. TLB 히트와 미스 (TLB Hit & Miss)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 292. TLB 히트와 미스 (TLB Hit & Miss)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

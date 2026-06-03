@@ -1,10 +1,9 @@
-+++
-weight = 345
-title = "345. 데이터 버스 (Data Bus)"
-date = "2026-03-27"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 345. 데이터 버스 (Data Bus)
+date: '2026-03-27'
+tags:
+- studynote-computer-architecture
+---
 
 # 345. [[001_dikw_pyramid|데이터]] [[344_bus|버스]] ([[001_dikw_pyramid|Data]] [[344_bus|Bus]])
 

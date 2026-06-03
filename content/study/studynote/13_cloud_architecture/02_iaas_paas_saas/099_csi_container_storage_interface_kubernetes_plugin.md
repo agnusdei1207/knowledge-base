@@ -1,10 +1,9 @@
-+++
-weight = 99
-title = "99. CSI (Container Storage Interface) - K8s 스토리지 범용 표준 플러그인"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 99. CSI (Container Storage Interface) - K8s 스토리지 범용 표준 플러그인
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[068_csi|CSI]] ([[194_container_virtualization_docker_namespace|Container]] Storage Interface)는 K8s 본체 소스코드에 하드코딩되어 있던 스토리지 연동 로직을 외부로 분리한 독립적인 표준 인터페이스 규약이다.

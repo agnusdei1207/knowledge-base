@@ -1,10 +1,9 @@
-+++
-weight = 186
-title = "186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)
+date: '2026-04-21'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

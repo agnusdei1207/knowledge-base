@@ -1,10 +1,9 @@
-+++
-weight = 294
-title = "294. POODLE (Padding Oracle On Downgraded Legacy Encryption)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 294. POODLE (Padding Oracle On Downgraded Legacy Encryption)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

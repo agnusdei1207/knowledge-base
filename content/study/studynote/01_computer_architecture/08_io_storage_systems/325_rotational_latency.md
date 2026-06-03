@@ -1,10 +1,9 @@
-+++
-weight = 325
-title = "325. 회전 지연 (Rotational Latency)"
-date = "2026-03-27"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 325. 회전 지연 (Rotational Latency)
+date: '2026-03-27'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

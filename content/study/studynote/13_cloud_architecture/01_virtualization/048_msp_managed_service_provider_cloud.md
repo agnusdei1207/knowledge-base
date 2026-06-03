@@ -1,10 +1,9 @@
-+++
-title = "048. MSP — 클라우드 관리형 서비스 제공자"
-weight = 48
-date = "2026-04-05"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 048. MSP — 클라우드 관리형 서비스 제공자
+date: '2026-04-05'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. MSP([[060_cloud_msp_managed_service_provider|Managed Service Provider]])는 고객의 IT 인프라와 [[090_service_kubernetes_network_load_balancing|서비스]]를 대신 관리하는 제3자 [[090_service_kubernetes_network_load_balancing|서비스]] 제공자 — 클라우드 MSP는 AWS·Azure·GCP 환경을 24×7 모니터링, 운영, 최적화하며, 고객이 핵심 비즈니스에 집중하도록 IT 운영 부담을 대행한다.

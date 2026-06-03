@@ -1,8 +1,8 @@
-+++
-weight = 4
-title = "04. IaC 및 클라우드 네이티브 운영"
-sort_by = "weight"
-+++
+---
+title: 04. IaC 및 클라우드 네이티브 운영
+tags:
+- devops_sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

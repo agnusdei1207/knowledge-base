@@ -1,9 +1,9 @@
-+++
-title = "037. NRZ-L과 NRZ-I — 비복귀 제로 라인 코딩"
-date = "2026-03-03"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 037. NRZ-L과 NRZ-I — 비복귀 제로 라인 코딩
+date: '2026-03-03'
+tags:
+- studynote-network
+---
 
 > **핵심 인사이트**
 > 1. NRZ(Non-Return to [[585_zero_skipping|Zero]])는 [[130_signal|신호]]가 [[073_bit|비트]] 주기 중 0V로 복귀하지 않는 라인 코딩 방식으로, NRZ-L(Level)은 [[073_bit|비트]] 값 자체를 [[001_voltage|전압]] 레벨로, NRZ-I(Inverted)는 1 [[073_bit|비트]]마다 [[001_voltage|전압]]을 반전시켜 표현한다.

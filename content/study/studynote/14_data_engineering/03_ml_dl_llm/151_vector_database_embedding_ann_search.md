@@ -1,10 +1,9 @@
-+++
-weight = 151
-title = "151. 벡터 데이터베이스 (Vector DB) 임베딩과 ANN (근사 최근접) 검색 알고리즘"
-date = "2026-05-03"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 151. 벡터 데이터베이스 (Vector DB) 임베딩과 ANN (근사 최근접) 검색 알고리즘
+date: '2026-05-03'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[223_vector_database_embedding|벡터 데이터베이스]](Vector DB)의 [[350_ann|ANN]]([[351_hnsw|Approximate Nearest Neighbor]]) 검색은 수억 개의 고차원 [[278_instruction_tuning|임베딩]]([[278_instruction_tuning|Embedding]]) 텐서(숫자 [[055_array|배열]]) 점들 사이에서, **100% 찐 정답(Exact)을 찾는 무식한 풀스캔 쇳덩이 연산을 버리고 ➔ 정확도를 1% 희생하는 대신 의미(Semantic)가 가장 근접한(Approximate) 문서 Top-3를 1,000배의 빛의 속도로 스캔 척살해 내는 검색 튜닝의 극한**이다.

@@ -1,10 +1,9 @@
-+++
-weight = 139
-title = "139. 인메모리 데이터베이스 (In-Memory DB) — Redis/Memcached/SAP HANA"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 139. 인메모리 데이터베이스 (In-Memory DB) — Redis/Memcached/SAP HANA
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 인메모리 DB는 [[001_dikw_pyramid|데이터]]를 주 스토리지로 RAM에 저장하여 디스크 I/O 병목을 완전히 제거함으로써 마이크로초(μs) 단위의 [[138_response_time|응답 시간]]과 초당 수백만 연산을 실현한다.

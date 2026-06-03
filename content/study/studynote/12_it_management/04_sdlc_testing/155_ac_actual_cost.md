@@ -1,10 +1,9 @@
-+++
-weight = 155
-title = "155. AC (Actual Cost)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 155. AC (Actual Cost)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: AC (Actual Cost)의 본질은 실제 투입된 비용을 단계별 산출물과 품질 게이트로 관리하는 데 있다.

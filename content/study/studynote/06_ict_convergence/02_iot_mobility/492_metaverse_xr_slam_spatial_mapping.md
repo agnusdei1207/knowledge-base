@@ -1,10 +1,9 @@
-+++
-weight = 492
-title = "492. 메타버스, XR, SLAM 공간 인식 (Metaverse, XR, SLAM Spatial Mapping)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 492. 메타버스, XR, SLAM 공간 인식 (Metaverse, XR, SLAM Spatial Mapping)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

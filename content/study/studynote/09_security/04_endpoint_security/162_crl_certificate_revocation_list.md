@@ -1,10 +1,9 @@
-+++
-weight = 162
-title = "162. CRL (Certificate Revocation List) — 폐지 인증서 목록"
-date = "2026-05-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 162. CRL (Certificate Revocation List) — 폐지 인증서 목록
+date: '2026-05-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트
 

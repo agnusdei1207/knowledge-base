@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "31. 정보화 사업 유형별 감리 (Audit by Project Type)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 31. 정보화 사업 유형별 감리 (Audit by Project Type)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

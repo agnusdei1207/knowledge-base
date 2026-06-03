@@ -1,10 +1,9 @@
-+++
-weight = 157
-title = "157. SV (Schedule Variance, 일정 차이)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 157. SV (Schedule Variance, 일정 차이)
+date: '2026-04-21'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

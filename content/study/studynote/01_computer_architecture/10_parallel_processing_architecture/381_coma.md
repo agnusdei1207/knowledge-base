@@ -1,10 +1,9 @@
-+++
-weight = 381
-title = "381. COMA (Cache-Only Memory Access)"
-date = "2026-03-27"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 381. COMA (Cache-Only Memory Access)
+date: '2026-03-27'
+tags:
+- studynote-computer-architecture
+---
 
 # 381. COMA (Cache-Only Memory Access)
 

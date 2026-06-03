@@ -1,10 +1,9 @@
-+++
-weight = 235
-title = "235. 분산 NoSQL 데이터베이스 종류 개요"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 235. 분산 NoSQL 데이터베이스 종류 개요
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[035_nosql|NoSQL]] [[001_dikw_pyramid|데이터]]베이스는 "[[274_nosql|Not Only SQL]]"로, RDBMS의 강직한 [[005_schema|스키마]]와 수직 확장 한계를 극복하기 위해 **키-값·도큐먼트·와이드컬럼·[[070_graph_datastructure|그래프]]** 4가지 [[001_dikw_pyramid|데이터]] 모델로 특화된 [[136_variance|분산]] 저장소다.

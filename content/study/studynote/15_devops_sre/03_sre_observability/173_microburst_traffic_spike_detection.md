@@ -1,10 +1,9 @@
-+++
-weight = 173
-title = "173. 마이크로버스트 트래픽 스파이크 탐지 (Microburst Traffic Spike Detection)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 173. 마이크로버스트 트래픽 스파이크 탐지 (Microburst Traffic Spike Detection)
+date: '2026-04-21'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

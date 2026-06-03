@@ -1,10 +1,9 @@
-+++
-weight = 346
-title = "346. RAG 프라이빗 지식 벡터 DB 임베딩 무결성 구조"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 346. RAG 프라이빗 지식 벡터 DB 임베딩 무결성 구조
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[276_fine_tuning|RAG]] 프라이빗 지식 벡터 DB [[278_instruction_tuning|임베딩]] [[003_integrity|무결성]] 구조의 본질은 [[001_dikw_pyramid|데이터]], 모델, 평가, 배포, 책임 통제가 함께 굴러가야 [[231_ai_turing_test|인공지능]] [[090_service_kubernetes_network_load_balancing|서비스]]가 실험을 넘어 운영 자산이 된다.

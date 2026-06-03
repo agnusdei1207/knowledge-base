@@ -1,10 +1,9 @@
-+++
-weight = 69
-title = "69. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가 (Project Sponsor and Steering Committee Assessment)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 69. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가 (Project Sponsor and Steering Committee Assessment)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

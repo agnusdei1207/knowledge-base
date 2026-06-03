@@ -1,10 +1,9 @@
-+++
-title = "042. 프로젝트 연산 (Project) — 관계 대수 열 추출"
-weight = 42
-date = "2026-04-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 042. 프로젝트 연산 (Project) — 관계 대수 열 추출
+date: '2026-04-05'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트**
 > 1. [[038_relational_algebra|관계 대수]]의 프로젝트(Project) 연산(π)은 [[061_relation_schema_instance|릴레이션]]에서 지정한 [[082_attribute_types_er_model|속성]](열)만 추출하여 수직적 부분집합을 만드는 단항 연산으로, SQL의 [[520_select|SELECT]] 절(컬럼 목록 지정)에 직접 대응된다.

@@ -1,10 +1,9 @@
-+++
-weight = 361
-title = "361. 다중 공선성 (Multicollinearity) 과 VIF (Variance Inflation Factor)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 361. 다중 공선성 (Multicollinearity) 과 VIF (Variance Inflation Factor)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,7 +1,9 @@
-+++
-title = "72. Leaky ReLU / ELU - ReLU의 죽은 뉴런(Dying ReLU, 음수 입력 시 가중치 미갱신) 문제 해결 (음수 구간에 미세한 기울기 부여)"
-weight = 72
-+++
+---
+title: 72. Leaky ReLU / ELU - ReLU의 죽은 뉴런(Dying ReLU, 음수 입력 시 가중치 미갱신) 문제 해결 (음수 구간에
+  미세한 기울기 부여)
+tags:
+- ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

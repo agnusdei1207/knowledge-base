@@ -1,10 +1,9 @@
-+++
-weight = 307
-title = "307. 글로벌 보조 인덱스 (GSI, Global Secondary Index) 분산 환경 오버헤드"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 307. 글로벌 보조 인덱스 (GSI, Global Secondary Index) 분산 환경 오버헤드
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

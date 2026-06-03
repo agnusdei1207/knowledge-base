@@ -1,9 +1,9 @@
-+++
-title = "035. PMBOK 10대 지식 영역"
-date = "2026-03-03"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 035. PMBOK 10대 지식 영역
+date: '2026-03-03'
+tags:
+- studynote-software-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[147_pmbok_10_knowledge_areas|PMBOK]] ([[042_relational_algebra_project|Project]] [[372_management|Management]] Body of Knowledge) 10대 지식 영역은 프로젝트 관리의 전 영역을 통합·범위·일정·원가·품질·자원·의사소통·위험·조달·[[173_stakeholder_identification_impact_matrix|이해관계자]]로 구조화한 국제 표준 프레임워크다.

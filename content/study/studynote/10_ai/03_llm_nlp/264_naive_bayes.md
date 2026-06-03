@@ -1,10 +1,9 @@
-+++
-weight = 264
-title = "264. 나이브 베이즈 (Naive Bayes)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 264. 나이브 베이즈 (Naive Bayes)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

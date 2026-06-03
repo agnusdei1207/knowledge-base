@@ -1,10 +1,9 @@
-+++
-weight = 56
-title = "56. 옴니채널 마케팅 전략 (Omni-Channel Marketing Strategy) - 고객 중심 통합 경험"
-date = "2024-03-24"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 56. 옴니채널 마케팅 전략 (Omni-Channel Marketing Strategy) - 고객 중심 통합 경험
+date: '2024-03-24'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

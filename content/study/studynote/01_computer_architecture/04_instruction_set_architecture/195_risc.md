@@ -1,10 +1,9 @@
-+++
-weight = 195
-title = "195. RISC (Reduced Instruction Set Computer)"
-date = "2026-03-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 195. RISC (Reduced Instruction Set Computer)
+date: '2026-03-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 347
-title = "347. 제어 버스 (Control Bus)"
-date = "2026-03-27"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 347. 제어 버스 (Control Bus)
+date: '2026-03-27'
+tags:
+- studynote-computer-architecture
+---
 
 # 347. 제어 [[344_bus|버스]] (Control [[344_bus|Bus]])
 

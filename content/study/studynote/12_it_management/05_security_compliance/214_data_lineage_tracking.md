@@ -1,10 +1,9 @@
-+++
-weight = 214
-title = "214. 데이터 리니지 (Data Lineage)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 214. 데이터 리니지 (Data Lineage)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] 리니지 ([[001_dikw_pyramid|Data]] Lineage)의 본질은 [[001_dikw_pyramid|데이터]]의 발생지부터 변환, 적재까지 흐름과 변형 과정을 시각적으로 추적 (규제 대응 [[003_integrity|무결성]] 증명)를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 440
-title = "440. 일관성 오라클 (Consistent Oracle)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 440. 일관성 오라클 (Consistent Oracle)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 413
-title = "413. MQTT Pub/Sub 브로커 기반 경량 IoT 프로토콜 (MQTT)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 413. MQTT Pub/Sub 브로커 기반 경량 IoT 프로토콜 (MQTT)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

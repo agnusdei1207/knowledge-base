@@ -1,10 +1,9 @@
-+++
-weight = 637
-title = "637. ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 637. ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

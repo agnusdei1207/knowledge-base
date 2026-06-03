@@ -1,10 +1,9 @@
-+++
-weight = 55
-title = "55. Ingress와 Service Type"
-date = "2026-05-01"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 55. Ingress와 Service Type
+date: '2026-05-01'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

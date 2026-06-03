@@ -1,10 +1,9 @@
-+++
-weight = 243
-title = "243. OWASP Core Rule Set (CRS)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 243. OWASP Core Rule Set (CRS)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

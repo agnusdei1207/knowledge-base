@@ -1,11 +1,9 @@
-+++
-weight = 15
-title = "15. 폐기 가능성 (Disposability) - 빠른 시작과 우아한 종료(Graceful Shutdown)를 통한 안정성 극대화"
-date = "2026-04-05"
-[taxonomies]
-tags = ["Disposability", "폐기 가능성", "12팩터", "그레이스풀 셧다운", "신속한 시작"]
-categories = ["15_devops_sre"]
-+++
+---
+title: 15. 폐기 가능성 (Disposability) - 빠른 시작과 우아한 종료(Graceful Shutdown)를 통한 안정성 극대화
+date: '2026-04-05'
+tags:
+- devops_sre
+---
 
 # 폐기 가능성
 

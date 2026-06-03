@@ -1,10 +1,9 @@
-+++
-weight = 328
-title = "328. 가비지 컬렉션 (Garbage Collection in SSD)"
-date = "2026-03-27"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 328. 가비지 컬렉션 (Garbage Collection in SSD)
+date: '2026-03-27'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

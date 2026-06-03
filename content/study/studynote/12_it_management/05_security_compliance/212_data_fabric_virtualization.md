@@ -1,10 +1,9 @@
-+++
-weight = 212
-title = "212. 데이터 패브릭 (Data Fabric)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 212. 데이터 패브릭 (Data Fabric)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] 패브릭 ([[001_dikw_pyramid|Data]] Fabric)의 본질은 흩어진 [[001_dikw_pyramid|데이터]]를 이관([[215_etl_vs_elt_pipeline|ETL]])하지 않고 메타데이터와 [[190_ai_llm_requirements_specification|AI]] 기반의 [[015_virtualization|가상화]] 계층으로 매핑/연결하여 실시간 조회하는 통합 층을 수집·통합·품질·활용 체계로 정렬하는 데 있다.

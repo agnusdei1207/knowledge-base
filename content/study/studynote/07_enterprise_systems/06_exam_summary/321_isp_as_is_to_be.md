@@ -1,10 +1,9 @@
-+++
-weight = 321
-title = "321. ISP AS-IS TO-BE 분석 방법론 (ISP Information Strategy Planning)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 321. ISP AS-IS TO-BE 분석 방법론 (ISP Information Strategy Planning)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

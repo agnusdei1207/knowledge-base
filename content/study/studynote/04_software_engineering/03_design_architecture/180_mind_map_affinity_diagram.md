@@ -1,7 +1,8 @@
-+++
-title = "180. 마인드 맵 (Mind Map) 및 친화도 (Affinity Diagram)"
-weight = 180
-+++
+---
+title: 180. 마인드 맵 (Mind Map) 및 친화도 (Affinity Diagram)
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

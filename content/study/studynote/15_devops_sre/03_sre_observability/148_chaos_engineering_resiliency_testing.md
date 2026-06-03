@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. 카오스 엔지니어링 (Chaos Engineering)"
-date = "2026-05-03"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 148. 카오스 엔지니어링 (Chaos Engineering)
+date: '2026-05-03'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[751_chaos_engineering|카오스 엔지니어링]]([[751_chaos_engineering|Chaos Engineering]])은 멀쩡히 돌아가고 있는 프로덕션(라이브) 시스템에 고의로 서버 종료, [[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]] 등 통제된 재앙(장애)을 주입하여, 시스템의 숨겨진 약점을 폭로하는 과학적 실험 기법이다.

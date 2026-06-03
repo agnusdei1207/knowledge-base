@@ -1,10 +1,9 @@
-+++
-weight = 1004
-title = "1004. Erlang (얼랑, 통신 트래픽 부하 단위량)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1004. Erlang (얼랑, 통신 트래픽 부하 단위량)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

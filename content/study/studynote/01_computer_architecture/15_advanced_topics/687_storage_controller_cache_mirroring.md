@@ -1,10 +1,9 @@
-+++
-weight = 687
-title = "687. 스토리지 컨트롤러 캐시 미러링"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 687. 스토리지 컨트롤러 캐시 미러링
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

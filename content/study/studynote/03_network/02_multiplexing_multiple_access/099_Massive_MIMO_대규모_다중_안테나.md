@@ -1,12 +1,11 @@
-+++
-weight = 99
-title = "99. Massive MIMO (대규모 다중 안테나)"
-description = "수십에서 수백 개의 안테나 소자를 결합하여 3D 빔포밍을 구현하고 5G 망의 초연결 용량 한계를 극복하는 Massive MIMO 아키텍처와 원리"
-date = "2026-03-04"
-[taxonomies]
-tags = ["Network", "Wireless", "Massive MIMO", "5G", "Beamforming", "3D MIMO"]
-categories = ["studynote-network"]
-+++
+---
+title: 99. Massive MIMO (대규모 다중 안테나)
+date: '2026-03-04'
+description: 수십에서 수백 개의 안테나 소자를 결합하여 3D 빔포밍을 구현하고 5G 망의 초연결 용량 한계를 극복하는 Massive MIMO
+  아키텍처와 원리
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

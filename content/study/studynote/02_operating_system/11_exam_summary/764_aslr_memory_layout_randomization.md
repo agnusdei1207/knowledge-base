@@ -1,10 +1,9 @@
-+++
-weight = 764
-title = "764. ASLR 메모리 레이아웃 난수화 (ASLR Memory Layout Randomization)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 764. ASLR 메모리 레이아웃 난수화 (ASLR Memory Layout Randomization)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

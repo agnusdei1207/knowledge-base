@@ -1,10 +1,9 @@
-+++
-weight = 118
-title = "118. 차원 모델링 (Dimensional Modeling) - 스타 스키마·스노우플레이크·팩트/디멘전"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 118. 차원 모델링 (Dimensional Modeling) - 스타 스키마·스노우플레이크·팩트/디멘전
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 차원 모델링은 [[209_data_warehouse_schema_on_write|데이터 웨어하우스]]([[209_data_warehouse_schema_on_write|DW]])에서 **분석 [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]]을 극대화**하기 위해, [[001_dikw_pyramid|데이터]]를 **[[210_fact_dimension_table_snowflake_schema|팩트 테이블]](측정값)과 디멘전 테이블(분석 축)**로 구성하는 설계 기법이다.

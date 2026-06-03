@@ -1,9 +1,8 @@
-+++
-weight = 3
-title = "03. 클라우드 컴퓨팅 및 인프라 신기술"
-[extra]
-sort_by = "weight"
-+++
+---
+title: 03. 클라우드 컴퓨팅 및 인프라 신기술
+tags:
+- ict_convergence
+---
 
 # 클라우드 컴퓨팅 및 인프라 신기술
 

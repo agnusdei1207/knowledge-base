@@ -1,5 +1,7 @@
 ---
-title: "💰 Finances & Wealth Plan"
+title: 💰 Finances & Wealth Plan
+tags:
+- personal
 ---
 
 # 💰 Finances & Wealth Plan

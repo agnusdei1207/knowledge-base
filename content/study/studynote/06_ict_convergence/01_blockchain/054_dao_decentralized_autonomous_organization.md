@@ -1,10 +1,9 @@
-+++
-weight = 54
-title = "54. DAO (Decentralized Autonomous Organization)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 54. DAO (Decentralized Autonomous Organization)
+date: '2026-05-01'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

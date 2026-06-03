@@ -1,10 +1,9 @@
-+++
-weight = 180
-title = "180. SLI (Service Level Indicator, 서비스 수준 지표)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 180. SLI (Service Level Indicator, 서비스 수준 지표)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

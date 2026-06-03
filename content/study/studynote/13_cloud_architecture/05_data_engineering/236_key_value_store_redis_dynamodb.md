@@ -1,10 +1,9 @@
-+++
-weight = 236
-title = "236. 키-값 저장소 (Key-Value Store) - Redis / DynamoDB"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 236. 키-값 저장소 (Key-Value Store) - Redis / DynamoDB
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[036_key_value|키-값 저장소]]([[036_key_value|Key-Value Store]])는 고유한 키([[067_db_key_uniqueness_minimality|Key]])로 값(Value)을 O(1) 시간에 조회하는 가장 단순한 [[035_nosql|NoSQL]] 구조로, **밀리초 이하 응답 속도**가 핵심 가치다.

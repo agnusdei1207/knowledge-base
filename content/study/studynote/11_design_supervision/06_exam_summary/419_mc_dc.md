@@ -1,10 +1,9 @@
-+++
-weight = 419
-title = "419. 화이트박스 변경 조건·결정 독립 커버리지 (MC/DC, Modified Condition/Decision Coverage)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 419. 화이트박스 변경 조건·결정 독립 커버리지 (MC/DC, Modified Condition/Decision Coverage)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

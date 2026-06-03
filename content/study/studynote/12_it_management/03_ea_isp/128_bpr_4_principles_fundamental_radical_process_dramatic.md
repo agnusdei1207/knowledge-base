@@ -1,10 +1,9 @@
-+++
-weight = 128
-title = "128. BPR 4대 핵심 원칙"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 128. BPR 4대 핵심 원칙
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[127_bpr_business_process_reengineering_radical_redesign|BPR]] 4대 핵심 원칙의 본질은 근본적인(Fundamental), 획기적인(Radical), 프로세스([[300_process|Process]]), 재설계(Redesign)를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

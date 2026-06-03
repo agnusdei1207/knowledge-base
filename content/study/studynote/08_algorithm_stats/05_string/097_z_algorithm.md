@@ -1,10 +1,9 @@
-+++
-weight = 97
-title = "4. Z 알고리즘 (Z-Algorithm) — 접두사 매칭 배열"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 4. Z 알고리즘 (Z-Algorithm) — 접두사 매칭 배열
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

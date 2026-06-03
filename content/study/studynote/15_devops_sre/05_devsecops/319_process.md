@@ -1,8 +1,9 @@
-+++
-title = "Blameless Postmortem"
-date = "2026-05-09"
-categories = ["studynote-devops-sre"]
-+++
+---
+title: Blameless Postmortem
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > - [[128_blameless_postmortem|Blameless Postmortem]] (무비난 회고)은 장애 원인을 개인이 아닌 시스템·프로세스에서 찾아 근본적 개선을 이끄는 [[100_sre_site_reliability_engineering_error_budget|SRE]] 문화다.

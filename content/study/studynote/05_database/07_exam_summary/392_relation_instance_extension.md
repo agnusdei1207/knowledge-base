@@ -1,10 +1,9 @@
-+++
-weight = 392
-title = "392. 릴레이션 인스턴스 (외연 / Extension) 값"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 392. 릴레이션 인스턴스 (외연 / Extension) 값
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

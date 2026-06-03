@@ -1,10 +1,9 @@
-+++
-weight = 80
-title = "27. 힙 정렬 (Heap Sort) — 힙 자료구조 기반 비교 정렬"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 27. 힙 정렬 (Heap Sort) — 힙 자료구조 기반 비교 정렬
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 힙 정렬([[078_heap_datastructure|Heap]] Sort)은 최대 힙(Max-[[078_heap_datastructure|Heap]])을 이용하여 배열을 정렬하는 [[001_algorithm_definition|알고리즘]]으로, Heapify(힙 [[087_process_state_transition|생성]]) → Extract-Max(루트 추출) 반복의 2단계로 O(n log n) [[002_time_complexity|시간 복잡도]]와 O(1) 추가 공간을 달성하는 제자리(In-place) 비교 정렬이다.

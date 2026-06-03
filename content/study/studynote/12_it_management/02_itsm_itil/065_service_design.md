@@ -1,10 +1,9 @@
-+++
-weight = 65
-title = "65. 서비스 설계 (Service Design)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 65. 서비스 설계 (Service Design)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[090_service_kubernetes_network_load_balancing|서비스]] 설계 ([[090_service_kubernetes_network_load_balancing|Service]] Design)의 본질은 [[088_service_catalog|서비스 카탈로그]] 관리, [[085_sla|SLA]] 관리, [[452_availability|가용성]]/연속성 관리를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 988
-title = "988. Crypto Agility (암호 민첩성)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 988. Crypto Agility (암호 민첩성)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

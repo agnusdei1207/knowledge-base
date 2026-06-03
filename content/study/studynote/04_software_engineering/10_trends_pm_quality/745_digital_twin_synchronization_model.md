@@ -1,10 +1,9 @@
-+++
-weight = 745
-title = "745. 디지털 트윈 동기화 인터페이스 모델"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 745. 디지털 트윈 동기화 인터페이스 모델
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

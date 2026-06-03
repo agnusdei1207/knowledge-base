@@ -1,10 +1,9 @@
-+++
-weight = 421
-title = "421. 스마트 그리드 마이크로그리드 ESS 분산 에너지 (Smart Grid)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 421. 스마트 그리드 마이크로그리드 ESS 분산 에너지 (Smart Grid)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

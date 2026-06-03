@@ -1,10 +1,9 @@
-+++
-weight = 882
-title = "882. OCP (오픈 컴퓨트 프로젝트)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 882. OCP (오픈 컴퓨트 프로젝트)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

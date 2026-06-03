@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "07. 엔터프라이즈 시스템 (경영정보) 키워드 목록"
-date = "2026-03-04"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 07. 엔터프라이즈 시스템 (경영정보) 키워드 목록
+date: '2026-03-04'
+tags:
+- studynote-enterprise
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # 엔터프라이즈 시스템 및 경영정보/IT [[268_strategy_pattern|전략]] 키워드 목록 (심화 확장판)

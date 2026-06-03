@@ -1,12 +1,11 @@
-+++
-weight = 95
-title = "95. NOMA (Non-Orthogonal Multiple Access) - 비직교 다중 접속 (5G/6G 기술)"
-description = "5G 및 6G 통신의 핵심 후보 기술인 NOMA의 개념, 전력 도메인 중첩 원리, 그리고 SIC(순차적 간섭 제거) 수신 메커니즘 분석"
-date = 2026-03-31
-[taxonomies]
-tags = ["Network", "NOMA", "비직교 다중 접속", "5G", "6G", "SIC", "다중 접속"]
-categories = ["Network"]
-+++
+---
+title: 95. NOMA (Non-Orthogonal Multiple Access) - 비직교 다중 접속 (5G/6G 기술)
+date: '2026-03-31'
+description: 5G 및 6G 통신의 핵심 후보 기술인 NOMA의 개념, 전력 도메인 중첩 원리, 그리고 SIC(순차적 간섭 제거) 수신 메커니즘
+  분석
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

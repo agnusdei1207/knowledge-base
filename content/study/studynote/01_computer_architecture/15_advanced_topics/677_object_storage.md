@@ -1,10 +1,9 @@
-+++
-weight = 677
-title = "677. 오브젝트 스토리지 (Object Storage)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 677. 오브젝트 스토리지 (Object Storage)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

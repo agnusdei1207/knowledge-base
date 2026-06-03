@@ -1,10 +1,9 @@
-+++
-weight = 481
-title = "481. TRIM 명령어 (Trim Command)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 481. TRIM 명령어 (Trim Command)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

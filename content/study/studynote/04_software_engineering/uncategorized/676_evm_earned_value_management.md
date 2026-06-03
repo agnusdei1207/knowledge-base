@@ -1,10 +1,9 @@
-+++
-weight = 676
-title = "676. EVM (Earned Value Management) SPI, CPI 계산"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 676. EVM (Earned Value Management) SPI, CPI 계산
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,10 @@
-+++
-weight = 130
-title = "130. 디지털 비즈니스 혁신 (Digital Business Transformation) 아키텍처 전환망 설계 (모놀리식 -> 클라우드/MSA 전환 거버넌스)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 130. 디지털 비즈니스 혁신 (Digital Business Transformation) 아키텍처 전환망 설계 (모놀리식 -> 클라우드/MSA
+  전환 거버넌스)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 디지털 비즈니스 혁신 (Digital Business Transformation) 아키텍처 전환망 설계 (모놀리식 -> 클라우드/[[619_msa_traffic_hardware|MSA]] 전환 거버넌스)의 본질은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [[268_strategy_pattern|전략]] 문서가 실제 투자와 아키텍처 변화로 이어진다.

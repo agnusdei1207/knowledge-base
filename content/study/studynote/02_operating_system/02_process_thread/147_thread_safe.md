@@ -1,10 +1,9 @@
-+++
-weight = 147
-title = "147. 스레드 안전 (Thread-safe) 함수 및 라이브러리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 147. 스레드 안전 (Thread-safe) 함수 및 라이브러리
+date: '2026-04-19'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[092_thread_lwp|스레드]] 안전([[092_thread_lwp|Thread]]-safe)이란 여러 [[092_thread_lwp|스레드]]([[092_thread_lwp|Thread]])가 동시에 같은 함수나 자원을 호출해도 **[[213_race_condition|경쟁 조건]]([[213_race_condition|Race Condition]]) 없이 항상 올바른 결과를 보장**하는 성질이다.

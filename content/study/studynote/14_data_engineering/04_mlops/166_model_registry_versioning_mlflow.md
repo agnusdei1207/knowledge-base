@@ -1,10 +1,9 @@
-+++
-weight = 166
-title = "166. 모델 레지스트리 (Model Registry) - 버전 관리 MLflow"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 166. 모델 레지스트리 (Model Registry) - 버전 관리 MLflow
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모델 [[235_registry_immutable_tag|레지스트리]] (Model [[235_registry_immutable_tag|Registry]])는 ML 모델의 전체 생명주기(실험 → 스테이징 → 프로덕션 → 아카이브)를 중앙에서 관리하는 시스템으로, 모델 [[288_version_ihl_tos_total_length|버전]]·[[012_metadata|메타데이터]]·[[075_artifact_management_nexus_docker_registry|아티팩트]]를 단일 저장소에 통합한다.

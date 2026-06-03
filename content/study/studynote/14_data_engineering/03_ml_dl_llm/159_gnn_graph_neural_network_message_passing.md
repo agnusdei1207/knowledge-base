@@ -1,10 +1,9 @@
-+++
-weight = 159
-title = "159. GNN (Graph Neural Network) 그래프 노드 메시지 패싱 네트워크"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 159. GNN (Graph Neural Network) 그래프 노드 메시지 패싱 네트워크
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: GNN ([[104_graph|Graph]] Neural Network, [[306_graph_neural_network_gnn|그래프 신경망]])은 메시지 패싱([[119_message_passing|Message Passing]]) 메커니즘으로 이웃 노드의 정보를 반복적으로 집계해 [[070_graph_datastructure|그래프]] 구조 [[001_dikw_pyramid|데이터]]의 노드·엣지·[[070_graph_datastructure|그래프]] 수준 표현을 학습한다.

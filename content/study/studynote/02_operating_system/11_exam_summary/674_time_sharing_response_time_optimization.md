@@ -1,10 +1,9 @@
-+++
-weight = 674
-title = "674. 시분할 시스템 응답 시간 최적화 (Time Sharing Response Time Optimization)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 674. 시분할 시스템 응답 시간 최적화 (Time Sharing Response Time Optimization)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

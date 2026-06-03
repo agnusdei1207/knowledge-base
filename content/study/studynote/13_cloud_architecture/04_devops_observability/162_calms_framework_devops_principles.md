@@ -1,10 +1,9 @@
-+++
-weight = 162
-title = "CALMS 프레임워크 (CALMS Framework)"
-date = "2025-05-14"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: CALMS 프레임워크 (CALMS Framework)
+date: '2025-05-14'
+tags:
+- studynote-cloud
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **[[652_devops_calms_culture|데브옵스]]의 5대 기둥**: Culture(문화), Automation(자동화), [[087_lean_software_development_7_principles|Lean]](린 사상), Measurement(측정), Sharing(공유)의 약자로, [[652_devops_calms_culture|데브옵스]] 성숙도를 평가하는 핵심 지표임.

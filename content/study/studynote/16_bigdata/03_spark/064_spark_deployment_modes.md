@@ -1,10 +1,9 @@
-+++
-weight = 64
-title = "스파크 배포 모드 (Spark Deployment Modes)"
-date = "2024-03-23"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 스파크 배포 모드 (Spark Deployment Modes)
+date: '2024-03-23'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - 스파크 배포 모드는 애플리케이션의 드라이버(Driver)와 실행기(Executor)가 물리적으로 어디에서 실행될지 결정하는 운영 [[268_strategy_pattern|전략]]이다.

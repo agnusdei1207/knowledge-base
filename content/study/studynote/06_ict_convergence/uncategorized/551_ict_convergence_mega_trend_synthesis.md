@@ -1,10 +1,9 @@
-+++
-weight = 551
-title = "551. ICT 융합 메가트렌드 종합 프레임워크 (ICT Convergence Mega-Trend Synthesis Framework)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 551. ICT 융합 메가트렌드 종합 프레임워크 (ICT Convergence Mega-Trend Synthesis Framework)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

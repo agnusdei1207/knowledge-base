@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "31. 니모닉 시드 구문 심화 — BIP-39 보안과 파생"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 31. 니모닉 시드 구문 심화 — BIP-39 보안과 파생
+date: '2026-04-29'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BIP-39 니모닉 시드 구문은 HD(Hierarchical Deterministic) 지갑의 단일 시드에서 무한한 키 쌍을 결정론적으로 [[087_process_state_transition|생성]]하는 표준이다. 니모닉 → PBKDF2 → 512비트 시드 → BIP-32 트리 구조로 확장된다.

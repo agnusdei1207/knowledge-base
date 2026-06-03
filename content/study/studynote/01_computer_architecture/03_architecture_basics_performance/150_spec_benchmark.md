@@ -1,10 +1,9 @@
-+++
-weight = 150
-title = "150. SPEC 벤치마크 (Standard Performance Evaluation Corporation)"
-date = "2026-05-03"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 150. SPEC 벤치마크 (Standard Performance Evaluation Corporation)
+date: '2026-05-03'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SPEC 벤치마크는 얄팍한 마케팅용 인공 코드가 아닌, gcc 컴파일러, 체스 [[231_ai_turing_test|인공지능]], 기상 예측 시뮬레이션 등 **'인류가 실제로 매일 돌리는 가장 빡세고 무거운 진짜 프로그램' 수십 개를 통째로 묶어놓은 세계 최고 권위의 하드웨어 실전 모의고사**다.

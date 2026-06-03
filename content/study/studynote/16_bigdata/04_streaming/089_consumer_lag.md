@@ -1,10 +1,9 @@
-+++
-weight = 89
-title = "14. Consumer Lag — Kafka 소비 지연 모니터링"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 14. Consumer Lag — Kafka 소비 지연 모니터링
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

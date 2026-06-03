@@ -1,10 +1,9 @@
-+++
-weight = 477
-title = "477. 디퓨전 모델 잠재 공간 노이즈 역산 생성 AI (Diffusion Model, Latent Diffusion)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 477. 디퓨전 모델 잠재 공간 노이즈 역산 생성 AI (Diffusion Model, Latent Diffusion)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 161
-title = "161. RA (Registration Authority) — 인증 요청 검증/승인"
-date = "2026-05-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 161. RA (Registration Authority) — 인증 요청 검증/승인
+date: '2026-05-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트
 

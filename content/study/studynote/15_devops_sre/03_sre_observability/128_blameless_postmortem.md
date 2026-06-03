@@ -1,10 +1,9 @@
-+++
-weight = 128
-title = "128. Blameless Postmortem - 비난 없는 장애 사후 분석"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 128. Blameless Postmortem - 비난 없는 장애 사후 분석
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Blameless Postmortem은 **장애 발생 후 '누가' 실수했는가가 아니라 '무엇이(시스템·프로세스)' 실패했는가**를 분석하여 재발을 방지하는 [[100_sre_site_reliability_engineering_error_budget|SRE]] 핵심 문화이다.

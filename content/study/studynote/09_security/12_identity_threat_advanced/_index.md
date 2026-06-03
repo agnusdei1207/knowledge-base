@@ -1,9 +1,8 @@
-+++
-weight = 12
-title = "12. 신원 보안 심화 / 위협 (Identity Security Advanced / Threats)"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 12. 신원 보안 심화 / 위협 (Identity Security Advanced / Threats)
+tags:
+- studynote-security
+---
 
 # 12. 신원 보안 심화 / 위협
 

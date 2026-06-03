@@ -1,10 +1,10 @@
-+++
-weight = 38
-title = "16. 아파치 피그 (Apache Pig) - 하둡 데이터 흐름 스크립팅"
-date = "2026-03-04"
-[extra]
-categories = ["studynote-bigdata", "hadoop"]
-+++
+---
+title: 16. 아파치 피그 (Apache Pig) - 하둡 데이터 흐름 스크립팅
+date: '2026-03-04'
+tags:
+- hadoop
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - 아파치 피그(Apache Pig)는 복잡한 [[018_mapreduce|맵리듀스]]([[018_mapreduce|MapReduce]]) 자바 코드를 직접 짜는 대신, 'Pig Latin'이라는 고수준 스크립트 언어로 [[001_dikw_pyramid|데이터]] 흐름을 정의하는 플랫폼임.

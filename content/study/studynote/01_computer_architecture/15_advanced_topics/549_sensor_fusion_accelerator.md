@@ -1,10 +1,9 @@
-+++
-weight = 549
-title = "549. ADAS 센서 퓨전 가속기"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 549. ADAS 센서 퓨전 가속기
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

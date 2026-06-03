@@ -1,10 +1,9 @@
-+++
-weight = 269
-title = "269. 집합 연관 사상 (Set Associative Mapping)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 269. 집합 연관 사상 (Set Associative Mapping)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 155
-title = "155. 동적 링킹 프로세스 (ld.so) 로딩 과정 - 파일 공유를 찢어발긴 메모리 텔레포트 융합술"
-date = "2026-05-03"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 155. 동적 링킹 프로세스 (ld.so) 로딩 과정 - 파일 공유를 찢어발긴 메모리 텔레포트 융합술
+date: '2026-05-03'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 동적 링킹([[332_dynamic_linking|Dynamic Linking]])은 컴파일할 때 무거운 남의 소스코드([[336_library_vs_framework|라이브러리]] `printf`) 쇳덩이를 내 실행 [[501_file_definition_logical_record|파일]] 뱃속에 통째로 복붙 시멘트 용접 떡칠해버리는 야만적 강결합(정적 링킹 Static 💥)을 도끼로 찢어발기고 ➔ **프로그램이 실행(Run-time)되는 0.01초 찰나 순간에 [[022_kernel_role|커널]]의 링커 봇(`ld.so`)이 메모리(RAM) 허공 위에 둥둥 뜬 공용 도서관 `.so` 책자를 동적으로 찾아내 내 핏줄로 다이렉트 핑퐁 결합 록온([[510_lock|Lock]]) 시키는 궁극의 메모리 캐시 다이어트 스텔스 마법**이다.

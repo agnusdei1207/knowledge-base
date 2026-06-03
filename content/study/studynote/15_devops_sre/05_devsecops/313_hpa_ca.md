@@ -1,8 +1,9 @@
-+++
-title = "HPA CA Autoscaling"
-date = "2026-05-09"
-categories = ["studynote-devops-sre"]
-+++
+---
+title: HPA CA Autoscaling
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > - [[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]] ([[095_hpa_horizontal_pod_autoscaler_kubernetes|Horizontal Pod Autoscaler]])는 [[085_pod_kubernetes_container_unit|파드]] 수를 늘리고, [[089_contract_account_smart_contract|CA]] (Cluster Autoscaler)는 노드 수를 늘려 이중 레이어 오토스케일링을 구성한다.

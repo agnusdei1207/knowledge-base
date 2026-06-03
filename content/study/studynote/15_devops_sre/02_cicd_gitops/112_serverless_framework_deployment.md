@@ -1,10 +1,9 @@
-+++
-weight = 112
-title = "112. 서버리스 프레임워크 배포 (Serverless Framework Deployment) - FaaS IaC 자동화"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 112. 서버리스 프레임워크 배포 (Serverless Framework Deployment) - FaaS IaC 자동화
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[206_serverless_cold_start|Serverless]] Framework는 AWS [[216_lambda_kappa_architecture_batch_realtime|Lambda]]·Azure Functions·GCP Cloud Functions 등 **[[342_faas|FaaS]](Function [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]])의 인프라·코드·이벤트 [[507_acid_properties|트리거]]를 `serverless.yml` 하나로 선언**하고, `sls deploy` 한 줄로 클라우드에 배포하는 [[191_oss_license_compliance|오픈소스]] [[793_iac_idempotency_template|IaC]]([[062_infrastructure_as_code|Infrastructure as Code]]) 도구다.

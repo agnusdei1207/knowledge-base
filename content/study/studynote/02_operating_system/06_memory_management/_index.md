@@ -1,8 +1,8 @@
-+++
-weight = 6
-title = "06. 메모리 관리 (Memory Management)"
-sort_by = "weight"
-+++
+---
+title: 06. 메모리 관리 (Memory Management)
+tags:
+- operating_system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

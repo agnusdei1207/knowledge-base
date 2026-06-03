@@ -1,10 +1,9 @@
-+++
-weight = 28
-title = "28. 시스템 아키텍처 보안 감리 (System Architecture Security Audit)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 28. 시스템 아키텍처 보안 감리 (System Architecture Security Audit)
+date: '2026-04-29'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시스템 아키텍처 보안 감리는 정보시스템 감리의 보안 영역으로, 아키텍처 설계 단계에서 보안 원칙([[012_defense_in_depth|Defense in Depth]], [[010_least_privilege|Least Privilege]], [[667_zero_trust_runtime_integrity_measurement|Zero Trust]] 등)이 올바르게 구현됐는지를 독립적으로 [[395_verification_process_review|검증]]하는 활동이다.

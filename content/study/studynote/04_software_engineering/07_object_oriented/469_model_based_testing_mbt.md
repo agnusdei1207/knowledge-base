@@ -1,10 +1,9 @@
-+++
-weight = 469
-title = "469. 모델 기반 테스팅 (MBT, Model-Based Testing) - 시스템 모델(UML 등)에서 테스트 케이스 자동 생성"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 469. 모델 기반 테스팅 (MBT, Model-Based Testing) - 시스템 모델(UML 등)에서 테스트 케이스 자동 생성
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

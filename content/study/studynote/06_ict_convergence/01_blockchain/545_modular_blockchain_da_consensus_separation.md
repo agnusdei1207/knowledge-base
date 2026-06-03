@@ -1,10 +1,9 @@
-+++
-weight = 545
-title = "545. 모듈러 블록체인과 데이터 가용성 계층 (Modular Blockchain and Data Availability Layer)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 545. 모듈러 블록체인과 데이터 가용성 계층 (Modular Blockchain and Data Availability Layer)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

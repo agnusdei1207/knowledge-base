@@ -1,10 +1,9 @@
-+++
-weight = 526
-title = "526. 해시 조인 탐색 비용 및 메모리 스왑 오버헤드 (PGA)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 526. 해시 조인 탐색 비용 및 메모리 스왑 오버헤드 (PGA)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

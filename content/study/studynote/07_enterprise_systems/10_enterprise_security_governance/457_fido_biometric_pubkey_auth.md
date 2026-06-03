@@ -1,10 +1,9 @@
-+++
-weight = 457
-title = "457. FIDO 로컬 생체 서버 공개키 인증 (FIDO, Fast Identity Online)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 457. FIDO 로컬 생체 서버 공개키 인증 (FIDO, Fast Identity Online)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

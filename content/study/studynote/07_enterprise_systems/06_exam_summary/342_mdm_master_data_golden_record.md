@@ -1,10 +1,9 @@
-+++
-weight = 342
-title = "342. MDM 마스터 데이터 골든 레코드 (Master Data Management Golden Record)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 342. MDM 마스터 데이터 골든 레코드 (Master Data Management Golden Record)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

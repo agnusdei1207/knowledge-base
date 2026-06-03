@@ -1,10 +1,9 @@
-+++
-weight = 438
-title = "438. Adam 관성 적응 속도 (ADAM Optimizer Adaptive Learning)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 438. Adam 관성 적응 속도 (ADAM Optimizer Adaptive Learning)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

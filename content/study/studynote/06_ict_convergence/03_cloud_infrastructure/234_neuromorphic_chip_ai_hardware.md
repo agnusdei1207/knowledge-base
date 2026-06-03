@@ -1,10 +1,9 @@
-+++
-weight = 234
-title = "234. 뉴로모픽 반도체 (Neuromorphic Chip)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 234. 뉴로모픽 반도체 (Neuromorphic Chip)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

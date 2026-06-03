@@ -1,10 +1,9 @@
-+++
-weight = 113
-title = "110. 공간 분석 (Spatial Analysis) — GIS 기반 지리공간 데이터 분석"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 110. 공간 분석 (Spatial Analysis) — GIS 기반 지리공간 데이터 분석
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 공간 분석 (Spatial Analysis)은 지리적 위치와 공간 [[083_relationship_in_er_model|관계]]를 활용하여 "어디에서" "왜" 패턴이 발생하는지를 분석하는 GIS (Geographic Information System) 기반 [[001_dikw_pyramid|데이터]] 과학 기법이다.

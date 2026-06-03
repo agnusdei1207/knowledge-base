@@ -1,10 +1,9 @@
-+++
-weight = 137
-title = "137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Transactional Outbox는 **비즈니스 [[001_dikw_pyramid|데이터]]와 이벤트를 같은 DB 트랜잭션으로 저장(Outbox 테이블)**한 후, 별도 프로세스([[217_cdc_binlog_change_capture_debezium|CDC]]·[[747_io_polling_overhead|Polling]])가 Outbox에서 이벤트를 읽어 메시지 브로커로 발행하는 패턴이다.

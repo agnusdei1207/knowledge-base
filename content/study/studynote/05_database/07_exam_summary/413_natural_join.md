@@ -1,10 +1,9 @@
-+++
-weight = 413
-title = "413. 자연 조인 (동등 속성 자동 조인/중복 제거)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 413. 자연 조인 (동등 속성 자동 조인/중복 제거)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 652
-title = "652. 암호학 (Cryptography) 개요 통신망 보안 적용 (평문->암호문->평문 변환 체계)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 652. 암호학 (Cryptography) 개요 통신망 보안 적용 (평문->암호문->평문 변환 체계)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

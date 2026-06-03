@@ -1,10 +1,9 @@
-+++
-title = "042. 그로스 해킹 마케팅 (Growth Hacking Marketing)"
-weight = 42
-date = "2026-04-05"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 042. 그로스 해킹 마케팅 (Growth Hacking Marketing)
+date: '2026-04-05'
+tags:
+- studynote-enterprise-systems
+---
 
 > **핵심 인사이트**
 > 1. [[041_growth_hacking|그로스 해킹]]([[041_growth_hacking|Growth Hacking]])은 Sean Ellis(2010)가 정의한 개념으로, 마케팅·제품·[[001_dikw_pyramid|데이터]] 분석을 통합하여 "최소 비용·최단 시간에 지속 가능한 성장"을 달성하는 방법론이며, 모든 결정은 [[001_dikw_pyramid|데이터]] 실험으로 [[395_verification_process_review|검증]]한다.

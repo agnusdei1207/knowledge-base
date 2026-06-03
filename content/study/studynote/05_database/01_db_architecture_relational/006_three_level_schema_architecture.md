@@ -1,12 +1,10 @@
-+++
-weight = 6
-title = "6. 3단계 스키마 아키텍처 (ANSI/SPARC)"
-description = "데이터베이스의 논리적/물리적 독립성을 보장하기 위한 외부, 개념, 내부 스키마 3계층 프레임워크"
-date = "2024-05-20"
-[taxonomies]
-tags = ["3단계 스키마", "ANSI/SPARC", "데이터 독립성", "데이터 아키텍처"]
-categories = ["Database", "Studynote"]
-+++
+---
+title: 6. 3단계 스키마 아키텍처 (ANSI/SPARC)
+date: '2024-05-20'
+description: 데이터베이스의 논리적/물리적 독립성을 보장하기 위한 외부, 개념, 내부 스키마 3계층 프레임워크
+tags:
+- database
+---
 
 # 06. 3단계 [[005_schema|스키마]] 아키텍처 (ANSI/SPARC)
 

@@ -1,10 +1,9 @@
-+++
-weight = 147
-title = "147. 추상 팩토리 (Abstract Factory) 패턴"
-date = "2026-04-19"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 147. 추상 팩토리 (Abstract Factory) 패턴
+date: '2026-04-19'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[255_abstract_factory_pattern_object_families|추상 팩토리]]([[255_abstract_factory_pattern_object_families|Abstract Factory]]) 패턴은 **서로 연관되거나 의존적인 객체군(Product Family)을 구체적인 클래스를 지정하지 않고 하나의 팩토리 인터페이스를 통해 일괄 [[087_process_state_transition|생성]]**하는 GoF(Gang of Four) [[252_creational_patterns_overview|생성 패턴]]이다.

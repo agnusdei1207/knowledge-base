@@ -1,10 +1,9 @@
-+++
-weight = 52
-title = "52. 옵티마이저 (Optimizer) - 최적의 SQL 실행 계획 생성"
-date = "2026-05-01"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 52. 옵티마이저 (Optimizer) - 최적의 SQL 실행 계획 생성
+date: '2026-05-01'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

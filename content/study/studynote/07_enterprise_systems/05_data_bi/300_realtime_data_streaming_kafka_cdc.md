@@ -1,10 +1,9 @@
-+++
-weight = 300
-title = "300. 실시간 데이터 스트리밍 (Kafka + CDC)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 300. 실시간 데이터 스트리밍 (Kafka + CDC)
+date: '2026-03-04'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 운영 [[002_database_definition|데이터베이스]](DB)에서 발생하는 변경 사항을 실시간으로 감지([[217_cdc_binlog_change_capture_debezium|CDC]])하여, 고성능 [[145_message_broker_sync_async|메시지 브로커]]([[179_kafka_flink_watermark_time_window|Kafka]])를 통해 분석 시스템으로 즉시 전달하는 [[645_data_pipeline_acceleration|데이터 파이프라인]] 아키텍처다.

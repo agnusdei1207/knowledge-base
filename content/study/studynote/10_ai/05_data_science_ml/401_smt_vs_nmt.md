@@ -1,10 +1,9 @@
-+++
-weight = 401
-title = "401. SMT (Statistical Machine Translation) vs NMT (Neural Machine Translation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 401. SMT (Statistical Machine Translation) vs NMT (Neural Machine Translation)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

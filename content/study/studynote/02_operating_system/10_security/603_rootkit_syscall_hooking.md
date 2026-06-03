@@ -1,10 +1,9 @@
-+++
-weight = 603
-title = "603. 루트킷 (Rootkit) 커널 모듈 감염 방식 (시스템 콜 테이블 후킹)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 603. 루트킷 (Rootkit) 커널 모듈 감염 방식 (시스템 콜 테이블 후킹)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

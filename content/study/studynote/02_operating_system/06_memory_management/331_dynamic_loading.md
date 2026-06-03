@@ -1,10 +1,9 @@
-+++
-weight = 331
-title = "331. 동적 적재 (Dynamic Loading) - 루틴 호출 시점에 메모리 적재 (효율성)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 331. 동적 적재 (Dynamic Loading) - 루틴 호출 시점에 메모리 적재 (효율성)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

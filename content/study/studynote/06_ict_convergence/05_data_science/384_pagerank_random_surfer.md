@@ -1,10 +1,9 @@
-+++
-weight = 384
-title = "384. 페이지 랭크 행렬 이동 고유 벡터 무작위 서퍼 (Random Surfer) 모형 (PageRank)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 384. 페이지 랭크 행렬 이동 고유 벡터 무작위 서퍼 (Random Surfer) 모형 (PageRank)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

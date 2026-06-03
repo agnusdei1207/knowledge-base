@@ -1,10 +1,9 @@
-+++
-weight = 310
-title = "310. 도메인 주도 설계 (DDD) 바운디드 컨텍스트 애그리게이트"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 310. 도메인 주도 설계 (DDD) 바운디드 컨텍스트 애그리게이트
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[064_relation_domain|도메인]] 주도 설계 (DDD) [[221_bounded_context_ddd_msa_boundary|바운디드 컨텍스트]] 애그리게이트의 본질은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [[268_strategy_pattern|전략]] 문서가 실제 투자와 아키텍처 변화로 이어진다.

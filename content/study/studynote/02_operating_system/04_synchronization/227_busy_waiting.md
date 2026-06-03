@@ -1,10 +1,9 @@
-+++
-weight = 227
-title = "227. 바쁜 대기 (Busy Waiting)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 227. 바쁜 대기 (Busy Waiting)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 525
-title = "525. DHCP Lease (임대 시간) / DHCP 갱신 (T1/T2 타이머)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 525. DHCP Lease (임대 시간) / DHCP 갱신 (T1/T2 타이머)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

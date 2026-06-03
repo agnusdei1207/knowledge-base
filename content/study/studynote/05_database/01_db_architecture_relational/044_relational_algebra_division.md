@@ -1,10 +1,9 @@
-+++
-title = "044. 관계 대수 — 나눗셈 연산"
-weight = 44
-date = "2026-04-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 044. 관계 대수 — 나눗셈 연산
+date: '2026-04-05'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트**
 > 1. [[038_relational_algebra|관계 대수]]의 나눗셈([[411_division_operation|Division]], ÷) 연산은 "모든 조건을 만족하는 대상"을 구하는 연산으로 — "모든 과목을 수강한 학생", "모든 상품을 구매한 고객" 등 **전체 집합 포함 여부**를 묻는 [[298_qkv_attention|쿼리]]에 사용된다.

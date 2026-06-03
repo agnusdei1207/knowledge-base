@@ -1,10 +1,9 @@
-+++
-weight = 26
-title = "26. 과적합·과소적합 (Overfitting / Underfitting) — 모델 일반화의 두 극단"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 26. 과적합·과소적합 (Overfitting / Underfitting) — 모델 일반화의 두 극단
+date: '2026-04-29'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 과적합([[245_overfitting_variance|Overfitting]])은 모델이 훈련 [[001_dikw_pyramid|데이터]]의 노이즈까지 학습하여 새 [[001_dikw_pyramid|데이터]]에서 [[282_performance_tactics|성능]]이 급락하는 현상이고, 과소적합([[246_underfitting_bias|Underfitting]])은 모델이 너무 단순하여 훈련 [[001_dikw_pyramid|데이터]]의 패턴조차 포착하지 못하는 현상이다. 둘 다 [[241_machine_learning_basics|머신러닝]] 모델의 일반화(Generalization)를 방해한다.

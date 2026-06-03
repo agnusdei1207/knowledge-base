@@ -1,10 +1,9 @@
-+++
-weight = 392
-title = "392. 살충제 패러독스 (Pesticide Paradox) 극복을 위한 테스트 케이스 주기적 갱신"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 392. 살충제 패러독스 (Pesticide Paradox) 극복을 위한 테스트 케이스 주기적 갱신
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

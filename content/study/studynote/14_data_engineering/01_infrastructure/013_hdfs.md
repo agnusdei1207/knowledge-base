@@ -1,12 +1,11 @@
-+++
-weight = 13
-title = "13. HDFS (Hadoop Distributed File System) - 거대 파일을 기본 128MB 블록 단위로 쪼개 수많은 데이터노드에 분산 저장"
-description = "거대 파일을 블록 단위로 쪼개어 수천 대의 노드에 분산 복제 저장하는 하둡 분산 파일 시스템의 코어 아키텍처"
-date = "2023-10-24"
-[taxonomies]
-tags = ["HDFS", "Hadoop Distributed File System", "Hadoop", "Data Engineering", "Storage"]
-categories = ["14_data_engineering"]
-+++
+---
+title: 13. HDFS (Hadoop Distributed File System) - 거대 파일을 기본 128MB 블록 단위로 쪼개 수많은 데이터노드에
+  분산 저장
+date: '2023-10-24'
+description: 거대 파일을 블록 단위로 쪼개어 수천 대의 노드에 분산 복제 저장하는 하둡 분산 파일 시스템의 코어 아키텍처
+tags:
+- data_engineering
+---
 
 # HDFS ([[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] [[553_distributed_file_system|Distributed File System]])
 

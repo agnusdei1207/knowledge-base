@@ -1,10 +1,9 @@
-+++
-weight = 151
-title = "151. SBA (Service Based Architecture) - 5G 코어망 클라우드 네이티브 대통합 뼈대"
-date = "2026-05-03"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 151. SBA (Service Based Architecture) - 5G 코어망 클라우드 네이티브 대통합 뼈대
+date: '2026-05-03'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SBA([[090_service_kubernetes_network_load_balancing|Service]] Based [[319_architecture|Architecture]])는 [[418_5g_embb_urllc_mmtc_slicing|5G]] 코어망([[768_5gc_5g_core_network_evolution|5GC]])의 근본 뼈대로, 기존의 거대하고 낡은 통신 전용 장비 쇳덩이([[002_silo_hyeonhyung|Silo]])들을 도끼로 찢어발겨 ➔ **[[303_authentication_authorization_patterns|인증]], [[160_session_controlling_terminal|세션]] 등 통신 기능을 잘게 쪼갠 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](K8s) [[063_docker_architecture|도커]] [[561_container_based_deployment|컨테이너]]([[619_msa_traffic_hardware|Microservices]]) 봇으로 허공에 띄운 100% [[531_cloud_native_architecture|클라우드 네이티브]] 혁명**이다.

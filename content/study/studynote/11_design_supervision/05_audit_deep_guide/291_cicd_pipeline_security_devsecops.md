@@ -1,10 +1,9 @@
-+++
-weight = 291
-title = "291. CI/CD 파이프라인 보안과 DevSecOps 감리 (CI CD Pipeline Security and DevSecOps Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 291. CI/CD 파이프라인 보안과 DevSecOps 감리 (CI CD Pipeline Security and DevSecOps Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

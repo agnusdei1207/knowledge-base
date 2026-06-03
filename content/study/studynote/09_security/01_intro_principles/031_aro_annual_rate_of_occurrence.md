@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "31. ARO와 위험 정량화 — 연간 발생률의 의미"
-date = "2026-04-29"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 31. ARO와 위험 정량화 — 연간 발생률의 의미
+date: '2026-04-29'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ARO(Annual Rate of Occurrence, 연간 발생률)는 특정 위협이 1년 동안 발생할 것으로 예상되는 횟수다. [[032_ale_annual_loss_expectancy|ALE]] = SLE × ARO 공식에서 핵심 변수로, 정확한 ARO 산정이 정량적 위험 분석의 신뢰성을 결정한다.

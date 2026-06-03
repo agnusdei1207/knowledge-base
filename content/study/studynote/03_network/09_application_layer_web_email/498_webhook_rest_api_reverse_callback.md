@@ -1,10 +1,9 @@
-+++
-weight = 498
-title = "498. 웹훅 (Webhook)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 498. 웹훅 (Webhook)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

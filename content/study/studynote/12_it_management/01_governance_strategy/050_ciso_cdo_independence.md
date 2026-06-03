@@ -1,10 +1,9 @@
-+++
-weight = 50
-title = "50. 정보보호최고책임자 (CISO) 및 최고데이터책임자 (CDO) 직무 독립성"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 50. 정보보호최고책임자 (CISO) 및 최고데이터책임자 (CDO) 직무 독립성
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[173_ciso_role_and_responsibility|정보보호최고책임자]] ([[173_ciso_role_and_responsibility|CISO]]) 및 최고데이터책임자 ([[068_cdo_cio_role_separation_governance|CDO]]) 직무 독립성의 본질은 [[164_policy|정책]], 역할, 통제, 증빙이 같은 [[025_baseline|기준선]] 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 282
-title = "282. 성능 (Performance) - 자원 요구 관리, 자원 관리, 스케줄링 전술"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 282. 성능 (Performance) - 자원 요구 관리, 자원 관리, 스케줄링 전술
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

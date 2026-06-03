@@ -1,10 +1,9 @@
-+++
-weight = 321
-title = "321. 메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 321. 메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

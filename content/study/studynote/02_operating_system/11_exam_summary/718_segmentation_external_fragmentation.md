@@ -1,10 +1,9 @@
-+++
-weight = 718
-title = "718. 세그멘테이션 외부 단편화 재발 (Segmentation External Fragmentation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 718. 세그멘테이션 외부 단편화 재발 (Segmentation External Fragmentation)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

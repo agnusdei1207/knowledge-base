@@ -1,9 +1,9 @@
-+++
-title = "랜덤 포레스트 (Random Forest)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 랜덤 포레스트 (Random Forest)
+date: '2026-03-03'
+tags:
+- studynote-ai
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[353_random_forest|랜덤 포레스트]]([[353_random_forest|Random Forest]])는 [[259_bagging_random_forest|배깅]]([[259_bagging_random_forest|Bagging]]) + 특성 무작위화(Feature Randomness)를 결합해 다수의 독립적인 [[124_decision_tree|의사결정 트리]]를 [[257_ensemble_learning|앙상블]]하는 강력한 지도학습 모델이다.

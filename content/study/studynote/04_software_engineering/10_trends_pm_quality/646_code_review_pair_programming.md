@@ -1,10 +1,9 @@
-+++
-weight = 646
-title = "646. 코드 리뷰 페어 프로그래밍"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 646. 코드 리뷰 페어 프로그래밍
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

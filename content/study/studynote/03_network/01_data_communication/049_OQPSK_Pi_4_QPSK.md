@@ -1,10 +1,9 @@
-+++
-title = "049. OQPSK / π/4-QPSK — 오프셋 위상 변조"
-weight = 49
-date = "2026-04-05"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 049. OQPSK / π/4-QPSK — 오프셋 위상 변조
+date: '2026-04-05'
+tags:
+- studynote-network
+---
 
 > **핵심 인사이트**
 > 1. OQPSK(Offset QPSK)는 Q 채널을 I 채널 대비 반 심볼(T/2)만큼 지연시켜 180° 위상 전이를 제거 — QPSK에서 [[308_static_dynamic_nat_pat_port_address_translation|11]]→00 천이 시 발생하는 180° 급격한 위상 점프가 전력 증폭기를 비선형 영역으로 밀어넣는 문제를 해결한다.

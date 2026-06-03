@@ -1,10 +1,9 @@
-+++
-weight = 228
-title = "228. EAP-MD5 (EAP-MD5)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 228. EAP-MD5 (EAP-MD5)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

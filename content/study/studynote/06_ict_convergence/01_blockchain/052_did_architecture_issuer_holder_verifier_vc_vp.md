@@ -1,10 +1,9 @@
-+++
-weight = 52
-title = "52. 탈중앙화 신원증명 (DID, Decentralized Identity)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 52. 탈중앙화 신원증명 (DID, Decentralized Identity)
+date: '2026-05-01'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

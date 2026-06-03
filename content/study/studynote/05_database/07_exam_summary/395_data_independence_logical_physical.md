@@ -1,10 +1,9 @@
-+++
-weight = 395
-title = "395. 데이터 독립성 2단계 (논리, 물리)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 395. 데이터 독립성 2단계 (논리, 물리)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

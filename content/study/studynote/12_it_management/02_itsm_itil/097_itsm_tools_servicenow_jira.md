@@ -1,10 +1,9 @@
-+++
-weight = 97
-title = "97. ITSM 도구 플랫폼 (ServiceNow, Jira Service Management)"
-date = "2026-04-10"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 97. ITSM 도구 플랫폼 (ServiceNow, Jira Service Management)
+date: '2026-04-10'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 538
-title = "538. SSH (Secure Shell) 포트 22 / Telnet (원격 접속) 포트 23 비교"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 538. SSH (Secure Shell) 포트 22 / Telnet (원격 접속) 포트 23 비교
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

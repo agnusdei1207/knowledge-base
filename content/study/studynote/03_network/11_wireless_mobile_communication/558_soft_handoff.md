@@ -1,10 +1,9 @@
-+++
-weight = 558
-title = "558. 소프트 핸드오버 (Soft Handoff)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 558. 소프트 핸드오버 (Soft Handoff)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 590
-title = "590. 가상 스위치 오프로드 (vSwitch Offload)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 590. 가상 스위치 오프로드 (vSwitch Offload)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

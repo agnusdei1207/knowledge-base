@@ -1,10 +1,9 @@
-+++
-weight = 68
-title = "Spark Broadcast Join"
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: Spark Broadcast Join
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - Broadcast Join은 조인 대상 중 작은 테이블을 모든 워커 노드의 메모리에 [[016_replication_factor|복제]]하여, 네트워크를 통한 [[001_dikw_pyramid|데이터]] 재분배(Shuffle) 없이 로컬에서 즉시 조인을 수행하는 기법이다.

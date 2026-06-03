@@ -1,10 +1,9 @@
-+++
-weight = 755
-title = "755. PMO 전사 품질 통제 및 감사 조직"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 755. PMO 전사 품질 통제 및 감사 조직
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

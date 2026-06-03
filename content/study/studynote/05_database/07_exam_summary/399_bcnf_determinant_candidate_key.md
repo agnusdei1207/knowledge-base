@@ -1,10 +1,9 @@
-+++
-weight = 399
-title = "399. BCNF 모든 결정자 후보키"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 399. BCNF 모든 결정자 후보키
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

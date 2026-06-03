@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "31. Oozie vs Airflow — 워크플로 스케줄러 비교"
-date = "2026-04-29"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 31. Oozie vs Airflow — 워크플로 스케줄러 비교
+date: '2026-04-29'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Oozie는 [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 생태계 전용 XML 기반 워크플로 스케줄러이고, Apache Airflow는 Python [[401_bayesian_network_dag_causality|DAG]] 기반 범용 오케스트레이터다. 현대 [[001_dikw_pyramid|데이터]] 엔지니어링에서는 Airflow가 사실상 표준(de facto)이 됐다.

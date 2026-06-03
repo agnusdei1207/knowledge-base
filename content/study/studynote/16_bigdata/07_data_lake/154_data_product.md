@@ -1,10 +1,9 @@
-+++
-weight = 154
-title = "154. 데이터 제품 (Data Product) — API 인터페이스와 SLA 품질 지표"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 154. 데이터 제품 (Data Product) — API 인터페이스와 SLA 품질 지표
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. [[001_dikw_pyramid|데이터]] 제품([[001_dikw_pyramid|Data]] Product)은 단순한 [[001_dikw_pyramid|데이터]]셋이 아니라 **명확한 인터페이스([[014_api_posix|API]]), [[085_sla|SLA]] ([[085_sla|Service Level Agreement]]), 소유권, 품질 계약**을 갖춘 독립적으로 배포 가능한 [[001_dikw_pyramid|데이터]] 단위다.

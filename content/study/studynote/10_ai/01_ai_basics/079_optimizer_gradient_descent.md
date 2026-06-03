@@ -1,10 +1,9 @@
-+++
-weight = 79
-title = "079. 옵티마이저와 경사 하강법 (Optimizer & Gradient Descent)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 079. 옵티마이저와 경사 하강법 (Optimizer & Gradient Descent)
+date: '2026-05-05'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[275_gradient_descent_sgd|경사 하강법]]([[165_gradient_descent|Gradient Descent]])은 딥러닝 모델이 정답과 오답의 차이([[075_loss_function_cost_function|손실 함수]], Loss)를 줄이기 위해, 현재 위치의 **미분 값(기울기, Gradient)을 계산하여 경사가 깎이는 아랫방향으로 [[267_weight_bias_activation|가중치]]([[267_weight_bias_activation|Weight]])를 업데이트**하는 수학적 탐색 네비게이션이다.

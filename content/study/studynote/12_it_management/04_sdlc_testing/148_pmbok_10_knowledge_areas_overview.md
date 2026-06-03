@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. PMBOK 10대 지식 영역 개요 (PMBOK 10 Knowledge Areas Overview)"
-date = "2026-05-03"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 148. PMBOK 10대 지식 영역 개요 (PMBOK 10 Knowledge Areas Overview)
+date: '2026-05-03'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[147_pmbok_10_knowledge_areas|PMBOK]]([[042_relational_algebra_project|Project]] [[372_management|Management]] Body of Knowledge)의 10대 지식 영역은 일정, 비용, [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 등 거대한 프로젝트를 성공으로 이끌기 위해 PM(프로젝트 관리자)이 통제해야 할 모든 관리 분야를 논리적으로 분류한 실무 지식 체계 표준이다.

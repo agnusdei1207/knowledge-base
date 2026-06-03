@@ -1,10 +1,9 @@
-+++
-weight = 110
-title = "110. 편향-분산 트레이드오프 (Bias-Variance Tradeoff) - 과적합·과소적합과 최적 복잡도"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 110. 편향-분산 트레이드오프 (Bias-Variance Tradeoff) - 과적합·과소적합과 최적 복잡도
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 편향-[[136_variance|분산]] 트레이드오프는 모델의 **총 오차(Total Error) = Bias² + [[136_variance|Variance]] + 노이즈**로 분해되며, 복잡도를 올리면 편향↓·[[136_variance|분산]]↑, 내리면 편향↑·[[136_variance|분산]]↓이 되는 **시소 [[083_relationship_in_er_model|관계]]**다.

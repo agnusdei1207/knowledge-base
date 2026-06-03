@@ -1,10 +1,9 @@
-+++
-weight = 544
-title = "544. 외부화된 구성 관리 (Externalized Configuration) - Config Server"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 544. 외부화된 구성 관리 (Externalized Configuration) - Config Server
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

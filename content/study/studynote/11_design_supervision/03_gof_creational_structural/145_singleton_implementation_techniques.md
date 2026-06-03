@@ -1,10 +1,9 @@
-+++
-weight = 145
-title = "145. 싱글턴 구현 기법 (Singleton Implementation Techniques)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 145. 싱글턴 구현 기법 (Singleton Implementation Techniques)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

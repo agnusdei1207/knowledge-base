@@ -1,10 +1,9 @@
-+++
-weight = 421
-title = "421. 정적 분석 기반 사이클로매틱 복잡도 제어 (Static Analysis Cyclomatic Complexity Control)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 421. 정적 분석 기반 사이클로매틱 복잡도 제어 (Static Analysis Cyclomatic Complexity Control)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

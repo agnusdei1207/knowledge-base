@@ -1,10 +1,10 @@
-+++
-weight = 376
-title = "376. NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree) 비교)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 376. NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree)
+  비교)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

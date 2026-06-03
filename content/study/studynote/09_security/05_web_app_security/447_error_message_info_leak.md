@@ -1,10 +1,9 @@
-+++
-weight = 447
-title = "447. 오류 메시지를 통한 정보 유출 (Information Exposure Through Error Messages)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 447. 오류 메시지를 통한 정보 유출 (Information Exposure Through Error Messages)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

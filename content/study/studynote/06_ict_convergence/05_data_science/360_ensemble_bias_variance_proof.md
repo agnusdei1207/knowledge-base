@@ -1,10 +1,9 @@
-+++
-weight = 360
-title = "360. 앙상블 편향-분산 수식 증명 (배깅은 분산 감소, 부스팅은 편향 감소)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 360. 앙상블 편향-분산 수식 증명 (배깅은 분산 감소, 부스팅은 편향 감소)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

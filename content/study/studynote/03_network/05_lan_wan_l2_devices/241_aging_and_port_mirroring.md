@@ -1,10 +1,9 @@
-+++
-weight = 241
-title = "241. 에이징 (Aging) / 포트 미러링 (Port Mirroring)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 241. 에이징 (Aging) / 포트 미러링 (Port Mirroring)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "HDFS Small File Problem (HDFS 작은 파일 문제)"
-weight = 43
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: HDFS Small File Problem (HDFS 작은 파일 문제)
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **작은 [[501_file_definition_logical_record|파일]] 문제**는 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] HDFS에서 수많은 작은 [[501_file_definition_logical_record|파일]]이 [[014_namenode|네임노드]]의 메모리([[012_metadata|Metadata]])를 과도하게 점유하여 클러스터 확장성을 저해하는 현상이다.

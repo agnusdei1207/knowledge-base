@@ -1,10 +1,9 @@
-+++
-weight = 221
-title = "221. 바운디드 컨텍스트 (Bounded Context) - 경계가 명확한 컨텍스트"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 221. 바운디드 컨텍스트 (Bounded Context) - 경계가 명확한 컨텍스트
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 166
-title = "166. 분산 락 병목 관측 (Distributed Lock Observability)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 166. 분산 락 병목 관측 (Distributed Lock Observability)
+date: '2026-04-21'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

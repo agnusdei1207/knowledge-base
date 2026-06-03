@@ -1,10 +1,9 @@
-+++
-weight = 58
-title = "58. IT 컴플라이언스 (Compliance) - SOX, Basel, GDPR, ISMS"
-date = "2026-04-07"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 58. IT 컴플라이언스 (Compliance) - SOX, Basel, GDPR, ISMS
+date: '2026-04-07'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

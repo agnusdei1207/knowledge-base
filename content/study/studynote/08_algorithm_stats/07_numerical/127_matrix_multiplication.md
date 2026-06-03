@@ -1,10 +1,18 @@
-+++
-title = "행렬 곱셈 최적화 (Matrix Multiplication Optimization)"
-date = 2025-01-01
-description = "나이브 O(N³) 행렬 곱셈, Strassen O(N^2.81) 알고리즘, 캐시 친화적 블록 행렬 곱셈, 딥러닝 가속을 다룬다."
-categories = "studynote-algorithm"
-tags = ["matrix multiplication", "Strassen", "O(N^2.81)", "cache optimization", "block matrix", "GEMM", "cuBLAS", "deep learning"]
-+++
+---
+title: 행렬 곱셈 최적화 (Matrix Multiplication Optimization)
+date: '2025-01-01'
+description: 나이브 O(N³) 행렬 곱셈, Strassen O(N^2.81) 알고리즘, 캐시 친화적 블록 행렬 곱셈, 딥러닝 가속을 다룬다.
+tags:
+- GEMM
+- O(N^2.81)
+- Strassen
+- block matrix
+- cache optimization
+- cuBLAS
+- deep learning
+- matrix multiplication
+- studynote-algorithm
+---
 
 > **핵심 인사이트 3줄**
 > 1. 나이브 행렬 곱셈 O(N³)은 Strassen(1969)의 분할정복으로 O(N^2.807)으로 개선됐으나, 실무에서는 캐시 효율을 극대화한 블록 행렬 곱셈(GEMM)이 더 중요하다.

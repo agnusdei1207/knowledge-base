@@ -1,10 +1,9 @@
-+++
-weight = 769
-title = "769. 구조적 분석 도구 데이터 사전(DD) 표기법"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 769. 구조적 분석 도구 데이터 사전(DD) 표기법
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

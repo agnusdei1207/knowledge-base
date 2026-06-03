@@ -1,10 +1,9 @@
-+++
-weight = 207
-title = "207. 유령 읽기 (Phantom Read)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 207. 유령 읽기 (Phantom Read)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

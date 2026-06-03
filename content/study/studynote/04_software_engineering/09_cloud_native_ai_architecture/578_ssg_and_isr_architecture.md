@@ -1,10 +1,9 @@
-+++
-weight = 578
-title = "578. 정적 사이트 생성 (SSG) / 증분 정적 재생성 (ISR) 패턴"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 578. 정적 사이트 생성 (SSG) / 증분 정적 재생성 (ISR) 패턴
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

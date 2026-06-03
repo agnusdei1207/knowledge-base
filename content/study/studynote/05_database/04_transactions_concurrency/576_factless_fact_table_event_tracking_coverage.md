@@ -1,10 +1,9 @@
-+++
-weight = 576
-title = "576. 팩트리스 팩트 테이블 (Factless Fact Table) 이벤트 추적 차원 교차망 모델"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 576. 팩트리스 팩트 테이블 (Factless Fact Table) 이벤트 추적 차원 교차망 모델
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

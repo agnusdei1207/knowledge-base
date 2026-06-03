@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "01. 컴퓨터구조 키워드 목록"
-date = "2026-03-04"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 01. 컴퓨터구조 키워드 목록
+date: '2026-03-04'
+tags:
+- studynote-computer-architecture
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # 컴퓨터구조 심화 키워드 목록 (기술사 최적화 1000제)

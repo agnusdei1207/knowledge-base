@@ -1,10 +1,9 @@
-+++
-weight = 80
-title = "080. CBDC 오프라인 결제 프로토콜 (CBDC Offline Payment)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 080. CBDC 오프라인 결제 프로토콜 (CBDC Offline Payment)
+date: '2026-05-05'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[061_cbdc_central_bank_digital_currency|CBDC]] 오프라인 결제 [[295_protocol_field_tcp_udp_icmp|프로토콜]]은 스마트폰이나 단말기가 인터넷(통신망)에 연결되지 않은 **재난 상태(지진, 통신 마비)에서도, 두 기기 간의 근거리 통신(NFC, [[605_bluetooth_ieee_802_15_1_piconet_scatternet|블루투스]])과 보안 칩(SE)을 이용해 중앙은행 디지털 화폐([[061_cbdc_central_bank_digital_currency|CBDC]])를 안전하게 주고받는 이중 지불 방지 아키텍처**다.

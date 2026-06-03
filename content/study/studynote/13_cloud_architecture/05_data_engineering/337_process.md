@@ -1,10 +1,9 @@
-+++
-weight = 337
-title = "337. OOM 킬러 메모리 보호 리소스 제약 컨테이너 드롭 (OOM)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 337. OOM 킬러 메모리 보호 리소스 제약 컨테이너 드롭 (OOM)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[157_oom_killer|OOM]] 킬러 [[307_memory_protection|메모리 보호]] 리소스 제약 [[561_container_based_deployment|컨테이너]] 드롭는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]([[205_kubernetes_container_orchestration|Kubernetes]]) 클러스터에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

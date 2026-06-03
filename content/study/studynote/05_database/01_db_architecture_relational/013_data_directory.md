@@ -1,12 +1,10 @@
-+++
-weight = 13
-title = "13. 데이터 디렉터리 (Data Directory) - 시스템만 접근 가능한 카탈로그 부분"
-description = "DBMS 시스템 내부에서만 접근 가능한 카탈로그의 은닉 영역이자 핵심 제어 구조"
-date = "2024-05-18"
-[taxonomies]
-tags = ["Database", "Data Directory", "System Catalog", "DB Architecture"]
-categories = ["studynote", "5_database"]
-+++
+---
+title: 13. 데이터 디렉터리 (Data Directory) - 시스템만 접근 가능한 카탈로그 부분
+date: '2024-05-18'
+description: DBMS 시스템 내부에서만 접근 가능한 카탈로그의 은닉 영역이자 핵심 제어 구조
+tags:
+- database
+---
 
 # 13. [[001_dikw_pyramid|데이터]] [[506_directory_structure_symbol_table|디렉터리]] ([[001_dikw_pyramid|Data]] [[506_directory_structure_symbol_table|Directory]])
 

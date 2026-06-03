@@ -1,10 +1,9 @@
-+++
-weight = 206
-title = "206. 시계열 딥러닝 (TCN vs RNN)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 206. 시계열 딥러닝 (TCN vs RNN)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,7 +1,8 @@
-+++
-title = "71. 블록체인 서비스형 (BaaS, Blockchain as a Service) - 클라우드 기반 블록체인 인프라 제공 서비스"
-weight = 71
-+++
+---
+title: 71. 블록체인 서비스형 (BaaS, Blockchain as a Service) - 클라우드 기반 블록체인 인프라 제공 서비스
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

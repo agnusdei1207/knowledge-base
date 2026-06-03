@@ -1,8 +1,8 @@
-+++
-weight = 6
-title = "06. 메모리 계층 구조 및 캐시 메모리"
-sort_by = "weight"
-+++
+---
+title: 06. 메모리 계층 구조 및 캐시 메모리
+tags:
+- computer_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 90
-title = "90. CI (Configuration Item)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 90. CI (Configuration Item)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CI (Configuration Item)의 본질은 서버, [[238_switch_operation_principles|스위치]], SW 라이선스, 매뉴얼 등 관리 대상 구성 항목을 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

@@ -1,10 +1,9 @@
-+++
-title = "169. 클라이언트 사이드 디스커버리 (Client-side Discovery) vs 서버 사이드 디스커버리"
-date = "2026-04-10"
-weight = 169
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 169. 클라이언트 사이드 디스커버리 (Client-side Discovery) vs 서버 사이드 디스커버리
+date: '2026-04-10'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

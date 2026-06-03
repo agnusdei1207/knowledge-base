@@ -1,10 +1,9 @@
-+++
-weight = 525
-title = "525. HTTP Response Smuggling (응답 분할 및 가로채기)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 525. HTTP Response Smuggling (응답 분할 및 가로채기)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

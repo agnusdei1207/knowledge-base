@@ -1,10 +1,9 @@
-+++
-weight = 344
-title = "344. 스트림 처리 (Stream Processing) DB 기술 (Apache Kafka, Flink)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 344. 스트림 처리 (Stream Processing) DB 기술 (Apache Kafka, Flink)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

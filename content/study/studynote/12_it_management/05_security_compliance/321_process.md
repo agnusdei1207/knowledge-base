@@ -1,10 +1,9 @@
-+++
-weight = 321
-title = "321. 데이터 패브릭 지능형 가상화 통합 연결"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 321. 데이터 패브릭 지능형 가상화 통합 연결
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[212_data_fabric_virtualization|데이터 패브릭]] 지능형 [[015_virtualization|가상화]] 통합 연결의 본질은 자산, 위협, [[571_protection_vs_security|보호]] 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

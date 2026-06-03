@@ -1,10 +1,9 @@
-+++
-weight = 129
-title = "129. 마이크로프로세서 (Microprocessor)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 129. 마이크로프로세서 (Microprocessor)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

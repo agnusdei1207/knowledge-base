@@ -1,12 +1,8 @@
-+++
-weight = 7
-title = "07: 엔터프라이즈 시스템 (Enterprise Systems)"
-render = true
-sort_by = "weight"
-insert_anchor_links = "right"
-[extra]
-category = "studynote-enterprise-systems"
-+++
+---
+title: '07: 엔터프라이즈 시스템 (Enterprise Systems)'
+tags:
+- studynote-enterprise-systems
+---
 # 도메인 07: 엔터프라이즈 시스템 (Enterprise Systems)
 
 ## 핵심 인사이트 (3줄 요약)

@@ -1,10 +1,9 @@
-+++
-weight = 780
-title = "780. 물리적 분해 분석 (Reverse Engineering)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 780. 물리적 분해 분석 (Reverse Engineering)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

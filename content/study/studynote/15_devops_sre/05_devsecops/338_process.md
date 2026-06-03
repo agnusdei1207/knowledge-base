@@ -1,10 +1,10 @@
-+++
-weight = 338
-title = "338. Platform Engineering IDP Golden Path 개발자 경험 (Platform Engineering Internal Developer Platform Golden Path Backstage DX)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 338. Platform Engineering IDP Golden Path 개발자 경험 (Platform Engineering Internal
+  Developer Platform Golden Path Backstage DX)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

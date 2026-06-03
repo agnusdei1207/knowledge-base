@@ -1,10 +1,9 @@
-+++
-weight = 587
-title = "587. 무선 메시 네트워크 (Wireless Mesh Network)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 587. 무선 메시 네트워크 (Wireless Mesh Network)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

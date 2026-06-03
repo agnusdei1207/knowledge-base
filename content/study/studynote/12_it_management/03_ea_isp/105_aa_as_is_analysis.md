@@ -1,10 +1,9 @@
-+++
-weight = 105
-title = "105. 애플리케이션 아키텍처 (AA) 현황 분석"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 105. 애플리케이션 아키텍처 (AA) 현황 분석
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 애플리케이션 아키텍처 (AA) 현황 분석의 본질은 시스템 연계도, [[192_module_independence|모듈]] 구성도를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

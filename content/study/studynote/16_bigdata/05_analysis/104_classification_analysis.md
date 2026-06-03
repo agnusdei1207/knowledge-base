@@ -1,10 +1,9 @@
-+++
-weight = 104
-title = "분류 (Classification) 분석"
-date = "2024-03-20"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 분류 (Classification) 분석
+date: '2024-03-20'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **범주 예측:** 입력된 [[001_dikw_pyramid|데이터]]의 특징(Feature)을 기반으로 해당 [[001_dikw_pyramid|데이터]]가 속할 미리 정의된 집단(Class/Label)을 판별하는 [[121_supervised_learning|지도 학습]]의 핵심.

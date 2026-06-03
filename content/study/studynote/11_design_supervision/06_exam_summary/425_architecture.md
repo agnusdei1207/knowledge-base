@@ -1,10 +1,9 @@
-+++
-weight = 425
-title = "425. 아키텍처의 개념적 무결성 (Conceptual Integrity)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 425. 아키텍처의 개념적 무결성 (Conceptual Integrity)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[288_conceptual_integrity|개념적 무결성]]은 시스템 전체가 한 사람의 설계 원칙으로 만든 것처럼 보이게 하는 [[194_consistency_database_integrity|일관성]]의 품질 [[082_attribute_types_er_model|속성]]이다.

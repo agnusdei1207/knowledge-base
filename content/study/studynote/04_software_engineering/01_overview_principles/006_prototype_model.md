@@ -1,12 +1,10 @@
-+++
-weight = 6
-title = "6. 프로토타입 모델 (Prototype Model) - 요구사항 명확화, 시제품"
-description = "요구사항의 불확실성을 시제품으로 해소하는 고객 중심 개발 프로세스"
-date = "2026-03-04"
-[taxonomies]
-tags = ["소프트웨어공학", "SDLC", "프로토타입", "요구공학", "위험관리"]
-categories = ["studynote-se"]
-+++
+---
+title: 6. 프로토타입 모델 (Prototype Model) - 요구사항 명확화, 시제품
+date: '2026-03-04'
+description: 요구사항의 불확실성을 시제품으로 해소하는 고객 중심 개발 프로세스
+tags:
+- software_engineering
+---
 
 # 06. [[257_prototype_pattern_object_cloning|프로토타입]] 모델 ([[257_prototype_pattern_object_cloning|Prototype]] Model)
 

@@ -1,10 +1,9 @@
-+++
-weight = 554
-title = "554. 트리 구조 매핑 Nested Set 성능 검색 비교 Nested Path 모델"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 554. 트리 구조 매핑 Nested Set 성능 검색 비교 Nested Path 모델
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

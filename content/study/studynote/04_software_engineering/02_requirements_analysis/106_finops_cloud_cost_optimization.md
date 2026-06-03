@@ -1,7 +1,8 @@
-+++
-title = "106. FinOps - 클라우드 비용 최적화 및 관리"
-weight = 106
-+++
+---
+title: 106. FinOps - 클라우드 비용 최적화 및 관리
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[344_finops|FinOps]] ([[210_finops_cloud_financial_operations_cost_optimization|Cloud Financial Operations]])는 개발팀(Dev), 운영팀(Ops), 그리고 재무팀(Finance)이 하나의 팀이 되어, 클라우드 환경의 유연성을 훼손하지 않으면서도 지출의 비즈니스 가치를 극대화하는 재무 관리 문화이자 프레임워크다.

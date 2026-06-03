@@ -1,10 +1,10 @@
-+++
-weight = 197
-title = "197. AWS CloudFormation / AWS CDK - AWS 리소스 전용 IaC 도구 (AWS CloudFormation / Infrastructure as Code / AWS Cloud Development Kit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 197. AWS CloudFormation / AWS CDK - AWS 리소스 전용 IaC 도구 (AWS CloudFormation /
+  Infrastructure as Code / AWS Cloud Development Kit)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

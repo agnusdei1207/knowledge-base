@@ -1,10 +1,9 @@
-+++
-weight = 160
-title = "160. 세션 (Session) 및 제어 터미널 (Controlling Terminal)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 160. 세션 (Session) 및 제어 터미널 (Controlling Terminal)
+date: '2026-05-05'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

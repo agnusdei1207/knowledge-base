@@ -1,10 +1,9 @@
-+++
-weight = 772
-title = "772. 클럭 글리칭 (Clock Glitching)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 772. 클럭 글리칭 (Clock Glitching)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,17 @@
-+++
-title = "데이터 중력과 클라우드 Lock-In (Data Gravity & Cloud Lock-In)"
-date = 2025-01-01
-description = "데이터 중력 개념, 클라우드 벤더 종속(Lock-In)의 유형, 탈출 전략(멀티클라우드·오픈소스)을 다룬다."
-categories = "studynote-cloud"
-tags = ["data gravity", "cloud lock-in", "multi-cloud", "vendor lock-in", "portability", "egress cost", "open source cloud"]
-+++
+---
+title: 데이터 중력과 클라우드 Lock-In (Data Gravity & Cloud Lock-In)
+date: '2025-01-01'
+description: 데이터 중력 개념, 클라우드 벤더 종속(Lock-In)의 유형, 탈출 전략(멀티클라우드·오픈소스)을 다룬다.
+tags:
+- cloud lock-in
+- data gravity
+- egress cost
+- multi-cloud
+- open source cloud
+- portability
+- studynote-cloud
+- vendor lock-in
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[001_dikw_pyramid|데이터]] 중력([[001_dikw_pyramid|Data]] Gravity)은 [[001_dikw_pyramid|데이터]]가 커질수록 애플리케이션과 서비스가 그 주변에 집결하는 물리학 중력 유사 현상으로, 클라우드 이동을 어렵게 만드는 핵심 요인이다.

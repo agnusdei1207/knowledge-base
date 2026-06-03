@@ -1,10 +1,9 @@
-+++
-weight = 129
-title = "129. 형식지 (Explicit Knowledge)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 129. 형식지 (Explicit Knowledge)
+date: '2026-05-08'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

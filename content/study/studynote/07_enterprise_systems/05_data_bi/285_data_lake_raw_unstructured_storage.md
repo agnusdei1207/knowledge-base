@@ -1,10 +1,9 @@
-+++
-weight = 285
-title = "285. 데이터 레이크 (Data Lake) - 원시 비정형 데이터 무한 저장소"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 285. 데이터 레이크 (Data Lake) - 원시 비정형 데이터 무한 저장소
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

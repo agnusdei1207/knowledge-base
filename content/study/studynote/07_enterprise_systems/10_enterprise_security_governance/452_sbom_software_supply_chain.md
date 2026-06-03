@@ -1,10 +1,9 @@
-+++
-weight = 452
-title = "452. SBOM 오픈소스 공급망 검증 (SBOM, Software Bill of Materials)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 452. SBOM 오픈소스 공급망 검증 (SBOM, Software Bill of Materials)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

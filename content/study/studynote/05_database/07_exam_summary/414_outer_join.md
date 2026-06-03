@@ -1,10 +1,9 @@
-+++
-weight = 414
-title = "414. 외부 조인 (Outer Join + 표시 / 기준 릴레이션 보존)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 414. 외부 조인 (Outer Join + 표시 / 기준 릴레이션 보존)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

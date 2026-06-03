@@ -1,10 +1,9 @@
-+++
-weight = 76
-title = "76. MSE (Mean Squared Error) - 회귀 문제 핵심 손실 함수"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 76. MSE (Mean Squared Error) - 회귀 문제 핵심 손실 함수
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

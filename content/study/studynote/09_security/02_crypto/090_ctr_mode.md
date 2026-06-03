@@ -1,10 +1,9 @@
-+++
-title = "090. CTR (Counter) — 난수 대신 카운터, 병렬 처리 가능"
-date = "2026-04-05"
-weight = 90
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 090. CTR (Counter) — 난수 대신 카운터, 병렬 처리 가능
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

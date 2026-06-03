@@ -1,10 +1,9 @@
-+++
-weight = 141
-title = "141. 애플리케이션 통합 아키텍처 개요 - P2P·Hub·ESB·MSA"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 141. 애플리케이션 통합 아키텍처 개요 - P2P·Hub·ESB·MSA
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 애플리케이션 통합([[143_eai_enterprise_application_integration_hub|EAI]])은 **이기종 시스템 간 [[001_dikw_pyramid|데이터]]·프로세스를 연결**하는 아키텍처이며, [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]](점대점)→[[152_hub_dummy_switching_intelligent|Hub]]-and-Spoke→[[146_esb_enterprise_service_bus_architecture|ESB]]([[146_esb_enterprise_service_bus_architecture|Enterprise Service Bus]])→[[619_msa_traffic_hardware|MSA]]+이벤트 순으로 진화했다.

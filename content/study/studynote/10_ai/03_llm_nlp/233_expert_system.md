@@ -1,10 +1,9 @@
-+++
-weight = 233
-title = "233. 전문가 시스템 (지식 베이스, 추론 엔진)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 233. 전문가 시스템 (지식 베이스, 추론 엔진)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 133
-title = "133. 클럭 주기 (Clock Cycle Time)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 133. 클럭 주기 (Clock Cycle Time)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,12 +1,12 @@
-+++
-weight = 20
-title = "20. YARN (Yet Another Resource Negotiator) - 하둡 2.0 클러스터 자원(CPU/Mem) 스케줄링 통합 관리자"
-description = "하둡 2.0 클러스터의 두뇌로, 자원(CPU/Memory) 관리와 애플리케이션 스케줄링을 완벽히 분리해낸 중앙 통합 리소스 관리자"
-date = "2025-01-01"
-[taxonomies]
-tags = ["YARN", "Hadoop", "Resource Manager", "Cluster Management", "Spark"]
-categories = ["14_data_engineering"]
-+++
+---
+title: 20. YARN (Yet Another Resource Negotiator) - 하둡 2.0 클러스터 자원(CPU/Mem) 스케줄링 통합
+  관리자
+date: '2025-01-01'
+description: 하둡 2.0 클러스터의 두뇌로, 자원(CPU/Memory) 관리와 애플리케이션 스케줄링을 완벽히 분리해낸 중앙 통합 리소스
+  관리자
+tags:
+- data_engineering
+---
 
 # YARN (Yet Another Resource Negotiator)
 

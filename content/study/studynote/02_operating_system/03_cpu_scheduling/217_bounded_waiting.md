@@ -1,10 +1,9 @@
-+++
-weight = 217
-title = "217. 한정된 대기 (Bounded Waiting)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 217. 한정된 대기 (Bounded Waiting)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

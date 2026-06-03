@@ -1,10 +1,10 @@
-+++
-weight = 400
-title = "400. 클라우드·DevOps·데이터·보안 차세대 통합 플랫폼 엔지니어링 최종 마스터 맵 (Integrated Platform Engineering Master Map)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 400. 클라우드·DevOps·데이터·보안 차세대 통합 플랫폼 엔지니어링 최종 마스터 맵 (Integrated Platform Engineering
+  Master Map)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

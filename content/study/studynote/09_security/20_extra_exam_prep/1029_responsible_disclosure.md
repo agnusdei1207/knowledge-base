@@ -1,10 +1,9 @@
-+++
-weight = 1029
-title = "1029. Responsible Disclosure (책임 있는 공개)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 1029. Responsible Disclosure (책임 있는 공개)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

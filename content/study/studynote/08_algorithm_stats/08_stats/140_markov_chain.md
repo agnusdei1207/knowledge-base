@@ -1,10 +1,9 @@
-+++
-weight = 140
-title = "11. 마르코프 체인 (Markov Chain) — 전이 확률, 정상 분포"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 11. 마르코프 체인 (Markov Chain) — 전이 확률, 정상 분포
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

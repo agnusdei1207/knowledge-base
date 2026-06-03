@@ -1,10 +1,9 @@
-+++
-title = "048. 소프트 포크 — Soft Fork & 하위 호환성"
-weight = 48
-date = "2026-04-05"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 048. 소프트 포크 — Soft Fork & 하위 호환성
+date: '2026-04-05'
+tags:
+- studynote-ict-convergence
+---
 
 > **핵심 인사이트**
 > 1. 소프트 포크(Soft Fork)는 하위 호환(Backward Compatible) [[295_protocol_field_tcp_udp_icmp|프로토콜]] 업그레이드 — 업그레이드하지 않은 노드(구버전)도 새 규칙으로 만들어진 블록을 유효하다고 인식하며, 네트워크 분리 없이 규칙을 강화할 수 있다.

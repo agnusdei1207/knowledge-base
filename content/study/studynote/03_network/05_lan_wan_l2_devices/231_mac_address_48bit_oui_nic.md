@@ -1,10 +1,9 @@
-+++
-weight = 231
-title = "231. MAC 주소 (Media Access Control Address)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 231. MAC 주소 (Media Access Control Address)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 363
-title = "363. 소프트맥스 역전파 (Softmax Backpropagation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 363. 소프트맥스 역전파 (Softmax Backpropagation)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

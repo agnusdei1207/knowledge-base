@@ -1,10 +1,9 @@
-+++
-weight = 159
-title = "159. 프로세스 그룹 (Process Group)"
-date = "2026-03-22"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 159. 프로세스 그룹 (Process Group)
+date: '2026-03-22'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

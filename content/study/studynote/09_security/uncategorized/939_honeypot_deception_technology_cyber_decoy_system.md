@@ -1,10 +1,9 @@
-+++
-weight = 939
-title = "939. Faraday Cage (Faraday Cage)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 939. Faraday Cage (Faraday Cage)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

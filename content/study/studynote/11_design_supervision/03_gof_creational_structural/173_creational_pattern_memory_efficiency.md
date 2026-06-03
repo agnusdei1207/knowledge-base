@@ -1,10 +1,9 @@
-+++
-weight = 173
-title = "173. 생성 패턴 메모리 효율화 로직 비교 (Prototype vs Flyweight)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 173. 생성 패턴 메모리 효율화 로직 비교 (Prototype vs Flyweight)
+date: '2026-04-21'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 135
-title = "135. LoRA (Low-Rank Adaptation) - 효율적 LLM 미세 조정의 표준"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 135. LoRA (Low-Rank Adaptation) - 효율적 LLM 미세 조정의 표준
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LoRA는 **사전 학습된 [[267_weight_bias_activation|가중치]] 행렬 W를 동결하고, 저랭크 행렬 A·B(rank r ≪ d)만 추가 학습**하여 W' = W + BA로 적응하는 [[306_peft_lora|PEFT]] 기법이다. 학습 파라미터가 **전체의 0.1~1%**로 극적으로 줄어든다.

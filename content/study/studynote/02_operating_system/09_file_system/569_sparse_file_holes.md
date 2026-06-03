@@ -1,10 +1,9 @@
-+++
-weight = 569
-title = "569. 스파스 파일 (Sparse File) 저장 공간 절약 기술"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 569. 스파스 파일 (Sparse File) 저장 공간 절약 기술
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

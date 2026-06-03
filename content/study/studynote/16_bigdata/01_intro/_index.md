@@ -1,8 +1,8 @@
-+++
-weight = 1
-title = "01. 빅데이터 개념 및 아키텍처"
-sort_by = "weight"
-+++
+---
+title: 01. 빅데이터 개념 및 아키텍처
+tags:
+- bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

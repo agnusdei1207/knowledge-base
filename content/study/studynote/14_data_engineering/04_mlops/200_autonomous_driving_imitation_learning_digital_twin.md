@@ -1,10 +1,9 @@
-+++
-weight = 200
-title = "200. 자율주행 모방 학습 (Imitation Learning) 시뮬레이터 디지털 트윈 합성 데이터 생성"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 200. 자율주행 모방 학습 (Imitation Learning) 시뮬레이터 디지털 트윈 합성 데이터 생성
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 모방 학습(Imitation [[240_switch_learning_forwarding_flooding|Learning]])은 전문가 시연(Expert Demonstration)에서 행동 [[164_policy|정책]]([[164_policy|Policy]])을 학습하는 방법으로, 보상 함수 설계 없이 복잡한 자율주행 [[164_policy|정책]]을 효율적으로 획득한다.

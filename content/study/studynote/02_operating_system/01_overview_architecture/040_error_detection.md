@@ -1,10 +1,9 @@
-+++
-title = "040. 오류 탐지 (Error Detection)"
-weight = 40
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 040. 오류 탐지 (Error Detection)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 > **핵심 인사이트**
 > 1. 오류 탐지(Error [[961_deepfake_detection|Detection]])는 [[001_dikw_pyramid|데이터]] 전송·저장 과정에서 [[073_bit|비트]] 오류를 발견하는 기술로, [[107_parity_bit|패리티 비트]]([[107_parity_bit|Parity Bit]])·[[112_checksum|체크섬]]([[112_checksum|Checksum]])·[[113_crc|CRC]]([[113_crc|Cyclic Redundancy Check]])는 중복 정보 추가량과 탐지 능력의 트레이드오프를 각각 다른 수준으로 구현한다.

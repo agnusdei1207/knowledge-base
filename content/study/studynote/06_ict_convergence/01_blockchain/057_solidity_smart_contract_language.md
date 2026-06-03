@@ -1,7 +1,8 @@
-+++
-title = "57. 솔리디티 (Solidity) - 이더리움 스마트 컨트랙트 개발 언어"
-weight = 57
-+++
+---
+title: 57. 솔리디티 (Solidity) - 이더리움 스마트 컨트랙트 개발 언어
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

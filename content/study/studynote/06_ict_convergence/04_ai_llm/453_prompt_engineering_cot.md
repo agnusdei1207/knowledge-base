@@ -1,10 +1,9 @@
-+++
-weight = 453
-title = "453. 프롬프트 CoT 단계별 추론 (Prompt Engineering COT)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 453. 프롬프트 CoT 단계별 추론 (Prompt Engineering COT)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 231
-title = "231. 카프카 토픽 / 파티션 / 컨슈머 그룹"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 231. 카프카 토픽 / 파티션 / 컨슈머 그룹
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 카프카의 Topic([[369_logic_bomb|논리]] 채널)·[[514_partition_slice_volume|Partition]](물리 분할)·[[191_consumer_group_kafka_partition_load_balancing|Consumer Group]]([[430_index_fast_full_scan|병렬]] 소비)은 **[[139_throughput|처리량]] 확장과 메시지 순서 보장을 동시에 달성**하기 위한 3-Layer 설계다.

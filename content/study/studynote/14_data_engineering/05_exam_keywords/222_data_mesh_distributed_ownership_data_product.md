@@ -1,10 +1,9 @@
-+++
-weight = 222
-title = "222. 데이터 메시 (Data Mesh) 분산 오너십 데이터 프로덕트"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 222. 데이터 메시 (Data Mesh) 분산 오너십 데이터 프로덕트
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[211_data_mesh_domain_ownership|데이터 메시]]([[320_data_mesh|Data Mesh]])는 중앙집중식 [[001_dikw_pyramid|데이터]] 팀의 병목을 제거하기 위해 [[064_relation_domain|도메인]] 팀이 [[001_dikw_pyramid|데이터]] 프로덕트([[154_data_product|Data Product]])의 소유권과 품질을 직접 책임지는 [[136_variance|분산]]형 [[104_da_as_is_analysis|데이터 아키텍처]] 패러다임이다.

@@ -1,12 +1,10 @@
-+++
-weight = 7
-title = "7. 외부 스키마 (External Schema) - 사용자 관점, 서브 스키마"
-description = "사용자 및 응용 프로그램 관점의 데이터베이스 논리적 구조와 논리적 데이터 독립성의 실무적 응용"
-date = "2024-05-20"
-[taxonomies]
-tags = ["Database", "Schema", "External Schema", "ANSI-SPARC", "View"]
-categories = ["studynote-database"]
-+++
+---
+title: 7. 외부 스키마 (External Schema) - 사용자 관점, 서브 스키마
+date: '2024-05-20'
+description: 사용자 및 응용 프로그램 관점의 데이터베이스 논리적 구조와 논리적 데이터 독립성의 실무적 응용
+tags:
+- database
+---
 
 # 외부 [[005_schema|스키마]] (External [[505_schema|Schema]])
 #### 핵심 인사이트 (3줄 요약)

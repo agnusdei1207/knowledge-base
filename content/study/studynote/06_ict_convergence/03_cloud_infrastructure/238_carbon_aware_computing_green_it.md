@@ -1,10 +1,9 @@
-+++
-weight = 238
-title = "238. 그린 IT / 탄소 인지 컴퓨팅 클라우드 전력 리전 스위칭 (Carbon-Aware Computing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 238. 그린 IT / 탄소 인지 컴퓨팅 클라우드 전력 리전 스위칭 (Carbon-Aware Computing)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

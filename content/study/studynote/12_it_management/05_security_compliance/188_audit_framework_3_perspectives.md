@@ -1,10 +1,9 @@
-+++
-weight = 188
-title = "188. 감리 프레임워크 3대 관점"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 188. 감리 프레임워크 3대 관점
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[006_audit_framework_3dimensional|감리 프레임워크]] 3대 관점의 본질은 절차(Procedure), 산출물(Deliverables), 성과([[282_performance_tactics|Performance]]) 관점을 [[268_strategy_pattern|전략]]·조직·프로세스에 내재화하는 데 있다.

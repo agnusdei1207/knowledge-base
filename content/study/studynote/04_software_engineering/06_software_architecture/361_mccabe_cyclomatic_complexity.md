@@ -1,10 +1,10 @@
-+++
-weight = 361
-title = "361. 소프트웨어 복잡도 측정 - 맥케이브 순환 복잡도 (McCabe's Cyclomatic Complexity, V(G) = e - n + 2)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 361. 소프트웨어 복잡도 측정 - 맥케이브 순환 복잡도 (McCabe's Cyclomatic Complexity, V(G) = e -
+  n + 2)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

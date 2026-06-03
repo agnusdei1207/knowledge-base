@@ -1,10 +1,9 @@
-+++
-weight = 394
-title = "394. 카탈로그 (Catalog) 메타데이터"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 394. 카탈로그 (Catalog) 메타데이터
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

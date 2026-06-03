@@ -1,10 +1,9 @@
-+++
-weight = 133
-title = "133. CMMI (Capability Maturity Model Integration) 5단계 모델"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 133. CMMI (Capability Maturity Model Integration) 5단계 모델
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CMMI (Capability [[011_maturity_model|Maturity Model]] Integration) 5단계 모델의 본질은 소프트웨어 개발 조직의 프로세스 성숙도 평가 국제 표준을 단계별 산출물과 품질 게이트로 관리하는 데 있다.

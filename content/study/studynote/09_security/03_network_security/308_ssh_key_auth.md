@@ -1,10 +1,9 @@
-+++
-weight = 308
-title = "308. SSH 공개키 인증 (SSH Key-Based Authentication)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 308. SSH 공개키 인증 (SSH Key-Based Authentication)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

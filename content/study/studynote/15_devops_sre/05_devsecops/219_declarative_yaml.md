@@ -1,10 +1,9 @@
-+++
-weight = 219
-title = "219. 쿠버네티스 선언적(Declarative) 제어 루프"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 219. 쿠버네티스 선언적(Declarative) 제어 루프
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

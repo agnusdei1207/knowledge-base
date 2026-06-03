@@ -1,10 +1,9 @@
-+++
-weight = 137
-title = "137. TLS 1.3 핸드셰이크 (1-RTT, 0-RTT, PSK)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 137. TLS 1.3 핸드셰이크 (1-RTT, 0-RTT, PSK)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

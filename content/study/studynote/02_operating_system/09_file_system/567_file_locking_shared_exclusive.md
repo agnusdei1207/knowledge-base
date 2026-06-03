@@ -1,10 +1,9 @@
-+++
-weight = 567
-title = "567. 파일 잠금 (File Locking) - 공유 잠금(Shared lock) vs 배타적 잠금(Exclusive lock)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 567. 파일 잠금 (File Locking) - 공유 잠금(Shared lock) vs 배타적 잠금(Exclusive lock)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

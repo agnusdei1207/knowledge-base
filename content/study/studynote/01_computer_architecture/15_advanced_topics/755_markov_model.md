@@ -1,10 +1,9 @@
-+++
-weight = 755
-title = "755. 마르코프 모델 (Markov Model) 신뢰성 분석"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 755. 마르코프 모델 (Markov Model) 신뢰성 분석
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

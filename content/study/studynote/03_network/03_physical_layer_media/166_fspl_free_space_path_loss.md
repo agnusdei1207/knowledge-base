@@ -1,10 +1,9 @@
-+++
-weight = 166
-title = "166. 자유 공간 경로 손실 (FSPL, Free Space Path Loss)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 166. 자유 공간 경로 손실 (FSPL, Free Space Path Loss)
+date: '2026-05-05'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

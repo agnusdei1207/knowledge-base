@@ -1,10 +1,9 @@
-+++
-weight = 153
-title = "153. 구조 패턴: 브리지 (Bridge Pattern) - 추상부와 구현부의 완벽 이혼 절단 융합술"
-date = "2026-05-03"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: '153. 구조 패턴: 브리지 (Bridge Pattern) - 추상부와 구현부의 완벽 이혼 절단 융합술'
+date: '2026-05-03'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[260_bridge_pattern_abstraction_implementation|브리지]]([[260_bridge_pattern_abstraction_implementation|Bridge]]) 패턴은 시스템 아키텍처 설계 [[459_quic_fec_forward_error_correction|초기]]에!! ➔ 유저와 맞닿는 껍데기 **'기능 [[198_abstraction_control_data_process|추상화]] 계층([[198_abstraction_control_data_process|Abstraction]] 리모컨)'**과 뒷단 진짜 쇳덩이 모터가 도는 **'플랫폼 구현 계층(Implementor TV 기계)'**을 1개의 뚱뚱한 부모-자식 [[234_uml_class_relationships_generalization_dependency|상속]] 덩어리([[002_silo_hyeonhyung|Silo]])에 쳐 박는 강결합 짓을 도끼로 찢어발겨 ➔ 두 우주를 100% 완전 분리 이혼시키고 중간 허공에 합성(Composition) 끈 다리([[260_bridge_pattern_abstraction_implementation|Bridge]]) 1개만 걸쳐두는 0순위 구조(Structural) 패턴이다.

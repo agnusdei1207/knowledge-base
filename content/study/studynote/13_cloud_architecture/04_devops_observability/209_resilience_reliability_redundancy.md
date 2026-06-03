@@ -1,10 +1,9 @@
-+++
-weight = 209
-title = "209. 시스템 신뢰성과 이중화 (Reliability, Resilience, Redundancy)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 209. 시스템 신뢰성과 이중화 (Reliability, Resilience, Redundancy)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

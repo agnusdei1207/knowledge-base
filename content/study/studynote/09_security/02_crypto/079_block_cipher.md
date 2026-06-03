@@ -1,10 +1,9 @@
-+++
-weight = 79
-title = "079. 블록 암호 (Block Cipher - DES, AES)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 079. 블록 암호 (Block Cipher - DES, AES)
+date: '2026-05-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[655_block_cipher_des_3des_feistel|블록 암호]]([[655_block_cipher_des_3des_feistel|Block Cipher]])는 평문([[001_dikw_pyramid|Data]])을 1비트씩 쪼개지 않고, **64비트나 128비트 크기의 덩어리(Block) 단위로 뭉텅 썰어서 한 번에 암호화/복호화**를 수행하는 [[653_symmetric_key_cryptography_fast_speed|대칭키 암호화]] 알고리즘의 절대 표준이다.

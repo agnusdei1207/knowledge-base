@@ -1,10 +1,9 @@
-+++
-weight = 196
-title = "196. 쿠버네티스 (Kubernetes, K8s)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 196. 쿠버네티스 (Kubernetes, K8s)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 249
-title = "249. 소프트웨어 공급망 공격 (Supply Chain Attack)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 249. 소프트웨어 공급망 공격 (Supply Chain Attack)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

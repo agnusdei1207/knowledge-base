@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. 7S 모델 (McKinsey 7S Framework) — 조직 변화 관리 통합 프레임워크"
-date = "2026-04-29"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 27. 7S 모델 (McKinsey 7S Framework) — 조직 변화 관리 통합 프레임워크
+date: '2026-04-29'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[027_seven_s_model|맥킨지]] 7S 모델(McKinsey 7S Framework)은 조직의 내부 역량을 7가지 요소([[268_strategy_pattern|Strategy]]·Structure·Systems·Shared Values·Style·Staff·Skills)로 분석하는 프레임워크로, 조직 변화 관리·[[055_digital_transformation|디지털 전환]]·IT [[268_strategy_pattern|전략]] 수립 시 내부 정합성(Alignment)을 점검하는 데 활용된다.

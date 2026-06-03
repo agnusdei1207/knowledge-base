@@ -1,10 +1,9 @@
-+++
-weight = 248
-title = "248. 데이터 카탈로그 및 메타데이터 (Data Catalog)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 248. 데이터 카탈로그 및 메타데이터 (Data Catalog)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[213_data_catalog_metadata|데이터 카탈로그]] 및 [[012_metadata|메타데이터]]는 [[001_dikw_pyramid|데이터]] 플랫폼에서 [[001_dikw_pyramid|데이터]] 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

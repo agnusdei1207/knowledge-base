@@ -1,10 +1,9 @@
-+++
-weight = 144
-title = "데이터 늪 (Data Swamp)"
-date = "2024-05-22"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 데이터 늪 (Data Swamp)
+date: '2024-05-22'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. [[208_data_lake_schema_on_read|데이터 레이크]]([[208_data_lake_schema_on_read|Data Lake]])의 거버넌스와 관리가 부재하여, **[[001_dikw_pyramid|데이터]]의 출처와 의미를 알 수 없게 된 쓸모없는 저장소**를 말한다.

@@ -1,10 +1,9 @@
-+++
-weight = 181
-title = "181. 브릿지 CA (Bridge CA) — 교차 인증"
-date = "2026-05-06"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 181. 브릿지 CA (Bridge CA) — 교차 인증
+date: '2026-05-06'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

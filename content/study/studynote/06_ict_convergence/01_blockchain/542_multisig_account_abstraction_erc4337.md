@@ -1,10 +1,9 @@
-+++
-weight = 542
-title = "542. 멀티시그와 계정 추상화 (Multi-Sig and Account Abstraction ERC-4337)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 542. 멀티시그와 계정 추상화 (Multi-Sig and Account Abstraction ERC-4337)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

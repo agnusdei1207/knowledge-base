@@ -1,10 +1,9 @@
-+++
-weight = 306
-title = "306. 데이터 거버넌스 3요소 원칙 조직 프로세스 IT시스템 (Data Governance)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 306. 데이터 거버넌스 3요소 원칙 조직 프로세스 IT시스템 (Data Governance)
+date: '2026-04-21'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

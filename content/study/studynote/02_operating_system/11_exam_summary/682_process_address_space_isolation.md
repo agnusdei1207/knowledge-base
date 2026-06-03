@@ -1,10 +1,9 @@
-+++
-weight = 682
-title = "682. 프로세스 주소 공간 분리 (Process Address Space Isolation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 682. 프로세스 주소 공간 분리 (Process Address Space Isolation)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

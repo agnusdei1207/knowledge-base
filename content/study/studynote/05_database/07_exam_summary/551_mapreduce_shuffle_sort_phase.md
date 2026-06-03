@@ -1,10 +1,9 @@
-+++
-weight = 551
-title = "551. 맵리듀스 분산 처리 노드 작업 셔플/소트 단계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 551. 맵리듀스 분산 처리 노드 작업 셔플/소트 단계
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

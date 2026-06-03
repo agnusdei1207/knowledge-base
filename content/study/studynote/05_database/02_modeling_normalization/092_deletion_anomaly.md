@@ -1,7 +1,8 @@
-+++
-title = "92. 삭제 이상 (Deletion Anomaly) - 연쇄 삭제로 인해 필요한 데이터까지 소실되는 현상"
-weight = 92
-+++
+---
+title: 92. 삭제 이상 (Deletion Anomaly) - 연쇄 삭제로 인해 필요한 데이터까지 소실되는 현상
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 삭제 이상 (Deletion [[530_anomaly|Anomaly]])은 [[093_normalization|정규화]]되지 않은 [[061_relation_schema_instance|릴레이션]](테이블)에서 특정 [[001_dikw_pyramid|데이터]]를 삭제할 때, 의도하지 않은 다른 필수 [[001_dikw_pyramid|데이터]]까지 연쇄적으로 소멸하는 부작용이다.

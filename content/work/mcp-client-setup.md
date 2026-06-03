@@ -1,4 +1,8 @@
-# 🔌 MCP 클라이언트 설정 규격
+---
+title: 🔌 MCP 클라이언트 설정 규격
+tags:
+- work
+---
 
 이 문서는 Claude Code, Codex, OpenCode가 같은 공용 MCP 서버를 보도록 맞추는 표준 설정 문서입니다.
 

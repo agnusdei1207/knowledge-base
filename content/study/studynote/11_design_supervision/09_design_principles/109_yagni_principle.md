@@ -1,10 +1,9 @@
-+++
-weight = 109
-title = "109. YAGNI 원칙 (You Aren't Gonna Need It)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 109. YAGNI 원칙 (You Aren't Gonna Need It)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - YAGNI는 아직 요구되지 않은 기능·계층·확장 포인트를 미리 만들지 말라는 실용주의 설계 원칙이다.

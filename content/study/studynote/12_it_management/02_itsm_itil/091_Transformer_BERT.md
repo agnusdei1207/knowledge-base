@@ -1,12 +1,10 @@
-+++
-weight = 91
-title = "91. Apache Pulsar — Kafka 대안, 컴퓨팅/스토리지 분리, 멀티 테넌시"
-description = "Transformer의 Self-Attention 메커니즘, BERT의 사전 학습 및 파인튜닝, 자연어 처리에서의 혁신"
-date = "2026-04-05"
-[taxonomies]
-tags = ["Transformer", "BERT", "Self-Attention", "어텐션", "사전학습", "트랜스포머", "자연어처리"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 91. Apache Pulsar — Kafka 대안, 컴퓨팅/스토리지 분리, 멀티 테넌시
+date: '2026-04-05'
+description: Transformer의 Self-Attention 메커니즘, BERT의 사전 학습 및 파인튜닝, 자연어 처리에서의 혁신
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

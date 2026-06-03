@@ -1,10 +1,9 @@
-+++
-weight = 252
-title = "252. SDRAM (Synchronous DRAM)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 252. SDRAM (Synchronous DRAM)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

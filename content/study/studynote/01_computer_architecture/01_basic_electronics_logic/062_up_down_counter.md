@@ -1,10 +1,9 @@
-+++
-weight = 62
-title = "62. 업/다운 카운터 (Up/Down Counter)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 62. 업/다운 카운터 (Up/Down Counter)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

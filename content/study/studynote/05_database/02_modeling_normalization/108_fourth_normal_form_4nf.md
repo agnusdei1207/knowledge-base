@@ -1,10 +1,9 @@
-+++
-weight = 108
-title = "108. 제4정규형 (4NF)"
-date = "2026-04-10"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 108. 제4정규형 (4NF)
+date: '2026-04-10'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 제4정규형(4NF)은 BCNF까지 완벽하게 통과한 테이블에서, 서로 아무런 논리적 연관이 없는 두 개 이상의 독립적인 다중값(M:N 리스트)을 하나의 테이블에 우겨 넣었을 때 발생하는 [[400_mvd_4nf|다치 종속]]([[400_mvd_4nf|MVD]], Multi-Valued Dependency)을 제거하는 고급 [[093_normalization|정규화]] 단계다.

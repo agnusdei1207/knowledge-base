@@ -1,10 +1,9 @@
-+++
-weight = 161
-title = "161. 안티 패턴 (Anti-Pattern)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 161. 안티 패턴 (Anti-Pattern)
+date: '2026-04-21'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트
 

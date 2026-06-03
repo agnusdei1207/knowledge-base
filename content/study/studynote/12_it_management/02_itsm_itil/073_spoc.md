@@ -1,10 +1,9 @@
-+++
-weight = 73
-title = "73. SPOC (Single Point of Contact)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 73. SPOC (Single Point of Contact)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SPOC (Single Point of Contact)의 본질은 사용자 불만/요청 창구 일원화로 혼선 방지 및 지식 축적을 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

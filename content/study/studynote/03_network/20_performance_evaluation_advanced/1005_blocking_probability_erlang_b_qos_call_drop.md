@@ -1,10 +1,9 @@
-+++
-weight = 1005
-title = "1005. 호손율 / 블로킹 확률 (Blocking Probability)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1005. 호손율 / 블로킹 확률 (Blocking Probability)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "049. 서비스 카탈로그 — Service Catalog"
-weight = 49
-date = "2026-04-05"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 049. 서비스 카탈로그 — Service Catalog
+date: '2026-04-05'
+tags:
+- studynote-enterprise-systems
+---
 
 > **핵심 인사이트**
 > 1. [[088_service_catalog|서비스 카탈로그]]([[088_service_catalog|Service Catalog]])는 IT 조직이 제공하는 모든 [[090_service_kubernetes_network_load_balancing|서비스]]를 표준화·가시화하여 비즈니스 사용자가 셀프서비스로 요청할 수 있게 하는 IT [[090_service_kubernetes_network_load_balancing|서비스]] 관리의 핵심 인터페이스 — [[062_itil|ITIL]] v4에서 [[088_service_catalog|서비스 카탈로그]]는 "비즈니스가 알아야 할 것"만 담은 고객 대면 뷰이다.

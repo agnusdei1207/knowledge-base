@@ -1,10 +1,9 @@
-+++
-weight = 30
-title = "30. 스플릿 브레인과 쿼럼 — 분산 시스템 합의 문제"
-date = "2026-04-29"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 30. 스플릿 브레인과 쿼럼 — 분산 시스템 합의 문제
+date: '2026-04-29'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[190_split_brain_zookeeper_fencing_quorum|스플릿 브레인]]([[190_split_brain_zookeeper_fencing_quorum|Split Brain]])은 [[136_variance|분산]] 시스템에서 네트워크 [[514_partition_slice_volume|파티션]]으로 인해 각 노드 그룹이 자신이 마스터라고 믿고 독립 동작하는 현상이다. [[001_dikw_pyramid|데이터]] 불일치·충돌이 발생한다.

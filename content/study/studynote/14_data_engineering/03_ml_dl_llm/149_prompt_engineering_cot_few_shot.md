@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "149. 프롬프트 엔지니어링 (Prompt Engineering) - CoT / Few-Shot"
-date = "2026-05-03"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 149. 프롬프트 엔지니어링 (Prompt Engineering) - CoT / Few-Shot
+date: '2026-05-03'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프롬프트 엔지니어링([[224_prompt_engineering_guideline|Prompt Engineering]])은 거대 언어 모델([[263_llm_large_language_model|LLM]])의 뇌파([[267_weight_bias_activation|가중치]])를 1바이트도 뜯어고치지 않고, 오직 인간이 텍스트 지시어(Input)를 미친 듯이 정교하게 튜닝하여 출력 품질을 극대화하는 **가장 저비용 초고효율의 통제 흑마법**이다.

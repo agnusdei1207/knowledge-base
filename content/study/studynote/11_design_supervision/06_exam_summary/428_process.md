@@ -1,10 +1,9 @@
-+++
-weight = 428
-title = "428. 정보보호 구현 기법 비교 (Delta, Encryption, Hash, Key Stretching, Obfuscation)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 428. 정보보호 구현 기법 비교 (Delta, Encryption, Hash, Key Stretching, Obfuscation)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 델타, 암호, 해시, [[109_key_stretching|키 스트레칭]], [[528_obfuscation_anti_debugging_mobile|난독화]]는 모두 "[[571_protection_vs_security|보호]]"에 쓰이지만 각각 줄이려는 위험이 다르므로 목적별 구분이 먼저다.

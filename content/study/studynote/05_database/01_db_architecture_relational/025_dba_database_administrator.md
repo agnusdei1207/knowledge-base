@@ -1,10 +1,9 @@
-+++
-weight = 25
-title = "25. DBA (Database Administrator) — 데이터베이스 관리자"
-date = "2026-04-29"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 25. DBA (Database Administrator) — 데이터베이스 관리자
+date: '2026-04-29'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DBA ([[501_database|Database]] Administrator, [[002_database_definition|데이터베이스]] 관리자)는 [[002_database_definition|데이터베이스]] 시스템의 설치·구성·[[282_performance_tactics|성능]] 최적화·[[555_backup_and_restore_strategy|백업]]/[[658_ir_recovery|복구]]·보안·[[452_availability|가용성]]을 전담 관리하는 역할로, "[[002_database_definition|데이터베이스]]의 주치의(Doctor)"로 비유되는 기술 전문직이다.

@@ -1,10 +1,9 @@
-+++
-title = "047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크"
-weight = 47
-date = "2026-04-05"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크
+date: '2026-04-05'
+tags:
+- studynote-it-management
+---
 
 > **핵심 인사이트**
 > 1. IT 컴플라이언스([[047_it_compliance|IT Compliance]])는 법·규정·표준 준수를 위한 IT 거버넌스의 실천 — [[791_gdpr_eu|GDPR]]([[781_personal_information|개인정보]]), SOX(재무 보고), [[863_hipaa|HIPAA]](의료) 등 각 도메인별 규제가 IT 시스템에 구체적 통제 요구사항을 부과하며, 이를 충족하지 못하면 막대한 과징금과 법적 책임이 발생한다.

@@ -1,10 +1,9 @@
-+++
-weight = 172
-title = "172. 프로비저닝 병목 (Cold Start) 관측 지표"
-date = "2026-04-21"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 172. 프로비저닝 병목 (Cold Start) 관측 지표
+date: '2026-04-21'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 421
-title = "421. 로컬 파일 포함 (LFI, Local File Inclusion)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 421. 로컬 파일 포함 (LFI, Local File Inclusion)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

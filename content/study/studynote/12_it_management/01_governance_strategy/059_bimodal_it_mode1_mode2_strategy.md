@@ -1,10 +1,9 @@
-+++
-weight = 59
-title = "59. 바이모달 IT (Bimodal IT) - Mode 1 / Mode 2 전략"
-date = "2025-05-14"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 59. 바이모달 IT (Bimodal IT) - Mode 1 / Mode 2 전략
+date: '2025-05-14'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

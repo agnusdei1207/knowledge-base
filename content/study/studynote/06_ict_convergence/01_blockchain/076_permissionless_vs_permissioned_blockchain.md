@@ -1,7 +1,8 @@
-+++
-title = "76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인"
-weight = 76
-+++
+---
+title: 76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

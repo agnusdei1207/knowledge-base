@@ -1,10 +1,10 @@
-+++
-weight = 249
-title = "249. 데이터 카탈로그 및 메타데이터 - \"어디에 무슨 데이터가 있는지\" 검색/발견하고 개인정보 태깅을 통한 데이터 통제/활용 허브 (Data Catalog)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 249. 데이터 카탈로그 및 메타데이터 - "어디에 무슨 데이터가 있는지" 검색/발견하고 개인정보 태깅을 통한 데이터 통제/활용 허브
+  (Data Catalog)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[213_data_catalog_metadata|데이터 카탈로그]] 및 [[012_metadata|메타데이터]] - \"어디에 무슨 [[001_dikw_pyramid|데이터]]가 있는지\" 검색/발견하고 [[781_personal_information|개인정보]] 태깅을 통한 [[001_dikw_pyramid|데이터]] 통제/활용 [[152_hub_dummy_switching_intelligent|허브]]는 [[001_dikw_pyramid|데이터]] 플랫폼에서 [[001_dikw_pyramid|데이터]] 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

@@ -1,10 +1,9 @@
-+++
-weight = 392
-title = "392. 다단 연결망 (MIN, Multistage Interconnection Network)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 392. 다단 연결망 (MIN, Multistage Interconnection Network)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

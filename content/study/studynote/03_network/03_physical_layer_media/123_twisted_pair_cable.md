@@ -1,10 +1,9 @@
-+++
-weight = 123
-title = "123. 꼬임 쌍선 케이블 (Twisted Pair Cable)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 123. 꼬임 쌍선 케이블 (Twisted Pair Cable)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

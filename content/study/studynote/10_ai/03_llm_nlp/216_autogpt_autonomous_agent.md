@@ -1,10 +1,9 @@
-+++
-weight = 216
-title = "216. 자율 에이전트 오토지피티 (AutoGPT)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 216. 자율 에이전트 오토지피티 (AutoGPT)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

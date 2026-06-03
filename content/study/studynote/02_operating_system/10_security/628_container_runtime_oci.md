@@ -1,10 +1,9 @@
-+++
-weight = 628
-title = "628. 컨테이너 런타임 (runc, containerd) OCI 규격 표준화"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 628. 컨테이너 런타임 (runc, containerd) OCI 규격 표준화
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

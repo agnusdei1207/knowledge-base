@@ -1,10 +1,9 @@
-+++
-weight = 697
-title = "697. 파일 카나리 (File Canary)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 697. 파일 카나리 (File Canary)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 684
-title = "684. 씬 프로비저닝 (Thin Provisioning)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 684. 씬 프로비저닝 (Thin Provisioning)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 484
-title = "484. Identification and Authentication Failures (인증 및 세션 관리 실패)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 484. Identification and Authentication Failures (인증 및 세션 관리 실패)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

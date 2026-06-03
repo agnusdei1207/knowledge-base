@@ -1,10 +1,9 @@
-+++
-weight = 934
-title = "934. 물리적 접근 제어 (Card/RFID/Biometrics)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 934. 물리적 접근 제어 (Card/RFID/Biometrics)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

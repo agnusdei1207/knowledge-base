@@ -1,10 +1,9 @@
-+++
-weight = 1095
-title = "1095. BGP 속성 (Local Pref, MED, AS-path 구성비)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1095. BGP 속성 (Local Pref, MED, AS-path 구성비)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,14 +1,13 @@
-+++
-weight = 11
-title = "11: IT 디자인 및 감리 (Design & Supervision)"
-render = true
-sort_by = "weight"
-insert_anchor_links = "right"
-[extra]
-category = "studynote-design-supervision"
-kids_analogy = "건축가가 집을 멋지고 튼튼하게 설계하는 '디자인'과, 공사 현장에 가서 설계도대로 철근이 잘 들어갔는지 꼼꼼하게 검사하는 '감리' 선생님의 역할을 배우는 곳이에요!"
-+++
-# 도메인 11: IT 디자인 및 감리 (Design & Supervision)
+---
+title: '11: IT 디자인 및 감리 (Design & Supervision)'
+tags:
+- studynote-design-supervision
+---
+
+> 🧸 **어린이를 위한 비유**
+> 건축가가 집을 멋지고 튼튼하게 설계하는 '디자인'과, 공사 현장에 가서 설계도대로 철근이 잘 들어갔는지 꼼꼼하게 검사하는 '감리' 선생님의 역할을 배우는 곳이에요!
+
+---# 도메인 11: IT 디자인 및 감리 (Design & Supervision)
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 비즈니스 요구사항을 유연하고 확장 가능한 소프트웨어 구조(Architecture)로 추상화하는 '설계(Design)'와, 공학적 산출물이 보안/품질 표준을 준수하는지 제3자적 관점에서 통제하는 '감리(Audit)'.

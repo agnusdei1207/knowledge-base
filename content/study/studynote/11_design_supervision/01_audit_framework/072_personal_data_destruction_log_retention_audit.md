@@ -1,10 +1,9 @@
-+++
-weight = 72
-title = "72. 개인정보 파기 정책 및 로그 보존 기간 감리 (법적 요건)"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 72. 개인정보 파기 정책 및 로그 보존 기간 감리 (법적 요건)
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

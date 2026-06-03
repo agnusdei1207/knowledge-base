@@ -1,10 +1,9 @@
-+++
-weight = 85
-title = "85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

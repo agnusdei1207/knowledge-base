@@ -1,7 +1,8 @@
-+++
-title = "92. 탈중앙화 신탁 관리 (Decentralized Escrow)"
-weight = 92
-+++
+---
+title: 92. 탈중앙화 신탁 관리 (Decentralized Escrow)
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[010_decentralization|탈중앙화]] 신탁 관리 (Decentralized Escrow)는 [[022_smart_contract|스마트 컨트랙트]]를 활용해 중앙 관리자(은행, 플랫폼) 없이 거래 조건 달성 시 자금을 자동 이체하는 무신뢰 기반의 안전 결제 시스템이다.

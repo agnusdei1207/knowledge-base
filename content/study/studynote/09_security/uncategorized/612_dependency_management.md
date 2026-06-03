@@ -1,10 +1,9 @@
-+++
-weight = 612
-title = "612. 의존성 보안 관리 (Dependency Security Management)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 612. 의존성 보안 관리 (Dependency Security Management)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

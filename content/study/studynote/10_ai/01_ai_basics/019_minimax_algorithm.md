@@ -1,12 +1,11 @@
-+++
-weight = 19
-title = "19. 미니맥스 알고리즘 (Minimax Algorithm) - 턴제 게임 트리(체스, 틱택토)에서 자신은 최대(Max), 상대는 최소(Min)를 선택한다고 가정하고 탐색"
-description = "적대적 게임 환경에서 자신은 최대 이익을, 상대는 최소 이익을 선택한다고 가정하여 최적의 수를 찾는 트리 탐색 기법"
-date = "2024-05-24"
-[taxonomies]
-tags = ["인공지능", "게임이론", "탐색알고리즘", "미니맥스"]
-categories = ["studynote-ai"]
-+++
+---
+title: 19. 미니맥스 알고리즘 (Minimax Algorithm) - 턴제 게임 트리(체스, 틱택토)에서 자신은 최대(Max), 상대는 최소(Min)를
+  선택한다고 가정하고 탐색
+date: '2024-05-24'
+description: 적대적 게임 환경에서 자신은 최대 이익을, 상대는 최소 이익을 선택한다고 가정하여 최적의 수를 찾는 트리 탐색 기법
+tags:
+- ai
+---
 
 # 19. [[239_minimax_alpha_beta_pruning|미니맥스]] [[001_algorithm_definition|알고리즘]] ([[239_minimax_alpha_beta_pruning|Minimax]] [[001_algorithm_definition|Algorithm]])
 

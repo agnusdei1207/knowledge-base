@@ -1,10 +1,9 @@
-+++
-weight = 237
-title = "237. 도큐먼트 저장소 (Document Store) - MongoDB / Elasticsearch"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 237. 도큐먼트 저장소 (Document Store) - MongoDB / Elasticsearch
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 도큐먼트 저장소([[037_document|Document Store]])는 [[343_json|JSON]]/BSON 형태의 **계층적 중첩 구조**를 단일 문서([[037_document|Document]])로 저장하며, 각 문서가 서로 다른 필드를 가질 수 있는 **[[005_schema|스키마]]리스(Schema-less)** 유연성을 제공한다.

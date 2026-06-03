@@ -1,10 +1,9 @@
-+++
-weight = 333
-title = "333. 정수 오버플로우 (Integer Overflow)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 333. 정수 오버플로우 (Integer Overflow)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

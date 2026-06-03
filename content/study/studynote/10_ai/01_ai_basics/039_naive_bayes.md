@@ -1,9 +1,9 @@
-+++
-title = "039. 나이브 베이즈 (Naive Bayes) — 확률 기반 분류기"
-date = "2026-03-04"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 039. 나이브 베이즈 (Naive Bayes) — 확률 기반 분류기
+date: '2026-03-04'
+tags:
+- studynote-ai
+---
 
 > **핵심 인사이트**
 > 1. [[264_naive_bayes|나이브 베이즈]]([[078_Naive_Bayes|Naive Bayes]])는 베이즈 정리와 "모든 특성이 조건부 독립"이라는 단순(Naive) 가정을 결합한 [[130_probability|확률]]적 [[104_classification_analysis|분류]]기로, 이 가정은 현실에서는 거짓이지만 놀랍도록 잘 동작한다 — 특히 고차원·소량 [[001_dikw_pyramid|데이터]]에서 강점을 보인다.

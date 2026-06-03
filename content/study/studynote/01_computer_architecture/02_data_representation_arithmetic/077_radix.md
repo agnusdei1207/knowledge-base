@@ -1,10 +1,9 @@
-+++
-weight = 77
-title = "77. 기수 (Radix)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 77. 기수 (Radix)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 # 기수 (Radix)
 

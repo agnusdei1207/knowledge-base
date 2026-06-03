@@ -1,10 +1,9 @@
-+++
-weight = 193
-title = "193. 응집도 (Cohesion) - 모듈 내부 요소들의 연관 정도 (높을수록 좋음)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 193. 응집도 (Cohesion) - 모듈 내부 요소들의 연관 정도 (높을수록 좋음)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

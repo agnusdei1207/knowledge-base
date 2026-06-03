@@ -1,4 +1,8 @@
-# 🛠️ 사내 표준 기술 스택 (Tech Stack)
+---
+title: 🛠️ 사내 표준 기술 스택 (Tech Stack)
+tags:
+- work
+---
 
 우리 조직에서 사용하고 연구하는 핵심 기술 및 라이브러리 목록과 가이드라인입니다. 각 기술의 이론적 배경과 기초 개념은 관련 **[[study/studynote/_index|Study Note]]**에서 깊이 있게 학습할 수 있습니다.
 

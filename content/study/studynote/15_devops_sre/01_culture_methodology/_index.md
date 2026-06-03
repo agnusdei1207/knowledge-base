@@ -1,8 +1,8 @@
-+++
-weight = 1
-title = "01. 데브옵스 문화 및 방법론"
-sort_by = "weight"
-+++
+---
+title: 01. 데브옵스 문화 및 방법론
+tags:
+- devops_sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

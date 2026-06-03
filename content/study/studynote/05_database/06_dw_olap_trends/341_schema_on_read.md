@@ -1,10 +1,9 @@
-+++
-weight = 341
-title = "341. 스키마 온 리드 (Schema-on-read)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 341. 스키마 온 리드 (Schema-on-read)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 428
-title = "428. ROC AUC 임계치 곡선 (ROC AUC Threshold Curve)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 428. ROC AUC 임계치 곡선 (ROC AUC Threshold Curve)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

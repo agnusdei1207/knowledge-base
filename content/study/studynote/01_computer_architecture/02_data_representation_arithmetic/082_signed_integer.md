@@ -1,10 +1,9 @@
-+++
-weight = 82
-title = "82. 부호 있는 정수 (Signed Integer)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 82. 부호 있는 정수 (Signed Integer)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 부호 있는 정수(Signed Integer)는 [[001_dikw_pyramid|데이터]]의 최상위 [[073_bit|비트]]([[080_msb|MSB]])를 부호 [[073_bit|비트]]로 희생하여 양수(+)와 음수(-)를 동시에 표현하는 [[369_logic_bomb|논리]]적 [[001_dikw_pyramid|데이터]] 체계다.

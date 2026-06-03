@@ -1,10 +1,9 @@
-+++
-weight = 381
-title = "381. 메이먼의 법칙 (Lehman's Laws of Software Evolution) - 지속적 변경, 복잡도 증가의 법칙"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 381. 메이먼의 법칙 (Lehman's Laws of Software Evolution) - 지속적 변경, 복잡도 증가의 법칙
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

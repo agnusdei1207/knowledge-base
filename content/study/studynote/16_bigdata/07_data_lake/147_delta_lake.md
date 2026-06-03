@@ -1,10 +1,9 @@
-+++
-weight = 147
-title = "147. Delta Lake — ACID 트랜잭션 지원 오픈 테이블 포맷"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 147. Delta Lake — ACID 트랜잭션 지원 오픈 테이블 포맷
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. Delta Lake는 [[178_parquet_rle_encoding_columnar_compression|Parquet]] [[501_file_definition_logical_record|파일]] 위에 **`_delta_log` [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]]**를 추가하여 객체 스토리지에서 ACID ([[193_atomicity_all_or_nothing|Atomicity]], [[194_consistency_database_integrity|Consistency]], [[195_isolation_concurrency_control|Isolation]], [[196_durability_permanent_storage|Durability]]) [[191_transaction_concept_states|트랜잭션]]을 실현한 [[191_oss_license_compliance|오픈소스]] 스토리지 레이어다.

@@ -1,10 +1,9 @@
-+++
-weight = 202
-title = "202. 완전 공정 스케줄러 (CFS, Completely Fair Scheduler)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 202. 완전 공정 스케줄러 (CFS, Completely Fair Scheduler)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

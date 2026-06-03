@@ -1,10 +1,9 @@
-+++
-weight = 497
-title = "497. O-RAN 오픈 무선 접속 네트워크 (O-RAN Open Radio Access Network)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 497. O-RAN 오픈 무선 접속 네트워크 (O-RAN Open Radio Access Network)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

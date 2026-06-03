@@ -1,10 +1,9 @@
-+++
-weight = 218
-title = "213. 유통·물류 빅데이터 (Retail & Logistics Big Data) — 수요예측/재고최적화/배송경로"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 213. 유통·물류 빅데이터 (Retail & Logistics Big Data) — 수요예측/재고최적화/배송경로
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

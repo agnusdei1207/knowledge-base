@@ -1,10 +1,9 @@
-+++
-weight = 142
-title = "142. P2P 통합 (Point-to-Point) - 스파게티 통합의 문제"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 142. P2P 통합 (Point-to-Point) - 스파게티 통합의 문제
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] 통합은 **시스템 간 1:1로 직접 연결(인터페이스)**하는 가장 단순한 통합 방식이며, N개 시스템이면 **최대 N(N-1)/2개 인터페이스**가 필요하다.

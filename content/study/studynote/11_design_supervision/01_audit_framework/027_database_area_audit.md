@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. 데이터베이스 영역 감리 (Database Area Audit)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 27. 데이터베이스 영역 감리 (Database Area Audit)
+date: '2026-04-29'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[002_database_definition|데이터베이스]] 영역 감리는 [[187_information_system_audit|정보시스템 감리]] 5대 영역 중 DB 설계 품질·[[001_dikw_pyramid|데이터]] 표준 준수·[[003_integrity|무결성]]·[[282_performance_tactics|성능]]·보안을 점검하는 영역으로, ERD 적정성·[[093_normalization|정규화]] 수준·[[154_database_index_b_tree_search_optimization|인덱스]] 설계·[[555_backup_and_restore_strategy|백업]] [[164_policy|정책]]·[[387_access_control_pattern|접근 통제]] 등을 종합 검토한다.

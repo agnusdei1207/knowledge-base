@@ -1,10 +1,9 @@
-+++
-weight = 365
-title = "365. 시큐어 부트 우회 (Secure Boot Bypass)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 365. 시큐어 부트 우회 (Secure Boot Bypass)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

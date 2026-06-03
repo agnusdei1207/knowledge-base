@@ -1,10 +1,9 @@
-+++
-weight = 395
-title = "395. 이기종 멀티코어 (Heterogeneous Multi-core)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 395. 이기종 멀티코어 (Heterogeneous Multi-core)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

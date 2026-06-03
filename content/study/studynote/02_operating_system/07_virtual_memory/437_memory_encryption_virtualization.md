@@ -1,10 +1,9 @@
-+++
-weight = 437
-title = "437. 메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 437. 메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

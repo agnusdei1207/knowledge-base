@@ -1,8 +1,8 @@
-+++
-weight = 10
-title = "10. PKI 및 보안 프로토콜"
-sort_by = "weight"
-+++
+---
+title: 10. PKI 및 보안 프로토콜
+tags:
+- security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

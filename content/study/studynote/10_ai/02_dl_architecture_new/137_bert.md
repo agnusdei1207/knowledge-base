@@ -1,10 +1,9 @@
-+++
-weight = 137
-title = "137. BERT (Bidirectional Encoder Representations from Transformers)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 137. BERT (Bidirectional Encoder Representations from Transformers)
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BERT는 **Transformer의 Encoder만 사용**하여 양방향(Bidirectional)으로 문맥을 이해하는 사전 학습 언어 모델이며, [[138_mlm_learning|MLM]]([[138_mlm_learning|Masked Language Model]])과 [[139_nsp_next_sentence_prediction|NSP]]([[139_nsp_next_sentence_prediction|Next Sentence Prediction]])로 학습한다.

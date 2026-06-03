@@ -1,10 +1,9 @@
-+++
-weight = 429
-title = "429. 마이크로 세그멘테이션 기반 제로 트러스트 (Microsegmentation, Zero Trust)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 429. 마이크로 세그멘테이션 기반 제로 트러스트 (Microsegmentation, Zero Trust)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]는 "절대 먼저 믿지 않고 항상 [[395_verification_process_review|검증]]"하는 보안 원칙이며, [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]은 이를 네트워크·워크로드 경계에 구현하는 대표 수단이다.

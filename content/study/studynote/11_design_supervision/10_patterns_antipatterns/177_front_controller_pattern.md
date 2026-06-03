@@ -1,10 +1,9 @@
-+++
-weight = 177
-title = "177. 프론트 컨트롤러 패턴 (Front Controller Pattern)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 177. 프론트 컨트롤러 패턴 (Front Controller Pattern)
+date: '2026-05-06'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

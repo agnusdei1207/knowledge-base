@@ -1,10 +1,9 @@
-+++
-weight = 543
-title = "543. 양자 내성 암호 가속기 (PQC Accelerator)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 543. 양자 내성 암호 가속기 (PQC Accelerator)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

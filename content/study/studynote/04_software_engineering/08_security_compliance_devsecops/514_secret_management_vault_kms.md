@@ -1,10 +1,9 @@
-+++
-weight = 514
-title = "514. 시크릿(Secret) 관리 도구 - 하드코딩 금지, HashiCorp Vault, AWS Secrets Manager 활용"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 514. 시크릿(Secret) 관리 도구 - 하드코딩 금지, HashiCorp Vault, AWS Secrets Manager 활용
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

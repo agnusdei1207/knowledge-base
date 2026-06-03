@@ -1,10 +1,9 @@
-+++
-weight = 50
-title = "22. 힙 정렬 (Heap Sort) — O(n log n), 불안정, 제자리"
-date = "2026-04-02"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 22. 힙 정렬 (Heap Sort) — O(n log n), 불안정, 제자리
+date: '2026-04-02'
+tags:
+- studynote-algorithm
+---
 
 # [[024_selection_sort|선택 정렬]] ([[024_selection_sort|Selection Sort]]) [[001_algorithm_definition|알고리즘]]
 

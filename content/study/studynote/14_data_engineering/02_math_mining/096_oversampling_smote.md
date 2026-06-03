@@ -1,10 +1,9 @@
-+++
-weight = 96
-title = "불균형 데이터 증강 (Oversampling) - SMOTE"
-date = "2026-03-04"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 불균형 데이터 증강 (Oversampling) - SMOTE
+date: '2026-03-04'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

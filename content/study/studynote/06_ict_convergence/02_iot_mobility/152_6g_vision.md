@@ -1,11 +1,10 @@
-+++
-weight = 152
-title = "152. 6G 통신망 비전 (6G Vision) - 테라헤르츠와 NTN이 여는 전 지구 초공간 텔레파시"
-date = "2026-05-03"
-description = "테라헤르츠(THz) 대역폭과 비지상 통신망(NTN)을 활용해 전 지구적 초공간 커버리지를 구현하는 AI 내재화 차세대 네트워크"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 152. 6G 통신망 비전 (6G Vision) - 테라헤르츠와 NTN이 여는 전 지구 초공간 텔레파시
+date: '2026-05-03'
+description: 테라헤르츠(THz) 대역폭과 비지상 통신망(NTN)을 활용해 전 지구적 초공간 커버리지를 구현하는 AI 내재화 차세대 네트워크
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[419_6g_ntn_thz_ris_next_gen|6G]] 통신망은 [[156_mmwave_millimeter_wave|밀리미터파]]([[418_5g_embb_urllc_mmtc_slicing|5G]])를 초월한 **[[157_terahertz_thz_6g|테라헤르츠]]([[157_terahertz_thz_6g|THz]])** 주파수 대역의 초광속 빔을 사용하여 초당 테라비트(1 Tbps) 우주 폭발 전송률을 달성하고, 코어부터 엣지 [[171_antenna_basic_dipole_resonance|안테나]]까지 100% [[231_ai_turing_test|인공지능]] 신경망으로 제어되는 **[[190_ai_llm_requirements_specification|AI]] 내재화([[792_ai_native_6g_neural_network_radio|AI-Native]])** 아키텍처다.

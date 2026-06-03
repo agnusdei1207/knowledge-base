@@ -1,10 +1,9 @@
-+++
-weight = 57
-title = "57. 데이터 이행 성공 기준 검증 (Data Migration Success Verification)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 57. 데이터 이행 성공 기준 검증 (Data Migration Success Verification)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

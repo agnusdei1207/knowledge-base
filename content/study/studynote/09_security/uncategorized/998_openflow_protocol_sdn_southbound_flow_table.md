@@ -1,10 +1,9 @@
-+++
-weight = 998
-title = "998. OpenFlow 프로토콜 (Openflow Protocol Sdn Southbound Flow Table)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 998. OpenFlow 프로토콜 (Openflow Protocol Sdn Southbound Flow Table)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

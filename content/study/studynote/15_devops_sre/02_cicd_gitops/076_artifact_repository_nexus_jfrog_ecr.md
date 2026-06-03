@@ -1,10 +1,9 @@
-+++
-weight = 76
-title = "76. 아티팩트 리포지토리 - Nexus, JFrog, AWS ECR 이미지 저장소"
-date = "2026-04-10"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: 76. 아티팩트 리포지토리 - Nexus, JFrog, AWS ECR 이미지 저장소
+date: '2026-04-10'
+tags:
+- studynote-devops
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

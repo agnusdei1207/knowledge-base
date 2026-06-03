@@ -1,10 +1,10 @@
-+++
-weight = 362
-title = "362. O-RAN 프론트홀 화이트박스 분리 아키텍처 (O-RAN Open Radio Access Network Fronthaul Whitebox Disaggregation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 362. O-RAN 프론트홀 화이트박스 분리 아키텍처 (O-RAN Open Radio Access Network Fronthaul Whitebox
+  Disaggregation)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

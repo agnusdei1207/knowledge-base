@@ -1,10 +1,9 @@
-+++
-weight = 30
-title = "30. 오토 스케일링 — 클라우드 자동 용량 조정"
-date = "2026-04-29"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 30. 오토 스케일링 — 클라우드 자동 용량 조정
+date: '2026-04-29'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 오토 [[249_scaling_normalization_standardization|스케일링]](Auto Scaling)은 부하 변화에 따라 서버 인스턴스 수([[202_scale_out_distributed_horizontal_expansion|스케일 아웃]]/인) 또는 인스턴스 크기([[621_scale_up_system_bus|스케일 업]]/다운)를 자동으로 조정하는 클라우드 핵심 기능이다.

@@ -1,10 +1,9 @@
-+++
-weight = 120
-title = "120. 데이터 역공학 (Data Reverse Engineering) - 기존 DB에서 ERD·모델 복원"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 120. 데이터 역공학 (Data Reverse Engineering) - 기존 DB에서 ERD·모델 복원
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] [[029_reverse_engineering|역공학]]은 **문서 없는 기존 DB의 물리 [[005_schema|스키마]](테이블·컬럼·[[154_database_index_b_tree_search_optimization|인덱스]]·FK)를 분석하여 ERD·개념 모델·[[393_data_dictionary|데이터 사전]]을 복원**하는 프로세스다.

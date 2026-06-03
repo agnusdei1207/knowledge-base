@@ -1,10 +1,9 @@
-+++
-weight = 270
-title = "270. 쿠키 하이재킹 (Cookie Hijacking)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 270. 쿠키 하이재킹 (Cookie Hijacking)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

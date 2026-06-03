@@ -1,10 +1,9 @@
-+++
-weight = 116
-title = "116. 바이트 정렬 (Byte Ordering)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 116. 바이트 정렬 (Byte Ordering)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[074_byte|바이트]] 정렬([[074_byte|Byte]] [[277_semaphore_ordering|Ordering]])은 1바이트(8비트)를 초과하는 멀티바이트 [[001_dikw_pyramid|데이터]](int, float 등)를 연속된 메모리 주소나 네트워크 스트림에 **어떤 순서로 끊어 배치할 것인지** 약속한 아키텍처 규약이다.

@@ -1,10 +1,9 @@
-+++
-weight = 344
-title = "344. 옴니채널 고객 경험 일관성 O2O 진화 (Omnichannel Customer Experience)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 344. 옴니채널 고객 경험 일관성 O2O 진화 (Omnichannel Customer Experience)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

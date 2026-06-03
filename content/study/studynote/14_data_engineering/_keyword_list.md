@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "16. 빅데이터 및 데이터 과학 키워드 목록"
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 16. 빅데이터 및 데이터 과학 키워드 목록
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # 빅데이터 (Big [[001_dikw_pyramid|Data]]) 및 [[001_dikw_pyramid|데이터]] 과학 키워드 목록 (심화 확장판)

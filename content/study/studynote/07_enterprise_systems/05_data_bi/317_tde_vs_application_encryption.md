@@ -1,10 +1,9 @@
-+++
-weight = 317
-title = "317. TDE vs 애플리케이션 레벨 암호화 - 데이터베이스 암호화 전략"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 317. TDE vs 애플리케이션 레벨 암호화 - 데이터베이스 암호화 전략
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 425
-title = "425. 조건/결정 커버리지 (Condition/Decision Coverage) - 개별 조건과 전체 결정이 모두 참/거짓을 가짐"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 425. 조건/결정 커버리지 (Condition/Decision Coverage) - 개별 조건과 전체 결정이 모두 참/거짓을 가짐
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 76
-title = "76. 서비스 데스크 및 인시던트 관리 체계 감리"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 76. 서비스 데스크 및 인시던트 관리 체계 감리
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

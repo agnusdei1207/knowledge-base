@@ -1,9 +1,8 @@
-+++
-weight = 17
-title = "17. 보안 프레임워크 및 컴플라이언스 (Framework & Compliance)"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 17. 보안 프레임워크 및 컴플라이언스 (Framework & Compliance)
+tags:
+- studynote-security
+---
 
 # 17. 보안 프레임워크 및 컴플라이언스
 

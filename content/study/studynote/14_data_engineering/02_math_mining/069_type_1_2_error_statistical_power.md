@@ -1,10 +1,9 @@
-+++
-weight = 69
-title = "69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리"
-date = "2026-04-10"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리
+date: '2026-04-10'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

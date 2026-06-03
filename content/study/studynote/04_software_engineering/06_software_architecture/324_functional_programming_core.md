@@ -1,10 +1,9 @@
-+++
-weight = 324
-title = "324. 함수형 프로그래밍 (Functional Programming) - 일급 객체, 순수 함수, 불변성"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 324. 함수형 프로그래밍 (Functional Programming) - 일급 객체, 순수 함수, 불변성
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

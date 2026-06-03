@@ -1,10 +1,9 @@
-+++
-weight = 449
-title = "449. 브로드캐스트 / 멀티캐스트 전송은 UDP만 가능"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 449. 브로드캐스트 / 멀티캐스트 전송은 UDP만 가능
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

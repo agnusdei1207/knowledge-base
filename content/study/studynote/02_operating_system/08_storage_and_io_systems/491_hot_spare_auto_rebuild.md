@@ -1,10 +1,9 @@
-+++
-weight = 491
-title = "491. 핫 스페어 (Hot Spare) 디스크 자동 재구성"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 491. 핫 스페어 (Hot Spare) 디스크 자동 재구성
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,12 +1,11 @@
-+++
-weight = 9
-title = "9. 하이브리드 클라우드 (Hybrid Cloud) - 퍼블릭과 프라이빗(또는 레거시) 클라우드를 망연계(VPN, 전용선)하여 혼용하는 모델"
-description = "퍼블릭 클라우드의 무한한 확장성과 프라이빗 클라우드의 철통 보안을 결합한 최적의 엔터프라이즈 인프라 아키텍처"
-date = "2024-05-24"
-[taxonomies]
-tags = ["Hybrid Cloud", "Direct Connect", "Cloud Bursting", "VPN", "Cloud Architecture"]
-categories = ["studynote-cloud"]
-+++
+---
+title: 9. 하이브리드 클라우드 (Hybrid Cloud) - 퍼블릭과 프라이빗(또는 레거시) 클라우드를 망연계(VPN, 전용선)하여 혼용하는
+  모델
+date: '2024-05-24'
+description: 퍼블릭 클라우드의 무한한 확장성과 프라이빗 클라우드의 철통 보안을 결합한 최적의 엔터프라이즈 인프라 아키텍처
+tags:
+- cloud_architecture
+---
 
 # 9. 하이브리드 클라우드 (Hybrid Cloud)
 

@@ -1,10 +1,9 @@
-+++
-weight = 83
-title = "28. 우선순위 큐 (Priority Queue)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 28. 우선순위 큐 (Priority Queue)
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 우선순위 큐(Priority [[058_queue|Queue]])는 삽입된 순서가 아닌 우선순위(Priority) 기준으로 원소를 꺼내는 추상 자료형(ADT)이다. 최솟값 또는 최댓값이 항상 먼저 나온다.

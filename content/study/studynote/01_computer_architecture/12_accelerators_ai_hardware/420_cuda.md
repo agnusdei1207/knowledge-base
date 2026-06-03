@@ -1,10 +1,9 @@
-+++
-weight = 420
-title = "420. CUDA (Compute Unified Device Architecture)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 420. CUDA (Compute Unified Device Architecture)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

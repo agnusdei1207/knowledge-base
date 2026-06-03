@@ -1,10 +1,9 @@
-+++
-weight = 482
-title = "482. 블록체인 트릴레마: 확장성-탈중앙화-보안 (Blockchain Trilemma)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: '482. 블록체인 트릴레마: 확장성-탈중앙화-보안 (Blockchain Trilemma)'
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

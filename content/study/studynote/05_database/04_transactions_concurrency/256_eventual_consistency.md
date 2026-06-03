@@ -1,10 +1,9 @@
-+++
-weight = 256
-title = "256. 결과적 일관성 (Eventual Consistency)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 256. 결과적 일관성 (Eventual Consistency)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

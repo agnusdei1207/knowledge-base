@@ -1,10 +1,9 @@
-+++
-weight = 185
-title = "185. K-익명성 (K-Anonymity), 마스킹 (Masking) 파이프 자동 변환"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 185. K-익명성 (K-Anonymity), 마스킹 (Masking) 파이프 자동 변환
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

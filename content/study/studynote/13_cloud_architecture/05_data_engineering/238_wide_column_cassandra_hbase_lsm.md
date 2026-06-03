@@ -1,10 +1,9 @@
-+++
-weight = 238
-title = "238. 와이드 컬럼 저장소 (Wide-Column Store) - Cassandra / HBase"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 238. 와이드 컬럼 저장소 (Wide-Column Store) - Cassandra / HBase
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[038_wide_column|와이드 컬럼 저장소]](Wide-Column Store)는 행 키(Row [[067_db_key_uniqueness_minimality|Key]]) 기반으로 컬럼 패밀리를 구성하며, **페타바이트 규모의 시계열·이벤트 [[001_dikw_pyramid|데이터]]를 초당 수십만 건 [[289_cqrs_db|쓰기]]**에 최적화된 [[136_variance|분산]] DB다.

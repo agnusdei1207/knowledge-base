@@ -1,10 +1,9 @@
-+++
-weight = 341
-title = "341. 데이터 스튜어드 품질 오너십 (Data Steward Quality Ownership)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 341. 데이터 스튜어드 품질 오너십 (Data Steward Quality Ownership)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

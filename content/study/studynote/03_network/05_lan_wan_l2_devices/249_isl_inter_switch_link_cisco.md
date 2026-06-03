@@ -1,10 +1,9 @@
-+++
-weight = 249
-title = "249. ISL (Inter-Switch Link)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 249. ISL (Inter-Switch Link)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

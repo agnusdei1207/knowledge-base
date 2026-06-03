@@ -1,10 +1,9 @@
-+++
-weight = 79
-title = "26. 단조 스택 (Monotonic Stack) — 다음 크거나 작은 원소 O(n) 탐색"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 26. 단조 스택 (Monotonic Stack) — 다음 크거나 작은 원소 O(n) 탐색
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 단조 [[057_stack|스택]](Monotonic [[057_stack|Stack]])은 [[057_stack|스택]] 내 원소가 단조 증가(Monotonically Increasing) 또는 단조 감소(Monotonically Decreasing) 순서를 유지하는 특수 [[057_stack|스택]] 패턴으로, 배열에서 각 원소의 "다음으로 더 큰 원소(Next Greater Element)" 또는 "다음으로 더 작은 원소"를 O(n)에 찾는 데 특화되어 있다.

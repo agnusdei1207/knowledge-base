@@ -1,10 +1,9 @@
-+++
-title = "041. 멀티플렉서 (MUX, Multiplexer)"
-weight = 41
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 041. 멀티플렉서 (MUX, Multiplexer)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 > **핵심 인사이트**
 > 1. 멀티플렉서([[944_mux_demux_multiplexer_demultiplexer_circuit_sharing|MUX]])는 2ⁿ개의 입력 중 n비트 선택 [[130_signal|신호]]([[520_select|Select]] Line)에 의해 하나의 입력을 출력으로 선택하는 조합 [[369_logic_bomb|논리]] 회로로, 디지털 시스템에서 [[130_signal|신호]] [[339_routing_overview_best_path_selection|라우팅]]([[339_routing_overview_best_path_selection|Routing]])과 [[001_dikw_pyramid|데이터]] 선택의 핵심 빌딩 블록이다.

@@ -1,10 +1,9 @@
-+++
-weight = 274
-title = "274. WAF (웹 애플리케이션 방화벽) 룰셋 인그레스(Ingress) 계층 통합 로직망"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 274. WAF (웹 애플리케이션 방화벽) 룰셋 인그레스(Ingress) 계층 통합 로직망
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

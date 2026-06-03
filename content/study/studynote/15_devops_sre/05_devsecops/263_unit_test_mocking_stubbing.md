@@ -1,10 +1,9 @@
-+++
-weight = 263
-title = "263. 유닛 테스트 (Unit Test) 함수 격리망 프레임워크 모킹(Mocking), 스터빙(Stubbing) 더블 기법"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 263. 유닛 테스트 (Unit Test) 함수 격리망 프레임워크 모킹(Mocking), 스터빙(Stubbing) 더블 기법
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

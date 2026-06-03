@@ -1,10 +1,9 @@
-+++
-weight = 185
-title = "185. 네트워크 지터 (Network Jitter) 및 패킷 손실 관측 메트릭"
-date = "2026-04-28"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 185. 네트워크 지터 (Network Jitter) 및 패킷 손실 관측 메트릭
+date: '2026-04-28'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

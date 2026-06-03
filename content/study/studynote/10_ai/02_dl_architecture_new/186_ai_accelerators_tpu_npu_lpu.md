@@ -1,10 +1,9 @@
-+++
-weight = 186
-title = "186. AI 반도체 엑셀러레이터 (TPU, NPU, LPU)"
-date = "2026-04-17"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 186. AI 반도체 엑셀러레이터 (TPU, NPU, LPU)
+date: '2026-04-17'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

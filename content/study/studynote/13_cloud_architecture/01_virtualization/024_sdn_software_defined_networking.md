@@ -1,10 +1,9 @@
-+++
-weight = 24
-title = "24. SDN (Software Defined Networking) — 소프트웨어 정의 네트워킹"
-date = "2026-04-29"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 24. SDN (Software Defined Networking) — 소프트웨어 정의 네트워킹
+date: '2026-04-29'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[633_sdn_whitebox|SDN]] ([[215_sdn_software_defined_networking_openflow|Software Defined Networking]], [[850_sdn_software_defined_networking_concept|소프트웨어 정의 네트워킹]])은 네트워크 장비의 제어 평면(Control Plane)과 [[001_dikw_pyramid|데이터]] 전송 평면([[001_dikw_pyramid|Data]] Plane)을 분리하여, 중앙 집중형 컨트롤러([[633_sdn_whitebox|SDN]] Controller)가 전체 네트워크를 소프트웨어로 프로그래밍·관리하는 아키텍처다.

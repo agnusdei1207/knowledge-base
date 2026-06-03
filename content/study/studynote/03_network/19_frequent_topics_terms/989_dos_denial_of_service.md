@@ -1,10 +1,9 @@
-+++
-weight = 989
-title = "989. 서비스 거부 공격 (DoS)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 989. 서비스 거부 공격 (DoS)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

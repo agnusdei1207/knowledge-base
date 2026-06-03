@@ -1,10 +1,9 @@
-+++
-weight = 159
-title = "159. 결과적 일관성 (Eventual Consistency)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 159. 결과적 일관성 (Eventual Consistency)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[650_eventual_consistency|결과적 일관성]] ([[650_eventual_consistency|Eventual Consistency]])이란 [[136_variance|분산]] 시스템에서 즉각적인 강일관성(Strong [[194_consistency_database_integrity|Consistency]]) 대신 "충분한 시간이 흐르면 모든 노드의 [[001_dikw_pyramid|데이터]]가 일치하게 된다"는 사상으로, [[341_process|CAP]] 이론의 A([[452_availability|가용성]])와 P([[136_variance|분산]] 내성) 선택 시 C([[194_consistency_database_integrity|일관성]])를 완화한 결과다.

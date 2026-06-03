@@ -1,10 +1,9 @@
-+++
-weight = 126
-title = "126. Positional Encoding - Transformer에 순서 정보를 주입하는 기법"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 126. Positional Encoding - Transformer에 순서 정보를 주입하는 기법
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Positional Encoding은 **Self-Attention이 순서를 모르는 한계를 보완**하기 위해 각 토큰의 위치 정보를 **sin/cos 함수 또는 학습 벡터**로 [[278_instruction_tuning|임베딩]]에 더하는 기법이다.

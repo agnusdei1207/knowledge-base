@@ -1,10 +1,9 @@
-+++
-weight = 239
-title = "239. 게이트웨이 MSA 진입점 패턴 (Gateway MSA Entry Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 239. 게이트웨이 MSA 진입점 패턴 (Gateway MSA Entry Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

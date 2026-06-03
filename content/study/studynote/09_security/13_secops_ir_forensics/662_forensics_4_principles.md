@@ -1,10 +1,9 @@
-+++
-weight = 662
-title = "662. 포렌식 4원칙 (Digital Forensics Principles)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 662. 포렌식 4원칙 (Digital Forensics Principles)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

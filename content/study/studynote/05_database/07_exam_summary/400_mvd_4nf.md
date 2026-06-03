@@ -1,10 +1,9 @@
-+++
-weight = 400
-title = "400. MVD (다치 종속) 제4정규형"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 400. MVD (다치 종속) 제4정규형
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

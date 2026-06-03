@@ -1,10 +1,9 @@
-+++
-weight = 467
-title = "467. 양자 내성 암호 격자 기반 (PQC, Post-Quantum Cryptography)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 467. 양자 내성 암호 격자 기반 (PQC, Post-Quantum Cryptography)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

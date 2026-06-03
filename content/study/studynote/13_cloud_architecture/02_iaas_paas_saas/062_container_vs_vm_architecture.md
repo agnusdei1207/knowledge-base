@@ -1,10 +1,9 @@
-+++
-weight = 62
-title = "62. 컨테이너 vs 가상머신(VM)"
-date = "2026-04-07"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 62. 컨테이너 vs 가상머신(VM)
+date: '2026-04-07'
+tags:
+- studynote-cloud
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

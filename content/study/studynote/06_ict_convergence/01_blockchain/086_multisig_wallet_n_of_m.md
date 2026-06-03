@@ -1,7 +1,9 @@
-+++
-title = "86. 지갑 멀티시그 (Multi-Sig, Multi-Signature) - 출금을 위해 N명 중 M명 이상의 서명이 필요한 보안 지갑 구조"
-weight = 86
-+++
+---
+title: 86. 지갑 멀티시그 (Multi-Sig, Multi-Signature) - 출금을 위해 N명 중 M명 이상의 서명이 필요한 보안 지갑
+  구조
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

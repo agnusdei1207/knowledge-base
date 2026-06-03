@@ -1,9 +1,9 @@
-+++
-title = "038. 피벗과 린 스타트업 (Pivot & Lean Startup)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 038. 피벗과 린 스타트업 (Pivot & Lean Startup)
+date: '2026-03-03'
+tags:
+- studynote-it-management
+---
 
 > **핵심 인사이트**
 > 1. [[037_pivot|피벗]]([[037_pivot|Pivot]])은 실패가 아니라 학습에 기반한 전략적 방향 전환으로, Eric Ries의 [[035_lean_startup|린 스타트업]] 프레임워크에서 "가설이 틀렸음이 검증되었을 때 핵심 요소는 유지하면서 다른 요소를 바꾸는 것"으로 정의된다.

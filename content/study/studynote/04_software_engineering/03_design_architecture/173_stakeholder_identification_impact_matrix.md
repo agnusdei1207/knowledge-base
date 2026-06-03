@@ -1,12 +1,11 @@
-+++
-weight = 173
-title = "173. 이해관계자 (Stakeholder) 식별 및 영향도 매트릭스"
-description = "프로젝트에 영향을 주거나 영향을 받는 이해관계자를 식별하고, 영향력과 관심도를 기준으로 우선순위와 참여 전략을 설계하는 방법을 정리한다."
-date = "2026-04-03"
-[taxonomies]
-tags = ["이해관계자", "Stakeholder", "이해관계자 매트릭스", "프로젝트 관리", "소프트웨어 공학", "Power-Interest Matrix", "요구사항 분석", "PMBOK"]
-categories = ["Software Engineering"]
-+++
+---
+title: 173. 이해관계자 (Stakeholder) 식별 및 영향도 매트릭스
+date: '2026-04-03'
+description: 프로젝트에 영향을 주거나 영향을 받는 이해관계자를 식별하고, 영향력과 관심도를 기준으로 우선순위와 참여 전략을 설계하는 방법을
+  정리한다.
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

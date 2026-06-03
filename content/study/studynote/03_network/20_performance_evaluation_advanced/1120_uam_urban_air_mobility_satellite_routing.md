@@ -1,10 +1,9 @@
-+++
-weight = 1120
-title = "1120. 위성 기반 도심항공교통(UAM) 라우팅 통신 구조 모델"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1120. 위성 기반 도심항공교통(UAM) 라우팅 통신 구조 모델
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "044. 카파 아키텍처 — 단일 스트리밍 레이어"
-weight = 44
-date = "2026-04-05"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 044. 카파 아키텍처 — 단일 스트리밍 레이어
+date: '2026-04-05'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[096_kappa_architecture|카파 아키텍처]]([[096_kappa_architecture|Kappa Architecture]])는 Jay Kreps(LinkedIn)가 2014년 제안한 [[001_dikw_pyramid|데이터]] 처리 아키텍처로 — [[216_lambda_kappa_architecture_batch_realtime|람다]] 아키텍처의 "배치 + 스피드 레이어 이중 코드" 문제를 스트리밍 레이어 하나로 통합하여 해결한다.

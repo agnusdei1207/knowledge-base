@@ -1,10 +1,9 @@
-+++
-weight = 796
-title = "796. 스크럼 스프린트 회고(Retrospective) 개선 액션 도출"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 796. 스크럼 스프린트 회고(Retrospective) 개선 액션 도출
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

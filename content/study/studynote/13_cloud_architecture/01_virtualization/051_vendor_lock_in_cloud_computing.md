@@ -1,10 +1,9 @@
-+++
-weight = 51
-title = "51. 벤더 종속 (Vendor Lock-in) - 클라우드 아키텍처의 함정"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 51. 벤더 종속 (Vendor Lock-in) - 클라우드 아키텍처의 함정
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 # 51. 벤더 종속 ([[254_cloud_vendor_lock_in_avoidance_portability_multi_cloud|Vendor Lock-in]])
 

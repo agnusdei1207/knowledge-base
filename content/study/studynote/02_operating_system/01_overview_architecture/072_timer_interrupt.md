@@ -1,10 +1,9 @@
-+++
-weight = 72
-title = "72. 타이머 인터럽트 - 선점형 스케줄링의 기반"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 72. 타이머 인터럽트 - 선점형 스케줄링의 기반
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

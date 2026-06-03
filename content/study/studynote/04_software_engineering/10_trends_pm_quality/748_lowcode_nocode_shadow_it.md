@@ -1,10 +1,9 @@
-+++
-weight = 748
-title = "748. 로우코드/노코드 섀도우 IT 거버넌스"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 748. 로우코드/노코드 섀도우 IT 거버넌스
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

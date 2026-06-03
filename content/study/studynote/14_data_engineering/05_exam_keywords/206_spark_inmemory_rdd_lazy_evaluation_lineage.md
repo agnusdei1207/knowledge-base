@@ -1,10 +1,9 @@
-+++
-weight = 206
-title = "206. 아파치 스파크 (Apache Spark) 인메모리 RDD 지연 평가 계보"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 206. 아파치 스파크 (Apache Spark) 인메모리 RDD 지연 평가 계보
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Spark의 [[310_audit|RDD]] ([[025_spark_rdd_resilient_distributed_dataset|Resilient Distributed Dataset]])는 불변성(Immutability)·[[136_variance|분산]]성(Distribution)·내결함성([[800_system_architecture_fault_tolerance_dual|Fault Tolerance]])을 가진 [[136_variance|분산]] [[001_dikw_pyramid|데이터]] 컬렉션으로, [[023_lazy_evaluation|지연 평가]]([[023_lazy_evaluation|Lazy Evaluation]])와 [[401_bayesian_network_dag_causality|DAG]] ([[255_apache_airflow_dag|Directed Acyclic Graph]]) [[079_kube_scheduler_pod_placement|스케줄러]]를 통해 [[018_mapreduce|MapReduce]] 대비 [[489_raid_10_hybrid|10]]~100배 [[282_performance_tactics|성능]]을 달성한다.

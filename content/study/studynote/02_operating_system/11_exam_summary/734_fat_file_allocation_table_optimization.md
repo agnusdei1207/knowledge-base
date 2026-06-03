@@ -1,10 +1,9 @@
-+++
-weight = 734
-title = "734. FAT 방식 연결 할당 최적화 (Fat File Allocation Table Optimization)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 734. FAT 방식 연결 할당 최적화 (Fat File Allocation Table Optimization)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

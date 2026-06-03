@@ -1,10 +1,9 @@
-+++
-weight = 99
-title = "A/B 테스트 검정력 및 p-value 해킹 (A/B Testing Power & p-value Hacking)"
-date = "2025-05-22"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: A/B 테스트 검정력 및 p-value 해킹 (A/B Testing Power & p-value Hacking)
+date: '2025-05-22'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 통계적 검정력 (Statistical [[069_type_1_2_error_statistical_power|Power]])은 대립가설이 참일 때 이를 올바르게 찾아낼 [[130_probability|확률]](1-β)로, 실제 존재하는 효과를 놓치지 않는 탐지 능력이다.

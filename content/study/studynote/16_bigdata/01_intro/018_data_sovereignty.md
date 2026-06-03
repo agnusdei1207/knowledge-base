@@ -1,12 +1,10 @@
-+++
-weight = 18
-title = "18. 데이터 주권 (Data Sovereignty) — 국가별 데이터 현지화 규제"
-description = "클라우드 환경에서의 국가 간 데이터 관할권 충돌, 데이터 로컬라이제이션(현지화) 규제 및 아키텍처 대응 전략"
-date = "2024-05-24"
-[taxonomies]
-tags = ["빅데이터", "데이터 주권", "클라우드", "데이터 거버넌스", "GDPR", "컴플라이언스"]
-categories = ["16_bigdata"]
-+++
+---
+title: 18. 데이터 주권 (Data Sovereignty) — 국가별 데이터 현지화 규제
+date: '2024-05-24'
+description: 클라우드 환경에서의 국가 간 데이터 관할권 충돌, 데이터 로컬라이제이션(현지화) 규제 및 아키텍처 대응 전략
+tags:
+- bigdata
+---
 
 # 18. [[809_data_sovereignty|데이터 주권]] ([[410_ai_intellectual_property_data_sovereignty_data_act|Data Sovereignty]])과 현지화 규제
 

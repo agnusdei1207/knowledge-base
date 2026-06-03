@@ -1,10 +1,9 @@
-+++
-weight = 555
-title = "555. 다차원 인덱스 K-d 트리 공간/다변량 질의 처리망 데이터 구조 분석"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 555. 다차원 인덱스 K-d 트리 공간/다변량 질의 처리망 데이터 구조 분석
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

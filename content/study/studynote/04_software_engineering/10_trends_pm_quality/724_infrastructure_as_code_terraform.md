@@ -1,10 +1,9 @@
-+++
-weight = 724
-title = "724. 인프라스트럭처 애즈 코드 (IaC) 테라폼"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 724. 인프라스트럭처 애즈 코드 (IaC) 테라폼
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

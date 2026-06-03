@@ -1,10 +1,9 @@
-+++
-weight = 52
-title = "52. 데이터 거버넌스 (Data Governance)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 52. 데이터 거버넌스 (Data Governance)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[052_data_governance_framework|데이터 거버넌스]] ([[052_data_governance_framework|Data Governance]])의 본질은 [[001_dikw_pyramid|데이터]]의 품질, 보안, 생명주기를 전사적으로 규정하고 관리하는 체계 ([[164_policy|정책]], 조직, 표준)를 [[268_strategy_pattern|전략]]·조직·프로세스에 내재화하는 데 있다.

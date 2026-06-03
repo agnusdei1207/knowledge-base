@@ -1,10 +1,9 @@
-+++
-weight = 109
-title = "109. 플랫폼 엔지니어링 (Platform Engineering) - 개발자 인지 부하 해소와 IDP 셀프서비스"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 109. 플랫폼 엔지니어링 (Platform Engineering) - 개발자 인지 부하 해소와 IDP 셀프서비스
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 플랫폼 엔지니어링(Platform Engineering)은 [[652_devops_calms_culture|DevOps]] 실천 과정에서 폭증한 개발자 [[686_cognitive_load_team_topologies|인지 부하]]([[686_cognitive_load_team_topologies|Cognitive Load]])를 해소하기 위해, 인프라·[[090_configuration_item|CI]]/CD·보안 도구를 [[198_abstraction_control_data_process|추상화]]한 **[[110_idp_internal_developer_platform_backstage|내부 개발자 플랫폼]]([[536_idp_identity_provider|IDP]])**을 구축·운영하는 규율이다.

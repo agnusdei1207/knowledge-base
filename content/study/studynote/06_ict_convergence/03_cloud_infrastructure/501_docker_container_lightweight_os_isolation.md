@@ -1,10 +1,9 @@
-+++
-weight = 501
-title = "501. 도커 컨테이너 경량 OS 격리 (Docker Container Lightweight OS Isolation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 501. 도커 컨테이너 경량 OS 격리 (Docker Container Lightweight OS Isolation)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

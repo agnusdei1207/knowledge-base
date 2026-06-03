@@ -1,10 +1,9 @@
-+++
-weight = 28
-title = "28. 정량적 위험 분석 (Quantitative Risk Analysis)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 28. 정량적 위험 분석 (Quantitative Risk Analysis)
+date: '2026-04-29'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정량적 위험 분석(Quantitative [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Analysis)은 보안 위험을 화폐 단위(원화/달러)로 수치화하여 경영진이 [[012_roi_return_on_investment|ROI]] 기반으로 보안 투자 의사결정을 내릴 수 있게 하는 방법론이다. [[032_ale_annual_loss_expectancy|ALE]](연간 기대 손실) = SLE × ARO가 핵심 공식이다.

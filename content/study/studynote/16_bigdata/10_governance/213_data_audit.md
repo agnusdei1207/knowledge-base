@@ -1,10 +1,9 @@
-+++
-weight = 213
-title = "23. 데이터 감사 (Data Audit)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 23. 데이터 감사 (Data Audit)
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] [[606_auditing_linux_auditd|감사]]([[001_dikw_pyramid|Data]] [[363_audit|Audit]])는 조직의 [[001_dikw_pyramid|데이터]] 자산이 [[002_bigdata_5v|정확성]](Accuracy)·완전성(Completeness)·[[194_consistency_database_integrity|일관성]]([[194_consistency_database_integrity|Consistency]])·적시성(Timeliness)·규정 준수([[058_it_compliance_sox_basel_gdpr_isms|Compliance]]) 기준을 충족하는지 체계적으로 [[395_verification_process_review|검증]]하고 기록하는 [[052_data_governance_framework|데이터 거버넌스]]([[052_data_governance_framework|Data Governance]]) 활동이다.

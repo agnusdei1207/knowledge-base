@@ -1,10 +1,9 @@
-+++
-weight = 222
-title = "222. COBIT 2019 거버넌스 (COBIT 2019 Governance)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 222. COBIT 2019 거버넌스 (COBIT 2019 Governance)
+date: '2026-05-08'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 166
-title = "166. 실행 계획 (Execution Plan) - 옵티마이저가 생성한 네비게이션 트리"
-date = "2026-04-03"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 166. 실행 계획 (Execution Plan) - 옵티마이저가 생성한 네비게이션 트리
+date: '2026-04-03'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트
 

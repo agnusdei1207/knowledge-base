@@ -1,10 +1,9 @@
-+++
-weight = 622
-title = "622. 스케일 아웃 (Scale-Out) 클러스터 망"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 622. 스케일 아웃 (Scale-Out) 클러스터 망
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 127
-title = "127. Service Discovery - MSA 서비스 자동 등록·탐색 메커니즘"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 127. Service Discovery - MSA 서비스 자동 등록·탐색 메커니즘
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[090_service_kubernetes_network_load_balancing|Service]] Discovery는 **MSA에서 동적으로 변하는 [[090_service_kubernetes_network_load_balancing|서비스]] 인스턴스의 위치(IP:[[446_port_and_bus|Port]])를 자동으로 등록·탐색·갱신**하는 메커니즘이며, [[090_service_kubernetes_network_load_balancing|서비스]] [[235_registry_immutable_tag|레지스트리]]([[090_service_kubernetes_network_load_balancing|Service]] [[235_registry_immutable_tag|Registry]])가 핵심 컴포넌트이다.

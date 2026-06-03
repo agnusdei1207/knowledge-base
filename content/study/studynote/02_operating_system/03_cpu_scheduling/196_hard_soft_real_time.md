@@ -1,10 +1,9 @@
-+++
-weight = 196
-title = "196. 부하 균등화 (Load Balancing) - Push Migration vs Pull Migration"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 196. 부하 균등화 (Load Balancing) - Push Migration vs Pull Migration
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

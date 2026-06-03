@@ -1,10 +1,9 @@
-+++
-weight = 222
-title = "222. LAPB (Link Access Procedure Balanced)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 222. LAPB (Link Access Procedure Balanced)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

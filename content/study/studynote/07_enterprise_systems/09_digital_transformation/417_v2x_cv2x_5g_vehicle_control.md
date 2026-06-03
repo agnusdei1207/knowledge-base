@@ -1,10 +1,9 @@
-+++
-weight = 417
-title = "417. V2X C-V2X 5G 차량 제어 (V2X: Vehicle to Everything)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: '417. V2X C-V2X 5G 차량 제어 (V2X: Vehicle to Everything)'
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 605
-title = "605. 비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 605. 비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

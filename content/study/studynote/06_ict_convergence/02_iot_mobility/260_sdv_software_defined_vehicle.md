@@ -1,10 +1,9 @@
-+++
-weight = 260
-title = "260. 소프트웨어 정의 차량 (SDV, Software Defined Vehicle)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 260. 소프트웨어 정의 차량 (SDV, Software Defined Vehicle)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

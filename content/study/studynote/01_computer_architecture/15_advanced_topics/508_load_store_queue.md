@@ -1,10 +1,9 @@
-+++
-weight = 508
-title = "508. 로드-스토어 큐 (Load-Store Queue, LSQ)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 508. 로드-스토어 큐 (Load-Store Queue, LSQ)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

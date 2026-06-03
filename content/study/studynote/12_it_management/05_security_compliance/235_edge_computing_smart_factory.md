@@ -1,10 +1,9 @@
-+++
-weight = 235
-title = "235. 엣지 컴퓨팅 (Edge Computing) 분산 지연(Latency) 단축 모델 (스마트팩토리 CPS)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 235. 엣지 컴퓨팅 (Edge Computing) 분산 지연(Latency) 단축 모델 (스마트팩토리 CPS)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 엣지 컴퓨팅 (Edge Computing) [[136_variance|분산]] [[015_지연_데이터_관점|지연]]([[141_latency|Latency]]) 단축 모델 (스마트팩토리 [[167_cps_cyber_physical_system|CPS]])의 본질은 자산, 위협, [[571_protection_vs_security|보호]] 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

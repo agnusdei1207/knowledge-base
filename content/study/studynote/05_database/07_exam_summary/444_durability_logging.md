@@ -1,10 +1,9 @@
-+++
-weight = 444
-title = "444. 영속성 (로그/회복 보장)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 444. 영속성 (로그/회복 보장)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

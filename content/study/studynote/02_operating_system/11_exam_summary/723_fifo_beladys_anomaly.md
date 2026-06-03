@@ -1,10 +1,9 @@
-+++
-weight = 723
-title = "723. FIFO 벨라디의 모순 (FIFO Beladys Anomaly)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 723. FIFO 벨라디의 모순 (FIFO Beladys Anomaly)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

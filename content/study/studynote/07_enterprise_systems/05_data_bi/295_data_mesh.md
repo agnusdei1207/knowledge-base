@@ -1,10 +1,9 @@
-+++
-weight = 295
-title = "295. 데이터 메시 (Data Mesh)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 295. 데이터 메시 (Data Mesh)
+date: '2026-03-04'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] 관리를 중앙 집중형([[208_data_lake_schema_on_read|Data Lake]]/[[209_data_warehouse_schema_on_write|DW]])에서 벗어나, [[064_relation_domain|도메인]] 단위로 책임을 [[136_variance|분산]]시키고 [[001_dikw_pyramid|데이터]]를 '제품(Product)'으로 제공하는 아키텍처 및 조직 패러다임이다.

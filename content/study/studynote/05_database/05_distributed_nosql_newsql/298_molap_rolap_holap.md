@@ -1,10 +1,9 @@
-+++
-weight = 298
-title = "298. 몽고DB (MongoDB) 아키텍처"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 298. 몽고DB (MongoDB) 아키텍처
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

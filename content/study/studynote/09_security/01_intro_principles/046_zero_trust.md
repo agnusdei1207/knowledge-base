@@ -1,10 +1,9 @@
-+++
-title = "046. 제로 트러스트 — Zero Trust Security"
-weight = 46
-date = "2026-04-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 046. 제로 트러스트 — Zero Trust Security
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 > **핵심 인사이트**
 > 1. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]([[667_zero_trust_runtime_integrity_measurement|Zero Trust]])는 "절대 신뢰하지 말고, 항상 [[395_verification_process_review|검증]]하라(Never Trust, Always Verify)" 원칙 — 전통적 경계 보안(내부=안전, 외부=위험)이 클라우드·원격근무 시대에 무의미해지면서 등장한 새로운 보안 패러다임이다.

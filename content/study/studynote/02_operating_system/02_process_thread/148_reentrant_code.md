@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. 재진입 가능 코드 (Reentrant Code / Pure Code)"
-date = "2026-05-03"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 148. 재진입 가능 코드 (Reentrant Code / Pure Code)
+date: '2026-05-03'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 재진입 가능 코드 (Reentrant [[082_process_memory_structure|Code]])는 실행 중인 함수가 [[016_interrupt_mechanism|인터럽트]] 등에 의해 중단되고 다시 호출되더라도, 정적/전역 상태를 오염시키지 않아 이전 실행과 새로운 실행 모두 안전하게 완료되는 코드이다.

@@ -1,7 +1,8 @@
-+++
-title = "57. 공유 풀 (Shared Pool) - Oracle 인스턴스 구조"
-weight = 57
-+++
+---
+title: 57. 공유 풀 (Shared Pool) - Oracle 인스턴스 구조
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

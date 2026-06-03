@@ -1,10 +1,9 @@
-+++
-weight = 261
-title = "261. FIFO (First-In, First-Out) 페이지 교체"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 261. FIFO (First-In, First-Out) 페이지 교체
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

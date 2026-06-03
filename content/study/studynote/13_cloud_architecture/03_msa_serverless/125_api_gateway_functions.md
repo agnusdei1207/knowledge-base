@@ -1,10 +1,9 @@
-+++
-weight = 125
-title = "125. API Gateway 핵심 기능 - 라우팅·인증·Rate Limiting·변환 상세"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 125. API Gateway 핵심 기능 - 라우팅·인증·Rate Limiting·변환 상세
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[014_api_posix|API]] Gateway의 핵심 기능은 **요청 [[339_routing_overview_best_path_selection|라우팅]](URL→[[090_service_kubernetes_network_load_balancing|서비스]] 매핑)·[[303_authentication_authorization_patterns|인증]]/[[509_authorization_models_rbac_abac|인가]]([[549_jwt_json_web_token|JWT]]·OAuth2)·[[520_rate_limiting|Rate Limiting]](과부하 방지)·[[295_protocol_field_tcp_udp_icmp|프로토콜]] 변환([[156_rest_representational_state_transfer|REST]]↔[[479_grpc_protobuf_http2|gRPC]])·응답 집계(Composition)**이다.

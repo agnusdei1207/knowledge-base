@@ -1,10 +1,9 @@
-+++
-weight = 243
-title = "31. 데이터 경제 — 데이터가 자산이 되는 세계"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 31. 데이터 경제 — 데이터가 자산이 되는 세계
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[011_data_economy|데이터 경제]]([[011_data_economy|Data Economy]])는 [[001_dikw_pyramid|데이터]] [[087_process_state_transition|생성]]·수집·처리·판매가 경제 가치를 창출하는 생태계다. [[001_dikw_pyramid|데이터]]가 원유([[001_dikw_pyramid|Data]] is the [[087_process_state_transition|New]] Oil)처럼 원자재이자 제품이 되는 경제 시스템이다.

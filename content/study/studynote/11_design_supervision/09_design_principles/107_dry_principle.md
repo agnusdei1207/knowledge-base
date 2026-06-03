@@ -1,10 +1,9 @@
-+++
-weight = 107
-title = "107. DRY 원칙 (Don't Repeat Yourself) - 코드 중복 방지 (데이터 일관성 보장)"
-date = "2026-03-05"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 107. DRY 원칙 (Don't Repeat Yourself) - 코드 중복 방지 (데이터 일관성 보장)
+date: '2026-03-05'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DRY (Don't Repeat Yourself)는 특정 지식이나 비즈니스 규칙이 시스템 내에서 단일하고 모호하지 않으며 권위 있는 유일한 표현인 SSOT (Single Source of Truth)를 가져야 한다는 설계 원칙이다.

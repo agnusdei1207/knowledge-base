@@ -1,10 +1,9 @@
-+++
-weight = 126
-title = "126. Toil (수동 운영 작업) - SRE의 자동화 대상 반복 작업"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 126. Toil (수동 운영 작업) - SRE의 자동화 대상 반복 작업
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Toil은 **수동적·반복적·자동화 가능·전술적·장기적 가치 없는 운영 작업**이며, [[100_sre_site_reliability_engineering_error_budget|SRE]] 엔지니어의 **[[685_toil_automation_sre|Toil]] 비율을 50% 미만으로 유지**하여 나머지를 엔지니어링(자동화·시스템 개선)에 투자하는 것이 SRE의 핵심 원칙이다.

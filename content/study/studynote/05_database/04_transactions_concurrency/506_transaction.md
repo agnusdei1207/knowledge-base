@@ -1,10 +1,9 @@
-+++
-weight = 506
-title = "506. 데이터 디렉터리 시스템 카탈로그 차이 (Transaction)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 506. 데이터 디렉터리 시스템 카탈로그 차이 (Transaction)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 413
-title = "413. 자율주행 모방 학습 (Imitation Learning / Behavior Cloning)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 413. 자율주행 모방 학습 (Imitation Learning / Behavior Cloning)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

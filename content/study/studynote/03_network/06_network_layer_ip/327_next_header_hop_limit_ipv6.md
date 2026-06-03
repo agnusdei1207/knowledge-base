@@ -1,10 +1,9 @@
-+++
-weight = 327
-title = "327. Next Header, 홉 제한 (Hop Limit, TTL 대응)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 327. Next Header, 홉 제한 (Hop Limit, TTL 대응)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

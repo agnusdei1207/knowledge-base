@@ -1,10 +1,9 @@
-+++
-weight = 121
-title = "121. SRE 철학 (Site Reliability Engineering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 121. SRE 철학 (Site Reliability Engineering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[100_sre_site_reliability_engineering_error_budget|SRE]]([[100_sre_site_reliability_engineering_error_budget|Site Reliability Engineering]])는 Google이 정립한 **소프트웨어 엔지니어링으로 운영 문제를 해결**하는 철학이며, "운영을 소프트웨어 문제로 다루겠다"는 원칙 아래 **[[102_sli_slo_service_level_indicator_objective|SLI]]/[[181_slo_service_level_objective|SLO]]/[[101_error_budget_sre|Error Budget]]**으로 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]을 정량 관리한다.

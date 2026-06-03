@@ -1,10 +1,9 @@
-+++
-weight = 544
-title = "544. Trust Relationship (Trust Relationship)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 544. Trust Relationship (Trust Relationship)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

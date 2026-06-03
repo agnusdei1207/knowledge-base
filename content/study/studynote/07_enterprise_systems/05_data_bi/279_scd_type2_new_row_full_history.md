@@ -1,10 +1,9 @@
-+++
-weight = 279
-title = "279. SCD Type 2 - 새 로우 생성 (완벽 이력 보존)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 279. SCD Type 2 - 새 로우 생성 (완벽 이력 보존)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

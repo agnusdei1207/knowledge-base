@@ -1,10 +1,10 @@
-+++
-weight = 165
-title = "165. 비용 기반 옵티마이저 (CBO, Cost Based Optimizer) - 시스템 통계 정보 기반, 디스크 I/O 등 최소 비용 계산 (현대 RDBMS)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 165. 비용 기반 옵티마이저 (CBO, Cost Based Optimizer) - 시스템 통계 정보 기반, 디스크 I/O 등 최소 비용
+  계산 (현대 RDBMS)
+date: '2026-05-05'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트
 

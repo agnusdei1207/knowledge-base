@@ -1,10 +1,9 @@
-+++
-weight = 198
-title = "198. 지식 증류 (Knowledge Distillation) 소프트 타겟 확률 분포 모방"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 198. 지식 증류 (Knowledge Distillation) 소프트 타겟 확률 분포 모방
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]([[252_knowledge_distillation_quantization_edge_slm_diffusion|Knowledge Distillation]])는 대형 교사 모델(Teacher Model)의 [[130_probability|확률]] 분포(소프트 타겟)를 소형 학생 모델(Student Model)이 모방하여, 크기를 줄이면서도 [[282_performance_tactics|성능]]을 최대한 유지하는 경량화 기법이다.

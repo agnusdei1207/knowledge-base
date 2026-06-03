@@ -1,10 +1,9 @@
-+++
-weight = 120
-title = "120. 부트스트래핑 (Bootstrapping) - 비모수 통계적 추론·신뢰 구간 추정"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 120. 부트스트래핑 (Bootstrapping) - 비모수 통계적 추론·신뢰 구간 추정
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 부트스트래핑은 원본 데이터에서 **복원 추출(Resampling with Replacement)**을 반복하여 **통계량(평균·중앙값·모델 [[282_performance_tactics|성능]])의 분포를 비모수적으로 추정**하는 기법이다.

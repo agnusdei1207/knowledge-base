@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. 할루시네이션 (Hallucination / 환각)"
-date = "2026-05-03"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 148. 할루시네이션 (Hallucination / 환각)
+date: '2026-05-03'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[251_hallucination_rag_augmented_retrieval_vector_db|할루시네이션]] ([[345_llm_foundation_model_hallucination|Hallucination]])은 [[582_llm_based_code_generation_tools|대규모 언어 모델]]([[263_llm_large_language_model|LLM]])이 사실이 아니거나 근거가 없는 허위 정보를 마치 명백한 진실인 것처럼 유창하고 그럴싸하게 꾸며내어 답변하는 치명적 [[352_defect_definition|결함]] 현상이다.

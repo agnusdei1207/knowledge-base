@@ -1,7 +1,8 @@
-+++
-title = "06. Apache Tez"
-weight = 28
-+++
+---
+title: 06. Apache Tez
+tags:
+- bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Tez는 [[459_quic_fec_forward_error_correction|초기]] [[843_hadoop_rack_awareness_data_replication_topology|하둡]]([[843_hadoop_rack_awareness_data_replication_topology|Hadoop]]) 생태계의 뼈대였던 [[018_mapreduce|맵리듀스]]([[018_mapreduce|MapReduce]]) 엔진의 극악한 속도와 멍청한 입출력 한계를 박살 내기 위해 탄생한, **[[401_bayesian_network_dag_causality|DAG]] ([[255_apache_airflow_dag|Directed Acyclic Graph]], 방향성 비순환 [[070_graph_datastructure|그래프]]) 기반의 차세대 고성능 [[136_variance|분산]] [[001_dikw_pyramid|데이터]] 처리 엔진**이다.

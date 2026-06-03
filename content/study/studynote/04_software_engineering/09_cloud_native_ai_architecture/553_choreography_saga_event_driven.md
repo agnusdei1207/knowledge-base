@@ -1,10 +1,9 @@
-+++
-weight = 553
-title = "553. 코레오그래피 사가 (Choreography Saga) - 이벤트 구독 기반의 자율적 흐름"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 553. 코레오그래피 사가 (Choreography Saga) - 이벤트 구독 기반의 자율적 흐름
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

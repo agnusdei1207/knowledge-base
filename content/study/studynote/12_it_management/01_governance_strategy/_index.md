@@ -1,8 +1,8 @@
-+++
-weight = 1
-title = "01. IT 거버넌스 및 전략 수립"
-sort_by = "weight"
-+++
+---
+title: 01. IT 거버넌스 및 전략 수립
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

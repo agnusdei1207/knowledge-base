@@ -1,10 +1,9 @@
-+++
-weight = 252
-title = "252. 지식 증류 (Knowledge Distillation) 양자화 (Quantization) 경량 SLM 디퓨전 생성"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 252. 지식 증류 (Knowledge Distillation) 양자화 (Quantization) 경량 SLM 디퓨전 생성
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 거대 [[263_llm_large_language_model|LLM]]([[263_llm_large_language_model|Large Language Model]])의 지식을 지식 증류(Knowledge Distillation)와 [[434_quantization|양자화]]([[434_quantization|Quantization]])로 압축하면 엣지(Edge) 디바이스에서도 고품질 추론이 가능해진다.

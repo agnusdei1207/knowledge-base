@@ -1,10 +1,9 @@
-+++
-weight = 52
-title = "52. SR 플립플롭 (Set-Reset Flip-Flop)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 52. SR 플립플롭 (Set-Reset Flip-Flop)
+date: '2026-05-01'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

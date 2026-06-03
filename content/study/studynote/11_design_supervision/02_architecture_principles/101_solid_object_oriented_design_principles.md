@@ -1,10 +1,9 @@
-+++
-weight = 101
-title = "101. 객체 지향 설계 원칙 (SOLID, Object-Oriented Design Principles)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 101. 객체 지향 설계 원칙 (SOLID, Object-Oriented Design Principles)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

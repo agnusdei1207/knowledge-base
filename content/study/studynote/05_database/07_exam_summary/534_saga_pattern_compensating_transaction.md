@@ -1,10 +1,9 @@
-+++
-weight = 534
-title = "534. Saga 패턴 보상 트랜잭션 비즈니스 실패 롤백 모사"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 534. Saga 패턴 보상 트랜잭션 비즈니스 실패 롤백 모사
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

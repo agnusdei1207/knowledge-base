@@ -1,10 +1,9 @@
-+++
-weight = 145
-title = "145. Mini-Spec (프로세스 명세서) - DFD 프로세스 상세 정의"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 145. Mini-Spec (프로세스 명세서) - DFD 프로세스 상세 정의
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Mini-Spec은 **DFD의 최하위 프로세스(기본 프로세스)의 로직을 구조적 영어(Structured English)·의사결정표·의사결정트리**로 상세 기술하는 프로세스 명세서이다.

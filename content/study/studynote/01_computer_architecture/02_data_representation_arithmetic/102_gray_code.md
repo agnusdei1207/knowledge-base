@@ -1,10 +1,9 @@
-+++
-weight = 102
-title = "102. 그레이 코드 (Gray Code)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 102. 그레이 코드 (Gray Code)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 그레이 코드 (Gray [[082_process_memory_structure|Code]])는 연속된 숫자를 표현할 때, 인접한 값 사이에서 오직 1개의 [[073_bit|비트]]만 변경되도록 [[055_array|배열]]한 비가중치 (Non-weighted) 코드다.

@@ -1,10 +1,10 @@
-+++
-weight = 917
-title = "917. 비트토렌트 (BitTorrent) 초크/언초크 리치 통신 대역폭 인센티브 알고리즘망 파편화 전송 구성/다운 최적 효율망 동적 탐색 구조)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 917. 비트토렌트 (BitTorrent) 초크/언초크 리치 통신 대역폭 인센티브 알고리즘망 파편화 전송 구성/다운 최적 효율망 동적
+  탐색 구조)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 191
-title = "01. 데이터 메시 (Data Mesh) - 도메인 분권형 데이터 아키텍처 패러다임"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 01. 데이터 메시 (Data Mesh) - 도메인 분권형 데이터 아키텍처 패러다임
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # [[211_data_mesh_domain_ownership|데이터 메시]] ([[320_data_mesh|Data Mesh]]) - [[064_relation_domain|도메인]] 분권형 [[104_da_as_is_analysis|데이터 아키텍처]] 패러다임
 

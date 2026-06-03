@@ -1,10 +1,9 @@
-+++
-weight = 181
-title = "181. 멀티클라우드 데이터 플랫폼 (Multi-cloud Data Platform) — Snowflake/Databricks"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 181. 멀티클라우드 데이터 플랫폼 (Multi-cloud Data Platform) — Snowflake/Databricks
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

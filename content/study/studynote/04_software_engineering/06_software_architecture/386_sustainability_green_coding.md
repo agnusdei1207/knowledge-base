@@ -1,10 +1,9 @@
-+++
-weight = 386
-title = "386. 지속 가능성 (Sustainability) 및 그린 코딩 (Green Coding) - 탄소 배출 저감 코드"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 386. 지속 가능성 (Sustainability) 및 그린 코딩 (Green Coding) - 탄소 배출 저감 코드
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

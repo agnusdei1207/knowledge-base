@@ -1,10 +1,9 @@
-+++
-weight = 127
-title = "127. BPR (Business Process Reengineering)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 127. BPR (Business Process Reengineering)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[127_bpr_business_process_reengineering_radical_redesign|BPR]] ([[127_bpr_business_process_reengineering_radical_redesign|Business Process Reengineering]])의 본질은 "프로세스를 뜯어고쳐라", 근본적 재설계를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

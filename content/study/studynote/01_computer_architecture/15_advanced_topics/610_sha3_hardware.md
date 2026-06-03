@@ -1,10 +1,9 @@
-+++
-weight = 610
-title = "610. 보안 해시 함수 회로 (SHA-3 / Keccak)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 610. 보안 해시 함수 회로 (SHA-3 / Keccak)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 93
-title = "18. Azure Event Hubs — Kafka 호환 이벤트 스트리밍"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 18. Azure Event Hubs — Kafka 호환 이벤트 스트리밍
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

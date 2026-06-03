@@ -1,10 +1,9 @@
-+++
-weight = 9
-title = "09. 반도체 (Semiconductor)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 09. 반도체 (Semiconductor)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 반도체 (Semiconductor)는 약 $1 \sim 3 \text{ [[154_ev_earned_value|eV]]}$의 밴드 갭 (Band Gap)을 가져, 외부 [[001_voltage|전압]] [[509_authorization_models_rbac_abac|인가]] 시에만 도체로 변하는 조건부 가변 [[003_resistance|저항]] 매질이다.

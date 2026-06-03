@@ -1,10 +1,9 @@
-+++
-weight = 52
-title = "52. 부스팅 (Boosting) - AdaBoost, GBM, XGBoost, LightGBM"
-date = "2026-05-01"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 52. 부스팅 (Boosting) - AdaBoost, GBM, XGBoost, LightGBM
+date: '2026-05-01'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

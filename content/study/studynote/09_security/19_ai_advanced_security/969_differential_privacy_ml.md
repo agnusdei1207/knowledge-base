@@ -1,10 +1,9 @@
-+++
-weight = 969
-title = "969. differential privacy in ML (differential privacy in ML)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 969. differential privacy in ML (differential privacy in ML)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

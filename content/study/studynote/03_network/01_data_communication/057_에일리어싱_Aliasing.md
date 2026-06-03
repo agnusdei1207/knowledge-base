@@ -1,10 +1,10 @@
-+++
-weight = 57
-title = "57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생"
-date = "2026-03-30"
-[extra]
-categories = ["studynote", "Network"]
-+++
+---
+title: 57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생
+date: '2026-03-30'
+tags:
+- Network
+- studynote
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

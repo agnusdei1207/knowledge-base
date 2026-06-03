@@ -1,10 +1,9 @@
-+++
-weight = 771
-title = "771. 볼티지 글리칭 (Voltage Glitching)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 771. 볼티지 글리칭 (Voltage Glitching)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

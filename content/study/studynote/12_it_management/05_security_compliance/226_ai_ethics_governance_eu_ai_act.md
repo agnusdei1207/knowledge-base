@@ -1,10 +1,9 @@
-+++
-weight = 226
-title = "226. AI 거버넌스 및 윤리 (AI Ethics & Governance) 가이드라인 제정"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 226. AI 거버넌스 및 윤리 (AI Ethics & Governance) 가이드라인 제정
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[190_ai_llm_requirements_specification|AI]] 거버넌스 및 윤리 ([[330_ai_ethics|AI Ethics]] & Governance) 가이드라인 제정의 본질은 [[001_dikw_pyramid|데이터]] 편향성 제거, 공정성 확보, [[583_ai_code_license_security_threats|저작권]] 이슈 (EU [[190_ai_llm_requirements_specification|AI]] Act 컴플라이언스 대응)를 [[001_dikw_pyramid|데이터]], 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.

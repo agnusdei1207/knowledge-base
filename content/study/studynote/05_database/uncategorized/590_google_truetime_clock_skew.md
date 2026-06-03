@@ -1,10 +1,9 @@
-+++
-weight = 590
-title = "590. 클럭 스큐 구글 트루타임 원자 시계 오차 범위 대기 분산 노드 일관성 통제"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 590. 클럭 스큐 구글 트루타임 원자 시계 오차 범위 대기 분산 노드 일관성 통제
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

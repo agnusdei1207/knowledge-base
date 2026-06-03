@@ -1,8 +1,8 @@
-+++
-weight = 8
-title = "05. 클라우드 데이터 엔지니어링"
-sort_by = "weight"
-+++
+---
+title: 05. 클라우드 데이터 엔지니어링
+tags:
+- cloud_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

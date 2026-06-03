@@ -1,10 +1,9 @@
-+++
-title = "049. 데이터 메시 — Data Mesh Distributed Ownership"
-weight = 49
-date = "2026-04-05"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 049. 데이터 메시 — Data Mesh Distributed Ownership
+date: '2026-04-05'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[211_data_mesh_domain_ownership|데이터 메시]]([[320_data_mesh|Data Mesh]])는 중앙화된 [[001_dikw_pyramid|데이터]] 팀이 아니라 [[064_relation_domain|도메인]](비즈니스 단위)이 자신의 [[001_dikw_pyramid|데이터]]를 소유·관리·제공하는 [[136_variance|분산]] [[104_da_as_is_analysis|데이터 아키텍처]] 패러다임 — 중앙 [[208_data_lake_schema_on_read|데이터 레이크]]가 조직 성장에 따라 병목·[[002_silo_hyeonhyung|사일로]]·품질 저하로 이어지는 문제를 해결한다.

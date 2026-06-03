@@ -1,10 +1,9 @@
-+++
-weight = 136
-title = "136. Prometheus - 클라우드 네이티브 메트릭 수집·저장 엔진"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 136. Prometheus - 클라우드 네이티브 메트릭 수집·저장 엔진
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Prometheus는 **Pull 방식으로 [[090_service_kubernetes_network_load_balancing|서비스]]의 /[[567_metrics_time_series_prometheus_grafana|metrics]] 엔드포인트에서 시계열 [[342_routing_metric_hop_bandwidth_delay|메트릭]]을 수집·저장**하는 [[190_cncf_landscape_observability|CNCF]] 졸업 프로젝트이며, [[531_cloud_native_architecture|클라우드 네이티브]] [[229_monitor|모니터]]링의 사실상 표준이다.

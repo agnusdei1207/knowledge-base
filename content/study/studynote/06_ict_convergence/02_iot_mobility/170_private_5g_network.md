@@ -1,10 +1,9 @@
-+++
-weight = 170
-title = "170. 프라이빗 5G (Private 5G, 특화망 / 이음5G)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 170. 프라이빗 5G (Private 5G, 특화망 / 이음5G)
+date: '2026-05-06'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

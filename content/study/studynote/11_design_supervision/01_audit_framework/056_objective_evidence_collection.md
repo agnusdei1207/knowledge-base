@@ -1,10 +1,9 @@
-+++
-title = "56. 객관적 증거 (Objective Evidence) - 감리 판단을 뒷받침하는 검증 가능한 근거"
-date = "2026-04-05"
-weight = 56
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 56. 객관적 증거 (Objective Evidence) - 감리 판단을 뒷받침하는 검증 가능한 근거
+date: '2026-04-05'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

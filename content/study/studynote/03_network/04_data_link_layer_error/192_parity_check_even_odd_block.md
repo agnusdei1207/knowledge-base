@@ -1,10 +1,9 @@
-+++
-weight = 192
-title = "192. 패리티 검사 (Parity Check)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 192. 패리티 검사 (Parity Check)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

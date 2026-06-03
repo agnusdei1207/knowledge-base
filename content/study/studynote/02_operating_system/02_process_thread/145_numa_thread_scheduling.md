@@ -1,10 +1,9 @@
-+++
-weight = 145
-title = "145. NUMA-인식 스레드 스케줄링 (NUMA Thread Scheduling)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 145. NUMA-인식 스레드 스케줄링 (NUMA Thread Scheduling)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

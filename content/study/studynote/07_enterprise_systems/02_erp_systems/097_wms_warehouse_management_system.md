@@ -1,7 +1,8 @@
-+++
-title = "97. WMS (Warehouse Management System) - 창고 관리 시스템"
-weight = 97
-+++
+---
+title: 97. WMS (Warehouse Management System) - 창고 관리 시스템
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

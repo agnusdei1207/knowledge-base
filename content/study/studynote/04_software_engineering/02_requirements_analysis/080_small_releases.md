@@ -1,10 +1,9 @@
-+++
-weight = 80
-title = "080. 소규모 릴리즈 (Small Releases - XP Practice)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 080. 소규모 릴리즈 (Small Releases - XP Practice)
+date: '2026-05-05'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[073_xp_extreme_programming|eXtreme Programming]]([[073_xp_extreme_programming|XP]])의 12가지 실천법 중 핵심인 소규모 릴리즈(Small Releases)는, 시스템 전체를 1년 뒤에 한방에 배포하는 빅뱅(Big Bang) 방식을 버리고, **동작하는 아주 작은 기능을 1~2주 단위로 쪼개어 고객에게 지속적으로 배포하는 아키텍처 배포 [[268_strategy_pattern|전략]]**이다.

@@ -1,10 +1,9 @@
-+++
-weight = 81
-title = "81. 부호 없는 정수 (Unsigned Integer)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 81. 부호 없는 정수 (Unsigned Integer)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 부호 없는 정수(Unsigned Integer)는 할당된 모든 [[073_bit|비트]]를 수치(Magnitude) 표현에만 사용하여, 0과 양의 정수만을 나타내는 [[001_dikw_pyramid|데이터]] 체계다.

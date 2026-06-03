@@ -1,10 +1,9 @@
-+++
-weight = 153
-title = "4. KL 다이버전스 (KL Divergence, Kullback-Leibler Divergence) — 분포 차이"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 4. KL 다이버전스 (KL Divergence, Kullback-Leibler Divergence) — 분포 차이
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

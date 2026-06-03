@@ -1,10 +1,9 @@
-+++
-title = "005. P = NP 문제"
-weight = 110
-date = "2026-04-05"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 005. P = NP 문제
+date: '2026-04-05'
+tags:
+- studynote-algorithm-stats
+---
 
 > **핵심 인사이트**
 > 1. P = NP 문제는 "검증이 쉬운 문제는 풀기도 쉬운가?"라는 질문으로, 밀레니엄 7대 난제 중 하나이자 100만 달러 상금의 클레이 수학 연구소 문제이며 — 만약 P = NP라면 암호화([[110_rsa|RSA]], [[004_blockchain|블록체인]])의 수학적 기반이 붕괴된다.

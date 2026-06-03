@@ -1,10 +1,9 @@
-+++
-weight = 736
-title = "736. 포트 포워딩 (Port Forwarding 역방향 타격 문제 제어 원격 포트/점프 스테이션 보안 규정 체계제안)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 736. 포트 포워딩 (Port Forwarding 역방향 타격 문제 제어 원격 포트/점프 스테이션 보안 규정 체계제안)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

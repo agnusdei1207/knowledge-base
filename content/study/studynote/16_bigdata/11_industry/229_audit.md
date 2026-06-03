@@ -1,10 +1,9 @@
-+++
-weight = 229
-title = "224. 국방 빅데이터 (정보 분석, 적 행동 예측, 보안 위협 탐지)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 224. 국방 빅데이터 (정보 분석, 적 행동 예측, 보안 위협 탐지)
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

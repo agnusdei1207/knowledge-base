@@ -1,12 +1,11 @@
-+++
-weight = 12
-title = "12. 비잔틴 장애 허용 (BFT, Byzantine Fault Tolerance) - 1/3 미만의 악의적 노드가 있어도 정상 합의 보장"
-description = "1/3 미만의 악의적 노드가 있어도 정상 합의를 보장하는 매커니즘"
-date = "2024-05-18"
-[taxonomies]
-tags = ["블록체인", "BFT", "비잔틴 장군 문제", "합의 알고리즘", "분산시스템"]
-categories = ["studynote-ict-convergence"]
-+++
+---
+title: 12. 비잔틴 장애 허용 (BFT, Byzantine Fault Tolerance) - 1/3 미만의 악의적 노드가 있어도 정상 합의
+  보장
+date: '2024-05-18'
+description: 1/3 미만의 악의적 노드가 있어도 정상 합의를 보장하는 매커니즘
+tags:
+- ict_convergence
+---
 
 # [[647_bft_verification|비잔틴 장애 허용]] ([[647_bft_verification|BFT]], Byzantine [[800_system_architecture_fault_tolerance_dual|Fault Tolerance]])
 

@@ -1,10 +1,9 @@
-+++
-weight = 139
-title = "139. CQRS (Command Query Responsibility Segregation) - 명령·조회 분리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 139. CQRS (Command Query Responsibility Segregation) - 명령·조회 분리
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CQRS는 **[[289_cqrs_db|쓰기]]([[271_command_pattern|Command]])와 읽기(Query)를 별도의 모델·저장소로 분리**하는 패턴이며, [[289_cqrs_db|쓰기]]는 [[093_normalization|정규화]]된 RDBMS, 읽기는 비정규화된 뷰/ElasticSearch로 최적화한다.

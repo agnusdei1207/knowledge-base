@@ -1,10 +1,9 @@
-+++
-weight = 295
-title = "295. 마이크로서비스 MSA 도메인 주도 설계 DDD (Microservice Architecture)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 295. 마이크로서비스 MSA 도메인 주도 설계 DDD (Microservice Architecture)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

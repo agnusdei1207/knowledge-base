@@ -1,10 +1,9 @@
-+++
-weight = 44
-title = "아파치 스톰 (Apache Storm) 및 실시간 분산 처리"
-date = "2024-03-24"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 아파치 스톰 (Apache Storm) 및 실시간 분산 처리
+date: '2024-03-24'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **네이티브 스트리밍:** 마이크로배치 방식이 아닌, [[001_dikw_pyramid|데이터]] 하나하나를 즉시 처리하는 이벤트 기반 [[136_variance|분산]] 실시간 연산 프레임워크.

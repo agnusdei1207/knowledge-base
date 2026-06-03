@@ -1,10 +1,9 @@
-+++
-weight = 161
-title = "161. 결합 인덱스 (Composite Index) - 2개 이상 컬럼으로 구성 (선행 컬럼 순서 중요)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 161. 결합 인덱스 (Composite Index) - 2개 이상 컬럼으로 구성 (선행 컬럼 순서 중요)
+date: '2026-05-05'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트
 

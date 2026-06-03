@@ -1,12 +1,10 @@
-+++
-weight = 19
-title = "19. DBMS 언어"
-description = "데이터베이스를 정의, 조작, 제어하기 위해 DBMS와 통신하는 다목적 인터페이스 언어 체계"
-date = "2026-03-04"
-[taxonomies]
-categories = ["Database"]
-tags = ["DBMS", "DDL", "DML", "DCL", "TCL", "SQL"]
-+++
+---
+title: 19. DBMS 언어
+date: '2026-03-04'
+description: 데이터베이스를 정의, 조작, 제어하기 위해 DBMS와 통신하는 다목적 인터페이스 언어 체계
+tags:
+- database
+---
 
 # 19. [[502_dbms|DBMS]] 언어 ([[502_dbms|DBMS]] Languages)
 

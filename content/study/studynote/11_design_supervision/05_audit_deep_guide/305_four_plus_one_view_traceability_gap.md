@@ -1,10 +1,9 @@
-+++
-weight = 305
-title = "305. 4+1 뷰 미비와 유지보수 추적 단절 (4 Plus 1 View Traceability Gap Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 305. 4+1 뷰 미비와 유지보수 추적 단절 (4 Plus 1 View Traceability Gap Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

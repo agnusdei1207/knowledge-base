@@ -1,10 +1,9 @@
-+++
-weight = 140
-title = "140. SQL 서브쿼리 심화 - EXISTS·IN·스칼라·인라인 뷰"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 140. SQL 서브쿼리 심화 - EXISTS·IN·스칼라·인라인 뷰
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EXISTS는 **서브쿼리 결과가 존재하는지(T/F) 판별**하는 반존재(Semi-[[521_join|Join]]) 연산이고, IN은 **값 목록에 포함되는지 판별**하며, 대량 [[001_dikw_pyramid|데이터]]에서 EXISTS가 IN보다 [[282_performance_tactics|성능]]이 좋은 경우가 많다.

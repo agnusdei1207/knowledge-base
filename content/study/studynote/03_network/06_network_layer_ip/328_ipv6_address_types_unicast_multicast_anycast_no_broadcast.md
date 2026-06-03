@@ -1,10 +1,9 @@
-+++
-weight = 328
-title = "328. 유니캐스트, 멀티캐스트, 애니캐스트(Anycast, 가장 가까운 노드 응답)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 328. 유니캐스트, 멀티캐스트, 애니캐스트(Anycast, 가장 가까운 노드 응답)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

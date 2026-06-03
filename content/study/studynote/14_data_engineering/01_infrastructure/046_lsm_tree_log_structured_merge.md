@@ -1,10 +1,9 @@
-+++
-title = "046. LSM 트리 — Log-Structured Merge-Tree"
-weight = 46
-date = "2026-04-05"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 046. LSM 트리 — Log-Structured Merge-Tree
+date: '2026-04-05'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. LSM([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Merge-Tree]]) 트리는 [[289_cqrs_db|쓰기]] 집약적 워크로드에 최적화된 [[001_dikw_pyramid|데이터]] 구조 — 임의 [[289_cqrs_db|쓰기]](Random Write)를 순차 [[289_cqrs_db|쓰기]](Sequential Write)로 변환해 [[465_hdd_structure|HDD]]/SSD에서 극적인 [[289_cqrs_db|쓰기]] 성능을 달성하며, RocksDB·[[541_cassandra|Cassandra]]·[[543_hbase|HBase]]·LevelDB의 스토리지 엔진으로 사용된다.

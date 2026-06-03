@@ -1,10 +1,9 @@
-+++
-title = "097. 해시 함수 — 단방향성, 충돌 저항성, Preimage 저항성"
-date = "2026-04-05"
-weight = 97
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 097. 해시 함수 — 단방향성, 충돌 저항성, Preimage 저항성
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

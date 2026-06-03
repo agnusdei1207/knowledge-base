@@ -1,8 +1,9 @@
-+++
-title = "Distributed Tracing Trace ID"
-date = "2026-05-09"
-categories = ["studynote-devops-sre"]
-+++
+---
+title: Distributed Tracing Trace ID
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > - [[569_distributed_tracing_opentelemetry_jaeger|Distributed Tracing]] ([[569_distributed_tracing_opentelemetry_jaeger|분산 추적]])은 [[532_microservices_decomposition_patterns|마이크로서비스]] 환경에서 단일 요청의 전체 흐름을 Trace ID로 연결해 병목·오류를 추적한다.

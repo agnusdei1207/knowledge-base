@@ -1,10 +1,9 @@
-+++
-weight = 626
-title = "626. 재해 복구 시스템 (DRS) 스토리지 미러링"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 626. 재해 복구 시스템 (DRS) 스토리지 미러링
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 227
-title = "227. ELT (Extract, Load, Transform)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 227. ELT (Extract, Load, Transform)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[034_elt|ELT]](Extract, Load, Transform)는 원시 [[001_dikw_pyramid|데이터]]를 먼저 클라우드 [[209_data_warehouse_schema_on_write|DW]]/레이크에 고속 적재(L)한 후, [[209_data_warehouse_schema_on_write|DW]] 내부의 강력한 MPP 컴퓨팅으로 [[001_dikw_pyramid|데이터]]를 변환(T)하는 **[[531_cloud_native_architecture|클라우드 네이티브]] [[001_dikw_pyramid|데이터]] 통합 방식**이다.

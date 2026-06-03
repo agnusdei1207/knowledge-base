@@ -1,7 +1,8 @@
-+++
-title = "95. Nexus - 스크럼 팀 간 의존성 관리"
-weight = 95
-+++
+---
+title: 95. Nexus - 스크럼 팀 간 의존성 관리
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

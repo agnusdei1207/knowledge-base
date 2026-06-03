@@ -1,10 +1,10 @@
-+++
-weight = 60
-title = "이진 트리 (Binary Tree)"
-date = "2024-03-24"
-[extra]
-categories = ["studynote-algorithm", "datastructure"]
-+++
+---
+title: 이진 트리 (Binary Tree)
+date: '2024-03-24'
+tags:
+- datastructure
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. 각 노드가 최대 두 개의 자식 노드(Left, Right)를 가지는 비선형 계층적 자료구조이다.

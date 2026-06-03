@@ -1,10 +1,9 @@
-+++
-weight = 1012
-title = "1012. 셀 엣지 수율 (Cell Edge Throughput)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1012. 셀 엣지 수율 (Cell Edge Throughput)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

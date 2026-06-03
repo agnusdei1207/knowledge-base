@@ -1,10 +1,9 @@
-+++
-weight = 168
-title = "168. 디스패처 (Dispatcher) - 문맥 교환 수행 모듈"
-date = "2026-03-22"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 168. 디스패처 (Dispatcher) - 문맥 교환 수행 모듈
+date: '2026-03-22'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

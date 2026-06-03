@@ -1,10 +1,9 @@
-+++
-weight = 223
-title = "223. CSI (Container Storage Interface) 퍼시스턴트 볼륨(PV/PVC) 동적 스토리지 할당"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 223. CSI (Container Storage Interface) 퍼시스턴트 볼륨(PV/PVC) 동적 스토리지 할당
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

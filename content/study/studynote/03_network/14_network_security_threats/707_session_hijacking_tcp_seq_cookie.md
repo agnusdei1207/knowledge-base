@@ -1,10 +1,9 @@
-+++
-weight = 707
-title = "707. 세션 하이재킹 (Session Hijacking / TCP Seq 번호 추정 절도 등 탈취/Cookie/토큰 갈취 기법)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 707. 세션 하이재킹 (Session Hijacking / TCP Seq 번호 추정 절도 등 탈취/Cookie/토큰 갈취 기법)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,12 +1,10 @@
-+++
-weight = 77
-title = "77. 비대칭키 암호 (Asymmetric Encryption) — 공개키/비밀키 쌍"
-description = "공개키와 개인키 쌍을 사용하여 암호화와 복호화를 수행하는 공개키 암호 시스템"
-date = 2026-03-26
-
-[extra]
-categories = ["studynote-software-engineering"]
-+++
+---
+title: 77. 비대칭키 암호 (Asymmetric Encryption) — 공개키/비밀키 쌍
+date: '2026-03-26'
+description: 공개키와 개인키 쌍을 사용하여 암호화와 복호화를 수행하는 공개키 암호 시스템
+tags:
+- studynote-software-engineering
+---
 
 # 비대칭키 암호 (Asymmetric Encryption)
 

@@ -1,10 +1,10 @@
-+++
-weight = 688
-title = "688. SNI (Server Name Indication) 개요 와 ESNI / ECH (Encrypted Client Hello) 검열 우회"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 688. SNI (Server Name Indication) 개요 와 ESNI / ECH (Encrypted Client Hello)
+  검열 우회
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

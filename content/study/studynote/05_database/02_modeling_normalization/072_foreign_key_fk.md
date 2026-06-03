@@ -1,7 +1,8 @@
-+++
-title = "72. 외래 키 (Foreign Key, FK) - 다른 릴레이션의 기본 키를 참조하는 속성"
-weight = 72
-+++
+---
+title: 72. 외래 키 (Foreign Key, FK) - 다른 릴레이션의 기본 키를 참조하는 속성
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 63
-title = "63. 데이터 마이닝 프레임워크 (Data Mining Framework)"
-date = "2026-04-05"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 63. 데이터 마이닝 프레임워크 (Data Mining Framework)
+date: '2026-04-05'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

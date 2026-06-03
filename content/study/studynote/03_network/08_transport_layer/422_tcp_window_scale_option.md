@@ -1,10 +1,9 @@
-+++
-weight = 422
-title = "422. 윈도우 스케일옵션 (Window Scale Option)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 422. 윈도우 스케일옵션 (Window Scale Option)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

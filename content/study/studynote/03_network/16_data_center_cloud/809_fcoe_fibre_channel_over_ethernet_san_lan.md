@@ -1,10 +1,9 @@
-+++
-weight = 809
-title = "809. FCoE (Fibre Channel over Ethernet)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 809. FCoE (Fibre Channel over Ethernet)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 502
-title = "502. 파일 속성 (Attributes) - 이름, 식별자, 타입, 위치, 크기, 보호(권한), 타임스탬프"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 502. 파일 속성 (Attributes) - 이름, 식별자, 타입, 위치, 크기, 보호(권한), 타임스탬프
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 154
-title = "154. 인덱스 (Index) - B-Tree 3단 점프가 찢어버린 데이터 검색의 공간 특이점"
-date = "2026-05-03"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 154. 인덱스 (Index) - B-Tree 3단 점프가 찢어버린 데이터 검색의 공간 특이점
+date: '2026-05-03'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[002_database_definition|데이터베이스]]의 인덱스(Index)는 거대한 원본 테이블(Table) 쇳덩이를 1밀리미터도 건드리지 않은 채, 오직 검색에 자주 쓰이는 **'특정 컬럼 값([[067_db_key_uniqueness_minimality|Key]])'과 그 값이 살고 있는 진짜 집 주소 포인터('ROWID') 두 개만을 쏙 빼내어 ➔ 별도의 독립된 하드디스크 공간에 '가나다순(Sort)'으로 100% 빡빡하게 정렬해 쌓아둔 요약 장부(색인)**다.

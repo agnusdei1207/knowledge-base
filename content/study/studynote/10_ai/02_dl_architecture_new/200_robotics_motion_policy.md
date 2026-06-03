@@ -1,10 +1,9 @@
-+++
-weight = 200
-title = "200. 로보틱스 범용 모션 정책 훈련 (Robotics Motion Policy)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 200. 로보틱스 범용 모션 정책 훈련 (Robotics Motion Policy)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

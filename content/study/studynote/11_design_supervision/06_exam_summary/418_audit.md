@@ -1,10 +1,9 @@
-+++
-weight = 418
-title = "418. 뮤테이션 테스트의 소스 변이 커버리지 검증 (Mutation Testing)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 418. 뮤테이션 테스트의 소스 변이 커버리지 검증 (Mutation Testing)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

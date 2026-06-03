@@ -1,10 +1,9 @@
-+++
-weight = 68
-title = "개방 주소법 (Open Addressing)"
-date = "2024-05-22"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 개방 주소법 (Open Addressing)
+date: '2024-05-22'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - 개방 주소법은 [[563_hash_collision_chaining_linear_probing|해시 충돌]] 발생 시 [[067_hash_table|해시 테이블]] 내부의 **다른 빈 버킷(Empty Bucket)**을 찾아 [[001_dikw_pyramid|데이터]]를 저장하는 충돌 해결 기법이다.

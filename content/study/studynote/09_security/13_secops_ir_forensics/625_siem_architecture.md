@@ -1,10 +1,9 @@
-+++
-weight = 625
-title = "625. SIEM 구성 (Security Information and Event Management)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 625. SIEM 구성 (Security Information and Event Management)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

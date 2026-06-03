@@ -1,10 +1,9 @@
-+++
-weight = 101
-title = "사물인터넷 (IoT) 개념"
-date = "2024-03-21"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 사물인터넷 (IoT) 개념
+date: '2024-03-21'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 사물인터넷 (IoT, Internet of Things)은 주변의 모든 사물에 센서와 통신 모듈을 내장하여, 물리적 세계의 정보를 디지털화하고 인터넷에 연결하는 초연결 네트워크 기술이다.

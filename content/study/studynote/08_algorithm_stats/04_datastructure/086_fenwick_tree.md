@@ -1,10 +1,9 @@
-+++
-weight = 86
-title = "30. 펜윅 트리 (BIT) — 범위 합 쿼리의 효율적 구조"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 30. 펜윅 트리 (BIT) — 범위 합 쿼리의 효율적 구조
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 펜윅 트리([[106_fenwick_tree|Fenwick Tree]]) 또는 BIT(Binary [[181_indexed_addressing|Indexed]] Tree)는 [[055_array|배열]]의 접두사 합(Prefix Sum)을 O(log N)에 [[298_qkv_attention|쿼리]]하고 O(log N)에 업데이트하는 자료 구조다. 단순 [[055_array|배열]]의 O(1) 업데이트/O(N) [[298_qkv_attention|쿼리]]와 누적 합 [[055_array|배열]]의 O(N) 업데이트/O(1) [[298_qkv_attention|쿼리]] 사이의 최적 균형이다.

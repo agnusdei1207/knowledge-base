@@ -1,10 +1,9 @@
-+++
-weight = 79
-title = "079. 마이데이터 체계와 블록체인 데이터 영수증 (MyData & Blockchain Receipt)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 079. 마이데이터 체계와 블록체인 데이터 영수증 (MyData & Blockchain Receipt)
+date: '2026-05-05'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[012_mydata|마이데이터]]([[266_mydata_open_api_token_security|MyData]])는 기관(은행, 통신사)이 독점하던 내 [[781_personal_information|개인정보]]의 통제권([[809_data_sovereignty|데이터 주권]])을 개인에게 돌려주어 자유로운 이동과 융합을 강제하는 법적/기술적 거버넌스이며, **[[004_blockchain|블록체인]] [[001_dikw_pyramid|데이터]] 영수증**은 이 [[001_dikw_pyramid|데이터]] 이동의 승인 내역을 위변조 불가능하게 박제하는 신뢰 앵커(Trust Anchor)다.

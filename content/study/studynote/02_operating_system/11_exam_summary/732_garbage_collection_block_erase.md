@@ -1,10 +1,9 @@
-+++
-weight = 732
-title = "732. 가비지 컬렉션 블록 지우기 (Garbage Collection Block Erase)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 732. 가비지 컬렉션 블록 지우기 (Garbage Collection Block Erase)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

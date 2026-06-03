@@ -1,10 +1,9 @@
-+++
-weight = 234
-title = "234. 마스터 데이터 관리 (MDM, Master Data Management) 골든 레코드 클린 룸"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 234. 마스터 데이터 관리 (MDM, Master Data Management) 골든 레코드 클린 룸
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[539_mdm_master_data_management|MDM]](Master [[001_dikw_pyramid|Data]] [[372_management|Management]])은 조직 전체에서 공유되는 핵심 [[001_dikw_pyramid|데이터]](고객·제품·공급자)의 단일 권위 있는 [[288_version_ihl_tos_total_length|버전]]을 관리하여 [[001_dikw_pyramid|데이터]] 불일치와 [[002_silo_hyeonhyung|사일로]]([[002_silo_hyeonhyung|Silo]])를 제거한다.

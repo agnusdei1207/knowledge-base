@@ -1,10 +1,9 @@
-+++
-weight = 223
-title = "218. 교육 빅데이터 (Education Big Data) — 학습분석/맞춤형교육/중도탈락예측"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 218. 교육 빅데이터 (Education Big Data) — 학습분석/맞춤형교육/중도탈락예측
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

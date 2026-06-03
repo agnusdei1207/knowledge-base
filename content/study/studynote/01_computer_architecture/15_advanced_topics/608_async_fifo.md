@@ -1,10 +1,9 @@
-+++
-weight = 608
-title = "608. 비동기식 FIFO (First-In First-Out) 버퍼"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 608. 비동기식 FIFO (First-In First-Out) 버퍼
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

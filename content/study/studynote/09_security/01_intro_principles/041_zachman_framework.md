@@ -1,10 +1,9 @@
-+++
-title = "041. 자크만 프레임워크 (Zachman Framework) — 엔터프라이즈 아키텍처"
-weight = 41
-date = "2026-04-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 041. 자크만 프레임워크 (Zachman Framework) — 엔터프라이즈 아키텍처
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 > **핵심 인사이트**
 > 1. 자크만 프레임워크([[112_zachman_framework|Zachman Framework]])는 엔터프라이즈 아키텍처([[110_enterprise_architecture_ea|EA]])를 6가지 관점([[173_stakeholder_identification_impact_matrix|이해관계자]])×6가지 질문(What/How/Where/Who/When/Why)의 36셀 매트릭스로 체계화한 온톨로지로, 아키텍처 산출물을 [[104_classification_analysis|분류]]하고 누락을 방지하는 메타프레임워크다.

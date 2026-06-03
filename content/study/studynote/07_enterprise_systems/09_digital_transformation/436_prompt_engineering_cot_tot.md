@@ -1,10 +1,9 @@
-+++
-weight = 436
-title = "436. 프롬프트 엔지니어링 CoT ToT 퓨샷/제로샷 (Prompt Engineering)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 436. 프롬프트 엔지니어링 CoT ToT 퓨샷/제로샷 (Prompt Engineering)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

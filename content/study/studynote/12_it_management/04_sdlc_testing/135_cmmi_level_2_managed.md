@@ -1,10 +1,9 @@
-+++
-weight = 135
-title = "135. CMMI 레벨 2 (Managed, 관리됨)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 135. CMMI 레벨 2 (Managed, 관리됨)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[133_cmmi_capability_maturity_model_integration_levels|CMMI]] 레벨 2 (Managed, 관리됨)의 본질은 프로젝트 단위 규칙 수립, 경험 반복을 단계별 산출물과 품질 게이트로 관리하는 데 있다.

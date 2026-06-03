@@ -1,10 +1,9 @@
-+++
-weight = 417
-title = "417. 취약한 접근 제어 (Broken Access Control)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 417. 취약한 접근 제어 (Broken Access Control)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 345
-title = "345. 클라우드 종속성과 이식성 진단 (Cloud Lock-in and Portability Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 345. 클라우드 종속성과 이식성 진단 (Cloud Lock-in and Portability Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

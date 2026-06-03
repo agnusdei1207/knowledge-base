@@ -1,10 +1,9 @@
-+++
-weight = 123
-title = "123. 아키텍처 검토 위원회 (ARB, Architecture Review Board)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 123. 아키텍처 검토 위원회 (ARB, Architecture Review Board)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 아키텍처 검토 위원회 (ARB, [[319_architecture|Architecture]] [[153_requirements_review_inspection_walkthrough|Review]] Board)의 본질은 정보화 사업 기획/설계 시 [[110_enterprise_architecture_ea|EA]] 원칙 준수 여부 심의 결정 기구를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

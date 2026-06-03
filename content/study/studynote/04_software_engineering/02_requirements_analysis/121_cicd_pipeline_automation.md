@@ -1,10 +1,9 @@
-+++
-weight = 121
-title = "121. CI/CD 파이프라인 자동화 - 빌드·테스트·배포의 지속적 통합/전달 체계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 121. CI/CD 파이프라인 자동화 - 빌드·테스트·배포의 지속적 통합/전달 체계
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[090_configuration_item|CI]]/CD는 코드 변경 시 **빌드·테스트를 자동 실행([[090_configuration_item|CI]]: [[019_continuous_integration|Continuous Integration]])**하고, 검증된 코드를 **스테이징·프로덕션에 자동 배포(CD: [[164_continuous_delivery|Continuous Delivery]]/[[087_deployment_kubernetes_workload_rolling_update|Deployment]])**하는 소프트웨어 엔지니어링의 핵심 자동화 체계다.

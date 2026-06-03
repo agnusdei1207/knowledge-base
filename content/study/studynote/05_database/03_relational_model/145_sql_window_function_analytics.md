@@ -1,10 +1,9 @@
-+++
-weight = 145
-title = "145. SQL Window Function 심화 - ROWS/RANGE Frame & 누적합"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 145. SQL Window Function 심화 - ROWS/RANGE Frame & 누적합
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Window Frame은 **ROWS(물리적 행 수)/RANGE([[369_logic_bomb|논리]]적 값 범위)로 현재 행 기준 [[316_reference_pattern_nosql|참조]] 범위를 정의**하며, UNBOUNDED PRECEDING·[[002_current|CURRENT]] ROW·N FOLLOWING 등으로 세밀하게 제어한다.

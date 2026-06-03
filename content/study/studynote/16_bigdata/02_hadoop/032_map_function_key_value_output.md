@@ -1,10 +1,9 @@
-+++
-weight = 32
-title = "Map 함수: MapReduce 분산 처리의 시작"
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 'Map 함수: MapReduce 분산 처리의 시작'
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - 입력 [[001_dikw_pyramid|데이터]]를 쪼개어 특정 규칙에 따라 ([[067_db_key_uniqueness_minimality|Key]], Value) 쌍의 형태로 변환하는 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] [[018_mapreduce|맵리듀스]]의 첫 번째 단계임.

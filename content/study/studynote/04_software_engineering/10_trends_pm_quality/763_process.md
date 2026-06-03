@@ -1,10 +1,9 @@
-+++
-weight = 763
-title = "763. 지속적 통합 테스트 빌드 자동화 서버"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 763. 지속적 통합 테스트 빌드 자동화 서버
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

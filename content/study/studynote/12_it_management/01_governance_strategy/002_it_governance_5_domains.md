@@ -1,12 +1,11 @@
-+++
-weight = 2
-title = "2. IT 거버넌스 5대 도메인 - 전략적 연계(Strategic Alignment), 가치 전달(Value Delivery), 위험 관리(Risk Management), 자원 관리(Resource Management), 성과 측정(Performance Measurement)"
-description = "전략적 연계, 가치 전달, 위험 관리, 자원 관리, 성과 측정으로 구성된 IT 거버넌스의 핵심 영역"
-date = "2026-03-04"
-[taxonomies]
-tags = ["IT 거버넌스", "5대 도메인", "전략적 연계", "가치 전달", "위험 관리"]
-categories = ["12_it_management"]
-+++
+---
+title: 2. IT 거버넌스 5대 도메인 - 전략적 연계(Strategic Alignment), 가치 전달(Value Delivery), 위험
+  관리(Risk Management), 자원 관리(Resource Management), 성과 측정(Performance Measurement)
+date: '2026-03-04'
+description: 전략적 연계, 가치 전달, 위험 관리, 자원 관리, 성과 측정으로 구성된 IT 거버넌스의 핵심 영역
+tags:
+- it_management
+---
 
 # IT 거버넌스 5대 [[064_relation_domain|도메인]]
 

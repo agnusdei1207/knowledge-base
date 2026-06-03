@@ -1,10 +1,9 @@
-+++
-weight = 10
-title = "10. 절연체 (Insulator)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 10. 절연체 (Insulator)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 절연체 (Insulator)는 에너지 밴드 갭이 $5 \sim [[489_raid_10_hybrid|10]] \text{ [[154_ev_earned_value|eV]]}$ 이상으로 매우 넓어, 외부 [[001_voltage|전압]]에도 전자가 이동하지 못해 [[002_current|전류]]를 완벽히 차단하는 물질이다.

@@ -1,10 +1,9 @@
-+++
-weight = 147
-title = "147. 인스트럭션 튜닝 (Instruction Tuning) & RLHF"
-date = "2026-04-19"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 147. 인스트럭션 튜닝 (Instruction Tuning) & RLHF
+date: '2026-04-19'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인스트럭션 튜닝([[158_instruction|Instruction]] Tuning)은 사전 학습된 [[263_llm_large_language_model|LLM]]([[263_llm_large_language_model|Large Language Model]], [[582_llm_based_code_generation_tools|대규모 언어 모델]])을 "질문-지시-응답" 포맷의 [[001_dikw_pyramid|데이터]]로 추가 학습시켜, **사람의 명령([[158_instruction|Instruction]])을 올바르게 따르는 어시스턴트로 특화**하는 정렬(Alignment) 기법이다.

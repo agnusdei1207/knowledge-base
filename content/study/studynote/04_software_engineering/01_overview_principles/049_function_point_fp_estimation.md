@@ -1,10 +1,9 @@
-+++
-title = "049. 기능 점수 — Function Point (FP) Estimation"
-weight = 49
-date = "2026-04-05"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 049. 기능 점수 — Function Point (FP) Estimation
+date: '2026-04-05'
+tags:
+- studynote-software-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[140_function_point|기능 점수]]([[140_function_point|Function Point]], [[293_fp_function_point|FP]])는 소프트웨어의 기능적 규모를 사용자 관점에서 측정하는 표준 방법론 — 코드 라인(LOC)이나 기술적 복잡도가 아닌 사용자가 인식하는 기능(입력, 출력, 조회, [[501_file_definition_logical_record|파일]], 인터페이스)을 기준으로 측정하여 언어·기술에 독립적이다.

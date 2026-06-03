@@ -1,10 +1,9 @@
-+++
-weight = 169
-title = "169. 품질의 집 (HoQ, House of Quality) 매트릭스"
-date = "2026-04-03"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 169. 품질의 집 (HoQ, House of Quality) 매트릭스
+date: '2026-04-03'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 360
-title = "360. GMM (Gaussian Mixture Model) 과 EM 알고리즘"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 360. GMM (Gaussian Mixture Model) 과 EM 알고리즘
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

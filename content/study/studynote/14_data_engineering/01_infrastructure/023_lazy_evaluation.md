@@ -1,10 +1,9 @@
-+++
-weight = 23
-title = "23. 지연 평가 (Lazy Evaluation)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 23. 지연 평가 (Lazy Evaluation)
+date: '2026-04-29'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[015_지연_데이터_관점|지연]] 평가([[380_computational_graph_lazy_eager_execution|Lazy]] Evaluation)는 식(Expression)의 결과가 실제로 필요한 시점까지 계산을 미루는 평가 [[268_strategy_pattern|전략]]으로, 불필요한 연산을 원천 차단하고 무한 시퀀스(Infinite Sequence) 같은 자료구조를 유한 메모리에서 처리할 수 있게 한다.

@@ -1,10 +1,9 @@
-+++
-weight = 48
-title = "21. 퀵 정렬 최적화 — 3-way Partition, Median-of-3 Pivot"
-date = "2026-04-02"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 21. 퀵 정렬 최적화 — 3-way Partition, Median-of-3 Pivot
+date: '2026-04-02'
+tags:
+- studynote-algorithm
+---
 
 # 거품 정렬 ([[022_bubble_sort|Bubble Sort]]) [[001_algorithm_definition|알고리즘]]
 

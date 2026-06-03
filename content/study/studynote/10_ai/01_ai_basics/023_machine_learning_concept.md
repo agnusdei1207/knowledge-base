@@ -1,10 +1,9 @@
-+++
-weight = 23
-title = "23. 머신러닝 개념 (Machine Learning Concept)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 23. 머신러닝 개념 (Machine Learning Concept)
+date: '2026-04-29'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[241_machine_learning_basics|머신러닝]](ML, Machine [[240_switch_learning_forwarding_flooding|Learning]])은 인간이 규칙(Rule)을 직접 코딩하는 대신, 대량의 [[001_dikw_pyramid|데이터]]([[001_dikw_pyramid|Data]])와 정답(Label)을 [[001_algorithm_definition|알고리즘]]에 주입하면 **기계가 스스로 수학적 패턴([[267_weight_bias_activation|가중치]], [[267_weight_bias_activation|Weight]])을 최적화**하며 예측 함수를 완성하는 [[231_ai_turing_test|인공지능]]의 핵심 하위 분야다. (Tom Mitchell, 1997)

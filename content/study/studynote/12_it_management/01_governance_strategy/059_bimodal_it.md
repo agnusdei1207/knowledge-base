@@ -1,10 +1,9 @@
-+++
-weight = 59
-title = "59. 바이모달 IT (Bimodal IT, 가트너)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 59. 바이모달 IT (Bimodal IT, 가트너)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 바이모달 IT (Bimodal IT, 가트너)의 본질은 모드 1(안정성/전통적 IT)과 모드 2(민첩성/혁신 IT)의 투트랙 운영 [[268_strategy_pattern|전략]]을 [[268_strategy_pattern|전략]]·조직·프로세스에 내재화하는 데 있다.

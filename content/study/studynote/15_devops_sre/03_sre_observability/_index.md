@@ -1,8 +1,8 @@
-+++
-weight = 3
-title = "03. SRE 및 관측성 (Observability)"
-sort_by = "weight"
-+++
+---
+title: 03. SRE 및 관측성 (Observability)
+tags:
+- devops_sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

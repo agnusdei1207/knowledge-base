@@ -1,10 +1,9 @@
-+++
-weight = 471
-title = "471. SCAN 스케줄링 (엘리베이터 알고리즘) (Scan Elevator Scheduling)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 471. SCAN 스케줄링 (엘리베이터 알고리즘) (Scan Elevator Scheduling)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,12 +1,10 @@
-+++
-weight = 11
-title = "11. 클린룸 소프트웨어 공학 (Cleanroom Software Engineering) - 통계적 품질 제어"
-description = "수학적 증명과 통계적 테스팅을 통해 결함을 사전에 예방하는 고신뢰성 소프트웨어 개발 방법론"
-date = "2024-05-01"
-[taxonomies]
-tags = ["Cleanroom", "Software Engineering", "Quality Control", "Formal Methods", "통계적 품질 제어"]
-categories = ["studynote-se"]
-+++
+---
+title: 11. 클린룸 소프트웨어 공학 (Cleanroom Software Engineering) - 통계적 품질 제어
+date: '2024-05-01'
+description: 수학적 증명과 통계적 테스팅을 통해 결함을 사전에 예방하는 고신뢰성 소프트웨어 개발 방법론
+tags:
+- software_engineering
+---
 
 # 클린룸 [[001_software_engineering_definition|소프트웨어 공학]] (Cleanroom [[001_software_engineering_definition|Software Engineering]])
 

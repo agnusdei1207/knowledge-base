@@ -1,10 +1,9 @@
-+++
-weight = 89
-title = "89. 구성 관리 (Configuration Management)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 89. 구성 관리 (Configuration Management)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 구성 관리 (Configuration [[372_management|Management]])의 본질은 IT 자산의 구성 항목([[090_configuration_item|CI]])과 그들 간의 논리적/물리적 상호 종속 [[083_relationship_in_er_model|관계]]를 관리를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

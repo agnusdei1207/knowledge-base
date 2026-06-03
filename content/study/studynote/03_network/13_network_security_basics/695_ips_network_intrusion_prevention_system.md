@@ -1,10 +1,10 @@
-+++
-weight = 695
-title = "695. IPS (Network Intrusion Prevention System) 차단 아키텍처 (인라인 구조 배치, 폴스 포지티브 문제 대처방안)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 695. IPS (Network Intrusion Prevention System) 차단 아키텍처 (인라인 구조 배치, 폴스 포지티브
+  문제 대처방안)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

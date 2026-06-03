@@ -1,10 +1,9 @@
-+++
-weight = 128
-title = "128. 마샬링 (Marshalling) / 언마샬링 (Unmarshalling)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 128. 마샬링 (Marshalling) / 언마샬링 (Unmarshalling)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 23
-title = "23. EA 기반 감리 (EA-based Information System Audit)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 23. EA 기반 감리 (EA-based Information System Audit)
+date: '2026-04-29'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[110_enterprise_architecture_ea|EA]] ([[010_ea_enterprise_architecture|Enterprise Architecture]], [[242_ea_architecture_planning|전사 아키텍처]]) 기반 감리는 개별 정보시스템 프로젝트가 기관 전체의 비즈니스·[[001_dikw_pyramid|데이터]]·[[106_ta_as_is_analysis|기술 아키텍처]] **[[116_reference_model|참조 모델]]([[117_brm_business_reference_model|BRM]]·[[119_drm_data_reference_model_standard|DRM]]·[[118_srm_service_reference_model|SRM]]·[[120_trm_technical_reference_model|TRM]]·[[121_prm_performance_reference_model_it_roi|PRM]])에 정렬(Alignment)되었는지**를 [[395_verification_process_review|검증]]함으로써 중복 투자·[[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]]·[[287_interoperability_tactics|상호운용성]] [[352_defect_definition|결함]]을 원천 차단하는 거시적 감리 체계다.

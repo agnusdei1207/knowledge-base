@@ -1,10 +1,9 @@
-+++
-weight = 254
-title = "254. RCU (Read-Copy-Update) - 리눅스 고성능 동기화 (읽기는 락 프리, 쓰기는 복사 후 갱신)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 254. RCU (Read-Copy-Update) - 리눅스 고성능 동기화 (읽기는 락 프리, 쓰기는 복사 후 갱신)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

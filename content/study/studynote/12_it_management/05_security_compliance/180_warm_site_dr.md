@@ -1,10 +1,9 @@
-+++
-weight = 180
-title = "180. 웜 사이트 (Warm Site)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 180. 웜 사이트 (Warm Site)
+date: '2026-05-06'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

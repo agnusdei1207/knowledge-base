@@ -1,10 +1,9 @@
-+++
-weight = 556
-title = "556. 마스터 슬레이브 지연(Replication Lag) 읽기 불일치 이슈 극복망"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 556. 마스터 슬레이브 지연(Replication Lag) 읽기 불일치 이슈 극복망
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

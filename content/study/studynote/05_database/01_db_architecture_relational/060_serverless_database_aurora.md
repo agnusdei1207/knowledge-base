@@ -1,10 +1,9 @@
-+++
-weight = 60
-title = "60. 서버리스 데이터베이스 (Serverless DB) - Amazon Aurora Serverless 등 자동 확장 아키텍처"
-date = "2026-04-10"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 60. 서버리스 데이터베이스 (Serverless DB) - Amazon Aurora Serverless 등 자동 확장 아키텍처
+date: '2026-04-10'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

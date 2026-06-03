@@ -1,10 +1,9 @@
-+++
-title = "083. AES (Advanced Encryption Standard) — 128/192/256비트 키"
-date = "2026-04-05"
-weight = 83
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 083. AES (Advanced Encryption Standard) — 128/192/256비트 키
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [[656_aes_advanced_encryption_standard_rijndael|AES]] ([[656_aes_advanced_encryption_standard_rijndael|Advanced Encryption Standard]])는 128비트 블록을 [[489_raid_10_hybrid|10]]/12/14라운드로 섞는 대칭키 블록 암호이며, Rijndael 설계를 표준화한 것이다.

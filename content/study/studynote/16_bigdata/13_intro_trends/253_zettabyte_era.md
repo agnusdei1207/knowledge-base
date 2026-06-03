@@ -1,10 +1,9 @@
-+++
-title = "041. 제타바이트 시대 (Zettabyte Era)"
-weight = 253
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 041. 제타바이트 시대 (Zettabyte Era)
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트**
 > 1. [[004_bigdata_necessity|제타바이트 시대]](Zettabyte Era)는 전 세계 [[001_dikw_pyramid|데이터]] 총량이 제타바이트(ZB, 10²¹[[074_byte|바이트]]) 규모에 도달하는 시기로, IDC Dataverse 보고서에 따르면 2025년 글로벌 [[001_dikw_pyramid|데이터]] [[087_process_state_transition|생성]]·수집·[[016_replication_factor|복제]]량은 175ZB에 달하며 2020년 대비 3배 이상 성장했다.

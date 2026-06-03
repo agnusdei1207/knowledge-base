@@ -1,10 +1,9 @@
-+++
-weight = 322
-title = "322. EA 프레임워크 잭맨 6×6 매트릭스 (EA Zachman Framework)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 322. EA 프레임워크 잭맨 6×6 매트릭스 (EA Zachman Framework)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

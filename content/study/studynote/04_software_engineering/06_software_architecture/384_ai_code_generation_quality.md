@@ -1,10 +1,9 @@
-+++
-weight = 384
-title = "384. AI 기반 코드 생성기(Copilot 등) 산출물의 품질 평가 한계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 384. AI 기반 코드 생성기(Copilot 등) 산출물의 품질 평가 한계
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

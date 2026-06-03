@@ -1,10 +1,9 @@
-+++
-weight = 288
-title = "288. 단일 인스턴스 자원 환경 (Single Instance Resource)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 288. 단일 인스턴스 자원 환경 (Single Instance Resource)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

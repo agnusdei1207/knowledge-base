@@ -1,8 +1,8 @@
-+++
-weight = 5
-title = "05. 데이터 과학 및 통계/최적화"
-sort_by = "weight"
-+++
+---
+title: 05. 데이터 과학 및 통계/최적화
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

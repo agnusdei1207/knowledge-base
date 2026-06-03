@@ -1,10 +1,9 @@
-+++
-weight = 361
-title = "361. 그래디언트 소실 대비 가중치 초기화 (Xavier, He) (Vanishing Gradient)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 361. 그래디언트 소실 대비 가중치 초기화 (Xavier, He) (Vanishing Gradient)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

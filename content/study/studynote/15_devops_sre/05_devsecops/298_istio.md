@@ -1,10 +1,9 @@
-+++
-weight = 298
-title = "298. 서비스 메시 Istio 사이드카 트래픽 보안 (Istio)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 298. 서비스 메시 Istio 사이드카 트래픽 보안 (Istio)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

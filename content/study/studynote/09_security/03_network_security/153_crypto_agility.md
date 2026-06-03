@@ -1,10 +1,9 @@
-+++
-weight = 153
-title = "153. 크립토 애질리티 (Crypto Agility) - 양자 컴퓨터 파국(Q-Day)을 회피하는 0.1초 암호 스위칭 쉴드"
-date = "2026-05-03"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 153. 크립토 애질리티 (Crypto Agility) - 양자 컴퓨터 파국(Q-Day)을 회피하는 0.1초 암호 스위칭 쉴드
+date: '2026-05-03'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 크립토 애질리티(Crypto Agility, [[988_crypto_agility|암호 민첩성]])는 낡은 암호 [[001_algorithm_definition|알고리즘]](예: [[668_md5_hash_collision_vulnerability|MD5]], [[110_rsa|RSA]])을 소프트웨어 자바 소스코드 깊숙이 하드코딩(Hard-coding 용접)하는 자살 짓을 도끼로 찢어발기고 ➔ **[[198_abstraction_control_data_process|추상화]]([[198_abstraction_control_data_process|Abstraction]]) 래퍼(Wrapper) 껍데기와 플러그인(Plug-and-play) 구조 텐트로 코어 설계하여, 언제든 건전지 부품 갈아 끼우듯 최신 암호 규격(SHA-256, [[351_quantum_computing_pqc_transition|PQC]])으로 런타임 0.1초 컷 쾌속 스위칭 우회 생존 핑퐁을 칠 수 있는 가장 위대한 인프라 보안 유연성(Flexibility) 뼈대 헌법**이다.

@@ -1,10 +1,9 @@
-+++
-weight = 23
-title = "15. 외부 정렬 (External Sort) — 대용량 데이터, 멀티웨이 합병"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 15. 외부 정렬 (External Sort) — 대용량 데이터, 멀티웨이 합병
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 외부 정렬은 주기억장치(RAM)에 올라오지 않는 대용량 [[001_dikw_pyramid|데이터]]를 디스크 I/O를 최소화하면서 정렬하는 [[001_algorithm_definition|알고리즘]]으로, [[282_performance_tactics|성능]]의 핵심은 비교 연산이 아닌 I/O 횟수다.

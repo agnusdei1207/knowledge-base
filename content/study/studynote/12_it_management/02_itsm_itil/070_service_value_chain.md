@@ -1,10 +1,9 @@
-+++
-weight = 70
-title = "70. ITIL 4 서비스 가치 사슬 (Service Value Chain)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 70. ITIL 4 서비스 가치 사슬 (Service Value Chain)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[062_itil|ITIL]] 4 [[090_service_kubernetes_network_load_balancing|서비스]] [[249_value_chain_competitive_analysis|가치 사슬]] ([[090_service_kubernetes_network_load_balancing|Service]] [[249_value_chain_competitive_analysis|Value Chain]])의 본질은 계획(Plan), 개선(Improve), 참여(Engage), 설계 및 전환(Design & Transition), 획득/구축(Obtain/Build), 제공 및 지원(Deliver & [[084_support_association_rule_transaction|Support]])를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

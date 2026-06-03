@@ -1,10 +1,9 @@
-+++
-weight = 210
-title = "210. 개체명 인식 (NER, Named Entity Recognition)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 210. 개체명 인식 (NER, Named Entity Recognition)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

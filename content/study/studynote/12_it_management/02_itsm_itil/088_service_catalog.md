@@ -1,10 +1,9 @@
-+++
-weight = 88
-title = "88. 서비스 카탈로그 (Service Catalog)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 88. 서비스 카탈로그 (Service Catalog)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[090_service_kubernetes_network_load_balancing|서비스]] [[394_catalog_metadata|카탈로그]] ([[090_service_kubernetes_network_load_balancing|Service]] [[394_catalog_metadata|Catalog]])의 본질은 현업 사용자가 선택할 수 있는 IT [[090_service_kubernetes_network_load_balancing|서비스]] 목록 및 단가 명세서를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

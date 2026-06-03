@@ -1,10 +1,9 @@
-+++
-weight = 483
-title = "483. Vulnerable and Outdated Components (취약하고 만료된 컴포넌트)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 483. Vulnerable and Outdated Components (취약하고 만료된 컴포넌트)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

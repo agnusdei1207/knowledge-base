@@ -1,10 +1,9 @@
-+++
-weight = 52
-title = "52. 데이터 리니지 (Data Lineage)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 52. 데이터 리니지 (Data Lineage)
+date: '2026-05-01'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

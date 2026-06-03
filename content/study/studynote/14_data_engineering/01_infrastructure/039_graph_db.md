@@ -1,9 +1,9 @@
-+++
-title = "039. 그래프 데이터베이스 (Graph Database)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 039. 그래프 데이터베이스 (Graph Database)
+date: '2026-03-04'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[070_graph_datastructure|그래프]] DB는 [[001_dikw_pyramid|데이터]]를 노드(Node)·엣지(Edge)·[[082_attribute_types_er_model|속성]](Property)으로 표현하여 [[083_relationship_in_er_model|관계]]([[083_relationship_in_er_model|Relationship]])가 일급 시민(First-Class Citizen)인 [[001_dikw_pyramid|데이터]] 모델로, SNS·[[211_recommendation_system|추천 시스템]]·사기 탐지처럼 연결성이 핵심인 문제에서 [[083_relationship_in_er_model|관계]]형 DB의 다단계 JOIN을 [[070_graph_datastructure|그래프]] 탐색으로 대체하여 수십~수백 배 빠른 성능을 제공한다.

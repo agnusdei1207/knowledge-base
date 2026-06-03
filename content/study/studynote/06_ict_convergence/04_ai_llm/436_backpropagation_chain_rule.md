@@ -1,10 +1,9 @@
-+++
-weight = 436
-title = "436. 역전파 연쇄 법칙 체인 룰 (Backpropagation Chain RULE)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 436. 역전파 연쇄 법칙 체인 룰 (Backpropagation Chain RULE)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

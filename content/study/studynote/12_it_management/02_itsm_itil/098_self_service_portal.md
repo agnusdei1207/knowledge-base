@@ -1,10 +1,9 @@
-+++
-weight = 98
-title = "98. 셀프 서비스 포털 (Self-Service Portal)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 98. 셀프 서비스 포털 (Self-Service Portal)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[098_self_service_portal_helpdesk_automation|셀프 서비스 포털]] ([[098_self_service_portal_helpdesk_automation|Self-Service Portal]])의 본질은 사용자가 헬프데스크 전화 없이 스스로 비밀번호 초기화, 소프트웨어 설치 요청 등을 할 수 있는 포털 (IT 지원 비용 절감)를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

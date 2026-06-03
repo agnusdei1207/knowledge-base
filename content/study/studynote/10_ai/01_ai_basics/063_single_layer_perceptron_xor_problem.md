@@ -1,10 +1,9 @@
-+++
-weight = 63
-title = "63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제"
-date = "2026-04-07"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제
+date: '2026-04-07'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

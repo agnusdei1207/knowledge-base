@@ -1,10 +1,9 @@
-+++
-weight = 689
-title = "689. 위협 헌팅 (Threat Hunting)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 689. 위협 헌팅 (Threat Hunting)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

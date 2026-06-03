@@ -1,10 +1,9 @@
-+++
-weight = 447
-title = "447. 반복 불가능 읽기 (Non-Repeatable Update 변경)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 447. 반복 불가능 읽기 (Non-Repeatable Update 변경)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "002. NP 클래스 (NP Class) — 다항 시간 내 검증 가능한 문제"
-weight = 107
-date = "2025-05-14"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 002. NP 클래스 (NP Class) — 다항 시간 내 검증 가능한 문제
+date: '2025-05-14'
+tags:
+- studynote-algorithm
+---
 
 > **핵심 인사이트**
 > 1. NP(Non-deterministic [[195_polynomial_generator_crc|Polynomial]] Time) 클래스는 비결정론적 튜링 머신(NDTM)이 다항 시간에 해결하거나, 동등하게 주어진 해답(Certificate)을 결정론적 튜링 머신이 다항 시간에 [[395_verification_process_review|검증]]할 수 있는 판정 문제의 집합이다.

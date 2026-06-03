@@ -1,10 +1,9 @@
-+++
-weight = 295
-title = "295. 외부 단편화 (External Fragmentation)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 295. 외부 단편화 (External Fragmentation)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

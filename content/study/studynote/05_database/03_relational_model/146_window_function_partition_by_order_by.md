@@ -1,10 +1,9 @@
-+++
-weight = 146
-title = "146. PARTITION BY & ORDER BY - Window 함수 핵심 절"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 146. PARTITION BY & ORDER BY - Window 함수 핵심 절
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[514_partition_slice_volume|PARTITION]] BY는 **Window 함수의 [[535_grouping_counting_free_space|그룹화]] 기준**이고, ORDER BY는 **각 [[514_partition_slice_volume|파티션]] 내 정렬 기준**이며, 이 두 절이 Window 함수의 계산 범위와 순서를 결정한다.

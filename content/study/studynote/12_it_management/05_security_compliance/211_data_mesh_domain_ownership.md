@@ -1,10 +1,9 @@
-+++
-weight = 211
-title = "211. 데이터 메시 (Data Mesh)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 211. 데이터 메시 (Data Mesh)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] [[389_mesh_topology|메시]] ([[320_data_mesh|Data Mesh]])의 본질은 [[001_dikw_pyramid|데이터]] 관리를 중앙 팀 사일로에서 벗어나, [[064_relation_domain|도메인]] 주도의 [[136_variance|분산]] 오너십 체계로 전환하여 '[[001_dikw_pyramid|데이터]]를 프로덕트'로 제공하는 조직적/기술적 패러다임 전환을 수집·통합·품질·활용 체계로 정렬하는 데 있다.

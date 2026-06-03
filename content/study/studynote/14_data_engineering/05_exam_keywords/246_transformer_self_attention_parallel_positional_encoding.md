@@ -1,10 +1,9 @@
-+++
-weight = 246
-title = "246. 트랜스포머 (Transformer) 셀프 어텐션 병렬 처리 포지셔널 인코딩"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 246. 트랜스포머 (Transformer) 셀프 어텐션 병렬 처리 포지셔널 인코딩
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Transformer는 RNN을 완전히 제거하고 셀프 어텐션([[124_self_attention|Self-Attention]])만으로 시퀀스 내 모든 위치 간의 의존성을 O(1)의 경로 길이로 포착하는, 현대 딥러닝의 핵심 아키텍처다.

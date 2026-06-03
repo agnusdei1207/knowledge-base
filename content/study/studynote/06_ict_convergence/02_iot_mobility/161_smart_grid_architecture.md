@@ -1,10 +1,9 @@
-+++
-weight = 161
-title = "161. 스마트 그리드 (Smart Grid) - 전력망에 ICT를 접목하여 양방향으로 전력/정보를 교환, 에너지 효율 극대화"
-date = "2026-05-05"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 161. 스마트 그리드 (Smart Grid) - 전력망에 ICT를 접목하여 양방향으로 전력/정보를 교환, 에너지 효율 극대화
+date: '2026-05-05'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트
 

@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "149. Apache Hudi (Hadoop Upserts Deletes Incrementals) — CDC 지원 레이크"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 149. Apache Hudi (Hadoop Upserts Deletes Incrementals) — CDC 지원 레이크
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. Apache Hudi는 Uber가 MySQL → [[208_data_lake_schema_on_read|데이터 레이크]] [[217_cdc_binlog_change_capture_debezium|CDC]] ([[217_cdc_binlog_change_capture_debezium|Change Data Capture]]) [[212_synchronization_mechanisms|동기화]] 문제를 해결하기 위해 만든 [[054_open_table_format_iceberg_delta_hudi|오픈 테이블 포맷]]으로, **Upsert(Update + Insert)와 Delete를 레이크에서 직접 수행**할 수 있게 한다.

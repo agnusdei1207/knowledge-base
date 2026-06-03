@@ -1,10 +1,9 @@
-+++
-weight = 441
-title = "441. 원자성 (회복 보장)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 441. 원자성 (회복 보장)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

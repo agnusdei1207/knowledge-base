@@ -1,10 +1,9 @@
-+++
-weight = 135
-title = "135. RegTech (규제 기술) - AML·KYC·준법 자동화"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 135. RegTech (규제 기술) - AML·KYC·준법 자동화
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RegTech(Regulatory Technology)는 **금융 규제 준수([[058_it_compliance_sox_basel_gdpr_isms|Compliance]])를 [[190_ai_llm_requirements_specification|AI]]·빅데이터·자동화로 효율화**하는 기술이며, AML(자금세탁방지)·KYC(고객확인)·규제 보고가 핵심 영역이다.

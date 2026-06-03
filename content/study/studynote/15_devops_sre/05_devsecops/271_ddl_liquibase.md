@@ -1,10 +1,9 @@
-+++
-weight = 271
-title = "271. 데이터베이스 마이그레이션(DDL) 롤백 자동화 스크립팅 파이프 (Liquibase 롤백 태그 연동망)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 271. 데이터베이스 마이그레이션(DDL) 롤백 자동화 스크립팅 파이프 (Liquibase 롤백 태그 연동망)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

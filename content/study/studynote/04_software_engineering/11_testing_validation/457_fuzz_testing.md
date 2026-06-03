@@ -1,10 +1,9 @@
-+++
-weight = 457
-title = "457. 퍼즈 테스팅 (Fuzz Testing / Fuzzing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 457. 퍼즈 테스팅 (Fuzz Testing / Fuzzing)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

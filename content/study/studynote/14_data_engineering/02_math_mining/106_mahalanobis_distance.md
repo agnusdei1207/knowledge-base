@@ -1,10 +1,9 @@
-+++
-title = "마할라노비스 거리 (Mahalanobis Distance)"
-weight = 106
-date = "2026-03-04"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 마할라노비스 거리 (Mahalanobis Distance)
+date: '2026-03-04'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 마할라노비스 거리 (Mahalanobis Distance)는 [[001_dikw_pyramid|데이터]]의 [[136_variance|분산]]과 변수 간의 상관관계(공분산)를 모두 고려하여, 특정 [[001_dikw_pyramid|데이터]] 포인트가 [[001_dikw_pyramid|데이터]]군의 중심으로부터 얼마나 떨어져 있는지를 측정하는 통계적 거리 척도이다.

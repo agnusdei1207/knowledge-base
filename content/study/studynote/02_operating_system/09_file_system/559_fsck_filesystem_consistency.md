@@ -1,10 +1,9 @@
-+++
-weight = 559
-title = "559. 파일 시스템 일관성 검사 (fsck / chkdsk)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 559. 파일 시스템 일관성 검사 (fsck / chkdsk)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

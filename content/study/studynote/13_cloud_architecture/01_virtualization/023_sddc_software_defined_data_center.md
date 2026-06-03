@@ -1,10 +1,9 @@
-+++
-weight = 23
-title = "23. SDDC (Software-Defined Data Center) — 소프트웨어 정의 데이터센터"
-date = "2026-04-29"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 23. SDDC (Software-Defined Data Center) — 소프트웨어 정의 데이터센터
+date: '2026-04-29'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[631_sddc|SDDC]] (Software-Defined [[801_data_center_3_tier_architecture_core_aggregation_access|Data Center]], [[858_sddc_software_defined_data_center_infrastructure|소프트웨어 정의 데이터센터]])는 컴퓨팅·스토리지·네트워킹·보안 등 모든 인프라 자원을 하드웨어 [[008_dependencies|종속성]] 없이 소프트웨어로 [[198_abstraction_control_data_process|추상화]]·자동화하여 프로그래밍 가능한(Programmable) [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]]를 실현하는 아키텍처 패러다임이다.

@@ -1,10 +1,9 @@
-+++
-weight = 909
-title = "909. Zone 맵핑 (Zone Mapping)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 909. Zone 맵핑 (Zone Mapping)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

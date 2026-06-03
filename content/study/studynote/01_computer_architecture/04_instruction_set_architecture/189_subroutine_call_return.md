@@ -1,10 +1,9 @@
-+++
-weight = 189
-title = "189. 서브루틴 호출 (Call) 및 복귀 (Return)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 189. 서브루틴 호출 (Call) 및 복귀 (Return)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

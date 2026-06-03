@@ -1,10 +1,9 @@
-+++
-weight = 406
-title = "406. 선형 프로그래밍 심플렉스 다면체 버텍스 최적 (Simplex)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 406. 선형 프로그래밍 심플렉스 다면체 버텍스 최적 (Simplex)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

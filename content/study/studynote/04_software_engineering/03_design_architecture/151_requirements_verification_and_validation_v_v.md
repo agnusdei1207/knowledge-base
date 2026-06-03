@@ -1,10 +1,9 @@
-+++
-weight = 151
-title = "151. 요구사항 확인 및 검증 (V&V, Verification & Validation) - 품질 보증의 두 날개"
-date = "2026-05-03"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 151. 요구사항 확인 및 검증 (V&V, Verification & Validation) - 품질 보증의 두 날개
+date: '2026-05-03'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: V&V는 소프트웨어 [[352_defect_definition|결함]]을 사전에 척살하는 품질 통제(QA)의 절대 십자 헌법이다. **[[395_verification_process_review|검증]]([[395_verification_process_review|Verification]])**은 "우리가 설계도(문서)에 맞게 코드를 똑바로 짰는가?"를 따지는 기계적 심사고, **[[396_validation|확인]]([[396_validation|Validation]])**은 "그렇게 다 만든 제품이 진짜 고객이 돈 주고 원했던 비즈니스 목적과 일치하는가?"를 묻는 최종 승인 심사다.

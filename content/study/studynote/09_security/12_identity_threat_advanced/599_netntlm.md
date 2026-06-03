@@ -1,10 +1,9 @@
-+++
-weight = 599
-title = "599. NetNTLM (NetNTLM)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 599. NetNTLM (NetNTLM)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

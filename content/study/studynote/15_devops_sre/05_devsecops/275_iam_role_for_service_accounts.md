@@ -1,10 +1,9 @@
-+++
-weight = 275
-title = "275. 서비스 계정 (IAM Role for Service Accounts, IRSA) 최소 권한 OIDC 연합 토큰 증명"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 275. 서비스 계정 (IAM Role for Service Accounts, IRSA) 최소 권한 OIDC 연합 토큰 증명
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

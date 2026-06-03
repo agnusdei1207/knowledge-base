@@ -1,10 +1,9 @@
-+++
-weight = 460
-title = "460. 단편화 수평 분할 (행) / 수직 분할 (열 PK포함)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 460. 단편화 수평 분할 (행) / 수직 분할 (열 PK포함)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

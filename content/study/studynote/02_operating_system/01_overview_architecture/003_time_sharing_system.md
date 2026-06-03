@@ -1,10 +1,9 @@
-+++
-weight = 3
-title = "3. 시분할 시스템 (Time-sharing System) - 응답 시간 최소화, 인터랙티브"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 3. 시분할 시스템 (Time-sharing System) - 응답 시간 최소화, 인터랙티브
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 # 시분할 시스템 (Time-sharing System)
 

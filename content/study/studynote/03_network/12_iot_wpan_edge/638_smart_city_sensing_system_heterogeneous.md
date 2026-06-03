@@ -1,10 +1,9 @@
-+++
-weight = 638
-title = "638. 스마트 시티 (Smart City 통신망 다중화 연계) 센싱 시스템"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 638. 스마트 시티 (Smart City 통신망 다중화 연계) 센싱 시스템
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

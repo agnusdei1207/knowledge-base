@@ -1,10 +1,9 @@
-+++
-weight = 48
-title = "26. HDFS ViewFS — Hadoop 연합 네임스페이스 통합 뷰"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 26. HDFS ViewFS — Hadoop 연합 네임스페이스 통합 뷰
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[013_hdfs|HDFS]] ViewFS ([[151_sql_view_virtual_table|View]] [[501_file_definition_logical_record|File]] System)는 [[013_hdfs|HDFS]] 연합([[543_federation|Federation]]) 환경에서 여러 독립 [[014_namenode|NameNode]] 클러스터를 단일 [[369_logic_bomb|논리]] [[061_namespace|네임스페이스]] `/user`, `/data`, `/tmp` 등으로 [[516_mount_mechanism|마운트]]하여 통합 [[501_file_definition_logical_record|파일]] 시스템 뷰를 제공하는 클라이언트 측 가상 [[516_mount_mechanism|마운트]] 레이어다.

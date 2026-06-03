@@ -1,10 +1,9 @@
-+++
-weight = 448
-title = "448. 보안 헤더 미설정 (Missing Security Headers)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 448. 보안 헤더 미설정 (Missing Security Headers)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,7 +1,8 @@
-+++
-title = "68. CDO (Chief Data Officer) / CIO (Chief Information Officer) 역할 분리"
-weight = 68
-+++
+---
+title: 68. CDO (Chief Data Officer) / CIO (Chief Information Officer) 역할 분리
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

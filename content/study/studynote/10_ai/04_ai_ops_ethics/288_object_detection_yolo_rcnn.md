@@ -1,10 +1,9 @@
-+++
-weight = 288
-title = "288. 객체 탐지 (Object Detection)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 288. 객체 탐지 (Object Detection)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 358
-title = "358. TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 358. TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

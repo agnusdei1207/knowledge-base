@@ -1,10 +1,9 @@
-+++
-weight = 390
-title = "390. 서버리스 DB 오로라 (Aurora) 스토리지 로깅 분산 쿼럼 쓰기 (6개 복제본 중 4개 이상 확인 시 완료) 아키텍처 특장점"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 390. 서버리스 DB 오로라 (Aurora) 스토리지 로깅 분산 쿼럼 쓰기 (6개 복제본 중 4개 이상 확인 시 완료) 아키텍처 특장점
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

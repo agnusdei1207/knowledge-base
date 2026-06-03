@@ -1,10 +1,9 @@
-+++
-weight = 609
-title = "609. 파이프-필터 아키텍처 스트림"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 609. 파이프-필터 아키텍처 스트림
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

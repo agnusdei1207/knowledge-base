@@ -1,10 +1,9 @@
-+++
-weight = 188
-title = "188. 클라우드 배포 모델 (Cloud Deployment Models Public Private)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 188. 클라우드 배포 모델 (Cloud Deployment Models Public Private)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

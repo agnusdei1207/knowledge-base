@@ -1,10 +1,9 @@
-+++
-weight = 129
-title = "10. 몬테카를로 수치적분 (Monte Carlo Integration) — 확률적 근사"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 10. 몬테카를로 수치적분 (Monte Carlo Integration) — 확률적 근사
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

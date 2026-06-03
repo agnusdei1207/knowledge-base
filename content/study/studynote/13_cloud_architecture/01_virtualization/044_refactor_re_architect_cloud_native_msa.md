@@ -1,10 +1,9 @@
-+++
-title = "044. Re-factor & Re-architect — 클라우드 네이티브 MSA"
-weight = 44
-date = "2026-04-05"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 044. Re-factor & Re-architect — 클라우드 네이티브 MSA
+date: '2026-04-05'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. Re-factor(재구성)와 Re-architect(재설계)는 클라우드 마이그레이션 6R [[268_strategy_pattern|전략]]의 가장 높은 가치를 창출하는 단계로 — Re-factor는 애플리케이션 코드를 [[184_paas_platform_as_a_service|PaaS]]/서버리스에 최적화하고, Re-architect는 모놀리스를 [[619_msa_traffic_hardware|MSA]]([[122_msa_microservices_architecture|Microservices Architecture]])로 근본적으로 재설계한다.

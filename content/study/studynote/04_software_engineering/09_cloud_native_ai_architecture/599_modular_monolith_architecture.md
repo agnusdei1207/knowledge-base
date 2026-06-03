@@ -1,10 +1,9 @@
-+++
-weight = 599
-title = "599. 모듈러 모놀리스 (Modular Monolith) 아키텍처 - MSA 전환 전 단계, 모듈 간 강결합 방지 아키텍처"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 599. 모듈러 모놀리스 (Modular Monolith) 아키텍처 - MSA 전환 전 단계, 모듈 간 강결합 방지 아키텍처
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

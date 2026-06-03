@@ -1,10 +1,9 @@
-+++
-weight = 233
-title = "233. 아파치 에어플로우 (Apache Airflow)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 233. 아파치 에어플로우 (Apache Airflow)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Airflow는 복잡한 [[645_data_pipeline_acceleration|데이터 파이프라인]]의 선후행 의존성을 **[[401_bayesian_network_dag_causality|DAG]]([[255_apache_airflow_dag|Directed Acyclic Graph]], 방향성 비순환 [[070_graph_datastructure|그래프]])**로 Python 코드로 정의하고 [[208_schedule_history_transaction_execution_order|스케줄]]링·모니터링하는 워크플로우 [[073_container_orchestration_tools|오케스트레이션]] 도구다.

@@ -1,10 +1,9 @@
-+++
-weight = 110
-title = "110. 비면허 LPWAN - LoRaWAN (CSS) vs Sigfox (UNB) 대역 확산 기술 비교"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 110. 비면허 LPWAN - LoRaWAN (CSS) vs Sigfox (UNB) 대역 확산 기술 비교
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 비면허 대역 LPWAN은 정부가 무료 개방한 **ISM 밴드(900MHz 부근)**에서 통신사 인프라 없이 **자가 기지국으로 도시 규모 [[101_iot_concept|IoT]] 사설망을 구축**하는 기술이며, LoRaWAN(CSS 변조)과 [[1030_lpwan_sigfox|Sigfox]](UNB 변조)가 양대 산맥이다.

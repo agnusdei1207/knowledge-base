@@ -1,10 +1,9 @@
-+++
-weight = 394
-title = "394. WRED (Weighted Random Early Detection) 혼잡 제어 꼬리 짜르기 제한"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 394. WRED (Weighted Random Early Detection) 혼잡 제어 꼬리 짜르기 제한
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

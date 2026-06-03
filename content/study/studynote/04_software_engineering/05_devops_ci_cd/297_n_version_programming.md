@@ -1,10 +1,9 @@
-+++
-weight = 297
-title = "297. N-버전 프로그래밍 (N-Version Programming) 다중화 설계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 297. N-버전 프로그래밍 (N-Version Programming) 다중화 설계
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

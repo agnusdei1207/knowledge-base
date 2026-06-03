@@ -1,10 +1,9 @@
-+++
-weight = 335
-title = "335. 개인정보 영향 평가 (PIA) 감리 연계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 335. 개인정보 영향 평가 (PIA) 감리 연계
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[335_privacy_impact_assessment_pia_audit_linkage|개인정보 영향 평가]] ([[335_privacy_impact_assessment_pia_audit_linkage|PIA]]) 감리 연계의 본질은 [[164_policy|정책]], 역할, 통제, 증빙이 같은 [[025_baseline|기준선]] 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 244
-title = "244. 우선순위 올림 (Priority Ceiling Protocol)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 244. 우선순위 올림 (Priority Ceiling Protocol)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 350
-title = "350. 엣지 컴퓨팅 분산 지연·스토리지 (Edge Computing)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 350. 엣지 컴퓨팅 분산 지연·스토리지 (Edge Computing)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

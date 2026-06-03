@@ -1,10 +1,9 @@
-+++
-weight = 139
-title = "139. NSP (Next Sentence Prediction) - BERT의 문장 관계 학습"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 139. NSP (Next Sentence Prediction) - BERT의 문장 관계 학습
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NSP는 **두 문장이 원래 연속된 문장인지(IsNext) 아닌지(NotNext)를 이진 [[104_classification_analysis|분류]]**하는 BERT의 두 번째 사전 학습 목표이며, 문장 간 [[083_relationship_in_er_model|관계]](함의·모순·중립)를 학습한다.

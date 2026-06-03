@@ -1,10 +1,9 @@
-+++
-weight = 323
-title = "323. 데이터 마트 (Data Mart)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 323. 데이터 마트 (Data Mart)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

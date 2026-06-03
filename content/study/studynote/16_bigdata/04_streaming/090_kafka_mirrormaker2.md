@@ -1,10 +1,9 @@
-+++
-weight = 90
-title = "15. Kafka MirrorMaker 2 — 클러스터 간 복제 및 DR"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 15. Kafka MirrorMaker 2 — 클러스터 간 복제 및 DR
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

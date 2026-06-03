@@ -1,10 +1,9 @@
-+++
-weight = 45
-title = "19. 최소 컷 (Min Cut) — Max-Flow Min-Cut 정리"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 19. 최소 컷 (Min Cut) — Max-Flow Min-Cut 정리
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

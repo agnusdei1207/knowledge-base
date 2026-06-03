@@ -1,10 +1,9 @@
-+++
-weight = 112
-title = "109. 시계열 분석 (Time Series Analysis) — ARIMA/Prophet/LSTM 시계열 예측"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 109. 시계열 분석 (Time Series Analysis) — ARIMA/Prophet/LSTM 시계열 예측
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[341_time_series_ar_ma_arma|시계열 분석]] (Time Series Analysis)은 시간 순서로 측정된 [[001_dikw_pyramid|데이터]]에서 추세 (Trend), 계절성 (Seasonality), 주기성 (Cyclicity), 잔차 (Residual) 네 가지 성분을 분리·모델링하여 미래 값을 예측하는 시간 의존적 [[001_dikw_pyramid|데이터]] 분석 기법이다.

@@ -1,10 +1,9 @@
-+++
-weight = 408
-title = "408. 소스/목적지 포트 번호, 일련번호 (Sequence Number, 32bit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 408. 소스/목적지 포트 번호, 일련번호 (Sequence Number, 32bit)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

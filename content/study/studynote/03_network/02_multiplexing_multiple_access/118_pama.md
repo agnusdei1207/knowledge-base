@@ -1,10 +1,9 @@
-+++
-weight = 118
-title = "118. PAMA (Pre-Assigned Multiple Access)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 118. PAMA (Pre-Assigned Multiple Access)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

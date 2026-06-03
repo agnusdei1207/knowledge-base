@@ -1,7 +1,8 @@
-+++
-title = "101. 무손실 분해 (Lossless-Join Decomposition) - 조인 시 원래 릴레이션이 복원됨 보장"
-weight = 101
-+++
+---
+title: 101. 무손실 분해 (Lossless-Join Decomposition) - 조인 시 원래 릴레이션이 복원됨 보장
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 무손실 분해 (Lossless-[[521_join|Join]] Decomposition)는 하나의 거대한 [[061_relation_schema_instance|릴레이션]]을 두 개로 분해한 후 다시 조인([[521_join|Join]])했을 때, 원래의 [[061_relation_schema_instance|릴레이션]]과 [[001_dikw_pyramid|데이터]]가 100% 동일하게 복원됨을 수학적으로 보장하는 [[093_normalization|정규화]] 과정의 필수 조건이다.

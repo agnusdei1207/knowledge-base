@@ -1,10 +1,9 @@
-+++
-weight = 434
-title = "434. 오류 추정 (Error Guessing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 434. 오류 추정 (Error Guessing)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

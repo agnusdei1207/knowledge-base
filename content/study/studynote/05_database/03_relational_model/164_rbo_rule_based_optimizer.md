@@ -1,12 +1,10 @@
-+++
-weight = 164
-title = "164. 규칙 기반 옵티마이저 (RBO, Rule Based Optimizer) - 정해진 우선순위 규칙에 따라 계획 수립 (구형)"
-description = "RBO는 통계를 보지 않고 사전에 정한 우선순위 규칙으로 실행 계획을 선택하는 구형 옵티마이저다."
-date = "2026-04-03"
-[taxonomies]
-tags = ["RBO", "Rule Based Optimizer", "규칙 기반 옵티마이저", "옵티마이저", "SQL 튜닝", "데이터베이스", "오라클", "인덱스"]
-categories = ["Database"]
-+++
+---
+title: 164. 규칙 기반 옵티마이저 (RBO, Rule Based Optimizer) - 정해진 우선순위 규칙에 따라 계획 수립 (구형)
+date: '2026-04-03'
+description: RBO는 통계를 보지 않고 사전에 정한 우선순위 규칙으로 실행 계획을 선택하는 구형 옵티마이저다.
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

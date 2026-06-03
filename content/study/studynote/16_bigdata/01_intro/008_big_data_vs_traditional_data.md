@@ -1,12 +1,10 @@
-+++
-weight = 8
-title = "8. 빅데이터 vs 전통적 데이터 — RDBMS 한계(수평 확장 불가, 고정 스키마)"
-description = "RDBMS의 수평 확장 한계와 고정 스키마의 제약을 극복하기 위한 빅데이터 아키텍처 패러다임 비교"
-date = "2024-05-20"
-[taxonomies]
-tags = ["빅데이터", "RDBMS", "NoSQL", "Scale-Out", "데이터베이스"]
-categories = ["studynote", "16_bigdata"]
-+++
+---
+title: 8. 빅데이터 vs 전통적 데이터 — RDBMS 한계(수평 확장 불가, 고정 스키마)
+date: '2024-05-20'
+description: RDBMS의 수평 확장 한계와 고정 스키마의 제약을 극복하기 위한 빅데이터 아키텍처 패러다임 비교
+tags:
+- bigdata
+---
 
 # 빅데이터 vs 전통적 [[001_dikw_pyramid|데이터]] (Big [[001_dikw_pyramid|Data]] vs Traditional [[001_dikw_pyramid|Data]])
 

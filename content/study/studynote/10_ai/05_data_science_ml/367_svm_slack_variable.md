@@ -1,10 +1,9 @@
-+++
-weight = 367
-title = "367. SVM 슬랙 변수 (Slack Variable)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 367. SVM 슬랙 변수 (Slack Variable)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

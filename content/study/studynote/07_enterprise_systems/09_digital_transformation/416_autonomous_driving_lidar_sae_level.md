@@ -1,10 +1,9 @@
-+++
-weight = 416
-title = "416. 자율주행 라이다 센서 퓨전 SAE 레벨 (Autonomous Driving)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 416. 자율주행 라이다 센서 퓨전 SAE 레벨 (Autonomous Driving)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

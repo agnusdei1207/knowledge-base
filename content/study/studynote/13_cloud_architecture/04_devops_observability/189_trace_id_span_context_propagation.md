@@ -1,10 +1,9 @@
-+++
-weight = 189
-title = "189. Trace ID / Span ID / Context Propagation"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 189. Trace ID / Span ID / Context Propagation
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Trace ID는 단일 사용자 요청 전체 여정의 고유 식별자이고, Span ID는 그 여정 중 각 [[090_service_kubernetes_network_load_balancing|서비스]]가 처리한 개별 구간의 식별자이며, [[033_context|Context]] Propagation은 이 식별자들을 [[090_service_kubernetes_network_load_balancing|서비스]] 간에 [[461_http_stateless_connection_oriented|HTTP]] 헤더로 전달하는 메커니즘이다.

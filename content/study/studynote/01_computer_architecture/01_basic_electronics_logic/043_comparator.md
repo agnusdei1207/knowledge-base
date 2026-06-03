@@ -1,10 +1,9 @@
-+++
-title = "043. 비교기 (Comparator)"
-weight = 43
-date = "2026-04-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 043. 비교기 (Comparator)
+date: '2026-04-05'
+tags:
+- studynote-computer-architecture
+---
 
 > **핵심 인사이트**
 > 1. 비교기(Comparator)는 두 이진수 A와 B를 비교하여 A>B, A=B, A<B 세 가지 출력을 만드는 조합 [[369_logic_bomb|논리]] 회로로, [[117_alu|ALU]](산술논리연산장치)의 조건 분기 판단과 [[027_sorting_network|정렬 네트워크]]의 기본 구성 요소이다.

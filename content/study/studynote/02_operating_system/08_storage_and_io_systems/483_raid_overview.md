@@ -1,10 +1,9 @@
-+++
-weight = 483
-title = "483. RAID (Redundant Array of Independent Disks) - 성능 향상 및 신뢰성(중복성) 확보"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 483. RAID (Redundant Array of Independent Disks) - 성능 향상 및 신뢰성(중복성) 확보
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

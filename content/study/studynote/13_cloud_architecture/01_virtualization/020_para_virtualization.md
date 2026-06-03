@@ -1,12 +1,12 @@
-+++
-weight = 20
-title = "20. 반가상화 (Para-virtualization) - Guest OS의 커널을 일부 수정하여 하이퍼바이저와 직접 통신(Hypercall), 전가상화보다 오버헤드 적음 (Xen)"
-description = "운영체제 커널을 직접 수정하여 하이퍼바이저와 다이렉트로 통신(Hypercall)함으로써 에뮬레이션 오버헤드를 제거한 반가상화 아키텍처"
-date = "2024-05-20"
-[taxonomies]
-tags = ["Cloud", "Virtualization", "Para-virtualization", "Hypercall", "Xen"]
-categories = ["Cloud Architecture"]
-+++
+---
+title: 20. 반가상화 (Para-virtualization) - Guest OS의 커널을 일부 수정하여 하이퍼바이저와 직접 통신(Hypercall),
+  전가상화보다 오버헤드 적음 (Xen)
+date: '2024-05-20'
+description: 운영체제 커널을 직접 수정하여 하이퍼바이저와 다이렉트로 통신(Hypercall)함으로써 에뮬레이션 오버헤드를 제거한 반가상화
+  아키텍처
+tags:
+- cloud_architecture
+---
 
 # [[058_paravirtualization|반가상화]] ([[192_full_virtualization_vs_para_virtualization|Para-virtualization]])
 

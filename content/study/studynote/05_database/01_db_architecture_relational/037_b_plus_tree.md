@@ -1,9 +1,9 @@
-+++
-title = "037. B+트리 (B+ Tree) — 데이터베이스 인덱스 표준"
-date = "2026-03-03"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 037. B+트리 (B+ Tree) — 데이터베이스 인덱스 표준
+date: '2026-03-03'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트**
 > 1. B+트리는 B트리의 변형으로, 모든 실제 [[001_dikw_pyramid|데이터]](레코드 포인터)를 리프 노드에만 저장하고, 내부 노드는 순수하게 탐색 키만 보유하는 구조다 — 이 분리 덕분에 내부 노드 팬아웃(Fan-out)이 극대화된다.

@@ -1,10 +1,9 @@
-+++
-weight = 219
-title = "219. DMZ (Demilitarized Zone, 비무장지대)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 219. DMZ (Demilitarized Zone, 비무장지대)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

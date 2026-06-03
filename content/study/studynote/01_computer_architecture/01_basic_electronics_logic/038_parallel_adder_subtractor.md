@@ -1,9 +1,9 @@
-+++
-title = "038. 병렬 가감산기 (Parallel Adder-Subtractor)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 038. 병렬 가감산기 (Parallel Adder-Subtractor)
+date: '2026-03-03'
+tags:
+- studynote-computer-architecture
+---
 
 > **핵심 인사이트**
 > 1. [[430_index_fast_full_scan|병렬]] 가감산기(Parallel Adder-Subtractor)는 단일 회로에서 ADD(덧셈)와 SUB(뺄셈)를 모두 처리하는 복합 산술 회로로, SUB 제어 [[130_signal|신호]] 하나로 XOR 게이트를 통한 B 반전과 Carry-In=1(2의 보수 +1)을 동시에 제어한다.

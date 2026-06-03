@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. RLHF (인간 피드백 기반 강화학습) - 인간 피드백 정렬"
-date = "2026-05-03"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 148. RLHF (인간 피드백 기반 강화학습) - 인간 피드백 정렬
+date: '2026-05-03'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] ([[094_reinforcement_learning|Reinforcement Learning]] from Human Feedback)는 거대 언어 모델([[263_llm_large_language_model|LLM]])이 인간의 선호도와 가치관(도덕성, 안전성)을 학습하도록, 인간 평가자가 채점한 점수를 바탕으로 보상 모델([[403_rlhf_reward_model|Reward Model]])을 만들고 이를 강화학습([[395_ppo_clipping|PPO]])으로 주입하는 [[190_ai_llm_requirements_specification|AI]] 정렬(Alignment) 기술이다.

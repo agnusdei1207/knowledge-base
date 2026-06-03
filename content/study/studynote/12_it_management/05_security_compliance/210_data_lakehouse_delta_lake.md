@@ -1,10 +1,9 @@
-+++
-weight = 210
-title = "210. 데이터 레이크하우스 (Data Lakehouse)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 210. 데이터 레이크하우스 (Data Lakehouse)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] [[146_lakehouse|레이크하우스]] ([[001_dikw_pyramid|Data]] [[146_lakehouse|Lakehouse]])의 본질은 [[001_dikw_pyramid|데이터]] 레이크의 유연성/확장성과 DW의 ACID [[191_transaction_concept_states|트랜잭션]] 성능을 융합한 차세대 플랫폼 ([[074_photon_engine|Databricks]] 델타 레이크 등)를 수집·통합·품질·활용 체계로 정렬하는 데 있다.

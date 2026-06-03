@@ -1,10 +1,9 @@
-+++
-weight = 495
-title = "495. SCA (Software Composition Analysis) - 오픈소스 라이브러리 취약점 및 라이선스 스캔"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 495. SCA (Software Composition Analysis) - 오픈소스 라이브러리 취약점 및 라이선스 스캔
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

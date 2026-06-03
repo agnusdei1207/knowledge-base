@@ -1,10 +1,9 @@
-+++
-weight = 96
-title = "96. ISO/IEC 20000 - IT 서비스 관리 체계 (ITSM) 국제 표준"
-date = "2026-04-10"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 96. ISO/IEC 20000 - IT 서비스 관리 체계 (ITSM) 국제 표준
+date: '2026-04-10'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

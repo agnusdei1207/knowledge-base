@@ -1,9 +1,9 @@
-+++
-title = "소프트웨어 개발 보안 진단 (SW Development Security Diagnosis)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 소프트웨어 개발 보안 진단 (SW Development Security Diagnosis)
+date: '2026-03-03'
+tags:
+- studynote-design
+---
 
 > **핵심 인사이트 3줄**
 > 1. SW 개발 보안 진단은 [[190_secure_coding_guideline|시큐어 코딩]]([[190_secure_coding_guideline|Secure Coding]]) 준수 여부를 체계적으로 [[395_verification_process_review|검증]]해 취약점이 운영 환경에 배포되기 전에 제거하는 예방적 보안 활동이다.

@@ -1,10 +1,10 @@
-+++
-weight = 186
-title = "186. 스토어드 프로시저 (Stored Procedure) / 트리거 (Trigger) - 데이터베이스 (Database, DB) 서버 내에 컴파일되어 저장된 모듈"
-date = "2026-05-06"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 186. 스토어드 프로시저 (Stored Procedure) / 트리거 (Trigger) - 데이터베이스 (Database, DB) 서버
+  내에 컴파일되어 저장된 모듈
+date: '2026-05-06'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

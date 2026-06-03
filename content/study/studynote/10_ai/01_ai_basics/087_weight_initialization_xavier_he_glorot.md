@@ -1,10 +1,9 @@
-+++
-weight = 87
-title = "87. 가중치 초기화 (Weight Initialization) - Xavier와 He 초기화"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 87. 가중치 초기화 (Weight Initialization) - Xavier와 He 초기화
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

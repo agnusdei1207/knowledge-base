@@ -1,10 +1,9 @@
-+++
-title = "9. 정규 분포 (Normal Distribution) — 68-95-99.7 규칙"
-weight = 138
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 9. 정규 분포 (Normal Distribution) — 68-95-99.7 규칙
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

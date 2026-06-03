@@ -1,10 +1,9 @@
-+++
-weight = 303
-title = "303. MLOps 피처 스토어 데이터마트 연동 (MLOps Feature Store)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 303. MLOps 피처 스토어 데이터마트 연동 (MLOps Feature Store)
+date: '2026-04-21'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

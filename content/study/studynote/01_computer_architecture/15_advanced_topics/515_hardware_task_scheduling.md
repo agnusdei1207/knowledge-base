@@ -1,10 +1,9 @@
-+++
-weight = 515
-title = "515. 작업 스케줄링 하드웨어 지원 (Hardware Support for Task Scheduling)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 515. 작업 스케줄링 하드웨어 지원 (Hardware Support for Task Scheduling)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 94
-title = "19. Apache Pulsar — 컴퓨팅/스토리지 분리 메시징"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 19. Apache Pulsar — 컴퓨팅/스토리지 분리 메시징
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

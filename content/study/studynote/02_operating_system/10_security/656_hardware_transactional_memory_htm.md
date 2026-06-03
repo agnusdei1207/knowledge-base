@@ -1,10 +1,10 @@
-+++
-weight = 656
-title = "656. 하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례 (Hardware Transactional Memory Htm)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 656. 하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례 (Hardware Transactional Memory
+  Htm)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

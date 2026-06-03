@@ -1,10 +1,9 @@
-+++
-weight = 475
-title = "475. 개인정보 마이데이터 블록체인 DID 영지식 신원 (MyData, DID, Zero-Knowledge Proof)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 475. 개인정보 마이데이터 블록체인 DID 영지식 신원 (MyData, DID, Zero-Knowledge Proof)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

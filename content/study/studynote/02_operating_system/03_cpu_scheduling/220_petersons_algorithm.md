@@ -1,10 +1,9 @@
-+++
-weight = 220
-title = "220. 피터슨 알고리즘 (Peterson's Algorithm)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 220. 피터슨 알고리즘 (Peterson's Algorithm)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

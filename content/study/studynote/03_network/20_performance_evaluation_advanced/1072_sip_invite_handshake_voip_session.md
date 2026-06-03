@@ -1,10 +1,9 @@
-+++
-weight = 1072
-title = "1072. SIP INVITE 기반 핸드셰이크"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1072. SIP INVITE 기반 핸드셰이크
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

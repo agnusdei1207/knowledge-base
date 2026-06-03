@@ -1,10 +1,9 @@
-+++
-weight = 46
-title = "20. 오일러 경로/회로 (Euler Path/Circuit) — Fleury / Hierholzer"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 20. 오일러 경로/회로 (Euler Path/Circuit) — Fleury / Hierholzer
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 67
-title = "67. SSL/TLS 인증서 및 통신 구간 암호화 점검 (SSL/TLS Certificate and Encryption Audit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 67. SSL/TLS 인증서 및 통신 구간 암호화 점검 (SSL/TLS Certificate and Encryption Audit)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

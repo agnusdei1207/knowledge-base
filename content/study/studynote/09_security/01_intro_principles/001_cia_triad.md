@@ -1,12 +1,10 @@
-+++
-weight = 1
-title = "1. 정보보안 3요소 — CIA (기밀성·무결성·가용성)"
-description = "기밀성, 무결성, 가용성으로 구성된 정보보안의 3대 핵심 목표와 이들 간의 실무적 트레이드오프 분석"
-date = "2023-10-24"
-[taxonomies]
-tags = ["정보보안", "CIA", "기밀성", "무결성", "가용성", "트레이드오프"]
-categories = ["Security", "Principles"]
-+++
+---
+title: 1. 정보보안 3요소 — CIA (기밀성·무결성·가용성)
+date: '2023-10-24'
+description: 기밀성, 무결성, 가용성으로 구성된 정보보안의 3대 핵심 목표와 이들 간의 실무적 트레이드오프 분석
+tags:
+- security
+---
 
 # 정보보안 3요소 (CIA Triad)
 

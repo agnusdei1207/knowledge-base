@@ -1,10 +1,9 @@
-+++
-weight = 143
-title = "143. Strangler Fig 패턴 - 모놀리스→MSA 점진적 전환"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 143. Strangler Fig 패턴 - 모놀리스→MSA 점진적 전환
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Strangler Fig는 **기존 모놀리스 시스템을 한 번에 교체하지 않고, 새 기능을 MSA로 만들어 점진적으로 모놀리스를 교살(Strangle)**하여 최종적으로 대체하는 마이그레이션 패턴이다(Martin Fowler).

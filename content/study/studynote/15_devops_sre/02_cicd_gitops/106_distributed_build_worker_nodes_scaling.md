@@ -1,10 +1,9 @@
-+++
-weight = 106
-title = "분산 빌드: 워커 노드 스케일링을 통한 빌드 병렬화"
-date = "2026-03-04"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: '분산 빌드: 워커 노드 스케일링을 통한 빌드 병렬화'
+date: '2026-03-04'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[136_variance|분산]] 빌드 (Distributed Build)는 소프트웨어 통합 및 테스트 작업을 단일 서버([[621_scale_up_system_bus|Scale-up]])에서 처리하지 않고, 다수의 워커 노드(Worker Nodes)로 쪼개어 수평적([[202_scale_out_distributed_horizontal_expansion|Scale-out]])으로 동시 처리하는 [[090_configuration_item|CI]]/CD 아키텍처다.

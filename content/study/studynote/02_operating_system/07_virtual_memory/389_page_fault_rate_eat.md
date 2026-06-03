@@ -1,10 +1,9 @@
-+++
-weight = 389
-title = "389. 페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 389. 페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

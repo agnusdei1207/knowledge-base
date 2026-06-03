@@ -1,10 +1,9 @@
-+++
-weight = 95
-title = "95. 상충점 (Trade-off Point) - 성능 대 보안 아키텍처 결단"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 95. 상충점 (Trade-off Point) - 성능 대 보안 아키텍처 결단
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

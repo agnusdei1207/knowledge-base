@@ -1,10 +1,9 @@
-+++
-weight = 141
-title = "141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: V2X는 **차량이 다른 차량(V2V)·인프라(V2I)·보행자(V2P)·네트워크(V2N)와 통신**하여 교통 안전·효율을 향상시키는 기술이며, [[1025_c_v2x_wave_dsrc|DSRC]](802.11p)와 [[143_c_v2x_cellular_based_communication|C-V2X]](셀룰러)가 대표 규격이다.

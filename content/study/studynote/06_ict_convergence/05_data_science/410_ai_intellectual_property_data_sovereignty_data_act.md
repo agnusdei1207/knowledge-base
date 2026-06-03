@@ -1,10 +1,9 @@
-+++
-weight = 410
-title = "410. AI 지적 재산권 데이터 주권 유럽 Data Act 법제 (Data Sovereignty)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 410. AI 지적 재산권 데이터 주권 유럽 Data Act 법제 (Data Sovereignty)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

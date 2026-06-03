@@ -1,10 +1,9 @@
-+++
-weight = 1027
-title = "1027. 수중 음파 통신망 (IoUT)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1027. 수중 음파 통신망 (IoUT)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

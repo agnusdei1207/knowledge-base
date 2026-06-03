@@ -1,10 +1,9 @@
-+++
-weight = 448
-title = "448. 큐비트 (Qubit)"
-date = "2026-03-28"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 448. 큐비트 (Qubit)
+date: '2026-03-28'
+tags:
+- studynote-computer-architecture
+---
 
 # 큐비트 (Qubit)
 

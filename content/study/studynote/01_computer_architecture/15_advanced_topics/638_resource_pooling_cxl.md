@@ -1,10 +1,9 @@
-+++
-weight = 638
-title = "638. 자원 풀링 (Resource Pooling, CXL 기반)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 638. 자원 풀링 (Resource Pooling, CXL 기반)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

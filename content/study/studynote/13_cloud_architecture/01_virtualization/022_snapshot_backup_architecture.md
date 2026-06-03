@@ -1,10 +1,9 @@
-+++
-weight = 22
-title = "22. 스냅샷 (Snapshot) - 클라우드 스토리지 백업 및 복원 아키텍처"
-date = "2026-04-02"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 22. 스냅샷 (Snapshot) - 클라우드 스토리지 백업 및 복원 아키텍처
+date: '2026-04-02'
+tags:
+- studynote-cloud
+---
 
 # 스냅샷 ([[637_zfs_snapshot_cow_architecture|Snapshot]]) - 클라우드 스토리지 [[555_backup_and_restore_strategy|백업]] 및 복원 아키텍처
 

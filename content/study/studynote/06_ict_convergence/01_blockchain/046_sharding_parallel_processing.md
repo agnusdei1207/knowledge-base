@@ -1,10 +1,9 @@
-+++
-title = "046. 블록체인 샤딩 — Blockchain Sharding"
-weight = 46
-date = "2026-04-05"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 046. 블록체인 샤딩 — Blockchain Sharding
+date: '2026-04-05'
+tags:
+- studynote-ict-convergence
+---
 
 > **핵심 인사이트**
 > 1. [[004_blockchain|블록체인]] [[280_sharding|샤딩]]([[243_sharding_horizontal_scaling_database|Sharding]])은 네트워크를 여러 샤드(Shard)로 분할해 각 샤드가 독립적으로 [[191_transaction_concept_states|트랜잭션]]을 처리하는 수평 확장 기법 — 비트코인/이더리움이 모든 노드가 모든 [[191_transaction_concept_states|트랜잭션]]을 [[395_verification_process_review|검증]]하는 구조의 TPS 한계를 돌파하기 위해 도입한다.

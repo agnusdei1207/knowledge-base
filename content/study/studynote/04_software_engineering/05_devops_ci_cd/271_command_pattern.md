@@ -1,10 +1,9 @@
-+++
-weight = 271
-title = "271. 커맨드 (Command) - 요청을 객체로 캡슐화 (Undo/Redo 지원)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 271. 커맨드 (Command) - 요청을 객체로 캡슐화 (Undo/Redo 지원)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

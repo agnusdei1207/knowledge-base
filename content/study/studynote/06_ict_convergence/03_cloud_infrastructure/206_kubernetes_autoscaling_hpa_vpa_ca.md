@@ -1,10 +1,9 @@
-+++
-weight = 206
-title = "206. 쿠버네티스 오토스케일링 (Kubernetes Autoscaling HPA VPA CA)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 206. 쿠버네티스 오토스케일링 (Kubernetes Autoscaling HPA VPA CA)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

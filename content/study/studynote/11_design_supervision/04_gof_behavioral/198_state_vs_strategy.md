@@ -1,10 +1,9 @@
-+++
-weight = 198
-title = "198. 상태 vs 전략 패턴 비교 (State vs Strategy Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 198. 상태 vs 전략 패턴 비교 (State vs Strategy Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

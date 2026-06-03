@@ -1,7 +1,8 @@
-+++
-title = "63. 제품 책임자 (Product Owner, PO)"
-weight = 63
-+++
+---
+title: 63. 제품 책임자 (Product Owner, PO)
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

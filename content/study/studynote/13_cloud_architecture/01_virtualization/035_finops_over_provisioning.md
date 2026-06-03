@@ -1,9 +1,9 @@
-+++
-title = "035. FinOps — 오버 프로비저닝 최적화"
-date = "2026-03-03"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 035. FinOps — 오버 프로비저닝 최적화
+date: '2026-03-03'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. [[344_finops|FinOps]] (Financial Operations)는 클라우드 비용을 엔지니어링·재무·비즈니스가 협업해 관리하는 운영 프레임워크로, 오버 [[528_provisioning|프로비저닝]](Over-Provisioning)은 클라우드 낭비의 가장 큰 원인(업계 평균 35% 낭비)이다.

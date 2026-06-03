@@ -1,10 +1,9 @@
-+++
-weight = 289
-title = "289. 식별자 (Identification), 플래그 (Flags), 단편화 오프셋 (Fragmentation Offset)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 289. 식별자 (Identification), 플래그 (Flags), 단편화 오프셋 (Fragmentation Offset)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

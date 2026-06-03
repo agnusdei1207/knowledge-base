@@ -1,10 +1,9 @@
-+++
-weight = 217
-title = "217. 클린 아키텍처 (Clean Architecture) - Robert C. Martin (Uncle Bob)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 217. 클린 아키텍처 (Clean Architecture) - Robert C. Martin (Uncle Bob)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

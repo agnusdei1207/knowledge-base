@@ -1,10 +1,9 @@
-+++
-weight = 257
-title = "257. STP 4단계 상태 전이 (단절, 청취, 학습, 전송)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 257. STP 4단계 상태 전이 (단절, 청취, 학습, 전송)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

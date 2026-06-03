@@ -1,10 +1,9 @@
-+++
-title = "001. P 클래스 (P Class) — 다항 시간 내 해결 가능한 문제"
-weight = 106
-date = "2025-05-14"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 001. P 클래스 (P Class) — 다항 시간 내 해결 가능한 문제
+date: '2025-05-14'
+tags:
+- studynote-algorithm
+---
 
 > **핵심 인사이트**
 > 1. P([[195_polynomial_generator_crc|Polynomial]] Time) 클래스는 결정론적 튜링 머신([[532_dynamic_thermal_management|DTM]])이 입력 크기 n의 [[195_polynomial_generator_crc|다항식]] 시간 내에 해결할 수 있는 판정 문제(Decision Problem)의 집합으로, 현실적으로 "컴퓨터로 효율적으로 해결 가능한" 문제의 범주다.

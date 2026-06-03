@@ -1,10 +1,9 @@
-+++
-weight = 142
-title = "13. EM 알고리즘 (Expectation-Maximization) — 잠재변수 추정"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 13. EM 알고리즘 (Expectation-Maximization) — 잠재변수 추정
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

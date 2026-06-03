@@ -1,10 +1,9 @@
-+++
-weight = 440
-title = "440. 블록체인 스마트 컨트랙트 DApp 보안 (Blockchain Smart Contract DApp Security)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 440. 블록체인 스마트 컨트랙트 DApp 보안 (Blockchain Smart Contract DApp Security)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

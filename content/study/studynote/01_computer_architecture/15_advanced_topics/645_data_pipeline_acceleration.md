@@ -1,10 +1,9 @@
-+++
-weight = 645
-title = "645. 데이터 파이프라인 (Data Pipeline) 가속"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 645. 데이터 파이프라인 (Data Pipeline) 가속
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

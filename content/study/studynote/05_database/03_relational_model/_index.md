@@ -1,5 +1,5 @@
-+++
-weight = 3
-title = "03. Relational Model"
-sort_by = "weight"
-+++
+---
+title: 03. Relational Model
+tags:
+- database
+---

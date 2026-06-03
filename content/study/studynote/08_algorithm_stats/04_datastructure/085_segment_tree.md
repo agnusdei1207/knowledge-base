@@ -1,10 +1,9 @@
-+++
-weight = 85
-title = "29. 세그먼트 트리 (Segment Tree)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 29. 세그먼트 트리 (Segment Tree)
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[075_combinatorics|세그먼트 트리]]([[075_combinatorics|Segment Tree]])는 [[055_array|배열]]의 구간 [[298_qkv_attention|쿼리]](범위 합, 최솟값, 최댓값, [[663_macos_ios_gcd_grand_central_dispatch|GCD]])와 점 업데이트를 O(log n)에 처리하는 완전 [[060_binary_tree|이진 트리]] 자료구조다. [[055_array|배열]]을 [[005_divide_and_conquer|분할 정복]]으로 [[014_recursion|재귀]] 구성한다.

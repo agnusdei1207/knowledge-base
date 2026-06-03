@@ -1,10 +1,9 @@
-+++
-weight = 645
-title = "645. 커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 645. 커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

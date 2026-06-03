@@ -1,10 +1,9 @@
-+++
-weight = 78
-title = "78. 스마트워크 (Smart Work) / 모바일 오피스"
-date = "2026-04-07"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 78. 스마트워크 (Smart Work) / 모바일 오피스
+date: '2026-04-07'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

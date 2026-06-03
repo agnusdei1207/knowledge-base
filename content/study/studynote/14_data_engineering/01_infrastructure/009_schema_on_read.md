@@ -1,12 +1,12 @@
-+++
-weight = 9
-title = "9. 스키마 온 리드 (Schema-on-Read) - 저장 시엔 원시 그대로 두고, 쿼리(읽기)할 때 스키마를 동적으로 부여 (데이터 레이크)"
-description = "데이터 레이크의 핵심 저장 방식인 스키마 온 리드의 동작 메커니즘, 장단점 및 하둡/스파크 생태계에서의 실무 적용 전략을 심층 분석합니다."
-date = "2024-05-15"
-[taxonomies]
-tags = ["Schema-on-Read", "Data Lake", "Big Data", "Apache Spark", "Flexibility", "ELT"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 9. 스키마 온 리드 (Schema-on-Read) - 저장 시엔 원시 그대로 두고, 쿼리(읽기)할 때 스키마를 동적으로 부여 (데이터
+  레이크)
+date: '2024-05-15'
+description: 데이터 레이크의 핵심 저장 방식인 스키마 온 리드의 동작 메커니즘, 장단점 및 하둡/스파크 생태계에서의 실무 적용 전략을 심층
+  분석합니다.
+tags:
+- data_engineering
+---
 
 # [[005_schema|스키마]] 온 리드 ([[505_schema|Schema]]-on-Read)
 

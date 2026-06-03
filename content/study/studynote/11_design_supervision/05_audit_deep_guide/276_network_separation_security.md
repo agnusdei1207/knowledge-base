@@ -1,10 +1,9 @@
-+++
-weight = 276
-title = "276. 망분리 보안 감리 (Network Separation Security Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 276. 망분리 보안 감리 (Network Separation Security Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

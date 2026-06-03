@@ -1,10 +1,9 @@
-+++
-weight = 65
-title = "65. 도커 (Docker) - 컨테이너 기술을 대중화시킨 오픈소스 플랫폼"
-date = "2026-04-07"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 65. 도커 (Docker) - 컨테이너 기술을 대중화시킨 오픈소스 플랫폼
+date: '2026-04-07'
+tags:
+- studynote-cloud
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

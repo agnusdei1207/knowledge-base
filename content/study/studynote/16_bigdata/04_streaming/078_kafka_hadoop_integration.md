@@ -1,7 +1,8 @@
-+++
-title = "03. Kafka Hadoop Integration"
-weight = 78
-+++
+---
+title: 03. Kafka Hadoop Integration
+tags:
+- bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[843_hadoop_rack_awareness_data_replication_topology|하둡]]([[843_hadoop_rack_awareness_data_replication_topology|Hadoop]]) 생태계에서 [[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]]([[214_kafka_pubsub_topic_partition_offset_broker|아파치 카프카]])는 원래 독립적인 [[389_mesh_topology|메시]]지 큐(Message [[058_queue|Queue]]) 솔루션이었으나, 그 압도적인 [[139_throughput|처리량]]([[139_throughput|Throughput]])과 디스크 저장 방식의 내구성([[196_durability_permanent_storage|Durability]]) 덕분에 기존 [[843_hadoop_rack_awareness_data_replication_topology|하둡]]의 [[001_dikw_pyramid|데이터]] 수집 대장이었던 **[[040_apache_flume|Apache Flume]](플룸)을 완벽하게 대체하고 빅데이터 실시간 수입(Ingestion)의 절대 표준으로 등극한 [[136_variance|분산]] 이벤트 스트리밍 플랫폼**이다.

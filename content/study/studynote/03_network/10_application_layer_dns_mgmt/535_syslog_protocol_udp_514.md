@@ -1,10 +1,9 @@
-+++
-weight = 535
-title = "535. Syslog (시스템 로그 프로토콜)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 535. Syslog (시스템 로그 프로토콜)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

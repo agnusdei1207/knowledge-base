@@ -1,10 +1,9 @@
-+++
-weight = 219
-title = "219. NRM (정규 응답 모드) / ARM (비동기 응답 모드) / ABM (비동기 균형 모드)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 219. NRM (정규 응답 모드) / ARM (비동기 응답 모드) / ABM (비동기 균형 모드)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

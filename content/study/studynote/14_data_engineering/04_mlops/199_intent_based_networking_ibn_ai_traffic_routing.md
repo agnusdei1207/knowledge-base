@@ -1,10 +1,9 @@
-+++
-weight = 199
-title = "199. 인텐트 기반 네트워킹 (IBN, Intent-Based Networking) 트래픽 AI 라우팅 분배망"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 199. 인텐트 기반 네트워킹 (IBN, Intent-Based Networking) 트래픽 AI 라우팅 분배망
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[857_ibn_intent_based_networking_declarative_automation|IBN]]([[416_prompt_injection_semantic_routing|Intent]]-Based Networking)은 비즈니스 의도([[416_prompt_injection_semantic_routing|Intent]])를 자연어 또는 [[164_policy|정책]]으로 입력하면 [[190_ai_llm_requirements_specification|AI]]/ML이 자동으로 네트워크 구성을 [[087_process_state_transition|생성]]·[[395_verification_process_review|검증]]·운영하는 자율 네트워킹 패러다임이다.

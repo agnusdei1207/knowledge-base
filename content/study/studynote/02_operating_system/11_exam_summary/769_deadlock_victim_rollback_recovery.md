@@ -1,10 +1,9 @@
-+++
-weight = 769
-title = "769. 데드락 희생자 롤백 복구망 (Deadlock Victim Rollback Recovery)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 769. 데드락 희생자 롤백 복구망 (Deadlock Victim Rollback Recovery)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

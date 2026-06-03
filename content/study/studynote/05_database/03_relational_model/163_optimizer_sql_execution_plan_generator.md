@@ -1,10 +1,9 @@
-+++
-weight = 163
-title = "163. 옵티마이저 (Optimizer) - SQL 실행 최적 경로(Execution Plan) 생성기"
-date = "2026-05-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 163. 옵티마이저 (Optimizer) - SQL 실행 최적 경로(Execution Plan) 생성기
+date: '2026-05-05'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트
 

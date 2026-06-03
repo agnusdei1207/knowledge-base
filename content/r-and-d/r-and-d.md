@@ -1,4 +1,8 @@
-# 🧪 R&D 허브
+---
+title: 🧪 R&D 허브
+tags:
+- r-and-d
+---
 
 연구개발 관련 실험, 검증, 아키텍처 메모를 연결하는 상위 문서입니다. R&D 과정에서 습득한 원천 기술 지식은 **[[study/_index|Study 허브]]**의 **[[study/studynote/_index|Study Note]]**와 융합하여 체계적으로 학습 및 검증을 이어갑니다.
 

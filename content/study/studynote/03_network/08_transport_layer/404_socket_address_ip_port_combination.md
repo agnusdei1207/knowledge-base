@@ -1,10 +1,9 @@
-+++
-weight = 404
-title = "404. 소켓 주소 (Socket Address) = IP 주소 + 포트 번호"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 404. 소켓 주소 (Socket Address) = IP 주소 + 포트 번호
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

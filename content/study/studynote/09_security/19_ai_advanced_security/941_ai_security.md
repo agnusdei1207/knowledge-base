@@ -1,10 +1,9 @@
-+++
-weight = 941
-title = "941. AI 보안 (AI Security)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 941. AI 보안 (AI Security)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

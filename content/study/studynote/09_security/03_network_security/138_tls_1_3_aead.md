@@ -1,10 +1,9 @@
-+++
-weight = 138
-title = "138. AEAD 암호화 강제 (TLS 1.3의 대학살)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 138. AEAD 암호화 강제 (TLS 1.3의 대학살)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

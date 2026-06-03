@@ -1,12 +1,10 @@
-+++
-weight = 9
-title = "9. 데이터 폭증 요인 — IoT/SNS/모바일/센서/영상 CCTV"
-description = "제타바이트 시대를 이끄는 IoT, SNS, 모바일 트래픽의 아키텍처적 부하와 대응 전략"
-date = "2024-05-20"
-[taxonomies]
-tags = ["빅데이터", "제타바이트", "IoT", "모바일", "스트리밍"]
-categories = ["studynote", "16_bigdata"]
-+++
+---
+title: 9. 데이터 폭증 요인 — IoT/SNS/모바일/센서/영상 CCTV
+date: '2024-05-20'
+description: 제타바이트 시대를 이끄는 IoT, SNS, 모바일 트래픽의 아키텍처적 부하와 대응 전략
+tags:
+- bigdata
+---
 
 # [[001_dikw_pyramid|데이터]] 폭증 요인 ([[001_dikw_pyramid|Data]] Explosion Factors)
 

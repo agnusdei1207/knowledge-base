@@ -1,10 +1,9 @@
-+++
-weight = 286
-title = "286. 순환 대기 (Circular Wait) - 대기 그래프가 사이클(Cycle)을 형성"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 286. 순환 대기 (Circular Wait) - 대기 그래프가 사이클(Cycle)을 형성
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 363
-title = "363. 마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 363. 마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[111_micro_frontends_deployment|마이크로 프론트엔드 배포]] 독립성 [[603_component_independent_deployment_unit|컴포넌트]] 결합망 진단의 본질은 [[164_policy|정책]], 역할, 통제, 증빙이 같은 [[025_baseline|기준선]] 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

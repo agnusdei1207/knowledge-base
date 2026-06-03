@@ -1,10 +1,9 @@
-+++
-weight = 777
-title = "777. OOM 킬러 메모리 보호 정책 (OOM Killer Memory Protection)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 777. OOM 킬러 메모리 보호 정책 (OOM Killer Memory Protection)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

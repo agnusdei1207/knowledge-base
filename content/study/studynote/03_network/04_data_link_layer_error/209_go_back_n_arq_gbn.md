@@ -1,10 +1,9 @@
-+++
-weight = 209
-title = "209. GBN ARQ (Go-Back-N ARQ)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 209. GBN ARQ (Go-Back-N ARQ)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

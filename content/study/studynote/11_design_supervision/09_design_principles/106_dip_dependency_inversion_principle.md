@@ -1,10 +1,9 @@
-+++
-title = "106. DIP (Dependency Inversion Principle, 의존성 역전 원칙)"
-date = "2026-03-04"
-weight = 106
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 106. DIP (Dependency Inversion Principle, 의존성 역전 원칙)
+date: '2026-03-04'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

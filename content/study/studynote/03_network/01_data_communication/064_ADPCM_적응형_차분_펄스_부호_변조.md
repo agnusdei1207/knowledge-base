@@ -1,12 +1,11 @@
-+++
-weight = 64
-title = "64. ADPCM (Adaptive DPCM) - 적응형 차분 펄스 부호 변조"
-description = "DPCM의 한계인 경사 과부하 왜곡과 양자화 잡음을 해결하기 위해, 양자화 스텝 크기와 예측 계수를 동적으로 조절하는 적응형 부호화 기술"
-date = "2024-05-15"
-[taxonomies]
-tags = ["ADPCM", "DPCM", "Adaptive Quantization", "Encoding", "G.726"]
-categories = ["studynote-network"]
-+++
+---
+title: 64. ADPCM (Adaptive DPCM) - 적응형 차분 펄스 부호 변조
+date: '2024-05-15'
+description: DPCM의 한계인 경사 과부하 왜곡과 양자화 잡음을 해결하기 위해, 양자화 스텝 크기와 예측 계수를 동적으로 조절하는 적응형
+  부호화 기술
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

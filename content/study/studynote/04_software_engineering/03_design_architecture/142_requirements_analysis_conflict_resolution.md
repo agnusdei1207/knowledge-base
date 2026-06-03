@@ -1,10 +1,9 @@
-+++
-weight = 142
-title = "142. 요구 분석 & 갈등 해결 - 이해관계자 간 상충 요구 조정"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 142. 요구 분석 & 갈등 해결 - 이해관계자 간 상충 요구 조정
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구 분석 갈등 해결은 **[[173_stakeholder_identification_impact_matrix|이해관계자]] 간 상충되는 요구(보안↔편의, [[282_performance_tactics|성능]]↔비용)를 [[655_ir_detection_analysis|식별]]·협상·우선순위화**하여 합의를 도출하는 과정이다.

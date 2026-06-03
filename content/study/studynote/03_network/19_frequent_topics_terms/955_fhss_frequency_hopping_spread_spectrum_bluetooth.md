@@ -1,10 +1,9 @@
-+++
-weight = 955
-title = "955. FHSS (주파수 도약)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 955. FHSS (주파수 도약)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

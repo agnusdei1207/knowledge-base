@@ -1,10 +1,9 @@
-+++
-weight = 389
-title = "389. 리버스 엔지니어링 (Reverse Engineering) 툴을 통한 난독화 코드 분석"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 389. 리버스 엔지니어링 (Reverse Engineering) 툴을 통한 난독화 코드 분석
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

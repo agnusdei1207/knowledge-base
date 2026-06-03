@@ -1,10 +1,9 @@
-+++
-weight = 53
-title = "53. 데이터 스튜어드 역할 (Data Stewardship Role)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 53. 데이터 스튜어드 역할 (Data Stewardship Role)
+date: '2026-05-01'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

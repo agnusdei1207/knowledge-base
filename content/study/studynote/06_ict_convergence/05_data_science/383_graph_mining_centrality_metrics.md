@@ -1,10 +1,9 @@
-+++
-weight = 383
-title = "383. 그래프 마이닝 중심성 측정 지표 (Centrality)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 383. 그래프 마이닝 중심성 측정 지표 (Centrality)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 663
-title = "663. ElGamal 및 DSA (디지털 서명용 특화) 시스템"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 663. ElGamal 및 DSA (디지털 서명용 특화) 시스템
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

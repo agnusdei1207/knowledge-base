@@ -1,10 +1,9 @@
-+++
-weight = 704
-title = "704. IP 스푸핑 (IP Spoofing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 704. IP 스푸핑 (IP Spoofing)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

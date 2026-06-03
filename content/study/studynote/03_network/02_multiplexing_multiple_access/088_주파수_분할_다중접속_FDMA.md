@@ -1,12 +1,10 @@
-+++
-weight = 88
-title = "88. FDMA (Frequency Division Multiple Access)"
-description = "초기 무선 통신에서 대역폭을 쪼개어 채널을 할당하는 FDMA의 한계와 실무적 낭비 요인"
-date = 2026-03-30
-[taxonomies]
-tags = ["Network", "FDMA", "Multiple Access", "FDD", "Channel", "Guard Band"]
-categories = ["studynote", "Network"]
-+++
+---
+title: 88. FDMA (Frequency Division Multiple Access)
+date: '2026-03-30'
+description: 초기 무선 통신에서 대역폭을 쪼개어 채널을 할당하는 FDMA의 한계와 실무적 낭비 요인
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

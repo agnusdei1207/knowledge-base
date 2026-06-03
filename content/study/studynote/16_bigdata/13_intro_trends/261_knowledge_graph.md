@@ -1,10 +1,9 @@
-+++
-title = "049. 지식 그래프 — Knowledge Graph"
-weight = 261
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 049. 지식 그래프 — Knowledge Graph
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트**
 > 1. [[160_knowledge_graph_graphrag_integration|지식 그래프]]([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])는 현실 세계의 개체(Entity)와 [[083_relationship_in_er_model|관계]]([[061_relation_schema_instance|Relation]])를 [[070_graph_datastructure|그래프]] 구조로 표현하는 시맨틱 [[014_data_model_components|데이터 모델]] — "구글은 미국의 회사이다", "팀 쿡은 애플의 CEO이다"처럼 삼중항(Triple: Subject-Predicate-Object)으로 사실을 구조화한다.

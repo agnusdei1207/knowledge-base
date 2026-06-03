@@ -1,10 +1,9 @@
-+++
-weight = 74
-title = "74. 쿠버네티스 (Kubernetes, K8s) - 컨테이너 오케스트레이션 플랫폼"
-date = "2026-04-07"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 74. 쿠버네티스 (Kubernetes, K8s) - 컨테이너 오케스트레이션 플랫폼
+date: '2026-04-07'
+tags:
+- studynote-cloud
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

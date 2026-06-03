@@ -1,10 +1,9 @@
-+++
-weight = 674
-title = "674. 스토리지 티어링 (Storage Tiering)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 674. 스토리지 티어링 (Storage Tiering)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

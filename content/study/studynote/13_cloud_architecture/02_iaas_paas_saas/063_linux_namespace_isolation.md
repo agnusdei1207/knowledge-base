@@ -1,10 +1,9 @@
-+++
-weight = 63
-title = "63. 리눅스 네임스페이스 (Namespace) - PID, Net, Mount, User 등 자원 분리"
-date = "2026-04-07"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 63. 리눅스 네임스페이스 (Namespace) - PID, Net, Mount, User 등 자원 분리
+date: '2026-04-07'
+tags:
+- studynote-cloud
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

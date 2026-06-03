@@ -1,10 +1,9 @@
-+++
-weight = 461
-title = "461. HTTP (HyperText Transfer Protocol) 상태 비저장 (Stateless), 연결형/비연결형 특징"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 461. HTTP (HyperText Transfer Protocol) 상태 비저장 (Stateless), 연결형/비연결형 특징
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

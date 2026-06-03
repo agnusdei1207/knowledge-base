@@ -1,10 +1,9 @@
-+++
-weight = 67
-title = "Spark 데이터 직렬화 (Data Serialization)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: Spark 데이터 직렬화 (Data Serialization)
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - [[001_dikw_pyramid|데이터]] [[149_serial_communication_rs232_rs485|직렬]]화는 메모리 내 객체를 네트워크 전송이나 디스크 저장에 적합한 바이너리 포맷으로 변환하는 과정으로, [[136_variance|분산]] 환경의 [[282_performance_tactics|성능]]을 결정짓는 핵심 요소다.

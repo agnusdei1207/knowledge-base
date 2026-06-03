@@ -1,10 +1,9 @@
-+++
-weight = 77
-title = "77. 엔터프라이즈 포털 (EP / EIP) - 기업 내 분산된 정보를 단일 창구로 통합 웹 제공"
-date = "2026-04-07"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 77. 엔터프라이즈 포털 (EP / EIP) - 기업 내 분산된 정보를 단일 창구로 통합 웹 제공
+date: '2026-04-07'
+tags:
+- studynote-enterprise
+---
 
 # 엔터프라이즈 포털 (EP, EIP)
 

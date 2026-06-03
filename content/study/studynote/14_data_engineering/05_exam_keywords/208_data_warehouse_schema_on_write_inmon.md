@@ -1,10 +1,9 @@
-+++
-weight = 208
-title = "208. 데이터 웨어하우스 (Data Warehouse) 스키마 온 라이트 Inmon 설계"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 208. 데이터 웨어하우스 (Data Warehouse) 스키마 온 라이트 Inmon 설계
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[209_data_warehouse_schema_on_write|데이터 웨어하우스]]([[001_dikw_pyramid|Data]] Warehouse)는 여러 운영 시스템의 [[001_dikw_pyramid|데이터]]를 주제 지향적(Subject-Oriented)으로 통합·정제하여 의사결정 지원에 최적화된 분석용 [[001_dikw_pyramid|데이터]]베이스다.

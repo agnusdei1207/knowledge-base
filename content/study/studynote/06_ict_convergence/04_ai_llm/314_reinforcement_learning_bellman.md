@@ -1,10 +1,9 @@
-+++
-weight = 314
-title = "314. 강화학습 벨만 방정식 및 상태-행동 가치함수(Q-Value) (Bellman Equation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 314. 강화학습 벨만 방정식 및 상태-행동 가치함수(Q-Value) (Bellman Equation)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

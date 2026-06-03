@@ -1,10 +1,9 @@
-+++
-weight = 537
-title = "537. 미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 537. 미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

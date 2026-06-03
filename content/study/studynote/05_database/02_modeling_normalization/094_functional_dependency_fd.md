@@ -1,10 +1,9 @@
-+++
-weight = 94
-title = "94. 함수적 종속성 (Functional Dependency, FD)"
-date = "2024-05-15"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 94. 함수적 종속성 (Functional Dependency, FD)
+date: '2024-05-15'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

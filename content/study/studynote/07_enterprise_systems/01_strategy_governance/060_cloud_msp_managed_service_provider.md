@@ -1,10 +1,9 @@
-+++
-weight = 60
-title = "60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱"
-date = "2026-04-10"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱
+date: '2026-04-10'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

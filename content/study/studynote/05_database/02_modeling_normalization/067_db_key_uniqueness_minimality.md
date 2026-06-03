@@ -1,7 +1,8 @@
-+++
-title = "67. 키 (Key)의 개념 - 유일성(Uniqueness), 최소성(Minimality)"
-weight = 67
-+++
+---
+title: 67. 키 (Key)의 개념 - 유일성(Uniqueness), 최소성(Minimality)
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,9 @@
-+++
-title = "039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)
+date: '2026-03-04'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. [[713_kvm_over_ip|KVM]](Kernel-based [[598_vm_migration_nic|Virtual Machine]])은 Linux [[022_kernel_role|커널]]에 내장된 [[054_hypervisor|하이퍼바이저]]로, 하드웨어 [[015_virtualization|가상화]] 지원([[658_intel_vtx|Intel VT-x]]/[[659_amd_v|AMD-V]])을 활용하여 최소 오버헤드로 완전 [[015_virtualization|가상화]]를 제공하며, QEMU와 결합하여 OpenStack·AWS Nitro·Google Cloud의 기반 기술로 사용된다.

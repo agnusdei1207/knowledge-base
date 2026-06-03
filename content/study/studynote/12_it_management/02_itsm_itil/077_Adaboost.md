@@ -1,12 +1,10 @@
-+++
-weight = 77
-title = "77. AdaBoost (Adaptive Boosting)"
-description = "AdaBoost의 적응적 부스팅 원리,弱분류기 조합 메커니즘, 샘플 가중치 조정 알고리즘, 한계점 분석"
-date = "2026-04-05"
-[taxonomies]
-tags = ["AdaBoost", "적응적 부스팅", "앙상블", "弱분류기", "Boosting", "머신러닝"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 77. AdaBoost (Adaptive Boosting)
+date: '2026-04-05'
+description: AdaBoost의 적응적 부스팅 원리,弱분류기 조합 메커니즘, 샘플 가중치 조정 알고리즘, 한계점 분석
+tags:
+- it_management
+---
 
 # AdaBoost (Adaptive [[127_boosting|Boosting]])
 

@@ -1,10 +1,9 @@
-+++
-weight = 232
-title = "232. gRPC (Google RPC) 통신"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 232. gRPC (Google RPC) 통신
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 147
-title = "147. 황의 법칙 (Hwang's Law)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 147. 황의 법칙 (Hwang's Law)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 황의 법칙(Hwang's Law)은 전원이 꺼져도 데이터가 보존되는 **NAND [[256_flash_memory|플래시 메모리]](NAND [[256_flash_memory|Flash Memory]])의 집적도가 1년마다 2배씩 증가**한다는 관찰 모델로, 무어의 법칙(Moore's Law, 2년 주기)보다 두 배 빠른 메모리 스토리지 진화를 예측했다.

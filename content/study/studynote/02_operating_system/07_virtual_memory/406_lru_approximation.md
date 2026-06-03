@@ -1,10 +1,9 @@
-+++
-weight = 406
-title = "406. LRU 근사 알고리즘 (LRU Approximation) - 참조 비트 (Reference Bit) 사용"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 406. LRU 근사 알고리즘 (LRU Approximation) - 참조 비트 (Reference Bit) 사용
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

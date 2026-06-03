@@ -1,10 +1,9 @@
-+++
-weight = 486
-title = "486. 코사인 유사도 각도 유사 탐색 엔진망 연계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 486. 코사인 유사도 각도 유사 탐색 엔진망 연계
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

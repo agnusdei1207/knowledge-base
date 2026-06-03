@@ -1,10 +1,9 @@
-+++
-weight = 119
-title = "119. 시프트 연산 (Shift Operations)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 119. 시프트 연산 (Shift Operations)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시프트 연산(Shift Operations)은 [[001_dikw_pyramid|데이터]] [[057_register|레지스터]] 내의 이진수 [[073_bit|비트]] 열 전체를 **좌측 또는 우측으로 밀어내는 [[073_bit|비트]] 단위 위치 이동 [[158_instruction|명령어]]**의 집합이다.

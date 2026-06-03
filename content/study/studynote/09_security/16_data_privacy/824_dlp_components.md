@@ -1,10 +1,9 @@
-+++
-weight = 824
-title = "824. DLP 구성要素 (Data Loss Prevention)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 824. DLP 구성要素 (Data Loss Prevention)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

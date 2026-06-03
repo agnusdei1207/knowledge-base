@@ -1,10 +1,9 @@
-+++
-weight = 265
-title = "265. 워킹 셋 (Working Set)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 265. 워킹 셋 (Working Set)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 982
-title = "982. LLM07: Plugin Abuse (LLM07: Plugin Abuse)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: '982. LLM07: Plugin Abuse (LLM07: Plugin Abuse)'
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

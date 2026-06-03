@@ -1,10 +1,9 @@
-+++
-weight = 105
-title = "빌드 캐싱 최적화: CI/CD 병목을 뚫는 레이어 전략"
-date = "2026-03-04"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: '빌드 캐싱 최적화: CI/CD 병목을 뚫는 레이어 전략'
+date: '2026-03-04'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

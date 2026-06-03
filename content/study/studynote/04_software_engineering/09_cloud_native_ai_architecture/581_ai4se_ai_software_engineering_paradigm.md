@@ -1,10 +1,9 @@
-+++
-weight = 581
-title = "581. AI4SE (AI for Software Engineering) - AI를 활용한 SW 엔지니어링 패러다임 변화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 581. AI4SE (AI for Software Engineering) - AI를 활용한 SW 엔지니어링 패러다임 변화
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 239
-title = "234. 엣지 빅데이터 (엣지 집계 후 클라우드 전송, 대역폭 절감)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 234. 엣지 빅데이터 (엣지 집계 후 클라우드 전송, 대역폭 절감)
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

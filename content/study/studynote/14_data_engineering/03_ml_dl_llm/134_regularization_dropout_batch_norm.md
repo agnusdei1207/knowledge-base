@@ -1,10 +1,9 @@
-+++
-weight = 134
-title = "134. 정규화 기법 (Regularization) - Dropout·BatchNorm·L1/L2"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 134. 정규화 기법 (Regularization) - Dropout·BatchNorm·L1/L2
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[093_normalization|정규화]](Regularization)는 **모델이 학습 데이터에 과적합([[245_overfitting_variance|Overfitting]])하는 것을 방지**하는 기법의 총칭이며, [[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|Dropout]]·BatchNorm·L1/L2·[[001_dikw_pyramid|Data]] Augmentation·Early Stopping이 대표이다.

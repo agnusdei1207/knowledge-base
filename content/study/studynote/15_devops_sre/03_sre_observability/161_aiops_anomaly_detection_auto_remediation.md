@@ -1,10 +1,9 @@
-+++
-weight = 161
-title = "161. AIOps (Artificial Intelligence for IT Operations)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 161. AIOps (Artificial Intelligence for IT Operations)
+date: '2026-04-21'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트
 

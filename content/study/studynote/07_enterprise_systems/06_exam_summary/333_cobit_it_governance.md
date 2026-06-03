@@ -1,10 +1,9 @@
-+++
-weight = 333
-title = "333. IT 거버넌스 COBIT 도메인 통제 (COBIT IT Governance)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 333. IT 거버넌스 COBIT 도메인 통제 (COBIT IT Governance)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

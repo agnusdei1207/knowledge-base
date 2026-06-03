@@ -1,10 +1,9 @@
-+++
-weight = 389
-title = "389. 지식 증류 소프트 타겟 (Soft Target)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 389. 지식 증류 소프트 타겟 (Soft Target)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

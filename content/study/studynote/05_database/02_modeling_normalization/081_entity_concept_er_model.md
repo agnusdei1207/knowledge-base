@@ -1,10 +1,9 @@
-+++
-weight = 81
-title = "081. 개체 개념 (Entity Concept in E-R Model)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 081. 개체 개념 (Entity Concept in E-R Model)
+date: '2026-05-05'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[002_database_definition|데이터베이스]] E-R 모델에서 개체(Entity)란, 현실 세계에서 사람의 머리로 구별하고 [[655_ir_detection_analysis|식별]]할 수 있는 **'의미 있는 정보의 덩어리(명사)'이자 시스템에 영속적으로 저장(저장할 가치)해야 할 논리적 단위**다.

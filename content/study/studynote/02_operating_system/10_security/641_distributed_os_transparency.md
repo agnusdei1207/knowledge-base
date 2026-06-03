@@ -1,10 +1,9 @@
-+++
-weight = 641
-title = "641. 분산 OS 투명성 (Transparency: 위치, 마이그레이션, 복제, 병행 투명성 보장 구조)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: '641. 분산 OS 투명성 (Transparency: 위치, 마이그레이션, 복제, 병행 투명성 보장 구조)'
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

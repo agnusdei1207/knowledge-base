@@ -1,10 +1,9 @@
-+++
-weight = 70
-title = "70. ASIC (주문형 반도체)"
-date = "2026-03-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 70. ASIC (주문형 반도체)
+date: '2026-03-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 331
-title = "331. 멀티 테넌트 SaaS 인스턴스 격리 논리 스키마 (Multi-Tenant SaaS)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 331. 멀티 테넌트 SaaS 인스턴스 격리 논리 스키마 (Multi-Tenant SaaS)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[888_multi_tenant_cloud_resource_isolation_noisy_neighbor|멀티 테넌트]] [[309_saas|SaaS]] 인스턴스 격리 [[369_logic_bomb|논리]] [[005_schema|스키마]]는 클라우드 시스템에서 격리와 경계 제어를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

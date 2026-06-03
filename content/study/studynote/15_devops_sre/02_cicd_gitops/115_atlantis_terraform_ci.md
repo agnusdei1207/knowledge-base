@@ -1,10 +1,9 @@
-+++
-weight = 115
-title = "115. Atlantis Terraform CI - PR 기반 IaC 자동 Plan·Apply 워크플로"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 115. Atlantis Terraform CI - PR 기반 IaC 자동 Plan·Apply 워크플로
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Atlantis는 [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]]/OpenTofu의 **[[067_pull_request_pr_merge_request_code_review|PR]]([[067_pull_request_pr_merge_request_code_review|Pull Request]]) 기반 자동 Plan/Apply 워크플로**를 제공하는 [[191_oss_license_compliance|OSS]] 도구로, PR을 열면 자동으로 `terraform plan` 결과를 코멘트로 달고, 승인 후 `atlantis apply`로 적용한다.

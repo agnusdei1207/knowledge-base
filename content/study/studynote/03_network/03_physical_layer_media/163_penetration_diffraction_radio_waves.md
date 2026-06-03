@@ -1,10 +1,9 @@
-+++
-weight = 163
-title = "163. 투과율 (Penetration) / 회절 (Diffraction)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 163. 투과율 (Penetration) / 회절 (Diffraction)
+date: '2026-05-05'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

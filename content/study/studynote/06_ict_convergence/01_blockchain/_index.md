@@ -1,9 +1,8 @@
-+++
-weight = 1
-title = "01. Web 3.0 및 블록체인"
-[extra]
-sort_by = "weight"
-+++
+---
+title: 01. Web 3.0 및 블록체인
+tags:
+- ict_convergence
+---
 
 # Web 3.0 및 블록체인
 

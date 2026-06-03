@@ -1,10 +1,9 @@
-+++
-weight = 430
-title = "430. 인덱스 패스트 풀 스캔 (병렬)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 430. 인덱스 패스트 풀 스캔 (병렬)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

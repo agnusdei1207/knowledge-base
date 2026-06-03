@@ -1,10 +1,9 @@
-+++
-weight = 356
-title = "356. CRM LTV 고객 생애 가치 극대화 (CRM Customer Lifetime Value)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 356. CRM LTV 고객 생애 가치 극대화 (CRM Customer Lifetime Value)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

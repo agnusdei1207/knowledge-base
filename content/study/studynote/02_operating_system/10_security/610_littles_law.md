@@ -1,10 +1,9 @@
-+++
-weight = 610
-title = "610. 리틀의 법칙 (Little's Law) - L = λW (대기 큐 성능 분석)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 610. 리틀의 법칙 (Little's Law) - L = λW (대기 큐 성능 분석)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 97
-title = "97. 스트라이드 (Stride) - CNN 필터 이동 보폭과 특징 맵 축소"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 97. 스트라이드 (Stride) - CNN 필터 이동 보폭과 특징 맵 축소
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

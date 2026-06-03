@@ -1,10 +1,9 @@
-+++
-weight = 322
-title = "322. 객체지향 프로그래밍 (OOP)의 4대 특징 - 캡슐화, 상속, 다형성, 추상화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 322. 객체지향 프로그래밍 (OOP)의 4대 특징 - 캡슐화, 상속, 다형성, 추상화
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

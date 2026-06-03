@@ -1,10 +1,9 @@
-+++
-title = "048. COCOMO II — 소프트웨어 비용 추정"
-weight = 48
-date = "2026-04-05"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 048. COCOMO II — 소프트웨어 비용 추정
+date: '2026-04-05'
+tags:
+- studynote-software-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[145_cocomo_model|COCOMO]] II([[145_cocomo_model|Constructive Cost Model]] II)는 소프트웨어 개발 규모(LOC 또는 [[140_function_point|기능 점수]])와 복잡도 요인을 결합하여 공수(Person-Month)와 일정을 과학적으로 추정 — 1995년 Barry Boehm이 발전시킨 [[145_cocomo_model|COCOMO]] I의 개선 모델로, 현대 소프트웨어 개발 환경(재사용, CBD)을 반영한다.

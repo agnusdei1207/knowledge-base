@@ -1,10 +1,9 @@
-+++
-weight = 245
-title = "245. 메모리 계층 구조 (Memory Hierarchy)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 245. 메모리 계층 구조 (Memory Hierarchy)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 245. [[252_memory_hierarchy|메모리 계층 구조]] ([[252_memory_hierarchy|Memory Hierarchy]])
 

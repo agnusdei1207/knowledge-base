@@ -1,10 +1,9 @@
-+++
-weight = 485
-title = "485. 벡터 데이터베이스 임베딩 검색 구조"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 485. 벡터 데이터베이스 임베딩 검색 구조
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

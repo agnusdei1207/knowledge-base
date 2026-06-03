@@ -1,10 +1,9 @@
-+++
-weight = 154
-title = "154. GAN (Generative Adversarial Network) - 생성자와 판별자의 피 터지는 적대적 훈련 연금술"
-date = "2026-05-03"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 154. GAN (Generative Adversarial Network) - 생성자와 판별자의 피 터지는 적대적 훈련 연금술
+date: '2026-05-03'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: GAN([[159_gan|생성적 적대 신경망]])은 진짜 같은 가짜 이미지를 창조해 내는 **[위조지폐범([[087_process_state_transition|생성]]자 Generator 봇)]**과, 그 가짜를 현미경으로 뜯어 진짜/가짜 O/X를 쳐 감별해 내는 **[경찰 스나이퍼(판별자 Discriminator 봇)]** ➔ 이 2마리의 신경망 뇌를 맞붙여 미친 듯이 멱살 잡고 끝없는 무한 데스매치 싸움 핑퐁 훈련(Adversarial 적대)을 치게 조장하는 천재적 창조 흑마법이다.

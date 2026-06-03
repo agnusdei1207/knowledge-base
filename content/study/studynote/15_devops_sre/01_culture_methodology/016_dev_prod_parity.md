@@ -1,13 +1,11 @@
-+++
-weight = 16
-title = "16. 개발/운영 환경 일치 (Dev/Prod Parity) - 개발, 스테이징, 운영 환경의 갭을 최소화"
-description = "12 팩터 앱의 핵심 원칙 중 하나로, 시간, 인력, 도구의 간극을 최소화하여 지속적 배포와 시스템 안정성을 보장하는 개발/운영 일치 패러다임"
-date = "2026-03-04"
-
-[taxonomies]
-tags = ["DevOps", "12Factor", "Container", "IaC", "CI/CD"]
-categories = ["studynote-devops-sre"]
-+++
+---
+title: 16. 개발/운영 환경 일치 (Dev/Prod Parity) - 개발, 스테이징, 운영 환경의 갭을 최소화
+date: '2026-03-04'
+description: 12 팩터 앱의 핵심 원칙 중 하나로, 시간, 인력, 도구의 간극을 최소화하여 지속적 배포와 시스템 안정성을 보장하는 개발/운영
+  일치 패러다임
+tags:
+- devops_sre
+---
 
 # 16. 개발/운영 환경 일치 (Dev/Prod Parity)
 

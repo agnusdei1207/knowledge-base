@@ -1,10 +1,9 @@
-+++
-weight = 151
-title = "151. 다중 계층 아키텍처 (Multi-Tier Architecture) — Bronze/Silver/Gold"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 151. 다중 계층 아키텍처 (Multi-Tier Architecture) — Bronze/Silver/Gold
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. 다중 계층 아키텍처는 [[208_data_lake_schema_on_read|데이터 레이크]]를 **Bronze(원시)·Silver(정제)·Gold(집계)** 3계층으로 나누어 [[001_dikw_pyramid|데이터]] 품질과 변환 이력을 단계별로 관리하는 설계 패턴이다.

@@ -1,12 +1,10 @@
-+++
-weight = 19
-title = "19. 종료 회의 (Exit Meeting) - 감리 결과 발표 및 이견 조율"
-description = "정보시스템 감리의 실지 감사 결과를 최종 합의하고 이견을 조율하는 종료 회의의 전략적 의미와 프로세스를 분석합니다."
-date = "2026-03-04"
-[taxonomies]
-tags = ["정보시스템감리", "종료회의", "ExitMeeting", "이견조율", "협상전략"]
-categories = ["studynote-design-supervision"]
-+++
+---
+title: 19. 종료 회의 (Exit Meeting) - 감리 결과 발표 및 이견 조율
+date: '2026-03-04'
+description: 정보시스템 감리의 실지 감사 결과를 최종 합의하고 이견을 조율하는 종료 회의의 전략적 의미와 프로세스를 분석합니다.
+tags:
+- design_supervision
+---
 
 # 19. 종료 회의 (Exit Meeting) - 감리 결과 발표 및 이견 조율
 

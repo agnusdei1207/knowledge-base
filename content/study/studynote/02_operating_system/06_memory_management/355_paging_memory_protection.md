@@ -1,10 +1,9 @@
-+++
-weight = 355
-title = "355. 페이징의 메모리 보호 - 유효-무효 비트 (Valid-Invalid Bit)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 355. 페이징의 메모리 보호 - 유효-무효 비트 (Valid-Invalid Bit)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

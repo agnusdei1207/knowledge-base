@@ -1,10 +1,9 @@
-+++
-weight = 226
-title = "226. ETL (Extract, Transform, Load)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 226. ETL (Extract, Transform, Load)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[215_etl_vs_elt_pipeline|ETL]](Extract, Transform, Load)은 소스 시스템에서 [[001_dikw_pyramid|데이터]]를 추출(E)하고, 전용 서버에서 변환·정제(T)한 후, 타겟 DW에 적재(L)하는 **전통적 [[001_dikw_pyramid|데이터]] 통합 방식**이다.

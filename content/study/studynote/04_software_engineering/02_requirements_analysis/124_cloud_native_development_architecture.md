@@ -1,10 +1,9 @@
-+++
-weight = 124
-title = "124. 클라우드 네이티브 아키텍처 - CNCF 기반 현대 소프트웨어 개발 패러다임"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 124. 클라우드 네이티브 아키텍처 - CNCF 기반 현대 소프트웨어 개발 패러다임
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[531_cloud_native_architecture|클라우드 네이티브]]는 **[[561_container_based_deployment|컨테이너]]·[[619_msa_traffic_hardware|MSA]]·[[090_configuration_item|CI]]/CD·선언적 [[014_api_posix|API]]**를 핵심으로 하여 클라우드 환경의 **[[571_resiliency_fault_tolerance_patterns|탄력성]]·확장성·복원력을 최대한 활용**하는 소프트웨어 개발·운영 패러다임이다.

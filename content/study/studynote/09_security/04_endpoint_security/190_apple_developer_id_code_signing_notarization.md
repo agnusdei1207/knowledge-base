@@ -1,10 +1,9 @@
-+++
-weight = 190
-title = "190. Apple Developer ID (Apple Developer ID)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 190. Apple Developer ID (Apple Developer ID)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

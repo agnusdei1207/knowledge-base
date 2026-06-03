@@ -1,7 +1,8 @@
-+++
-title = "81. K8s 워커 노드 컴포넌트 3가지"
-weight = 81
-+++
+---
+title: 81. K8s 워커 노드 컴포넌트 3가지
+tags:
+- cloud_architecture
+---
 
 # K8s 워커 노드 [[603_component_independent_deployment_unit|컴포넌트]] 3가지 - [[082_kubelet_node_agent|Kubelet]], Kube-Proxy, [[084_container_runtime_containerd_runc_cri|Container Runtime]]
 

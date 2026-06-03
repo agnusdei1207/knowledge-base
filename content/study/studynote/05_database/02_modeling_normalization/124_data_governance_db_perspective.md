@@ -1,10 +1,9 @@
-+++
-weight = 124
-title = "124. 데이터 거버넌스 (Data Governance) - 데이터 품질·보안·표준의 전사 관리 체계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 124. 데이터 거버넌스 (Data Governance) - 데이터 품질·보안·표준의 전사 관리 체계
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[052_data_governance_framework|데이터 거버넌스]]는 **[[001_dikw_pyramid|데이터]]의 [[452_availability|가용성]]·[[003_integrity|무결성]]·보안·품질을 보장하기 위한 [[164_policy|정책]]·프로세스·조직·기술의 통합 관리 체계**이며, [[001_dikw_pyramid|데이터]]를 기업 자산으로 관리하는 전사적 프레임워크다.

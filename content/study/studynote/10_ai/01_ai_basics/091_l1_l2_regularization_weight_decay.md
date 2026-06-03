@@ -1,10 +1,9 @@
-+++
-weight = 91
-title = "91. L1/L2 규제 - 가중치 감쇠(Weight Decay)와 과적합 방지"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 91. L1/L2 규제 - 가중치 감쇠(Weight Decay)와 과적합 방지
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

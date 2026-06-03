@@ -1,10 +1,9 @@
-+++
-weight = 99
-title = "24. 실시간 OLAP (Real-time OLAP) — Apache Druid/Pinot/ClickHouse"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 24. 실시간 OLAP (Real-time OLAP) — Apache Druid/Pinot/ClickHouse
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 실시간 [[316_olap|OLAP]] (Real-time [[316_olap|OLAP]], [[211_olap_drill_down_roll_up_surrogate_key|Online Analytical Processing]])은 스트리밍으로 유입되는 [[001_dikw_pyramid|데이터]]를 수초~수 밀리초의 [[015_지연_데이터_관점|지연]]으로 즉시 컬럼형(Columnar) 스토어에 적재하고 서브초(Sub-second) 내에 집계·분석 [[298_qkv_attention|쿼리]]를 처리하는 분석 아키텍처로, Apache Druid·Apache Pinot·ClickHouse가 대표 구현체다.

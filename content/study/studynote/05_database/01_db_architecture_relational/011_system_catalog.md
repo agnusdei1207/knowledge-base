@@ -1,12 +1,11 @@
-+++
-weight = 11
-title = "11. 시스템 카탈로그 (System Catalog) / 데이터 사전 (Data Dictionary) - 메타데이터(Metadata) 저장소"
-description = "메타데이터를 관리하는 데이터베이스의 핵심 저장소인 카탈로그와 데이터 사전 메커니즘"
-date = "2024-05-20"
-[taxonomies]
-tags = ["Database", "System Catalog", "Data Dictionary", "Metadata", "DBMS"]
-categories = ["studynote-database"]
-+++
+---
+title: 11. 시스템 카탈로그 (System Catalog) / 데이터 사전 (Data Dictionary) - 메타데이터(Metadata)
+  저장소
+date: '2024-05-20'
+description: 메타데이터를 관리하는 데이터베이스의 핵심 저장소인 카탈로그와 데이터 사전 메커니즘
+tags:
+- database
+---
 
 # 시스템 [[394_catalog_metadata|카탈로그]] (System [[394_catalog_metadata|Catalog]])와 [[393_data_dictionary|데이터 사전]]
 #### 핵심 인사이트 (3줄 요약)

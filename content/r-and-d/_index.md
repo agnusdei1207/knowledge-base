@@ -1,6 +1,7 @@
 ---
-title: "🔬 R&D (연구 개발 허브)"
-weight: 3
+title: 🔬 R&D (연구 개발 허브)
+tags:
+- r-and-d
 ---
 
 # 🔬 R&D (연구 개발 허브)

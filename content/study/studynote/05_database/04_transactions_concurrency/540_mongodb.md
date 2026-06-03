@@ -1,10 +1,9 @@
-+++
-weight = 540
-title = "540. 데이터 가상화 연방 쿼리 (Federated Query) 실행 엔진"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 540. 데이터 가상화 연방 쿼리 (Federated Query) 실행 엔진
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

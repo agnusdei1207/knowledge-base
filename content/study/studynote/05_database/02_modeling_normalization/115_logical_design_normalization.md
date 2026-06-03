@@ -1,10 +1,9 @@
-+++
-weight = 115
-title = "115. 논리 설계와 정규화 (Logical Design & Normalization) - ERD→릴레이션 변환·FD 분석"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 115. 논리 설계와 정규화 (Logical Design & Normalization) - ERD→릴레이션 변환·FD 분석
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[369_logic_bomb|논리]] 설계는 개념 설계(ERD)를 **[[083_relationship_in_er_model|관계]]형 [[391_relation_schema_intension|릴레이션 스키마]](테이블·PK·FK)**로 변환한 후, **함수 [[008_dependencies|종속성]](FD) 분석을 통해 [[093_normalization|정규화]]([[105_third_normal_form_3nf_transitive|3NF]]/[[529_bcnf|BCNF]])**를 수행하여 [[093_update_anomaly|갱신 이상]]을 제거하는 단계다.

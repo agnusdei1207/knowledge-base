@@ -1,7 +1,8 @@
-+++
-title = "78. 웹3.0 소셜 네트워크 (Mastodon, Bluesky, Nostr 기반 프로토콜)"
-weight = 78
-+++
+---
+title: 78. 웹3.0 소셜 네트워크 (Mastodon, Bluesky, Nostr 기반 프로토콜)
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

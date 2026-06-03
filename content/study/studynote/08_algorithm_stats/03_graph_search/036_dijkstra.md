@@ -1,10 +1,9 @@
-+++
-weight = 36
-title = "7. 다익스트라 (Dijkstra) — 단일 출발 최단 경로, 비음수 가중치"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 7. 다익스트라 (Dijkstra) — 단일 출발 최단 경로, 비음수 가중치
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

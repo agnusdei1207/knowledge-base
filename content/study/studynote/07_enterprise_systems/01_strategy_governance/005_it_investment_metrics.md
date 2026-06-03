@@ -1,12 +1,10 @@
-+++
-weight = 5
-title = "5. IT 투자 성과 평가 지표 - ROI (투자수익률), NPV (순현재가치), IRR (내부수익률), PP (투자회수기간)"
-description = "엔터프라이즈 IT 프로젝트의 타당성과 재무적 가치를 정량적으로 측정하는 4대 핵심 평가지표의 원리와 실무 적용"
-date = "2026-03-04"
-[taxonomies]
-tags = ["ROI", "NPV", "IRR", "투자평가", "IT투자"]
-categories = ["studynote-enterprise"]
-+++
+---
+title: 5. IT 투자 성과 평가 지표 - ROI (투자수익률), NPV (순현재가치), IRR (내부수익률), PP (투자회수기간)
+date: '2026-03-04'
+description: 엔터프라이즈 IT 프로젝트의 타당성과 재무적 가치를 정량적으로 측정하는 4대 핵심 평가지표의 원리와 실무 적용
+tags:
+- enterprise_systems
+---
 
 # IT 투자 성과 평가 지표 ([[012_roi_return_on_investment|ROI]], [[013_npv|NPV]], [[014_irr_internal_rate_of_return|IRR]], [[015_payback_period|PP]])
 #### 핵심 인사이트 (3줄 요약)

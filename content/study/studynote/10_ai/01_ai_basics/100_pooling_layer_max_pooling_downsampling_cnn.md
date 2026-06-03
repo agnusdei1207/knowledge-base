@@ -1,10 +1,9 @@
-+++
-weight = 100
-title = "100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [[285_pooling_layer|풀링]] 층([[285_pooling_layer|Pooling Layer]])은 [[096_convolution_layer_filter_stride_padding|합성곱 층]](Conv Layer)이 추출한 고해상도 [[099_feature_map_activation_map_cnn_output|특성 맵]]의 크기를 공간적으로 축소(Downsampling)하여 가장 두드러진 특징만 남기는 극단적인 [[159_compression|데이터 압축]]기다.

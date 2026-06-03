@@ -1,10 +1,9 @@
-+++
-weight = 753
-title = "753. EPC (Evolved Packet Core 코어망 시스템) S-GW, P-GW 제어 망 트래픽 통합"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 753. EPC (Evolved Packet Core 코어망 시스템) S-GW, P-GW 제어 망 트래픽 통합
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

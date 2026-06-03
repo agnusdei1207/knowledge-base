@@ -1,10 +1,9 @@
-+++
-weight = 77
-title = "77. 사용자 만족도 조사 분석 및 개선 조치 (운영 이관 감리)"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 77. 사용자 만족도 조사 분석 및 개선 조치 (운영 이관 감리)
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 # 사용자 만족도 조사 분석 및 개선 조치 (CSAT Remediation [[363_audit|Audit]])
 

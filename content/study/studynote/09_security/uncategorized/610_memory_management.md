@@ -1,10 +1,9 @@
-+++
-weight = 610
-title = "610. 메모리 관리 보안 (Memory Management Security)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 610. 메모리 관리 보안 (Memory Management Security)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

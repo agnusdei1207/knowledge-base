@@ -1,10 +1,9 @@
-+++
-weight = 214
-title = "214. 슬라이딩 윈도우 프로토콜 (Sliding Window Protocol) 개념"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 214. 슬라이딩 윈도우 프로토콜 (Sliding Window Protocol) 개념
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

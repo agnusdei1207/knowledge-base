@@ -1,7 +1,8 @@
-+++
-title = "180. xPON (Passive Optical Network) - EPON, GPON, 10G-PON"
-weight = 180
-+++
+---
+title: 180. xPON (Passive Optical Network) - EPON, GPON, 10G-PON
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 568
-title = "568. 강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 568. 강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 137
-title = "137. Grafana - 통합 관측 가능성 시각화 플랫폼"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 137. Grafana - 통합 관측 가능성 시각화 플랫폼
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Grafana는 **[[136_prometheus|Prometheus]]·Loki·Tempo·[[302_cdc|Elasticsearch]] 등 다양한 [[001_dikw_pyramid|데이터]] 소스를 통합하여 대시보드로 [[003_bigdata_7v|시각화]]**하는 [[191_oss_license_compliance|오픈소스]] [[111_observability_metrics_logs_traces|관측 가능성]] 플랫폼이며, LGTM [[057_stack|Stack]](Loki+[[168_grafana|Grafana]]+Tempo+Mimir)의 중심이다.

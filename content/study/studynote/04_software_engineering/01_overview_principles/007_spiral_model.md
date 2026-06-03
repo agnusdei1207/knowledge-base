@@ -1,12 +1,10 @@
-+++
-weight = 7
-title = "7. 나선형 모델 (Spiral Model) - 위험 분석(Risk Analysis) 강조, 점진적 확장"
-description = "점진적인 프로토타이핑과 철저한 위험 분석을 결합하여 대규모 시스템의 불확실성을 통제하는 진화적 생명주기"
-date = "2026-03-04"
-[taxonomies]
-tags = ["소프트웨어공학", "SDLC", "나선형모델", "위험관리", "점진적개발"]
-categories = ["studynote-se"]
-+++
+---
+title: 7. 나선형 모델 (Spiral Model) - 위험 분석(Risk Analysis) 강조, 점진적 확장
+date: '2026-03-04'
+description: 점진적인 프로토타이핑과 철저한 위험 분석을 결합하여 대규모 시스템의 불확실성을 통제하는 진화적 생명주기
+tags:
+- software_engineering
+---
 
 # 07. 나선형 모델 (Spiral Model)
 

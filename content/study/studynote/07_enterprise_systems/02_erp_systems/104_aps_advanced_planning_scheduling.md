@@ -1,7 +1,9 @@
-+++
-title = "104. APS (Advanced Planning and Scheduling) - 제약 조건 최적화 기반 고급 스케줄링 솔루션 (메모리 상 수학적 시뮬레이션)"
-weight = 104
-+++
+---
+title: 104. APS (Advanced Planning and Scheduling) - 제약 조건 최적화 기반 고급 스케줄링 솔루션 (메모리
+  상 수학적 시뮬레이션)
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: APS (Advanced Planning and Scheduling)는 설비 능력, 인력, 자재 등 현실 공장의 유한한 제약 조건(Finite Capacity)을 모두 고려하여 생산 계획과 일정을 최적화하는 메모리 기반(In-Memory) 시뮬레이션 시스템이다.

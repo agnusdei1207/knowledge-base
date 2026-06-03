@@ -1,10 +1,9 @@
-+++
-weight = 173
-title = "173. FCFS (First-Come, First-Served) 스케줄링 - 비선점"
-date = "2026-03-22"
-[extra]
-categories = ["studynote-operating-system"]
-+++
+---
+title: 173. FCFS (First-Come, First-Served) 스케줄링 - 비선점
+date: '2026-03-22'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

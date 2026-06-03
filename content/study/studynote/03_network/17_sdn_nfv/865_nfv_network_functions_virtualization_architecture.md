@@ -1,10 +1,9 @@
-+++
-weight = 865
-title = "865. NFV (네트워크 기능 가상화)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 865. NFV (네트워크 기능 가상화)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

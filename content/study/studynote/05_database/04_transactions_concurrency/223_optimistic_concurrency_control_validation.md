@@ -1,10 +1,9 @@
-+++
-weight = 223
-title = "223. 낙관적 동시성 제어 (Optimistic Concurrency Control)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 223. 낙관적 동시성 제어 (Optimistic Concurrency Control)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

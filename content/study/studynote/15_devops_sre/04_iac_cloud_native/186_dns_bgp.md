@@ -1,10 +1,9 @@
-+++
-weight = 186
-title = "186. DNS 캐시 중독 및 라우팅 BGP 하이재킹 모니터링망"
-date = "2026-04-28"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 186. DNS 캐시 중독 및 라우팅 BGP 하이재킹 모니터링망
+date: '2026-04-28'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 721
-title = "721. 클린 아키텍처 Usecase Interactor 설계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 721. 클린 아키텍처 Usecase Interactor 설계
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 30
-title = "30. 검증 세트 — 하이퍼파라미터 튜닝의 심판"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 30. 검증 세트 — 하이퍼파라미터 튜닝의 심판
+date: '2026-04-29'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[395_verification_process_review|검증]] 세트([[396_validation|Validation]] Set)는 훈련 세트로 학습 완료 후 [[041_bagging_boosting|하이퍼파라미터 튜닝]] 및 모델 선택에 사용하는 [[001_dikw_pyramid|데이터]]로, 훈련·테스트 세트와 완전히 분리된 독립 세트다. 학습에는 쓰이지 않지만 모델 개선에 직접 영향을 준다는 점에서 "테스트 세트와 다르다".

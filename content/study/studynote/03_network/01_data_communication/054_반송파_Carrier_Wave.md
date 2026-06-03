@@ -1,10 +1,9 @@
-+++
-weight = 54
-title = "54. 반송파 (Carrier Wave)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 54. 반송파 (Carrier Wave)
+date: '2026-05-01'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

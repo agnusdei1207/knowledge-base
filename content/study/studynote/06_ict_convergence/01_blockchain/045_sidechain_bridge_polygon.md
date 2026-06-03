@@ -1,10 +1,9 @@
-+++
-title = "045. 사이드체인과 브릿지 — Sidechain & Bridge (Polygon)"
-weight = 45
-date = "2026-04-05"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 045. 사이드체인과 브릿지 — Sidechain & Bridge (Polygon)
+date: '2026-04-05'
+tags:
+- studynote-ict-convergence
+---
 
 > **핵심 인사이트**
 > 1. 사이드체인(Sidechain)은 메인체인(Main Chain)과 양방향 페그(Two-Way Peg)로 연결된 독립 [[004_blockchain|블록체인]] — 메인체인의 보안을 활용하면서 독자적 합의 규칙으로 더 빠르고 저렴한 트랜잭션을 처리하며, Polygon PoS가 대표적 Ethereum 사이드체인이다.

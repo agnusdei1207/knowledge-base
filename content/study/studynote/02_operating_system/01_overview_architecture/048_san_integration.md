@@ -1,10 +1,9 @@
-+++
-title = "048. SAN 통합 — Storage Area Network"
-weight = 48
-date = "2026-04-05"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 048. SAN 통합 — Storage Area Network
+date: '2026-04-05'
+tags:
+- studynote-operating-system
+---
 
 > **핵심 인사이트**
 > 1. [[493_san_storage_area_network|SAN]]([[493_san_storage_area_network|Storage Area Network]])은 서버와 스토리지 장치를 전용 고속 네트워크로 연결하는 아키텍처 — 일반 IP 네트워크와 분리된 [[696_fibre_channel_protocol|Fibre Channel]] 또는 [[698_iscsi|iSCSI]] 전용 망으로 블록 수준 스토리지를 제공하며, 서버가 스토리지를 로컬 디스크처럼 인식한다.

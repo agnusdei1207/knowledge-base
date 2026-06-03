@@ -1,10 +1,9 @@
-+++
-weight = 103
-title = "103. 비즈니스 아키텍처 (BA) 현황 분석"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 103. 비즈니스 아키텍처 (BA) 현황 분석
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 비즈니스 아키텍처 (BA) 현황 분석의 본질은 조직의 프로세스 맵 구조 분해를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

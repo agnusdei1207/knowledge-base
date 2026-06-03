@@ -1,10 +1,9 @@
-+++
-weight = 345
-title = "345. 역전파 편미분 (Backpropagation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 345. 역전파 편미분 (Backpropagation)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

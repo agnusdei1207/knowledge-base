@@ -1,10 +1,9 @@
-+++
-weight = 57
-title = "57. K-Means 군집화 (K-Means Clustering) - 중심점 반복 이동으로 군집 찾기"
-date = "2026-04-07"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 57. K-Means 군집화 (K-Means Clustering) - 중심점 반복 이동으로 군집 찾기
+date: '2026-04-07'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

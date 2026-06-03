@@ -1,10 +1,9 @@
-+++
-weight = 25
-title = "25. 튜링 완전성 (Turing Completeness) — 스마트 컨트랙트의 계산 능력 기준"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 25. 튜링 완전성 (Turing Completeness) — 스마트 컨트랙트의 계산 능력 기준
+date: '2026-04-29'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 튜링 완전성(Turing Completeness)은 어떤 계산 시스템이 튜링 기계(Turing Machine)와 동일한 계산 능력을 갖는지 나타내는 개념으로, 조건 분기(if-else), 반복(loop), 임의 메모리 접근이 가능하면 이론적으로 모든 계산 가능한 함수를 구현할 수 있다.

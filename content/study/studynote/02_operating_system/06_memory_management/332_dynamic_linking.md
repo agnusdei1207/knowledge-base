@@ -1,10 +1,9 @@
-+++
-weight = 332
-title = "332. 동적 연결 (Dynamic Linking) - 실행 시점에 라이브러리 연결 (.dll, .so)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 332. 동적 연결 (Dynamic Linking) - 실행 시점에 라이브러리 연결 (.dll, .so)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

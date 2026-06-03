@@ -1,7 +1,8 @@
-+++
-title = "78. 키 무결성 (Key Integrity)"
-weight = 78
-+++
+---
+title: 78. 키 무결성 (Key Integrity)
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

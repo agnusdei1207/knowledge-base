@@ -1,10 +1,9 @@
-+++
-weight = 126
-title = "126. 디지털 트윈 (Digital Twin) - 물리 세계의 가상 복제와 시뮬레이션"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 126. 디지털 트윈 (Digital Twin) - 물리 세계의 가상 복제와 시뮬레이션
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 디지털 트윈은 **물리적 자산·프로세스·시스템의 가상 복제본**을 만들어, [[101_iot_concept|IoT]] 센서 [[001_dikw_pyramid|데이터]]를 실시간 반영하면서 **시뮬레이션·예측·최적화**를 수행하는 기술이다.

@@ -1,7 +1,8 @@
-+++
-title = "62. 속성 (Attribute / Column / Degree) - 릴레이션의 열 (차수)"
-weight = 62
-+++
+---
+title: 62. 속성 (Attribute / Column / Degree) - 릴레이션의 열 (차수)
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

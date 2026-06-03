@@ -1,10 +1,9 @@
-+++
-weight = 423
-title = "423. 넌클러스터드 인덱스 (포인터 배열)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 423. 넌클러스터드 인덱스 (포인터 배열)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

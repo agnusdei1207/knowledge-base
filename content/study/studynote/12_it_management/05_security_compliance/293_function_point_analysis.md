@@ -1,10 +1,9 @@
-+++
-weight = 293
-title = "293. 기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 293. 기능 점수 (FP) 내부논리파일 외부연계 외부입력 출력
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[140_function_point|기능 점수]] ([[293_fp_function_point|FP]]) 내부논리파일 외부연계 외부입력 출력의 본질은 자산, 위협, [[571_protection_vs_security|보호]] 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

@@ -1,10 +1,9 @@
-+++
-weight = 333
-title = "333. 다차원 모델링"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 333. 다차원 모델링
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

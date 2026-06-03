@@ -1,10 +1,9 @@
-+++
-weight = 438
-title = "438. GROUP BY 다차원 ROLLUP, CUBE"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 438. GROUP BY 다차원 ROLLUP, CUBE
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

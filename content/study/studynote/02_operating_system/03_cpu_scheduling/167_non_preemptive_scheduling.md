@@ -1,10 +1,9 @@
-+++
-weight = 167
-title = "167. 비선점형 스케줄링 (Non-preemptive Scheduling)"
-date = "2026-03-22"
-[extra]
-categories = ["studynote-operating-system"]
-+++
+---
+title: 167. 비선점형 스케줄링 (Non-preemptive Scheduling)
+date: '2026-03-22'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

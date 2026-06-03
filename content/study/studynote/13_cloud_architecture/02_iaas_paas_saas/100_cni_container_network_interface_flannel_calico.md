@@ -1,10 +1,9 @@
-+++
-weight = 100
-title = "100. CNI (Container Network Interface) - 파드 간 오버레이 통신 표준"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 100. CNI (Container Network Interface) - 파드 간 오버레이 통신 표준
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

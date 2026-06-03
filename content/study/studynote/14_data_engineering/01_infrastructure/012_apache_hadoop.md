@@ -1,12 +1,10 @@
-+++
-weight = 12
-title = "12. 아파치 하둡 (Apache Hadoop) - 대용량 데이터 분산 저장 및 병렬 처리 자바 오픈소스 프레임워크"
-description = "대용량 비정형 데이터를 저비용으로 분산 저장하고 병렬 처리하는 자바 기반 오픈소스 프레임워크의 코어 아키텍처"
-date = "2023-10-24"
-[taxonomies]
-tags = ["Hadoop", "Apache Hadoop", "HDFS", "MapReduce", "Big Data", "Data Engineering"]
-categories = ["14_data_engineering"]
-+++
+---
+title: 12. 아파치 하둡 (Apache Hadoop) - 대용량 데이터 분산 저장 및 병렬 처리 자바 오픈소스 프레임워크
+date: '2023-10-24'
+description: 대용량 비정형 데이터를 저비용으로 분산 저장하고 병렬 처리하는 자바 기반 오픈소스 프레임워크의 코어 아키텍처
+tags:
+- data_engineering
+---
 
 # 아파치 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] (Apache [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]])
 

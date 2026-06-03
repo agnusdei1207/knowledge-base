@@ -1,10 +1,9 @@
-+++
-weight = 129
-title = "129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[229_monitor|모니터]]링은 **"사전에 예상한 문제를 대시보드로 감시"**하는 것이고, [[111_observability_metrics_logs_traces|관측 가능성]]([[642_observability_telemetry|Observability]])은 **"예상하지 못한 문제도 시스템 출력([[342_routing_metric_hop_bandwidth_delay|메트릭]]·[[568_logs_distributed_logging_elk_fluentd|로그]]·트레이스)만으로 내부 상태를 추론"**할 수 있는 시스템 [[082_attribute_types_er_model|속성]]이다.

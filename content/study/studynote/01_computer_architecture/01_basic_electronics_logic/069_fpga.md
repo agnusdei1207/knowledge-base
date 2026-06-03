@@ -1,10 +1,9 @@
-+++
-weight = 69
-title = "69. FPGA (Field Programmable Gate Array)"
-date = "2026-03-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 69. FPGA (Field Programmable Gate Array)
+date: '2026-03-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

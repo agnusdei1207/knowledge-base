@@ -1,10 +1,9 @@
-+++
-weight = 215
-title = "210. 의료 빅데이터 (Healthcare Big Data) — EMR/유전체 분석/임상 예측"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 210. 의료 빅데이터 (Healthcare Big Data) — EMR/유전체 분석/임상 예측
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

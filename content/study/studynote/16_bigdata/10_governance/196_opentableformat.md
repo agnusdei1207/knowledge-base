@@ -1,10 +1,9 @@
-+++
-weight = 196
-title = "06. 오픈 테이블 포맷 (Open Table Format) - 레이크하우스의 핵심 기반 기술"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 06. 오픈 테이블 포맷 (Open Table Format) - 레이크하우스의 핵심 기반 기술
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # [[054_open_table_format_iceberg_delta_hudi|오픈 테이블 포맷]] (Open Table Format) - [[146_lakehouse|레이크하우스]]의 핵심 기반 기술
 

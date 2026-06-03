@@ -1,10 +1,9 @@
-+++
-weight = 481
-title = "481. 샤딩과 L1 병렬 처리 (Sharding and L1 Parallel Transaction Processing)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 481. 샤딩과 L1 병렬 처리 (Sharding and L1 Parallel Transaction Processing)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

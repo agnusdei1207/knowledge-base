@@ -1,10 +1,9 @@
-+++
-weight = 146
-title = "146. 실시간 프로세스 (Real-time Process)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 146. 실시간 프로세스 (Real-time Process)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

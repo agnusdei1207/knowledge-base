@@ -1,10 +1,9 @@
-+++
-weight = 353
-title = "353. SCM 채찍 효과 (SCM Bullwhip Effect Supply Chain)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 353. SCM 채찍 효과 (SCM Bullwhip Effect Supply Chain)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

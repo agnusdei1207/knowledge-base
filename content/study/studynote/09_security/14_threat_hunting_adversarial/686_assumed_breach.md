@@ -1,10 +1,9 @@
-+++
-weight = 686
-title = "686. 가정 침투 (Assumed Breach)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 686. 가정 침투 (Assumed Breach)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

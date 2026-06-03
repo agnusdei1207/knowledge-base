@@ -1,10 +1,9 @@
-+++
-weight = 559
-title = "559. HOTP (HMAC-based OTP)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 559. HOTP (HMAC-based OTP)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

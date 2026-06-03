@@ -1,9 +1,9 @@
-+++
-title = "컨텍스트 (Context) / 컨텍스트 스위칭 (Context Switching)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 컨텍스트 (Context) / 컨텍스트 스위칭 (Context Switching)
+date: '2026-03-03'
+tags:
+- studynote-operating-system
+---
 
 > **핵심 인사이트 3줄**
 > 1. 컨텍스트(Context)는 프로세스가 실행 중인 순간의 완전한 상태 스냅샷으로, CPU [[057_register|레지스터]]·[[164_pc|PC]]·[[166_sp|스택 포인터]]·[[090_pcb_tcb|프로세스 제어 블록]](PCB) 정보를 포함한다.

@@ -1,10 +1,9 @@
-+++
-weight = 90
-title = "90. FluxCD - ArgoCD 경쟁 GitOps CD 도구"
-date = "2026-04-10"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: 90. FluxCD - ArgoCD 경쟁 GitOps CD 도구
+date: '2026-04-10'
+tags:
+- studynote-devops
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: FluxCD는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](K8s) 클러스터 내부에서 동작하며, Git 저장소의 매니페스트(YAML) 상태를 읽어와 클러스터에 강제로 [[212_synchronization_mechanisms|동기화]]([[088_pull_based_deployment_gitops_argocd_security_auto_healing|Pull-based]] Sync)하는 [[119_gitops_single_source_of_truth|GitOps]] 기반 [[099_continuous_deployment_cd|지속적 배포]](CD) 에이전트다.

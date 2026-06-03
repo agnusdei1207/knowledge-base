@@ -1,10 +1,9 @@
-+++
-weight = 140
-title = "140. EDA (Event-Driven Architecture) - 이벤트 기반 아키텍처"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 140. EDA (Event-Driven Architecture) - 이벤트 기반 아키텍처
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EDA는 **이벤트(상태 변화 알림)를 중심으로 [[090_service_kubernetes_network_load_balancing|서비스]] 간 통신을 설계**하는 아키텍처이며, 이벤트 생산자→이벤트 브로커([[179_kafka_flink_watermark_time_window|Kafka]])→이벤트 소비자의 비동기·느슨 결합 구조이다.

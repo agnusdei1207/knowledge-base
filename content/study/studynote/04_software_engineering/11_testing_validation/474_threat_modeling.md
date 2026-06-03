@@ -1,10 +1,9 @@
-+++
-weight = 474
-title = "474. 위협 모델링 (Threat Modeling)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 474. 위협 모델링 (Threat Modeling)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

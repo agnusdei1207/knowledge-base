@@ -1,8 +1,8 @@
-+++
-weight = 2
-title = "02. 하둡 에코시스템 및 HDFS"
-sort_by = "weight"
-+++
+---
+title: 02. 하둡 에코시스템 및 HDFS
+tags:
+- bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

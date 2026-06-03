@@ -1,10 +1,10 @@
-+++
-title = "07. 데이터노드 (DataNode) - HDFS 분산 저장의 워커 노드 및 블록 관리"
-date = "2026-03-04"
-weight = 29
-[extra]
-categories = ["studynote-bigdata", "hadoop"]
-+++
+---
+title: 07. 데이터노드 (DataNode) - HDFS 분산 저장의 워커 노드 및 블록 관리
+date: '2026-03-04'
+tags:
+- hadoop
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **HDFS의 일꾼(Worker)**: [[015_datanode|데이터노드]]([[015_datanode|DataNode]])는 [[501_file_definition_logical_record|파일]]의 실제 [[001_dikw_pyramid|데이터]]를 블록(Block) 단위로 로컬 디스크에 직접 저장하고 관리하는 물리적 서버 노드입니다.

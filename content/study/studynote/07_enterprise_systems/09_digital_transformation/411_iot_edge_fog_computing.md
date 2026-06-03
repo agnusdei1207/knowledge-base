@@ -1,10 +1,9 @@
-+++
-weight = 411
-title = "411. IoT 엣지/포그 컴퓨팅 아키텍처 (IoT: Internet of Things)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: '411. IoT 엣지/포그 컴퓨팅 아키텍처 (IoT: Internet of Things)'
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

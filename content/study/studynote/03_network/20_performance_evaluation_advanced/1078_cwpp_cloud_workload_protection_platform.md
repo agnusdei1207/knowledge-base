@@ -1,10 +1,9 @@
-+++
-weight = 1078
-title = "1078. 클라우스 보안 워크로드 CWPP 통제망"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1078. 클라우스 보안 워크로드 CWPP 통제망
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

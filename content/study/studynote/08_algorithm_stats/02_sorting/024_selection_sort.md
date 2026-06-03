@@ -1,7 +1,8 @@
-+++
-title = "16. 선택 정렬 (Selection Sort) — O(n²), 불안정, 제자리"
-weight = 24
-+++
+---
+title: 16. 선택 정렬 (Selection Sort) — O(n²), 불안정, 제자리
+tags:
+- algorithm_stats
+---
 
 # 16. 선택 정렬 ([[022_mcts_four_stages|Selection]] Sort)
 

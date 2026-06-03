@@ -1,10 +1,9 @@
-+++
-weight = 211
-title = "211. 직렬 가능 스케줄 (Serializable Schedule)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 211. 직렬 가능 스케줄 (Serializable Schedule)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

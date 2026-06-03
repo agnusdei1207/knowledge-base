@@ -1,10 +1,9 @@
-+++
-weight = 419
-title = "419. 6G NTN 위성 THz 메타표면 RIS 차세대 (6G)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 419. 6G NTN 위성 THz 메타표면 RIS 차세대 (6G)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

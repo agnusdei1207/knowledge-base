@@ -1,10 +1,9 @@
-+++
-weight = 175
-title = "175. SJF (Shortest Job First) 스케줄링 - 최적의 평균 대기 시간"
-date = "2026-03-22"
-[extra]
-categories = ["studynote-operating-system"]
-+++
+---
+title: 175. SJF (Shortest Job First) 스케줄링 - 최적의 평균 대기 시간
+date: '2026-03-22'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

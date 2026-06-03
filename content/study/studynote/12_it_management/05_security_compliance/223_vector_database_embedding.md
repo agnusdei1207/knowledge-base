@@ -1,10 +1,9 @@
-+++
-weight = 223
-title = "223. 벡터 데이터베이스 (Vector Database)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 223. 벡터 데이터베이스 (Vector Database)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 벡터 [[002_database_definition|데이터베이스]] (Vector [[501_database|Database]])의 본질은 임베딩된 다차원 숫자 배열을 고속 쿼리하는 인프라를 [[001_dikw_pyramid|데이터]], 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.

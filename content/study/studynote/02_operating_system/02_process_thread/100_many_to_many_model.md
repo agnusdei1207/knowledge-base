@@ -1,10 +1,9 @@
-+++
-weight = 100
-title = "100. 다대다 (Many-to-Many) 스레드 모델"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 100. 다대다 (Many-to-Many) 스레드 모델
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

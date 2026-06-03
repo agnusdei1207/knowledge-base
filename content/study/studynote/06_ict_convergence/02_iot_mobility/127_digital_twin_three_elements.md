@@ -1,10 +1,9 @@
-+++
-weight = 127
-title = "127. 디지털 트윈 3요소 - 물리 개체·가상 모델·연결의 삼각 구조"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 127. 디지털 트윈 3요소 - 물리 개체·가상 모델·연결의 삼각 구조
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[126_digital_twin_concept|디지털 트윈]]의 3요소는 **①물리적 개체(Physical Entity)**, **②가상 모델(Virtual Model)**, **③연결(Connection)**이며, 이 삼각 구조가 [[126_digital_twin_concept|디지털 트윈]]의 정의 그 자체이다.

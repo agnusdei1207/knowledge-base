@@ -1,10 +1,9 @@
-+++
-weight = 91
-title = "91. CMDB (Configuration Management Database)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 91. CMDB (Configuration Management Database)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CMDB ([[089_configuration_management|Configuration Management]] [[501_database|Database]])의 본질은 모든 CI의 정보와 종속 [[083_relationship_in_er_model|관계]]가 저장된 [[002_database_definition|데이터베이스]] (인시던트 영향도 분석 시 핵심 [[001_dikw_pyramid|데이터]])를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

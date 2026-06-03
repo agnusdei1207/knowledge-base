@@ -1,10 +1,9 @@
-+++
-weight = 366
-title = "366. 디자인 패턴 퍼사드, 전략, 옵저버 패턴 강결합 해소 구조 감사"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 366. 디자인 패턴 퍼사드, 전략, 옵저버 패턴 강결합 해소 구조 감사
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[251_design_patterns_gof_overview|디자인 패턴]] [[263_facade_pattern_simplified_interface|퍼사드]], [[268_strategy_pattern|전략]], [[606_observer_pattern_pub_sub|옵저버 패턴]] 강결합 해소 구조 [[606_auditing_linux_auditd|감사]]의 본질은 [[164_policy|정책]], 역할, 통제, 증빙이 같은 [[025_baseline|기준선]] 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

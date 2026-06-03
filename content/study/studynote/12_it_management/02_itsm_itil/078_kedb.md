@@ -1,10 +1,9 @@
-+++
-weight = 78
-title = "78. KEDB (Known Error Database)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 78. KEDB (Known Error Database)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: KEDB (Known Error [[501_database|Database]])의 본질은 알려진 오류와 [[076_workaround_temporary_fix_incident|워크어라운드]], 해결책을 모아둔 지식 베이스를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 137
-title = "137. FLOPS (Floating-point Operations Per Second)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 137. FLOPS (Floating-point Operations Per Second)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

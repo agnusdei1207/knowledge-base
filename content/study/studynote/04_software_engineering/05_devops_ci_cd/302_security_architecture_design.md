@@ -1,10 +1,9 @@
-+++
-weight = 302
-title = "302. 보안 아키텍처 (Security Architecture) 설계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 302. 보안 아키텍처 (Security Architecture) 설계
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

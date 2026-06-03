@@ -1,9 +1,9 @@
-+++
-title = "035. 오픈데이터 원칙 — FAIR"
-date = "2026-03-03"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 035. 오픈데이터 원칙 — FAIR
+date: '2026-03-03'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트**
 > 1. FAIR 원칙은 2016년 Nature Scientific Data에 발표된 [[001_dikw_pyramid|데이터]] 관리 원칙으로, 연구 및 오픈데이터가 기계 처리 가능하도록 F(Findable)·A(Accessible)·I(Interoperable)·R(Reusable) 4원칙을 충족해야 한다는 기준이다.

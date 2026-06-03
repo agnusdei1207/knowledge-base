@@ -1,9 +1,9 @@
-+++
-title = "레코드 길이 · 파일 조직 방식 (Record Length & File Organization)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 레코드 길이 · 파일 조직 방식 (Record Length & File Organization)
+date: '2026-03-04'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트 3줄**
 > 1. 레코드(Record)는 DB에서 관련 [[001_dikw_pyramid|데이터]] 필드의 집합 단위로, 고정 길이(Fixed-Length)와 가변 길이(Variable-Length) 방식은 저장 밀도·접근 속도·관리 복잡도 사이에 근본적 트레이드오프가 있다.

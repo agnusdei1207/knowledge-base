@@ -1,10 +1,9 @@
-+++
-weight = 238
-title = "233. 양자 컴퓨팅 + 빅데이터 (최적화 문제, 양자 ML 초기 연구)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 233. 양자 컴퓨팅 + 빅데이터 (최적화 문제, 양자 ML 초기 연구)
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 457
-title = "457. 체크포인트 회복 범위 단축"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 457. 체크포인트 회복 범위 단축
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

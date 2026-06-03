@@ -1,10 +1,9 @@
-+++
-title = "2. 베이즈 정리 (Bayes' Theorem) — 사전/사후 확률 업데이트"
-weight = 131
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 2. 베이즈 정리 (Bayes' Theorem) — 사전/사후 확률 업데이트
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

@@ -1,10 +1,9 @@
-+++
-weight = 311
-title = "311. STUN, TURN, ICE (NAT 횡단/Traversing 기법, VoIP/WebRTC)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 311. STUN, TURN, ICE (NAT 횡단/Traversing 기법, VoIP/WebRTC)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

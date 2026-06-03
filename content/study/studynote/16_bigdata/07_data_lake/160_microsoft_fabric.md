@@ -1,10 +1,9 @@
-+++
-weight = 160
-title = "160. Microsoft Fabric — One Lake 통합 분석 플랫폼"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 160. Microsoft Fabric — One Lake 통합 분석 플랫폼
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. Microsoft Fabric(2023)은 OneLake를 중심으로 [[165_power_bi|Power BI]]·Azure Synapse·Azure [[001_dikw_pyramid|Data]] Factory·Azure [[074_photon_engine|Databricks]]·Real-Time Analytics를 단일 [[309_saas|SaaS]] 플랫폼으로 통합하여, **전사 [[001_dikw_pyramid|데이터]]를 하나의 [[369_logic_bomb|논리]]적 [[208_data_lake_schema_on_read|데이터 레이크]]**에서 관리한다.

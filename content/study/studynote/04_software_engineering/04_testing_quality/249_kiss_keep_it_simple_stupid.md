@@ -1,10 +1,9 @@
-+++
-weight = 249
-title = "249. KISS (Keep It Simple, Stupid) 원칙"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 249. KISS (Keep It Simple, Stupid) 원칙
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

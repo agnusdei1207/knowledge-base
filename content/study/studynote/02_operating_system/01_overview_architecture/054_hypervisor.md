@@ -1,10 +1,9 @@
-+++
-weight = 54
-title = "54. 하이퍼바이저 (Hypervisor)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 54. 하이퍼바이저 (Hypervisor)
+date: '2026-05-01'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

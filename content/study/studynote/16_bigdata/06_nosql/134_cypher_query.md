@@ -1,10 +1,9 @@
-+++
-weight = 134
-title = "134. Cypher 쿼리 언어 (Cypher Query Language) — 그래프 패턴 매칭"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 134. Cypher 쿼리 언어 (Cypher Query Language) — 그래프 패턴 매칭
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: Cypher는 [[070_graph_datastructure|그래프]] 패턴을 [[103_ascii|ASCII]] 아트처럼 시각적으로 표현하는 선언적 [[298_qkv_attention|쿼리]] 언어로, `(노드)-[:관계]->(노드)` 문법이 [[083_relationship_in_er_model|관계]]를 직관적으로 기술하게 해준다.

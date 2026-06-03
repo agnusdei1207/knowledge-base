@@ -1,10 +1,9 @@
-+++
-weight = 110
-title = "110. 제5정규형 (5NF / PJ-NF) - 조인 종속성 완전 제거와 정규화 최종 종착점"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 110. 제5정규형 (5NF / PJ-NF) - 조인 종속성 완전 제거와 정규화 최종 종착점
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 제5정규형(5NF, Project-[[521_join|Join]] Normal Form)은 [[061_relation_schema_instance|릴레이션]]에 존재하는 모든 **비자명 [[109_join_dependency_jd|조인 종속성]](JD)이 후보 키에 의해 내재(Implied)**되어야 하는 조건이며, JD에 의한 마지막 이상 현상까지 제거하는 **[[093_normalization|정규화]] 이론의 최종 종착점**이다.

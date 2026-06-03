@@ -1,10 +1,9 @@
-+++
-weight = 315
-title = "315. 운영 체계 인수인계 매뉴얼 완전성 점검 (Operations Handover Manual Completeness Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 315. 운영 체계 인수인계 매뉴얼 완전성 점검 (Operations Handover Manual Completeness Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

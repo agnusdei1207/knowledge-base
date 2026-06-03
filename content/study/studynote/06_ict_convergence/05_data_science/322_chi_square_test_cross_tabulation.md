@@ -1,10 +1,9 @@
-+++
-weight = 322
-title = "322. 교차 분석 / 카이제곱 검정 (Chi-Square Test) (Cross Tabulation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 322. 교차 분석 / 카이제곱 검정 (Chi-Square Test) (Cross Tabulation)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

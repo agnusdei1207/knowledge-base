@@ -1,10 +1,9 @@
-+++
-weight = 395
-title = "395. 검증 (Verification) - 제품을 올바르게 만들고 있는가 (과정, 산출 물 리뷰)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 395. 검증 (Verification) - 제품을 올바르게 만들고 있는가 (과정, 산출 물 리뷰)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

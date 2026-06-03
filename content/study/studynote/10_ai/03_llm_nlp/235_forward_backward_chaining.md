@@ -1,10 +1,9 @@
-+++
-weight = 235
-title = "235. 전향 추론 (Forward) vs 후향 추론 (Backward)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 235. 전향 추론 (Forward) vs 후향 추론 (Backward)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

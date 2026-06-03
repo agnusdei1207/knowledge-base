@@ -1,10 +1,9 @@
-+++
-weight = 774
-title = "774. 소프트웨어 안전성 Fail-Safe, Fail-Soft"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 774. 소프트웨어 안전성 Fail-Safe, Fail-Soft
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

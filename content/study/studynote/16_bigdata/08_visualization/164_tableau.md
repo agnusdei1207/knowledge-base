@@ -1,10 +1,9 @@
-+++
-weight = 164
-title = "164. Tableau — 드래그앤드롭 VizQL 셀프서비스 시각화"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 164. Tableau — 드래그앤드롭 VizQL 셀프서비스 시각화
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

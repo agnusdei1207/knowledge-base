@@ -1,10 +1,9 @@
-+++
-weight = 549
-title = "549. JWT (JSON Web Token)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 549. JWT (JSON Web Token)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

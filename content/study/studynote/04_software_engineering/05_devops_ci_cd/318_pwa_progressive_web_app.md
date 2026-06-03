@@ -1,10 +1,9 @@
-+++
-weight = 318
-title = "318. 프로그레시브 웹 앱 (PWA, Progressive Web App) 아키텍처"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 318. 프로그레시브 웹 앱 (PWA, Progressive Web App) 아키텍처
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

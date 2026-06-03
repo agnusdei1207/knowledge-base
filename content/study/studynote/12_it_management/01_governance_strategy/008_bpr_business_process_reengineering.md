@@ -1,10 +1,9 @@
-+++
-weight = 8
-title = "8. BPR (Business Process Reengineering)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 8. BPR (Business Process Reengineering)
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

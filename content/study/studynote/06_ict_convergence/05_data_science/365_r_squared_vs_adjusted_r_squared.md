@@ -1,10 +1,9 @@
-+++
-weight = 365
-title = "365. 결정 계수 와 조정된 결정 계수(Adjusted R^2) 비교 (R^2)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 365. 결정 계수 와 조정된 결정 계수(Adjusted R^2) 비교 (R^2)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

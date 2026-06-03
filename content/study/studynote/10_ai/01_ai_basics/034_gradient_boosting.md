@@ -1,9 +1,9 @@
-+++
-title = "그래디언트 부스팅 (Gradient Boosting)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 그래디언트 부스팅 (Gradient Boosting)
+date: '2026-03-04'
+tags:
+- studynote-ai
+---
 
 > **핵심 인사이트 3줄**
 > 1. 그래디언트 [[127_boosting|부스팅]](Gradient [[127_boosting|Boosting]])은 약한 학습기(결정 트리)를 순차적으로 [[257_ensemble_learning|앙상블]]해 이전 모델의 잔차(Residual Error)를 반복적으로 줄이는 [[127_boosting|부스팅]] [[001_algorithm_definition|알고리즘]]으로, 표 형식 [[001_dikw_pyramid|데이터]]에서 최강의 [[282_performance_tactics|성능]]을 보인다.

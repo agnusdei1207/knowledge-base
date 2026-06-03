@@ -1,10 +1,9 @@
-+++
-weight = 693
-title = "693. 멀티스레드 유저모드 커널모드 (Multithread User Mode Kernel Mode)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 693. 멀티스레드 유저모드 커널모드 (Multithread User Mode Kernel Mode)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 547
-title = "547. 그래프 데이터 최단 경로(Shortest Path) 알고리즘 DB 매핑"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 547. 그래프 데이터 최단 경로(Shortest Path) 알고리즘 DB 매핑
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

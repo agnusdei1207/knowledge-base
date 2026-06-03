@@ -1,10 +1,9 @@
-+++
-weight = 694
-title = "694. 허니팟 (Honey Pot)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 694. 허니팟 (Honey Pot)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

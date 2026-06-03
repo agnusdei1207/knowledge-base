@@ -1,12 +1,10 @@
-+++
-weight = 85
-title = "85. 부반송파 (Subcarrier)"
-description = "OFDM 시스템에서 대역폭을 잘게 쪼개어 다중경로 간섭을 방어하는 부반송파의 원리와 실무 적용"
-date = 2026-03-30
-[taxonomies]
-tags = ["Network", "OFDM", "Subcarrier", "5G", "WiFi", "Physical Layer"]
-categories = ["studynote", "Network"]
-+++
+---
+title: 85. 부반송파 (Subcarrier)
+date: '2026-03-30'
+description: OFDM 시스템에서 대역폭을 잘게 쪼개어 다중경로 간섭을 방어하는 부반송파의 원리와 실무 적용
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

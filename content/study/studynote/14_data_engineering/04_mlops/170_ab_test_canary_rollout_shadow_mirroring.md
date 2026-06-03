@@ -1,10 +1,9 @@
-+++
-weight = 170
-title = "170. 서빙 아키텍처 A/B 테스트 및 카나리 롤아웃 (Canary Rollout), 섀도우 미러링 검증 라우터"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 170. 서빙 아키텍처 A/B 테스트 및 카나리 롤아웃 (Canary Rollout), 섀도우 미러링 검증 라우터
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

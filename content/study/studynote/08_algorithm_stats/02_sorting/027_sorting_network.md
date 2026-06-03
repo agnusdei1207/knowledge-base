@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "17. 정렬 네트워크 (Sorting Network) — 병렬 정렬"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 17. 정렬 네트워크 (Sorting Network) — 병렬 정렬
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정렬 네트워크는 고정된 비교-교환([[043_comparator|Comparator]]) 회로의 연결로 어떤 입력도 정렬하는 [[001_dikw_pyramid|데이터]] 독립적(Oblivious) [[001_algorithm_definition|알고리즘]]이며, 비교 순서가 입력값에 무관하다.

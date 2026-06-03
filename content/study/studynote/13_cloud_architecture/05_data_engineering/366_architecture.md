@@ -1,10 +1,9 @@
-+++
-weight = 366
-title = "366. 클라우드 앰배서더 레거시-클라우드 완충 프록시 통신 패턴 (Cloud Ambassador Pattern)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 366. 클라우드 앰배서더 레거시-클라우드 완충 프록시 통신 패턴 (Cloud Ambassador Pattern)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 클라우드 앰배서더 레거시-클라우드 완충 [[264_proxy_pattern_surrogate_access_control|프록시]] 통신 패턴는 클라우드 시스템에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

@@ -1,10 +1,9 @@
-+++
-weight = 342
-title = "342. 데이터 레이크하우스 스토리지·컴퓨팅·트랜잭션 (Data Lakehouse)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 342. 데이터 레이크하우스 스토리지·컴퓨팅·트랜잭션 (Data Lakehouse)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

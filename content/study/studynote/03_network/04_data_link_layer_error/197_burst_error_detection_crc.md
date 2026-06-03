@@ -1,10 +1,9 @@
-+++
-weight = 197
-title = "197. 버스트 에러 (Burst Error) 검출 능력 유지"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 197. 버스트 에러 (Burst Error) 검출 능력 유지
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

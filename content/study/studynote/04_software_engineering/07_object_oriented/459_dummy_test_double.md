@@ -1,10 +1,9 @@
-+++
-weight = 459
-title = "459. Dummy (더미) - 인자 채우기용, 실제 사용 안됨"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 459. Dummy (더미) - 인자 채우기용, 실제 사용 안됨
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

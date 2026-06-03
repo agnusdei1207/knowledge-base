@@ -1,10 +1,9 @@
-+++
-weight = 169
-title = "169. 디스패치 지연 (Dispatch Latency)"
-date = "2026-03-22"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 169. 디스패치 지연 (Dispatch Latency)
+date: '2026-03-22'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

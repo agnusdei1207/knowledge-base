@@ -1,10 +1,9 @@
-+++
-weight = 524
-title = "524. EER 모델 서브타입 상속 특수화 (DML DDL DCL)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 524. EER 모델 서브타입 상속 특수화 (DML DDL DCL)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 150
-title = "150. 서버리스 컴퓨팅 (Serverless Computing / FaaS)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 150. 서버리스 컴퓨팅 (Serverless Computing / FaaS)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[206_serverless_cold_start|서버리스]] ([[206_serverless_cold_start|Serverless]])는 서버가 없는 것이 아니라 개발자가 서버를 관리할 필요 없이 비즈니스 함수만 배포하면 클라우드 벤더가 인프라·확장·과금을 자동 처리하는 모델이다.

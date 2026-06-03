@@ -1,10 +1,9 @@
-+++
-weight = 334
-title = "334. 마이그레이션 무결성 100% 검증 (Migration Integrity Verification)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 334. 마이그레이션 무결성 100% 검증 (Migration Integrity Verification)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

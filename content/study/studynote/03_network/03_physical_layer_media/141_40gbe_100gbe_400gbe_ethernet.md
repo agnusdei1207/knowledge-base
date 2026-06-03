@@ -1,10 +1,9 @@
-+++
-weight = 141
-title = "141. 40GbE / 100GbE / 400GbE / 800GbE 이더넷"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 141. 40GbE / 100GbE / 400GbE / 800GbE 이더넷
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

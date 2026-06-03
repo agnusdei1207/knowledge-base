@@ -1,10 +1,9 @@
-+++
-weight = 178
-title = "178. 피처 스토어 (Feature Store)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 178. 피처 스토어 (Feature Store)
+date: '2026-05-06'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

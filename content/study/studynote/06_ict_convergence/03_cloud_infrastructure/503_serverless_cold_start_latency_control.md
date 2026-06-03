@@ -1,10 +1,9 @@
-+++
-weight = 503
-title = "503. 서버리스 콜드 스타트 지연 제어 (Serverless Cold Start Latency Control)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 503. 서버리스 콜드 스타트 지연 제어 (Serverless Cold Start Latency Control)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

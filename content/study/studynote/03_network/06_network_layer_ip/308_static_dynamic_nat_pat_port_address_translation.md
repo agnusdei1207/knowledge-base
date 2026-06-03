@@ -1,10 +1,10 @@
-+++
-weight = 308
-title = "308. Static NAT (1:1) / Dynamic NAT (M:N) / PAT (Port Address Translation = NAPT, 1:N)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 308. Static NAT (1:1) / Dynamic NAT (M:N) / PAT (Port Address Translation =
+  NAPT, 1:N)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

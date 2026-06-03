@@ -1,10 +1,9 @@
-+++
-weight = 563
-title = "563. 플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 563. 플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

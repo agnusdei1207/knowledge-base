@@ -1,10 +1,9 @@
-+++
-weight = 75
-title = "75. 아티팩트 (Artifact) - 파이프라인의 최종 빌드 산출물 보관"
-date = "2026-04-10"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: 75. 아티팩트 (Artifact) - 파이프라인의 최종 빌드 산출물 보관
+date: '2026-04-10'
+tags:
+- studynote-devops
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

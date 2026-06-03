@@ -1,10 +1,9 @@
-+++
-weight = 100
-title = "K-Means 군집화와 최적 K 도출 (K-Means Clustering & Optimal K)"
-date = "2025-05-22"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: K-Means 군집화와 최적 K 도출 (K-Means Clustering & Optimal K)
+date: '2025-05-22'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

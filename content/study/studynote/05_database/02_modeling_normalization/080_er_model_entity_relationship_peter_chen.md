@@ -1,10 +1,9 @@
-+++
-weight = 80
-title = "080. E-R 모델 (Entity-Relationship Model, 피터 첸)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 080. E-R 모델 (Entity-Relationship Model, 피터 첸)
+date: '2026-05-05'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 피터 첸(Peter Chen)이 1976년에 제안한 E-R 모델은, 현실 세계의 복잡한 비즈니스 요구사항을 **개체(Entity), [[082_attribute_types_er_model|속성]]([[082_attribute_types_er_model|Attribute]]), [[083_relationship_in_er_model|관계]]([[083_relationship_in_er_model|Relationship]])**라는 단 3가지 기호(네모, 동그라미, 마름모)로 압축해 낸 최상위 개념적 [[001_dikw_pyramid|데이터]] 모델링의 성서다.

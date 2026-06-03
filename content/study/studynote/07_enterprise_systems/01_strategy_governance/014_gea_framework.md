@@ -1,12 +1,11 @@
-+++
-weight = 14
-title = "14. 범정부 EA 프레임워크 (GEA) - 공공기관 정보화 아키텍처 의무 지침"
-description = "공공부문의 정보화 투자 효율성 제고와 상호운용성 보장을 위한 범정부 전사적 아키텍처 프레임워크(GEA)의 구조와 컴플라이언스 분석"
-date = "2024-05-24"
-[taxonomies]
-tags = ["EA", "GEA", "범정부EA", "공공정보화", "IT거버넌스", "엔터프라이즈시스템"]
-categories = ["studynote", "enterprise_systems"]
-+++
+---
+title: 14. 범정부 EA 프레임워크 (GEA) - 공공기관 정보화 아키텍처 의무 지침
+date: '2024-05-24'
+description: 공공부문의 정보화 투자 효율성 제고와 상호운용성 보장을 위한 범정부 전사적 아키텍처 프레임워크(GEA)의 구조와 컴플라이언스
+  분석
+tags:
+- enterprise_systems
+---
 
 # 14. 범정부 [[110_enterprise_architecture_ea|EA]] 프레임워크 ([[115_gea_government_ea_framework|GEA]], Government [[010_ea_enterprise_architecture|Enterprise Architecture]])
 

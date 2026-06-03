@@ -1,10 +1,9 @@
-+++
-weight = 238
-title = "238. 스위치 (Switch) 의 동작 원리"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 238. 스위치 (Switch) 의 동작 원리
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 79
-title = "79. 변경 관리 (Change Management / Change Enablement)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 79. 변경 관리 (Change Management / Change Enablement)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 변경 관리 ([[027_change_management|Change Management]] / Change Enablement)의 본질은 시스템 수정/업데이트로 인한 [[090_service_kubernetes_network_load_balancing|서비스]] [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 통제, 모든 변경은 승인을 거침을 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

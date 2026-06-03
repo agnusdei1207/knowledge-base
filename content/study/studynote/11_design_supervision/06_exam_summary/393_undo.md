@@ -1,10 +1,9 @@
-+++
-weight = 393
-title = "393. 커맨드 패턴과 실행 취소 (Command Pattern and Undo)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 393. 커맨드 패턴과 실행 취소 (Command Pattern and Undo)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,7 +1,8 @@
-+++
-title = "57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑"
-weight = 57
-+++
+---
+title: 57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

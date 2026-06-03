@@ -1,10 +1,9 @@
-+++
-weight = 743
-title = "743. 다상 전원부 (Multi-phase VRM)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 743. 다상 전원부 (Multi-phase VRM)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

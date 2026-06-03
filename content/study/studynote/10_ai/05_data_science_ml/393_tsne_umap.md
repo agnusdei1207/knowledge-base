@@ -1,10 +1,9 @@
-+++
-weight = 393
-title = "393. t-SNE / UMAP (TSNE UMAP)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 393. t-SNE / UMAP (TSNE UMAP)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

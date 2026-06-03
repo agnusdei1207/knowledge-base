@@ -1,10 +1,9 @@
-+++
-weight = 1
-title = "1. 데이터 (Data) / 정보 (Information) / 지식 (Knowledge) / 지혜 (Wisdom) - DIKW 피라미드"
-date = "2026-03-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 1. 데이터 (Data) / 정보 (Information) / 지식 (Knowledge) / 지혜 (Wisdom) - DIKW 피라미드
+date: '2026-03-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DIKW 피라미드는 가공되지 않은 사실인 **데이터(Data)**가 문맥을 얻어 **정보(Information)**가 되고, 패턴을 발견하여 **지식(Knowledge)**으로 내면화된 뒤, 가치 판단이 더해져 **지혜(Wisdom)**라는 최상위 통찰로 진화하는 데이터 [[249_value_chain_competitive_analysis|가치 사슬]] 모델이다.

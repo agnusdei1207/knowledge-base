@@ -1,10 +1,9 @@
-+++
-weight = 729
-title = "729. 객체지향 결합도 (내용, 공통, 제어, 스탬프, 자료)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 729. 객체지향 결합도 (내용, 공통, 제어, 스탬프, 자료)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

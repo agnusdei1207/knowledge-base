@@ -1,10 +1,9 @@
-+++
-weight = 225
-title = "220. 통신 빅데이터 (Telecom Big Data) — 네트워크장애예측/고객이탈분석/QoE최적화"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 220. 통신 빅데이터 (Telecom Big Data) — 네트워크장애예측/고객이탈분석/QoE최적화
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

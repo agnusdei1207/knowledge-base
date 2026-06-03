@@ -1,10 +1,9 @@
-+++
-weight = 270
-title = "270. DPO (Direct Preference Optimization)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 270. DPO (Direct Preference Optimization)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 125
-title = "125. 현행화 (As-Is Update)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 125. 현행화 (As-Is Update)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 현행화 ([[178_as_is_to_be_analysis|As-Is]] Update)의 본질은 시스템 변경 시 [[110_enterprise_architecture_ea|EA]] 정보를 최신 상태로 갱신하는 유지보수 활동 (현행화 미흡 시 [[110_enterprise_architecture_ea|EA]] 사장 위험)를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

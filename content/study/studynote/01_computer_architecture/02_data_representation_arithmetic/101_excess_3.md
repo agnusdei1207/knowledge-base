@@ -1,10 +1,9 @@
-+++
-weight = 101
-title = "101. 3초과 코드 (Excess-3 Code)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 101. 3초과 코드 (Excess-3 Code)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 3초과 코드(Excess-3 [[082_process_memory_structure|Code]])는 기본 [[098_bcd|BCD]]([[098_bcd|Binary Coded Decimal]]) 코드의 각 10진수 값에 미리 $+3$ (`0011`)을 더해 저장하는 비가중치(Unweighted) 인코딩 방식이다.

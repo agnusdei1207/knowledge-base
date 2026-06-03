@@ -1,10 +1,9 @@
-+++
-weight = 1026
-title = "1026. 스마트 그리드 (Smart Grid) 통신망"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1026. 스마트 그리드 (Smart Grid) 통신망
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

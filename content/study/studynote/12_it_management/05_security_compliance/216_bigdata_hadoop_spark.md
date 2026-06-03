@@ -1,10 +1,9 @@
-+++
-weight = 216
-title = "216. 빅데이터 분산 처리 인프라"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 216. 빅데이터 분산 처리 인프라
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빅데이터 [[136_variance|분산]] 처리 인프라의 본질은 [[211_hadoop_ecosystem_mapreduce|하둡 에코시스템]] ([[013_hdfs|HDFS]], [[018_mapreduce|MapReduce]] 병목) -> [[206_spark_inmemory_rdd_lazy_evaluation_lineage|아파치 스파크]] ([[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] 인메모리 고속 [[430_index_fast_full_scan|병렬]] 컴퓨팅)를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

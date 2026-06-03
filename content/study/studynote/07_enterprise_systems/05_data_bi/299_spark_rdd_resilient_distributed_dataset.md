@@ -1,10 +1,9 @@
-+++
-weight = 299
-title = "299. 스파크 RDD (Resilient Distributed Dataset)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 299. 스파크 RDD (Resilient Distributed Dataset)
+date: '2026-03-04'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[206_spark_inmemory_rdd_lazy_evaluation_lineage|아파치 스파크]]의 가장 기본적인 [[001_dikw_pyramid|데이터]] 구조로, 여러 노드에 흩어져 있는 [[001_dikw_pyramid|데이터]]를 하나의 불변([[298_immutable|Immutable]]) 객체처럼 다룰 수 있게 해주는 [[369_logic_bomb|논리]]적 [[001_dikw_pyramid|데이터]] 집합이다.

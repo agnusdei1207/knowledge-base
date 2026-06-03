@@ -1,10 +1,9 @@
-+++
-weight = 162
-title = "162. 직선 가시거리 통신 (LOS, Line-of-Sight)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 162. 직선 가시거리 통신 (LOS, Line-of-Sight)
+date: '2026-05-05'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

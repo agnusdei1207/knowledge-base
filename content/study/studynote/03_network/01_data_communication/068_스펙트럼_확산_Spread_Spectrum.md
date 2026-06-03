@@ -1,12 +1,10 @@
-+++
-weight = 68
-title = "68. 스펙트럼 확산 (Spread Spectrum)"
-description = "전송 신호의 대역폭을 의도적으로 넓혀 잡음 강인성과 보안성을 확보하는 통신 기술"
-date = "2024-05-24"
-[taxonomies]
-tags = ["Spread Spectrum", "스펙트럼 확산", "CDMA", "보안통신", "무선통신"]
-categories = ["데이터통신"]
-+++
+---
+title: 68. 스펙트럼 확산 (Spread Spectrum)
+date: '2024-05-24'
+description: 전송 신호의 대역폭을 의도적으로 넓혀 잡음 강인성과 보안성을 확보하는 통신 기술
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

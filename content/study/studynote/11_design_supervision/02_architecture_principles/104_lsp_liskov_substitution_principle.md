@@ -1,10 +1,9 @@
-+++
-weight = 104
-title = "104. 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 104. 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 143
-title = "143. 중첩 서브쿼리 & WHERE EXISTS 심화"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 143. 중첩 서브쿼리 & WHERE EXISTS 심화
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 중첩 서브쿼리는 **서브쿼리 안에 또 다른 서브쿼리가 포함**된 다단계 구조이며, WHERE EXISTS와 결합하면 **존재 여부를 다단계로 필터링**할 수 있다.

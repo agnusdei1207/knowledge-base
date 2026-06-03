@@ -1,10 +1,9 @@
-+++
-weight = 65
-title = "65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD"
-date = "2026-04-10"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: 65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD
+date: '2026-04-10'
+tags:
+- studynote-devops
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

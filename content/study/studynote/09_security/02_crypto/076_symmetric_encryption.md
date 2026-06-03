@@ -1,12 +1,10 @@
-+++
-weight = 76
-title = "76. 대칭키 암호 (Symmetric Encryption) — 동일한 키로 암호화/복호화"
-description = "동일한 키로 암호화와 복호화를 수행하는 대칭키 암호 시스템"
-date = 2026-03-26
-
-[extra]
-categories = ["studynote-software-engineering"]
-+++
+---
+title: 76. 대칭키 암호 (Symmetric Encryption) — 동일한 키로 암호화/복호화
+date: '2026-03-26'
+description: 동일한 키로 암호화와 복호화를 수행하는 대칭키 암호 시스템
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

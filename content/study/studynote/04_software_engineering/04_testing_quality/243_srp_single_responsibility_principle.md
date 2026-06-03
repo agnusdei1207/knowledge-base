@@ -1,10 +1,9 @@
-+++
-weight = 243
-title = "243. SRP (Single Responsibility Principle) - 단일 책임 원칙"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 243. SRP (Single Responsibility Principle) - 단일 책임 원칙
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

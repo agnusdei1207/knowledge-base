@@ -1,12 +1,10 @@
-+++
-weight = 16
-title = "16. 착수 회의 (Kick-off Meeting) - 감리 목적, 일정, 범위, 협조 사항 공유"
-description = "정보시스템 감리에서 착수 회의의 정의, 이해관계자 간 조율 체계 및 실무적 중요성을 심층 분석합니다."
-date = "2026-03-04"
-[taxonomies]
-tags = ["정보시스템감리", "착수회의", "Kick-off", "의사소통", "이해관계자"]
-categories = ["studynote-design-supervision"]
-+++
+---
+title: 16. 착수 회의 (Kick-off Meeting) - 감리 목적, 일정, 범위, 협조 사항 공유
+date: '2026-03-04'
+description: 정보시스템 감리에서 착수 회의의 정의, 이해관계자 간 조율 체계 및 실무적 중요성을 심층 분석합니다.
+tags:
+- design_supervision
+---
 
 # 16. 착수 회의 (Kick-off Meeting) - 감리 목적, 일정, 범위, 협조 사항 공유
 

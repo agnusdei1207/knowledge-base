@@ -1,7 +1,8 @@
-+++
-title = "179. SWOT 분석, 3C/4C 분석 연계 요구 도출"
-weight = 179
-+++
+---
+title: 179. SWOT 분석, 3C/4C 분석 연계 요구 도출
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

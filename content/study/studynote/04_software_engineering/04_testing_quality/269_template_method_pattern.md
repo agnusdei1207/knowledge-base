@@ -1,10 +1,9 @@
-+++
-weight = 269
-title = "269. 템플릿 메서드 (Template Method) - 상위 클래스는 뼈대, 하위 클래스는 세부 구현"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 269. 템플릿 메서드 (Template Method) - 상위 클래스는 뼈대, 하위 클래스는 세부 구현
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 242
-title = "242. 교착 상태 탐지 (Deadlock Detection)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 242. 교착 상태 탐지 (Deadlock Detection)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

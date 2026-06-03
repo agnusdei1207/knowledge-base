@@ -1,9 +1,9 @@
-+++
-title = "037. 데이터 품질 진단 (Data Quality Diagnosis)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 037. 데이터 품질 진단 (Data Quality Diagnosis)
+date: '2026-03-03'
+tags:
+- studynote-design-supervision
+---
 
 > **핵심 인사이트**
 > 1. [[041_contractor_late_penalty|데이터 품질 진단]]은 [[002_bigdata_5v|정확성]]·완전성·[[194_consistency_database_integrity|일관성]]·유효성·최신성·유일성의 6대 품질 차원을 기준으로 [[001_dikw_pyramid|데이터]]의 결함을 체계적으로 측정하고, [[001_dikw_pyramid|데이터]] 기반 의사결정의 신뢰성을 보장하는 활동이다.

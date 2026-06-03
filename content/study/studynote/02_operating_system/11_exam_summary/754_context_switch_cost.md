@@ -1,10 +1,9 @@
-+++
-weight = 754
-title = "754. 문맥 교환 비용 (레지스터 저장 복원) (Context Switch Cost)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 754. 문맥 교환 비용 (레지스터 저장 복원) (Context Switch Cost)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

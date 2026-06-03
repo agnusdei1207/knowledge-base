@@ -1,10 +1,9 @@
-+++
-weight = 117
-title = "117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 마테크(MarTech)는 **마케팅(Marketing) + 기술(Technology)**의 합성어로, 마케팅 자동화·분석·개인화·고객 경험(CX) 관리를 수행하는 **소프트웨어 도구와 플랫폼의 총체적 생태계**를 의미한다.

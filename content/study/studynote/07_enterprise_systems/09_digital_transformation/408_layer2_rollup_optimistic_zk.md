@@ -1,10 +1,9 @@
-+++
-weight = 408
-title = "408. Layer 2 롤업 Optimistic vs ZK 차이 (Layer 2 Rollup)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 408. Layer 2 롤업 Optimistic vs ZK 차이 (Layer 2 Rollup)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

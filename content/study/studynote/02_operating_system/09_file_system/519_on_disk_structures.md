@@ -1,10 +1,9 @@
-+++
-weight = 519
-title = "519. 디스크 상의 구조 (On Disk Structures)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 519. 디스크 상의 구조 (On Disk Structures)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

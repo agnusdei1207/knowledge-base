@@ -1,10 +1,9 @@
-+++
-weight = 123
-title = "123. Transformer 아키텍처 - Self-Attention 기반 병렬 시퀀스 처리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 123. Transformer 아키텍처 - Self-Attention 기반 병렬 시퀀스 처리
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Transformer는 **순환([[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]) 없이 Self-Attention만으로 시퀀스를 [[430_index_fast_full_scan|병렬]] 처리**하는 아키텍처이며, "Attention Is All You Need"(Vaswani, 2017)에서 제안되어 현대 AI의 **사실상 유일한 기반 아키텍처**가 되었다.

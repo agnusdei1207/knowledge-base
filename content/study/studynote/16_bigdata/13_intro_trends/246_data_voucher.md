@@ -1,9 +1,9 @@
-+++
-title = "데이터바우처 사업 (Data Voucher Program)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 데이터바우처 사업 (Data Voucher Program)
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[001_dikw_pyramid|데이터]]바우처 사업은 [[001_dikw_pyramid|데이터]] 구매·가공·결합 비용을 정부가 일부 지원해 중소기업·스타트업의 [[001_dikw_pyramid|데이터]] [[292_accessibility_kwcag_wcag|접근성]]을 높이는 한국 산업통상자원부·과기부 주관 [[164_policy|정책]] 사업이다.

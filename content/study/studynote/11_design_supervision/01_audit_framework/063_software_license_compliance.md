@@ -1,10 +1,9 @@
-+++
-weight = 63
-title = "63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

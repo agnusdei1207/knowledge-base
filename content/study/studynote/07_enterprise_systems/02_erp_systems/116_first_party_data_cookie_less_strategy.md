@@ -1,10 +1,9 @@
-+++
-weight = 116
-title = "116. 1st Party Data 전략 (Cookie-less Marketing) - 쿠키 폐지 후 데이터 주권 확보"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 116. 1st Party Data 전략 (Cookie-less Marketing) - 쿠키 폐지 후 데이터 주권 확보
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[279_cdp_first_party|1st Party]] [[001_dikw_pyramid|Data]] [[268_strategy_pattern|전략]]은 [[385_third_party_cookie_deprecation_cdw|3rd Party]] [[475_cookie_local_state|쿠키]] 폐지(Chrome 2025)에 대응하여, 기업이 **자사 채널(웹·앱·매장·이메일)에서 고객 동의 하에 직접 수집한 [[001_dikw_pyramid|데이터]]**를 활용하여 마케팅·분석·개인화를 수행하는 [[268_strategy_pattern|전략]]이다.

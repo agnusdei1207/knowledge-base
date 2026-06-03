@@ -1,10 +1,9 @@
-+++
-weight = 155
-title = "155. 다크 실리콘 (Dark Silicon) - 무어의 법칙을 박살 낸 열역학적 셧다운 딜레마"
-date = "2026-05-03"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 155. 다크 실리콘 (Dark Silicon) - 무어의 법칙을 박살 낸 열역학적 셧다운 딜레마
+date: '2026-05-03'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 다크 실리콘(Dark Silicon)은 [[009_semiconductor|반도체]] 공정이 나노 단위로 미친 듯이 미세화되어 [[014_transistor|트랜지스터]](코어) 개수는 10배로 우주 팽창 증식했는데 ➔ **발열과 전력 누수 한계(TDP 쿨링 장벽) 때문에 그 코어들을 동시에 100% 다 켜지 못하고 절반 이상은 강제로 전원을 끄고 어둠(Dark) 속에 잉여 시체로 재워둬야만 칩이 타 죽지 않는 잔혹한 열역학적 딜레마 현상**이다.

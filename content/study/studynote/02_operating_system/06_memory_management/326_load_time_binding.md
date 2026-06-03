@@ -1,10 +1,9 @@
-+++
-weight = 326
-title = "326. 적재 시간 바인딩 (Load Time) - 재배치 가능 코드 (Relocatable Code)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 326. 적재 시간 바인딩 (Load Time) - 재배치 가능 코드 (Relocatable Code)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

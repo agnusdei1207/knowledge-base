@@ -1,10 +1,9 @@
-+++
-weight = 56
-title = "56. 데이터 사전 캐시 (Data Dictionary Cache)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 56. 데이터 사전 캐시 (Data Dictionary Cache)
+date: '2026-05-01'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

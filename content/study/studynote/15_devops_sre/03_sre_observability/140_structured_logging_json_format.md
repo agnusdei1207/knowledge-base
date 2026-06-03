@@ -1,10 +1,9 @@
-+++
-weight = 140
-title = "140. 구조화 로깅 (Structured Logging) - JSON 포맷 표준화"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 140. 구조화 로깅 (Structured Logging) - JSON 포맷 표준화
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 구조화 로깅은 **[[568_logs_distributed_logging_elk_fluentd|로그]]를 사람이 읽는 텍스트가 아닌 [[343_json|JSON]] 등 기계가 파싱 가능한 구조로 출력**하여, 검색·필터·집계·[[325_correlation_analysis_pearson_spearman|상관 분석]]을 자동화하는 로깅 패턴이다.

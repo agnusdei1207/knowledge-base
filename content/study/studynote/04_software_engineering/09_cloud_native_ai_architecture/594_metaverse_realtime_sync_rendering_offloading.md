@@ -1,10 +1,9 @@
-+++
-weight = 594
-title = "594. 메타버스 (Metaverse) 실시간 동기화 아키텍처 및 렌더링 오프로딩"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 594. 메타버스 (Metaverse) 실시간 동기화 아키텍처 및 렌더링 오프로딩
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

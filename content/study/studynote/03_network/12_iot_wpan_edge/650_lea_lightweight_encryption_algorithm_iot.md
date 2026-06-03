@@ -1,10 +1,9 @@
-+++
-weight = 650
-title = "650. 저전력/메모리 한계 환경 경량 대칭키 암호 (LEA 표준, ARIA 등 최적화 적용)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 650. 저전력/메모리 한계 환경 경량 대칭키 암호 (LEA 표준, ARIA 등 최적화 적용)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

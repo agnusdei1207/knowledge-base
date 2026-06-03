@@ -1,10 +1,9 @@
-+++
-weight = 627
-title = "627. MEC (Multi-access Edge Computing / Mobile Edge Computing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 627. MEC (Multi-access Edge Computing / Mobile Edge Computing)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

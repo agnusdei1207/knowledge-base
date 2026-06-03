@@ -1,10 +1,9 @@
-+++
-weight = 257
-title = "257. NAND 플래시 (NAND Flash)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 257. NAND 플래시 (NAND Flash)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

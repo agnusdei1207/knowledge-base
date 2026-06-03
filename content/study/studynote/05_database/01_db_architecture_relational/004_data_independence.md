@@ -1,12 +1,10 @@
-+++
-weight = 4
-title = "4. 데이터 독립성 (Data Independence) - 논리적 독립성 vs 물리적 독립성"
-description = "논리적 독립성과 물리적 독립성의 개념, 사상(Mapping) 원리 및 데이터베이스 스키마 보호 아키텍처"
-date = "2024-05-20"
-[taxonomies]
-tags = ["Data Independence", "Database", "논리적 독립성", "물리적 독립성"]
-categories = ["Database", "Studynote"]
-+++
+---
+title: 4. 데이터 독립성 (Data Independence) - 논리적 독립성 vs 물리적 독립성
+date: '2024-05-20'
+description: 논리적 독립성과 물리적 독립성의 개념, 사상(Mapping) 원리 및 데이터베이스 스키마 보호 아키텍처
+tags:
+- database
+---
 
 # 04. [[001_dikw_pyramid|데이터]] 독립성 ([[504_data_independence|Data Independence]])
 

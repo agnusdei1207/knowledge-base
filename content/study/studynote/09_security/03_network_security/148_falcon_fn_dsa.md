@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. FALCON — 격자 기반 서명, 짧은 서명"
-date = "2026-05-03"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 148. FALCON — 격자 기반 서명, 짧은 서명
+date: '2026-05-03'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: FALCON (표준명 FN-DSA)은 범용 1등 [[675_digital_signature_process_asymmetric_key|전자서명]]인 딜리슘([[147_crystals_dilithium_ml_dsa|ML-DSA]])과 동일한 '격자(Lattice)' 수학을 기반으로 하지만, 촘촘한 $NTRU$ 격자 구조에 **[[126_fft|고속 푸리에 변환]]([[126_fft|FFT]])** 알고리즘을 섞어 서명의 덩치를 극단적으로 쥐어짜 낸 초경량 양자 내성 서명([[351_quantum_computing_pqc_transition|PQC]]) 알고리즘이다.

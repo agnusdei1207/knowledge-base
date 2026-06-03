@@ -1,10 +1,9 @@
-+++
-weight = 189
-title = "189. 멀티 클라우드 전략 (Multi-Cloud)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 189. 멀티 클라우드 전략 (Multi-Cloud)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

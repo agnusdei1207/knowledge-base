@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "12. IT 경영 및 서비스 관리 (ITSM) 키워드 목록"
-date = "2026-03-04"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 12. IT 경영 및 서비스 관리 (ITSM) 키워드 목록
+date: '2026-03-04'
+tags:
+- studynote-it-management
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # IT 경영 및 [[090_service_kubernetes_network_load_balancing|서비스]] 관리([[096_iso_iec_20000_itsm_certification|ITSM]]) 키워드 목록 (심화 확장판)

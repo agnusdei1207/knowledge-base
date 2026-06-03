@@ -1,10 +1,9 @@
-+++
-weight = 185
-title = "185. 바이트 카운트 (Byte Counting) 방식"
-date = "2026-05-06"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 185. 바이트 카운트 (Byte Counting) 방식
+date: '2026-05-06'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

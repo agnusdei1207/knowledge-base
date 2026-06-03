@@ -1,10 +1,9 @@
-+++
-weight = 965
-title = "965. NAT 횡단 (NAT Traversal)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 965. NAT 횡단 (NAT Traversal)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 198
-title = "198. 랜섬웨어 방어 아키텍처"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 198. 랜섬웨어 방어 아키텍처
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[730_ransomware|랜섬웨어]] 방어 아키텍처의 본질은 [[001_dikw_pyramid|데이터]] [[555_backup_and_restore_strategy|백업]] 네트워크 물리적 에어갭 (Air-gap), [[590_worm|WORM]](Write Once Read Many) 스토리지 도입을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

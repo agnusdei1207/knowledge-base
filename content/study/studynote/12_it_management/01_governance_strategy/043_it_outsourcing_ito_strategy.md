@@ -1,10 +1,9 @@
-+++
-title = "043. IT 아웃소싱 (ITO) 전략"
-weight = 43
-date = "2026-04-05"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 043. IT 아웃소싱 (ITO) 전략
+date: '2026-04-05'
+tags:
+- studynote-it-management
+---
 
 > **핵심 인사이트**
 > 1. IT 아웃소싱(ITO, IT Outsourcing)은 내부 IT 기능의 전부 또는 일부를 외부 전문 업체에 위임하는 [[268_strategy_pattern|전략]]적 의사결정으로 — "핵심 역량에 집중(Core Competency Focus)"과 "비용 절감"이 주된 동기이지만, 동시에 의존성 증가, 지식 유출, [[090_service_kubernetes_network_load_balancing|서비스]] 품질 통제 어려움이라는 트레이드오프를 내포한다.

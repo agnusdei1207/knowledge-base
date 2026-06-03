@@ -1,7 +1,8 @@
-+++
-title = "70. 기본 키 (Primary Key, PK) - 후보 키 중 설계자가 선택한 메인 식별자 (NULL 불가)"
-weight = 70
-+++
+---
+title: 70. 기본 키 (Primary Key, PK) - 후보 키 중 설계자가 선택한 메인 식별자 (NULL 불가)
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

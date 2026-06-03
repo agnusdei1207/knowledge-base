@@ -1,10 +1,9 @@
-+++
-weight = 194
-title = "194. 웹훅 (Webhook) - 역방향 API 기반 이벤트 푸시 연동"
-date = "2026-05-08"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 194. 웹훅 (Webhook) - 역방향 API 기반 이벤트 푸시 연동
+date: '2026-05-08'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

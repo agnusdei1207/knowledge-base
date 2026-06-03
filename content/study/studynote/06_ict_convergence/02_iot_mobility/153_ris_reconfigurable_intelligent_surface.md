@@ -1,10 +1,9 @@
-+++
-weight = 153
-title = "153. 지능형 반사 표면 (RIS, Reconfigurable Intelligent Surface) - 6G 초공간 전파 굴절 흑마법"
-date = "2026-05-03"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 153. 지능형 반사 표면 (RIS, Reconfigurable Intelligent Surface) - 6G 초공간 전파 굴절 흑마법
+date: '2026-05-03'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 지능형 반사 표면(RIS)은 메타물질(Metamaterials)을 바둑판처럼 촘촘히 박아 만든 아주 얇은 투명 스티커 껍데기 패널로, **벽에 부딪히면 튕겨서 썩어 죽어버리는 전파 빔의 반사/투과 방향(Phase 위상)을 ➔ 중앙 [[190_ai_llm_requirements_specification|AI]] 소프트웨어 알고리즘으로 동적 맘대로 비틀어 조종 굴절시켜 쏘는 [[419_6g_ntn_thz_ris_next_gen|6G]] 통신망의 스마트 마법 거울**이다.

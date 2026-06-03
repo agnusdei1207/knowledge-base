@@ -1,10 +1,9 @@
-+++
-weight = 22
-title = "22. CISA (Certified Information Systems Auditor) - 국제 공인 정보시스템 감사사"
-date = "2026-04-02"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 22. CISA (Certified Information Systems Auditor) - 국제 공인 정보시스템 감사사
+date: '2026-04-02'
+tags:
+- studynote-design-supervision
+---
 
 # CISA (Certified Information Systems Auditor)
 

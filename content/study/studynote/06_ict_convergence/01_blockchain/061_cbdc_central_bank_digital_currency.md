@@ -1,10 +1,9 @@
-+++
-weight = 61
-title = "61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐"
-date = "2026-04-07"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐
+date: '2026-04-07'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

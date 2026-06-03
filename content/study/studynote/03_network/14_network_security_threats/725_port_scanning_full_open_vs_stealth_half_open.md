@@ -1,10 +1,9 @@
-+++
-weight = 725
-title = "725. 스키밍 (Skimming) 공격"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 725. 스키밍 (Skimming) 공격
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

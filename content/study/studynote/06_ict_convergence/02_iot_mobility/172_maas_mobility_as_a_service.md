@@ -1,10 +1,9 @@
-+++
-weight = 172
-title = "172. 마스 (MaaS, Mobility as a Service)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 172. 마스 (MaaS, Mobility as a Service)
+date: '2026-05-06'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

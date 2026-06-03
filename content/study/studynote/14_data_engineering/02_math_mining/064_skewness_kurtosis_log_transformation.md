@@ -1,10 +1,9 @@
-+++
-weight = 64
-title = "64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석"
-date = "2026-04-10"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석
+date: '2026-04-10'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

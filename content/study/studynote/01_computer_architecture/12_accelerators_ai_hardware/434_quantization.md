@@ -1,10 +1,9 @@
-+++
-weight = 434
-title = "434. 양자화 (Quantization, INT8, INT4)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 434. 양자화 (Quantization, INT8, INT4)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

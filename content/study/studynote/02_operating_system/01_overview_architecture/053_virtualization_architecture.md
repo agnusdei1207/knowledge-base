@@ -1,10 +1,9 @@
-+++
-weight = 53
-title = "53. 가상화 아키텍처 (Virtualization Architecture)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 53. 가상화 아키텍처 (Virtualization Architecture)
+date: '2026-05-01'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

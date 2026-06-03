@@ -1,10 +1,9 @@
-+++
-weight = 243
-title = "243. 비지도 학습 (군집화, 연관성, 차원 축소)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 243. 비지도 학습 (군집화, 연관성, 차원 축소)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

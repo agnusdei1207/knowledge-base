@@ -1,10 +1,9 @@
-+++
-weight = 138
-title = "138. SQL 서브쿼리 (Subquery) - 쿼리 안의 쿼리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 138. SQL 서브쿼리 (Subquery) - 쿼리 안의 쿼리
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 서브쿼리([[523_subquery|Subquery]])는 **SQL 문 안에 중첩된 또 다른 [[520_select|SELECT]] 문**이며, WHERE·FROM·[[520_select|SELECT]]·HAVING 절에서 사용할 수 있고, 스칼라·[[141_inline_view_subquery|인라인 뷰]]·상관(Correlated) 서브쿼리로 구분된다.

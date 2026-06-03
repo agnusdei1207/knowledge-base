@@ -1,10 +1,10 @@
-+++
-weight = 405
-title = "405. LRU (Least Recently Used) 교체 - 가장 오랫동안 사용되지 않은 페이지 교체 (타임스탬프, 스택 하드웨어 지원 필요)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 405. LRU (Least Recently Used) 교체 - 가장 오랫동안 사용되지 않은 페이지 교체 (타임스탬프, 스택 하드웨어
+  지원 필요)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

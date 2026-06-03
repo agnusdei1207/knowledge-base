@@ -1,10 +1,9 @@
-+++
-weight = 185
-title = "185. 로그 수집 통합 (Log Aggregation) 아키텍처 - Fluentd -> Elasticsearch 파이프라인"
-date = "2026-05-06"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 185. 로그 수집 통합 (Log Aggregation) 아키텍처 - Fluentd -> Elasticsearch 파이프라인
+date: '2026-05-06'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

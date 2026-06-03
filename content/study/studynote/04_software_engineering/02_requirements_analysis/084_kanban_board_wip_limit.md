@@ -1,7 +1,8 @@
-+++
-title = "84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한"
-weight = 84
-+++
+---
+title: 84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

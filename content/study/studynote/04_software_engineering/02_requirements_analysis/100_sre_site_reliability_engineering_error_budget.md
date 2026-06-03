@@ -1,7 +1,8 @@
-+++
-title = "100. SRE (Site Reliability Engineering) - 구글의 운영 방식, 에러 예산"
-weight = 100
-+++
+---
+title: 100. SRE (Site Reliability Engineering) - 구글의 운영 방식, 에러 예산
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

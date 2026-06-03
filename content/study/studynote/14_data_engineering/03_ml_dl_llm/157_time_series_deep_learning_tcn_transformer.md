@@ -1,10 +1,9 @@
-+++
-weight = 157
-title = "157. 시계열 예측 딥러닝 TCN (Temporal Convolutional Network) 병렬 합성곱"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 157. 시계열 예측 딥러닝 TCN (Temporal Convolutional Network) 병렬 합성곱
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: TCN (Temporal Convolutional Network, 시간 [[089_CNN_Convolutional|합성곱 신경망]])은 팽창 인과 [[228_cnn_1d_2d_3d_video_medical|합성곱]](Dilated Causal [[284_convolution_stride_padding|Convolution]])으로 긴 시계열을 [[430_index_fast_full_scan|병렬]] 처리해 [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]/LSTM의 순차 처리 병목을 제거한다.

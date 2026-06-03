@@ -1,12 +1,10 @@
-+++
-weight = 17
-title = "17. 감리 수행 (Audit Execution) - 실지 감사, 인터뷰, 문서 검토, 자동화 도구 진단"
-description = "정보시스템 감리에서 가장 핵심적인 단계인 감리 수행(실지 감사)의 객관적 증거 수집 기법과 검증 원리를 다룹니다."
-date = "2026-03-04"
-[taxonomies]
-tags = ["정보시스템감리", "감리수행", "실지감사", "증거수집", "감리자동화도구"]
-categories = ["studynote-design-supervision"]
-+++
+---
+title: 17. 감리 수행 (Audit Execution) - 실지 감사, 인터뷰, 문서 검토, 자동화 도구 진단
+date: '2026-03-04'
+description: 정보시스템 감리에서 가장 핵심적인 단계인 감리 수행(실지 감사)의 객관적 증거 수집 기법과 검증 원리를 다룹니다.
+tags:
+- design_supervision
+---
 
 # 17. 감리 수행 ([[363_audit|Audit]] Execution) - 실지 [[606_auditing_linux_auditd|감사]], 인터뷰, 문서 검토, 자동화 도구 진단
 

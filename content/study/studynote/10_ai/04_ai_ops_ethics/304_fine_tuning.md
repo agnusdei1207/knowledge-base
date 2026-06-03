@@ -1,10 +1,9 @@
-+++
-weight = 304
-title = "304. 파인 튜닝 (Fine-Tuning)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 304. 파인 튜닝 (Fine-Tuning)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

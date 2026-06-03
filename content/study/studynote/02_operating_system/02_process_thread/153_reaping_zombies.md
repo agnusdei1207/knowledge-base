@@ -1,10 +1,9 @@
-+++
-weight = 153
-title = "153. 좀비 프로세스와 좀비 사냥 (Reaping Zombies) - 고아와 좀비의 스케줄러 학살"
-date = "2026-05-03"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 153. 좀비 프로세스와 좀비 사냥 (Reaping Zombies) - 고아와 좀비의 스케줄러 학살
+date: '2026-05-03'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[109_zombie_process|좀비 프로세스]]([[109_zombie_process|Zombie Process]])는 자식 프로세스가 자살(`exit`)하여 메모리와 영혼(자원)은 다 반납하고 진짜 뒈졌지만!! 부모 놈이 그 시체 종료 상태(Exit Status)를 [[396_validation|확인]](`wait`)해주지 않아 ➔ **오직 이름표(PID 주민번호) 1개만을 영원히 붙잡고 껍데기만 남아 시스템을 떠도는 좀비 시체 쇳덩이 찌끄레기 상태(Z)**다.

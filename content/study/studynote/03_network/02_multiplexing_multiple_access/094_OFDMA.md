@@ -1,12 +1,10 @@
-+++
-weight = 94
-title = "94. OFDMA (Orthogonal Frequency Division Multiple Access) - LTE, 5G"
-description = "4G LTE와 5G 시스템의 핵심 다중 접속 기술인 OFDMA의 구조, 직교 부반송파 할당 원리 및 기존 기술과의 비교 분석"
-date = 2026-03-31
-[taxonomies]
-tags = ["Network", "OFDMA", "LTE", "5G", "다중 접속", "직교성"]
-categories = ["Network"]
-+++
+---
+title: 94. OFDMA (Orthogonal Frequency Division Multiple Access) - LTE, 5G
+date: '2026-03-31'
+description: 4G LTE와 5G 시스템의 핵심 다중 접속 기술인 OFDMA의 구조, 직교 부반송파 할당 원리 및 기존 기술과의 비교 분석
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]] (Orthogonal Frequency [[411_division_operation|Division]] [[087_다중접속_Multiple_Access|Multiple Access]])는 전체 주파수 대역을 서로 수학적으로 직교(Orthogonal)하는 수백~수천 개의 좁은 [[085_부반송파_Subcarrier|부반송파]]([[085_부반송파_Subcarrier|Subcarrier]])로 쪼갠 뒤, 시간과 주파수 단위의 2차원 블록으로 다수 사용자에게 동적 할당하는 [[087_다중접속_Multiple_Access|다중 접속]] 방식이다.

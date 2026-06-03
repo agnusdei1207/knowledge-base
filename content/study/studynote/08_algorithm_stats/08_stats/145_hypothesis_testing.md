@@ -1,10 +1,9 @@
-+++
-weight = 145
-title = "16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 16. 가설 검정 (Hypothesis Testing) — 귀무가설, p-값
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

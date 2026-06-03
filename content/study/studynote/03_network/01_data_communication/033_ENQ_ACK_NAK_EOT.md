@@ -1,9 +1,9 @@
-+++
-title = "ENQ / ACK / NAK / EOT 제어 문자"
-date = "2026-03-03"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: ENQ / ACK / NAK / EOT 제어 문자
+date: '2026-03-03'
+tags:
+- studynote-network
+---
 
 > **핵심 인사이트 3줄**
 > 1. ENQ·ACK·[[211_nak_negative_acknowledgement|NAK]]·EOT는 [[019_bsc|BSC]](Binary [[010_동기식_비동기식_전송|Synchronous]] Communication) [[295_protocol_field_tcp_udp_icmp|프로토콜]]의 핵심 제어 문자로, [[001_dikw_pyramid|데이터]] 링크 계층의 회선 확보·긍정/부정 응답·전송 종료를 담당한다.

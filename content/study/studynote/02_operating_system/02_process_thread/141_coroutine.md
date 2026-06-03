@@ -1,10 +1,9 @@
-+++
-weight = 141
-title = "141. 코루틴 (Coroutine)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 141. 코루틴 (Coroutine)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

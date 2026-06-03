@@ -1,10 +1,9 @@
-+++
-weight = 70
-title = "18. 그래프 (Graph) — 방향/무방향, 가중/비가중"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 18. 그래프 (Graph) — 방향/무방향, 가중/비가중
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 458
-title = "458. 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 458. 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

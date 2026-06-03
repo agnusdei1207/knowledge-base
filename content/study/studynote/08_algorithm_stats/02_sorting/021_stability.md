@@ -1,10 +1,9 @@
-+++
-weight = 21
-title = "14. 정렬 안정성 (Sort Stability) — 동일 키 순서 유지"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 14. 정렬 안정성 (Sort Stability) — 동일 키 순서 유지
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 안정 정렬(Stable Sort)은 동일한 키를 가진 원소들의 상대적 순서를 정렬 전후로 보존하는 성질이며, 이는 기능적 [[002_bigdata_5v|정확성]]이 아니라 [[001_dikw_pyramid|데이터]] 의미론의 문제다.

@@ -1,10 +1,9 @@
-+++
-weight = 643
-title = "643. 기기 간 상호인증체계 관리 기법 P2P 연결 인증서 배포 기술"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 643. 기기 간 상호인증체계 관리 기법 P2P 연결 인증서 배포 기술
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

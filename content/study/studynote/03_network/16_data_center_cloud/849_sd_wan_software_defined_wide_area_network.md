@@ -1,10 +1,9 @@
-+++
-weight = 849
-title = "849. SD-WAN (소프트웨어 정의 광역망)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 849. SD-WAN (소프트웨어 정의 광역망)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

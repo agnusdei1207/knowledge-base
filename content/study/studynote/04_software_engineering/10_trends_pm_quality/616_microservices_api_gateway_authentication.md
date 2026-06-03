@@ -1,10 +1,9 @@
-+++
-weight = 616
-title = "616. 마이크로서비스 API 게이트웨이 인증 통합"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 616. 마이크로서비스 API 게이트웨이 인증 통합
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

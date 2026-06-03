@@ -1,10 +1,9 @@
-+++
-weight = 213
-title = "213. 데이터 레이크하우스 (Data Lakehouse) Delta Lake 파케이 ACID"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 213. 데이터 레이크하우스 (Data Lakehouse) Delta Lake 파케이 ACID
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[210_data_lakehouse_delta_lake|데이터 레이크하우스]]([[210_data_lakehouse_delta_lake|Data Lakehouse]])는 [[208_data_lake_schema_on_read|데이터 레이크]]([[208_data_lake_schema_on_read|Data Lake]])의 저비용·유연성과 [[209_data_warehouse_schema_on_write|데이터 웨어하우스]]([[208_data_warehouse_schema_on_write_inmon|Data Warehouse]])의 ACID([[193_atomicity_all_or_nothing|Atomicity]]·[[194_consistency_database_integrity|Consistency]]·[[195_isolation_concurrency_control|Isolation]]·[[196_durability_permanent_storage|Durability]]) [[191_transaction_concept_states|트랜잭션]]·[[005_schema|스키마]] 관리를 통합한 차세대 [[001_dikw_pyramid|데이터]] 플랫폼 아키텍처다.

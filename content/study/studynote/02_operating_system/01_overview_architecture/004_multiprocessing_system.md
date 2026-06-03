@@ -1,10 +1,9 @@
-+++
-weight = 4
-title = "4. 다중 처리 시스템 (Multiprocessing System)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 4. 다중 처리 시스템 (Multiprocessing System)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 # 다중 처리 시스템 (Multiprocessing System)
 

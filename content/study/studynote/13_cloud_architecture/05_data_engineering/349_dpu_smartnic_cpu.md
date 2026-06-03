@@ -1,10 +1,9 @@
-+++
-weight = 349
-title = "349. DPU SmartNIC 인프라 보안 네트워크 CPU 오프로딩 가속 (DPU SmartNIC CPU)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 349. DPU SmartNIC 인프라 보안 네트워크 CPU 오프로딩 가속 (DPU SmartNIC CPU)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[360_dpu_smartnic|DPU SmartNIC]] 인프라 보안 네트워크 CPU [[440_offloading|오프로딩]] 가속는 클라우드 인프라에서 보안과 통제를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. Apache Iceberg — 오픈 테이블 포맷 히든 파티셔닝"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 148. Apache Iceberg — 오픈 테이블 포맷 히든 파티셔닝
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. Apache Iceberg는 Netflix가 고안한 [[054_open_table_format_iceberg_delta_hudi|오픈 테이블 포맷]]으로, **히든 [[179_table_partitioning_concept|파티셔닝]](Hidden [[179_table_partitioning_concept|Partitioning]])**을 통해 [[298_qkv_attention|쿼리]] 작성자가 [[514_partition_slice_volume|파티션]] 컬럼을 알지 못해도 [[184_partition_pruning|파티션 프루닝]]([[184_partition_pruning|Partition Pruning]])이 자동 적용된다.

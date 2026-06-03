@@ -1,10 +1,9 @@
-+++
-weight = 763
-title = "763. 루트킷 탐지 무결성 스캔 (Rootkit Detection Integrity Scan)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 763. 루트킷 탐지 무결성 스캔 (Rootkit Detection Integrity Scan)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 88
-title = "13. Kafka 파티셔닝 전략 (Kafka Partitioning Strategy)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 13. Kafka 파티셔닝 전략 (Kafka Partitioning Strategy)
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

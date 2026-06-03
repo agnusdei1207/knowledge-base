@@ -1,10 +1,9 @@
-+++
-weight = 722
-title = "722. 트래픽 혼잡공격 (CC Attack 봇넷 HTTP 임의페이지 무한 요청) 유도 및 캡챠 적용"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 722. 트래픽 혼잡공격 (CC Attack 봇넷 HTTP 임의페이지 무한 요청) 유도 및 캡챠 적용
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

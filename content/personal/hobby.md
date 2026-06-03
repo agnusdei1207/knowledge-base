@@ -1,5 +1,7 @@
 ---
-title: "🎨 Hobby & Library"
+title: 🎨 Hobby & Library
+tags:
+- personal
 ---
 
 # 🎨 Hobby & Library

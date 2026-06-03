@@ -1,10 +1,9 @@
-+++
-weight = 28
-title = "28. 가치 사슬 지원 활동 (Value Chain Support Activities)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 28. 가치 사슬 지원 활동 (Value Chain Support Activities)
+date: '2026-04-29'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 마이클 포터의 [[249_value_chain_competitive_analysis|가치 사슬]]([[249_value_chain_competitive_analysis|Value Chain]])에서 지원 활동([[084_support_association_rule_transaction|Support]] Activities)은 본원적 활동(Primary Activities)을 가능하게 하는 인프라다. 기업 인프라, 인적 자원 관리(HRM), 기술 개발(R&D), 조달 관리(Procurement) 4가지로 구성된다.

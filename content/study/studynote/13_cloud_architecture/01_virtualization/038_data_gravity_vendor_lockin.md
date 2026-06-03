@@ -1,9 +1,9 @@
-+++
-title = "038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)
+date: '2026-03-03'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. [[001_dikw_pyramid|데이터]] 중력([[001_dikw_pyramid|Data]] Gravity)은 [[001_dikw_pyramid|데이터]]가 축적될수록 그 [[001_dikw_pyramid|데이터]]를 처리하는 애플리케이션과 [[090_service_kubernetes_network_load_balancing|서비스]]가 [[001_dikw_pyramid|데이터]]가 있는 곳으로 끌려오는 현상으로, 클라우드 탈출 비용([[189_egress|Egress]] Cost)과 [[015_지연_데이터_관점|지연]]([[141_latency|Latency]]) 때문에 [[001_dikw_pyramid|데이터]]를 이동하기 어려워져 특정 클라우드에 묶이는 [[051_vendor_lock_in_cloud_computing|벤더 종속]]의 핵심 원인이다.

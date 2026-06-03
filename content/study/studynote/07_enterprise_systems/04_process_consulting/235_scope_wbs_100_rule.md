@@ -1,10 +1,9 @@
-+++
-weight = 235
-title = "235. 범위 관리 WBS (Work Breakdown Structure) 100% Rule 규칙 통제"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 235. 범위 관리 WBS (Work Breakdown Structure) 100% Rule 규칙 통제
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 350
-title = "350. 연합 학습 엣지 분산 데이터 프라이버시 검열망"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 350. 연합 학습 엣지 분산 데이터 프라이버시 검열망
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[256_federated_learning_privacy_model_security|연합 학습]] 엣지 [[136_variance|분산]] [[001_dikw_pyramid|데이터]] 프라이버시 검열망의 본질은 자산, 위협, [[571_protection_vs_security|보호]] 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

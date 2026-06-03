@@ -1,10 +1,9 @@
-+++
-weight = 14
-title = "14. IRR (Internal Rate of Return, 내부수익률)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 14. IRR (Internal Rate of Return, 내부수익률)
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

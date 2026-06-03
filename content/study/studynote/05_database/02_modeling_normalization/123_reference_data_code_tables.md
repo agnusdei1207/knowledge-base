@@ -1,10 +1,9 @@
-+++
-weight = 123
-title = "123. 참조 데이터 & 코드 테이블 (Reference Data & Code Tables) - 코드성 데이터 표준화"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 123. 참조 데이터 & 코드 테이블 (Reference Data & Code Tables) - 코드성 데이터 표준화
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[316_reference_pattern_nosql|참조]] [[001_dikw_pyramid|데이터]]([[316_reference_pattern_nosql|Reference]] [[001_dikw_pyramid|Data]])는 **성별(M/F)·상태([[483_active_vs_passive_ftp|ACTIVE]]/INACTIVE)·지역코드** 등 **비즈니스 규칙에 의해 정해진 코드 값의 집합**이며, 코드 테이블([[082_process_memory_structure|Code]] Table)로 관리한다.

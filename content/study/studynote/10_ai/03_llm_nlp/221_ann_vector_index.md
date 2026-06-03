@@ -1,10 +1,9 @@
-+++
-weight = 221
-title = "221. 벡터 차원 색인 ANN (HNSW / PQ)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 221. 벡터 차원 색인 ANN (HNSW / PQ)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

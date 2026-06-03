@@ -1,10 +1,9 @@
-+++
-weight = 57
-title = "57. 시계열 데이터베이스 (Time-Series Database, TSDB) - 다운샘플링과 보존 정책"
-date = "2026-04-10"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 57. 시계열 데이터베이스 (Time-Series Database, TSDB) - 다운샘플링과 보존 정책
+date: '2026-04-10'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

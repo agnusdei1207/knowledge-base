@@ -1,10 +1,9 @@
-+++
-weight = 281
-title = "281. PLM / PDM 제품 수명 주기 BOM"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 281. PLM / PDM 제품 수명 주기 BOM
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[122_plm_product_lifecycle_management|PLM]] / [[123_pdm_product_data_management|PDM]] 제품 수명 주기 BOM의 본질은 자산, 위협, [[571_protection_vs_security|보호]] 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

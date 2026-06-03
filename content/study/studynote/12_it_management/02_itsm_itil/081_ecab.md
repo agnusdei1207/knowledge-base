@@ -1,10 +1,9 @@
-+++
-weight = 81
-title = "81. 긴급 변경 위원회 (ECAB)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 81. 긴급 변경 위원회 (ECAB)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[081_feature_engineering|긴급 변경 위원회]] ([[081_feature_engineering|ECAB]])의 본질은 보안 패치 등 촌각을 다투는 변경을 심의를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

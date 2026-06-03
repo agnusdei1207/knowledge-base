@@ -1,10 +1,9 @@
-+++
-weight = 565
-title = "565. 레이크 수신기 (Rake Receiver)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 565. 레이크 수신기 (Rake Receiver)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 320
-title = "320. Time Exceeded (TTL 만료, Traceroute 원리)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 320. Time Exceeded (TTL 만료, Traceroute 원리)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

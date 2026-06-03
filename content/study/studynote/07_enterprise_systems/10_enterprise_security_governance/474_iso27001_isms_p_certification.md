@@ -1,10 +1,9 @@
-+++
-weight = 474
-title = "474. ISO 27001 ISMS-P 인증 위험 통제 보안 규격 (ISO 27001 / ISMS-P)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 474. ISO 27001 ISMS-P 인증 위험 통제 보안 규격 (ISO 27001 / ISMS-P)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

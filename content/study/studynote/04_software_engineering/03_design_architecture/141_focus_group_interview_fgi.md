@@ -1,10 +1,9 @@
-+++
-weight = 141
-title = "141. 포커스 그룹 인터뷰 (FGI) - 그룹 심층 인터뷰 기법"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 141. 포커스 그룹 인터뷰 (FGI) - 그룹 심층 인터뷰 기법
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: FGI(Focus Group Interview)는 **6~10명의 대상 사용자를 모아 모더레이터가 [[216_progress_in_synchronization|진행]]하는 구조화된 그룹 토론**으로, 사용자의 인식·태도·니즈를 심층적으로 파악하는 정성적 도출 기법이다.

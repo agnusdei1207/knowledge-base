@@ -1,10 +1,9 @@
-+++
-weight = 93
-title = "F1-Score: 정밀도와 재현율의 균형 잡힌 심판"
-date = "2026-03-04"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 'F1-Score: 정밀도와 재현율의 균형 잡힌 심판'
+date: '2026-03-04'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

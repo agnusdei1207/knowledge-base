@@ -1,10 +1,9 @@
-+++
-weight = 190
-title = "190. 바인드 변수 (Bind Variable)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 190. 바인드 변수 (Bind Variable)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 313
-title = "313. 그래프 신경망 (GNN) 연계를 위한 그래프 데이터베이스 활용"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 313. 그래프 신경망 (GNN) 연계를 위한 그래프 데이터베이스 활용
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

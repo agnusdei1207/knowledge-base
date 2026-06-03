@@ -1,10 +1,9 @@
-+++
-weight = 30
-title = "30. 가치 흐름 맵핑 (VSM) — 낭비를 찾아 흐름을 최적화"
-date = "2026-04-29"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 30. 가치 흐름 맵핑 (VSM) — 낭비를 찾아 흐름을 최적화
+date: '2026-04-29'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: VSM([[088_value_stream_mapping_vsm|Value Stream Mapping]], 가치 흐름 맵핑)은 린([[087_lean_software_development_7_principles|Lean]]) 제조에서 소프트웨어 전달로 이식된 [[003_bigdata_7v|시각화]] 도구로, 아이디어부터 고객 전달까지 모든 단계의 작업 시간·대기 시간·낭비를 맵으로 그려서 분석한다.

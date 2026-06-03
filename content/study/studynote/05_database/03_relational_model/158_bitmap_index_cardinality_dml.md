@@ -1,10 +1,10 @@
-+++
-weight = 158
-title = "158. 비트맵 인덱스 (Bitmap Index) - 분포도(Cardinality)가 나쁜(성별 등) 컬럼에 적합, DML 성능 저하 큼"
-date = "2026-05-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 158. 비트맵 인덱스 (Bitmap Index) - 분포도(Cardinality)가 나쁜(성별 등) 컬럼에 적합, DML 성능 저하
+  큼
+date: '2026-05-05'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트
 

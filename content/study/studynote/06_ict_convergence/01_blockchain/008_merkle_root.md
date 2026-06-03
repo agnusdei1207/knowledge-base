@@ -1,7 +1,8 @@
-+++
-title = "8. 머클 루트 (Merkle Root) - 모든 트랜잭션 해시를 묶은 최종 해시값"
-weight = 8
-+++
+---
+title: 8. 머클 루트 (Merkle Root) - 모든 트랜잭션 해시를 묶은 최종 해시값
+tags:
+- ict_convergence
+---
 
 # 08. 머클 루트 (Merkle Root)
 

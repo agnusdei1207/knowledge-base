@@ -1,10 +1,9 @@
-+++
-weight = 161
-title = "161. 단기 스케줄러 (Short-term Scheduler) / CPU 스케줄러"
-date = "2026-05-05"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 161. 단기 스케줄러 (Short-term Scheduler) / CPU 스케줄러
+date: '2026-05-05'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 315
-title = "315. 오토인코더 구조 및 변이형 오토인코더 (VAE) 잠재 벡터 생성망 (Autoencoder)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 315. 오토인코더 구조 및 변이형 오토인코더 (VAE) 잠재 벡터 생성망 (Autoencoder)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

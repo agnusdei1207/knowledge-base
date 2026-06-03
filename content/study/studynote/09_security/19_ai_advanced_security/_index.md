@@ -1,9 +1,8 @@
-+++
-weight = 19
-title = "19. AI 및 신기술 보안 (50개 핵심 토픽)"
-render = true
-sort_by = "weight"
-+++
+---
+title: 19. AI 및 신기술 보안 (50개 핵심 토픽)
+tags:
+- security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

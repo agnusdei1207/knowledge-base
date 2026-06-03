@@ -1,10 +1,9 @@
-+++
-weight = 185
-title = "185. 피어투피어 아키텍처 (Peer-to-Peer Architecture)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 185. 피어투피어 아키텍처 (Peer-to-Peer Architecture)
+date: '2026-05-06'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

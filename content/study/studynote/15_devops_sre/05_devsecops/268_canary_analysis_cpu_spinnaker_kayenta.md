@@ -1,10 +1,9 @@
-+++
-weight = 268
-title = "268. 카나리 분석기 (Canary Analysis) 자동화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 268. 카나리 분석기 (Canary Analysis) 자동화
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

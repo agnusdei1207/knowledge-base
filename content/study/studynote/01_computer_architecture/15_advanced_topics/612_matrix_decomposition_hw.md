@@ -1,10 +1,9 @@
-+++
-weight = 612
-title = "612. 행렬 분해 (LU, QR) 전용 병렬 구조"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 612. 행렬 분해 (LU, QR) 전용 병렬 구조
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

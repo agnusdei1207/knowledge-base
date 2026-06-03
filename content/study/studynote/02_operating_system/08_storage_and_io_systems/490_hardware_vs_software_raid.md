@@ -1,10 +1,9 @@
-+++
-weight = 490
-title = "490. 소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착) (Hardware Vs Software RAID)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 490. 소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착) (Hardware Vs Software RAID)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

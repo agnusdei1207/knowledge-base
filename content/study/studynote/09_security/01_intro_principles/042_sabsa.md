@@ -1,10 +1,9 @@
-+++
-title = "042. SABSA (Sherwood Applied Business Security Architecture)"
-weight = 42
-date = "2026-04-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 042. SABSA (Sherwood Applied Business Security Architecture)
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 > **핵심 인사이트**
 > 1. SABSA(Sherwood Applied Business [[302_security_architecture_design|Security Architecture]])는 [[041_zachman_framework|자크만 프레임워크]]([[112_zachman_framework|Zachman Framework]])를 보안에 특화 적용한 [[302_security_architecture_design|보안 아키텍처]] 방법론으로, 비즈니스 요구사항에서 시작하여 [[369_logic_bomb|논리]]·물리·기술 계층까지 "위에서 아래로([[402_top_down_integration|Top-down]])" 보안을 설계하는 완전한 생명주기 프레임워크다.

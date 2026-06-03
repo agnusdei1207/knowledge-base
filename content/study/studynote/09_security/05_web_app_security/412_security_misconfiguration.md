@@ -1,10 +1,9 @@
-+++
-weight = 412
-title = "412. Security Misconfiguration (Security Misconfiguration)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 412. Security Misconfiguration (Security Misconfiguration)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

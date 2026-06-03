@@ -1,10 +1,9 @@
-+++
-weight = 75
-title = "24. Apache Spark 3.5 주요 개선 사항"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 24. Apache Spark 3.5 주요 개선 사항
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] 3.5는 2023년 릴리스되어 Python [[014_api_posix|API]] (PySpark)의 기능 강화, Spark Connect (원격 클라이언트 연결), ANSI SQL 지원 확대, 구조화된 스트리밍([[061_structured_streaming|Structured Streaming]]) 고도화를 통해 [[001_dikw_pyramid|데이터]] 엔지니어링·ML 워크플로우의 생산성과 이식성을 높인 메이저 [[288_version_ihl_tos_total_length|버전]]이다.

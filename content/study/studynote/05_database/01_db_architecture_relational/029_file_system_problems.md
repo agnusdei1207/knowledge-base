@@ -1,10 +1,9 @@
-+++
-weight = 29
-title = "29. 파일 시스템의 문제점 (File System Problems)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 29. 파일 시스템의 문제점 (File System Problems)
+date: '2026-04-29'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[002_database_definition|데이터베이스]] 이전 시대의 [[501_file_definition_logical_record|파일]] 시스템 기반 [[001_dikw_pyramid|데이터]] 관리는 [[001_dikw_pyramid|데이터]] [[008_dependencies|종속성]], [[001_dikw_pyramid|데이터]] 중복, [[003_integrity|무결성]] 부재, [[014_concurrency|동시성]] 제어 불가, 보안 취약이라는 5대 문제를 구조적으로 가지고 있었다. DBMS는 이를 해결하기 위해 탄생했다.

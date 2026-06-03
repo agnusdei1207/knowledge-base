@@ -1,10 +1,9 @@
-+++
-weight = 275
-title = "275. NoSQL 데이터 모델 4가지 (NoSQL Data Models)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 275. NoSQL 데이터 모델 4가지 (NoSQL Data Models)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 448
-title = "448. 스파이크 테스트 (Spike Test) - 갑작스럽게 사용자가 급증할 때의 반응 확인"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 448. 스파이크 테스트 (Spike Test) - 갑작스럽게 사용자가 급증할 때의 반응 확인
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

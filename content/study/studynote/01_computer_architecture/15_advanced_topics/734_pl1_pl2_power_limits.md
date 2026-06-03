@@ -1,10 +1,9 @@
-+++
-weight = 734
-title = "734. PL1, PL2 (Power Limit 1, 2)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 734. PL1, PL2 (Power Limit 1, 2)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

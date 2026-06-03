@@ -1,10 +1,9 @@
-+++
-weight = 469
-title = "469. 샤딩 파티셔닝 수평 스케일 아웃"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 469. 샤딩 파티셔닝 수평 스케일 아웃
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

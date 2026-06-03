@@ -1,5 +1,5 @@
-+++
-weight = 4
-title = "04. Testing Quality"
-sort_by = "weight"
-+++
+---
+title: 04. Testing Quality
+tags:
+- software_engineering
+---

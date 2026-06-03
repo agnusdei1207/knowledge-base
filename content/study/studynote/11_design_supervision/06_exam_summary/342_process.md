@@ -1,10 +1,9 @@
-+++
-weight = 342
-title = "342. 시정 조치 조율 위원회 (Corrective Action Coordination Committee)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 342. 시정 조치 조율 위원회 (Corrective Action Coordination Committee)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

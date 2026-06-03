@@ -1,10 +1,9 @@
-+++
-weight = 303
-title = "303. CQRS 읽기·쓰기 분리 (Command Query Responsibility Segregation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 303. CQRS 읽기·쓰기 분리 (Command Query Responsibility Segregation)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

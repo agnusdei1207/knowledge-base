@@ -1,10 +1,9 @@
-+++
-weight = 106
-title = "106. 기술 아키텍처 (TA) 현황 분석"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 106. 기술 아키텍처 (TA) 현황 분석
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기술 아키텍처 (TA) 현황 분석의 본질은 서버, 네트워크, 보안 인프라 토폴로지 ([[178_as_is_to_be_analysis|AS-IS]])를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

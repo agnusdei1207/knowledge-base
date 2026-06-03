@@ -1,10 +1,9 @@
-+++
-weight = 781
-title = "781. ZFS Copy-on-Write 볼륨 관리 통합 (Zfs COW Volume Management)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 781. ZFS Copy-on-Write 볼륨 관리 통합 (Zfs COW Volume Management)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

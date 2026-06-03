@@ -1,10 +1,9 @@
-+++
-weight = 144
-title = "144. RAG (Retrieval-Augmented Generation) - 검색 증강 생성"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 144. RAG (Retrieval-Augmented Generation) - 검색 증강 생성
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RAG는 **LLM이 답변 [[087_process_state_transition|생성]] 전에 외부 지식 저장소(벡터 DB)에서 관련 문서를 검색(Retrieve)하여 프롬프트에 포함**시킨 후 [[087_process_state_transition|생성]](Generate)하는 기법이며, [[275_react_framework|환각]]([[345_llm_foundation_model_hallucination|Hallucination]])을 줄이고 최신 정보를 반영한다.

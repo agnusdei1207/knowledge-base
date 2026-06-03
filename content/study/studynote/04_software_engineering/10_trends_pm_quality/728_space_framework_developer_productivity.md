@@ -1,10 +1,9 @@
-+++
-weight = 728
-title = "728. SPACE 프레임워크 생산성 다각화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 728. SPACE 프레임워크 생산성 다각화
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

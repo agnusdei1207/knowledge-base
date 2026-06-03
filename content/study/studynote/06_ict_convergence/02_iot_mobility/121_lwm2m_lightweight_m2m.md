@@ -1,10 +1,9 @@
-+++
-weight = 121
-title = "121. LwM2M (Lightweight M2M) - OMA 표준 IoT 디바이스 관리 프로토콜"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 121. LwM2M (Lightweight M2M) - OMA 표준 IoT 디바이스 관리 프로토콜
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LwM2M은 **OMA(Open Mobile Alliance)**가 정의한 **[[120_coap_constrained_application_protocol|CoAP]] 기반 [[101_iot_concept|IoT]] 디바이스 관리 [[295_protocol_field_tcp_udp_icmp|프로토콜]]**로, 디바이스의 **등록·[[032_firmware|펌웨어]] 업데이트(FOTA)·원격 [[009_config|설정]]·모니터링**을 표준화한다.

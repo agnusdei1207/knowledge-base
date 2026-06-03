@@ -1,10 +1,9 @@
-+++
-weight = 138
-title = "138. MLM (Masked Language Model) - BERT의 핵심 사전 학습 기법"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 138. MLM (Masked Language Model) - BERT의 핵심 사전 학습 기법
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MLM은 **입력 토큰의 15%를 [MASK]로 가리고 양방향 문맥으로 원래 토큰을 예측**하는 BERT의 사전 학습 방식이며, 빈칸 채우기(Cloze Test)와 같은 원리이다.

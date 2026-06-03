@@ -1,10 +1,9 @@
-+++
-weight = 784
-title = "784. 웹 프로그레시브 서비스워커(Service Worker) 연계망"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 784. 웹 프로그레시브 서비스워커(Service Worker) 연계망
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

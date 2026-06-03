@@ -1,10 +1,9 @@
-+++
-weight = 265
-title = "265. 플라이웨이트 (Flyweight) - 인스턴스 공유로 메모리 절약"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 265. 플라이웨이트 (Flyweight) - 인스턴스 공유로 메모리 절약
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

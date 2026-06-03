@@ -1,10 +1,9 @@
-+++
-weight = 342
-title = "342. 서버리스 FaaS 아키텍처 한계 분석망"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 342. 서버리스 FaaS 아키텍처 한계 분석망
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[206_serverless_cold_start|서버리스]] [[342_faas|FaaS]] 아키텍처 한계 분석망의 본질은 [[090_service_kubernetes_network_load_balancing|서비스]] 모델, 자동화, 비용·보안 책임, 운영 관측성이 함께 설계되어야 클라우드 도입 효과가 지속된다.

@@ -1,10 +1,9 @@
-+++
-weight = 693
-title = "693. 제로 트러스트 아키텍처 최소 권한 원칙"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 693. 제로 트러스트 아키텍처 최소 권한 원칙
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

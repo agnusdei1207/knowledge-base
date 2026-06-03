@@ -1,10 +1,9 @@
-+++
-weight = 310
-title = "310. 메모리 맵 I/O (Memory-Mapped I/O)"
-date = "2026-03-26"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 310. 메모리 맵 I/O (Memory-Mapped I/O)
+date: '2026-03-26'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

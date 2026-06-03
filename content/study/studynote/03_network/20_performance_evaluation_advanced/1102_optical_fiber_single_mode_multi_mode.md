@@ -1,10 +1,9 @@
-+++
-weight = 1102
-title = "1102. 광섬유 싱글모드 다중모드"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1102. 광섬유 싱글모드 다중모드
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

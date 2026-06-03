@@ -1,10 +1,9 @@
-+++
-weight = 131
-title = "131. 컬럼 패밀리 데이터베이스 (Column Family DB) — Cassandra/HBase/ScyllaDB"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 131. 컬럼 패밀리 데이터베이스 (Column Family DB) — Cassandra/HBase/ScyllaDB
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 컬럼 패밀리(Wide-Column) DB는 행마다 다른 컬럼을 가질 수 있는 스파스(Sparse) 2차원 맵 구조로, 수십억 개의 컬럼과 행을 효율적으로 저장하는 대규모 시계열·이벤트 [[001_dikw_pyramid|데이터]]에 최적화된 모델이다.

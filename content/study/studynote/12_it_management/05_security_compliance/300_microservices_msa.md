@@ -1,10 +1,9 @@
-+++
-weight = 300
-title = "300. 마이크로서비스 MSA 독립 배포"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 300. 마이크로서비스 MSA 독립 배포
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[532_microservices_decomposition_patterns|마이크로서비스]] [[619_msa_traffic_hardware|MSA]] 독립 배포의 본질은 [[090_service_kubernetes_network_load_balancing|서비스]] 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [[090_service_kubernetes_network_load_balancing|서비스]] 수준을 안정적으로 유지할 수 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 144
-title = "15. 베이즈 추정 (Bayesian Estimation) — MAP 최대 사후 확률"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 15. 베이즈 추정 (Bayesian Estimation) — MAP 최대 사후 확률
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

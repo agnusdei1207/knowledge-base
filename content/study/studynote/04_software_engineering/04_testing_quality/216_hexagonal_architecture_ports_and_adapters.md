@@ -1,10 +1,9 @@
-+++
-weight = 216
-title = "216. 헥사고날 아키텍처 (Hexagonal Architecture / Ports and Adapters)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 216. 헥사고날 아키텍처 (Hexagonal Architecture / Ports and Adapters)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

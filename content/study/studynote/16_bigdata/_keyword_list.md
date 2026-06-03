@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "16. 빅데이터 키워드 목록"
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 16. 빅데이터 키워드 목록
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # 빅데이터 (Big [[001_dikw_pyramid|Data]]) 키워드 목록

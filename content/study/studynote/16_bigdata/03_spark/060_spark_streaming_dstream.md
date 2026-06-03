@@ -1,10 +1,9 @@
-+++
-weight = 60
-title = "Spark Streaming (DStream) 아키텍처"
-date = "2024-03-24"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: Spark Streaming (DStream) 아키텍처
+date: '2024-03-24'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **마이크로 배치(Micro-batch):** 실시간 스트림 [[001_dikw_pyramid|데이터]]를 아주 짧은 간격(예: 1초)의 작은 배치로 쪼개어 기존 스파크 배치 엔진으로 처리하는 방식.

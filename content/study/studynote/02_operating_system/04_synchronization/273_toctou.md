@@ -1,10 +1,9 @@
-+++
-weight = 273
-title = "273. 세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: '273. 세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)'
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

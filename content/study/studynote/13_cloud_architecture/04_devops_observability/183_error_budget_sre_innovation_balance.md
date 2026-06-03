@@ -1,10 +1,9 @@
-+++
-weight = 183
-title = "183. 에러 예산 (Error Budget) - 혁신 속도와 신뢰성의 운영 균형"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 183. 에러 예산 (Error Budget) - 혁신 속도와 신뢰성의 운영 균형
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

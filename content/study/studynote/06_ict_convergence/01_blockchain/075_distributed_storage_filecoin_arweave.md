@@ -1,7 +1,8 @@
-+++
-title = "75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)"
-weight = 75
-+++
+---
+title: 75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

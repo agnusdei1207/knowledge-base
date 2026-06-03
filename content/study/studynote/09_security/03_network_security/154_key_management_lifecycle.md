@@ -1,10 +1,9 @@
-+++
-title = "154. 암호키 관리 생명주기 (Key Management Lifecycle) - 탈취당한 절대 반지의 파국을 막는 6단 방폭문 쉴드"
-date = "2026-05-03"
-weight = 154
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 154. 암호키 관리 생명주기 (Key Management Lifecycle) - 탈취당한 절대 반지의 파국을 막는 6단 방폭문 쉴드
+date: '2026-05-03'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 암호키 관리 생명주기([[127_kms_knowledge_management_system|KMS]] Lifecycle)는 100억 원짜리 [[183_post_quantum_cryptography_key_transition|양자 내성 암호]]([[351_quantum_computing_pqc_transition|PQC]])나 [[656_aes_advanced_encryption_standard_rijndael|AES]]-256 특수 금고 쇳덩이를 아무리 두껍게 발라 텐트를 쳐봐야 ➔ **정작 그 금고를 여는 '열쇠([[067_db_key_uniqueness_minimality|Key]] 텍스트)'를 좆소 코더가 Github 깃허브 소스 코드에 생얼 평문으로 용접 하드코딩 떡칠 쳐 올리면 1초 만에 100억이 털리는 파국 코미디를 원천 척살 차단하기 위해 ➔ 열쇠가 태어나서([[087_process_state_transition|생성]]) 늙고 죽을(폐기) 때까지의 6단계 요람에서 무덤 우주 소멸까지의 피 터지는 통제 보안 알파 앤 오메가 [[123_pipe|파이프]]라인 헌법**이다.

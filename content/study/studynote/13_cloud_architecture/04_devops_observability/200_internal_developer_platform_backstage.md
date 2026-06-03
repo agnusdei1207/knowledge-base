@@ -1,10 +1,9 @@
-+++
-weight = 200
-title = "200. IDP / Backstage (Internal Developer Platform)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 200. IDP / Backstage (Internal Developer Platform)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

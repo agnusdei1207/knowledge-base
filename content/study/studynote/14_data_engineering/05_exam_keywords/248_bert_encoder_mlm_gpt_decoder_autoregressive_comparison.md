@@ -1,10 +1,9 @@
-+++
-weight = 248
-title = "248. BERT 인코더 MLM vs GPT 디코더 자동 회귀 (Autoregressive) 심화 비교"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 248. BERT 인코더 MLM vs GPT 디코더 자동 회귀 (Autoregressive) 심화 비교
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[301_bert_mlm|BERT]](Bidirectional [[040_encoder|Encoder]] Representations from Transformers)는 양방향 문맥을 이해하는 [[040_encoder|인코더]], [[302_gpt_autoregressive|GPT]]([[302_gpt_autoregressive|Generative Pre-trained Transformer]])는 왼쪽에서 오른쪽으로만 처리하는 자동 회귀(Autoregressive) [[039_decoder|디코더]]로, 설계 목적이 근본적으로 다르다.

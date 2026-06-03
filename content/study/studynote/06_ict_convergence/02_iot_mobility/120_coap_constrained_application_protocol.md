@@ -1,10 +1,9 @@
-+++
-weight = 120
-title = "120. CoAP (Constrained Application Protocol) - IoT 경량 RESTful 프로토콜"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 120. CoAP (Constrained Application Protocol) - IoT 경량 RESTful 프로토콜
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CoAP은 **[[406_udp_user_datagram_protocol_connectionless_fast|UDP]] 기반의 경량 RESTful [[295_protocol_field_tcp_udp_icmp|프로토콜]]**로, HTTP와 유사한 GET/PUT/POST/DELETE를 지원하면서도 **4바이트 고정 헤더**로 제약 디바이스(센서·액추에이터)에 최적화되었다.

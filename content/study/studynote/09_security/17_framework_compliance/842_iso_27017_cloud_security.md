@@ -1,10 +1,9 @@
-+++
-weight = 842
-title = "842. ISO 27017 (Cloud Security)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 842. ISO 27017 (Cloud Security)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

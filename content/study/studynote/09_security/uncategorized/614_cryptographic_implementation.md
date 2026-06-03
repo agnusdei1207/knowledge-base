@@ -1,10 +1,9 @@
-+++
-weight = 614
-title = "614. 암호학적 구현 보안 (Cryptographic Implementation Security)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 614. 암호학적 구현 보안 (Cryptographic Implementation Security)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

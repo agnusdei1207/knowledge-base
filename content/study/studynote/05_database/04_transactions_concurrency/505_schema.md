@@ -1,10 +1,9 @@
-+++
-weight = 505
-title = "505. 트랜잭션 장애 미디어 장애 복구 범위 (Schema)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 505. 트랜잭션 장애 미디어 장애 복구 범위 (Schema)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

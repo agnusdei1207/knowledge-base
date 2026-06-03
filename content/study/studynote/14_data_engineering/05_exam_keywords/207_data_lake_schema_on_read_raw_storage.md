@@ -1,10 +1,9 @@
-+++
-weight = 207
-title = "207. 데이터 레이크 (Data Lake) 스키마 온 리드 (Schema-on-Read)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 207. 데이터 레이크 (Data Lake) 스키마 온 리드 (Schema-on-Read)
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[208_data_lake_schema_on_read|데이터 레이크]]([[208_data_lake_schema_on_read|Data Lake]])는 구조화·반구조화·비구조화 [[001_dikw_pyramid|데이터]]를 원시([[225_raw|Raw]]) 형태로 저장하고, **읽을 때 [[005_schema|스키마]]를 적용([[009_schema_on_read|Schema-on-Read]])**하는 중앙 저장소이다.

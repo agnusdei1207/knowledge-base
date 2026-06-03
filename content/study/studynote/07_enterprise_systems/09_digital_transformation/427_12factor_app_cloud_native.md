@@ -1,10 +1,9 @@
-+++
-weight = 427
-title = "427. 12 Factor App 클라우드 네이티브 설계 원칙 (12-Factor App)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 427. 12 Factor App 클라우드 네이티브 설계 원칙 (12-Factor App)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

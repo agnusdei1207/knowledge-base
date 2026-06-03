@@ -1,10 +1,9 @@
-+++
-weight = 360
-title = "360. ASID (Address-Space Identifier) - TLB 내 프로세스 식별, 플러시(Flush) 최소화"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 360. ASID (Address-Space Identifier) - TLB 내 프로세스 식별, 플러시(Flush) 최소화
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

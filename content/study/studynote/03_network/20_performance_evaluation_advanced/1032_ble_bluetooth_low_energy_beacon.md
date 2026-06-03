@@ -1,10 +1,9 @@
-+++
-weight = 1032
-title = "1032. 블루투스 LE (BLE)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1032. 블루투스 LE (BLE)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

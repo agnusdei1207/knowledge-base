@@ -1,10 +1,9 @@
-+++
-weight = 247
-title = "247. 컨테이너 이미지 스캐닝 (Container Image Scanning)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 247. 컨테이너 이미지 스캐닝 (Container Image Scanning)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

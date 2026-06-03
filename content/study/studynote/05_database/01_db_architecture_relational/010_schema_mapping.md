@@ -1,12 +1,10 @@
-+++
-weight = 10
-title = "10. 스키마 매핑 (Mapping) - 외부/개념 사상, 개념/내부 사상"
-description = "데이터 독립성을 보장하는 3단계 스키마 간의 사상(Mapping) 메커니즘"
-date = "2024-05-20"
-[taxonomies]
-tags = ["Database", "Schema Mapping", "Data Independence", "ANSI-SPARC", "Architecture"]
-categories = ["studynote-database"]
-+++
+---
+title: 10. 스키마 매핑 (Mapping) - 외부/개념 사상, 개념/내부 사상
+date: '2024-05-20'
+description: 데이터 독립성을 보장하는 3단계 스키마 간의 사상(Mapping) 메커니즘
+tags:
+- database
+---
 
 # [[005_schema|스키마]] 매핑 ([[505_schema|Schema]] Mapping)
 #### 핵심 인사이트 (3줄 요약)

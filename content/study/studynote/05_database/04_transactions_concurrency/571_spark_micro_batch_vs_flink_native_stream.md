@@ -1,10 +1,9 @@
-+++
-weight = 571
-title = "571. Spark 스트리밍 마이크로 배치 vs Flink 네이티브 스트림 인 메모리 DB"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 571. Spark 스트리밍 마이크로 배치 vs Flink 네이티브 스트림 인 메모리 DB
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

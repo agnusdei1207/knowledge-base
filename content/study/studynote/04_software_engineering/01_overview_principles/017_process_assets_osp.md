@@ -1,12 +1,10 @@
-+++
-weight = 17
-title = "17. 프로세스 자산 (Process Assets) 및 조직 표준 프로세스"
-description = "소프트웨어 프로세스 자산(OPA)의 구성과 조직 표준 프로세스(OSP)의 테일러링 원리를 심층 분석합니다."
-date = "2026-03-04"
-[taxonomies]
-tags = ["프로세스 자산", "OPA", "조직 표준 프로세스", "OSP", "테일러링", "CMMI"]
-categories = ["studynote-se"]
-+++
+---
+title: 17. 프로세스 자산 (Process Assets) 및 조직 표준 프로세스
+date: '2026-03-04'
+description: 소프트웨어 프로세스 자산(OPA)의 구성과 조직 표준 프로세스(OSP)의 테일러링 원리를 심층 분석합니다.
+tags:
+- software_engineering
+---
 
 # 17. 프로세스 자산 ([[300_process|Process]] Assets) 및 조직 표준 프로세스
 

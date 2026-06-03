@@ -1,10 +1,9 @@
-+++
-weight = 418
-title = "418. 5G eMBB uRLLC mMTC 네트워크 슬라이싱 (5G)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 418. 5G eMBB uRLLC mMTC 네트워크 슬라이싱 (5G)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 1020
-title = "1020. 자유 공간 광통신 (FSO)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1020. 자유 공간 광통신 (FSO)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

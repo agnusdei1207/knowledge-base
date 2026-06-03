@@ -1,10 +1,9 @@
-+++
-weight = 229
-title = "229. 파이프라인 스톨 (Pipeline Stall / Bubble)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 229. 파이프라인 스톨 (Pipeline Stall / Bubble)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

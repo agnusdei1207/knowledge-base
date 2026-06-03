@@ -1,10 +1,9 @@
-+++
-weight = 16
-title = "9. 계수 정렬 (Counting Sort) — O(n+k), 비교 불필요"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 9. 계수 정렬 (Counting Sort) — O(n+k), 비교 불필요
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 계수 정렬은 요소 간 비교 없이 각 값의 등장 횟수를 세어 정렬하는 비교 기반 하한 O(n log n)을 돌파하는 [[001_algorithm_definition|알고리즘]]이다.

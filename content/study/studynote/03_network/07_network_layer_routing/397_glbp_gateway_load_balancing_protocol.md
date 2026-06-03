@@ -1,10 +1,9 @@
-+++
-weight = 397
-title = "397. GLBP (Gateway Load Balancing Protocol)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 397. GLBP (Gateway Load Balancing Protocol)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

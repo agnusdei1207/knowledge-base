@@ -1,10 +1,9 @@
-+++
-weight = 370
-title = "370. 접근 통제 정책 기반 방화벽 (DB 방화벽)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 370. 접근 통제 정책 기반 방화벽 (DB 방화벽)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

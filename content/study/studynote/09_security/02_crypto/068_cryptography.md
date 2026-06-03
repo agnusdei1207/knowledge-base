@@ -1,10 +1,9 @@
-+++
-title = "068. 암호학 (Cryptography) — 기밀성·무결성·인증·부인방지 제공"
-date = "2026-04-05"
-weight = 68
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 068. 암호학 (Cryptography) — 기밀성·무결성·인증·부인방지 제공
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 550
-title = "550. 리눅스 확장 속성 (Extended Attributes, xattr)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 550. 리눅스 확장 속성 (Extended Attributes, xattr)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

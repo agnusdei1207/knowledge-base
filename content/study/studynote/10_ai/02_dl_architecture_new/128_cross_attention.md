@@ -1,10 +1,9 @@
-+++
-weight = 128
-title = "128. Cross-Attention - 인코더→디코더 참조 메커니즘"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 128. Cross-Attention - 인코더→디코더 참조 메커니즘
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Cross-Attention은 **Query는 [[039_decoder|디코더]]에서, [[067_db_key_uniqueness_minimality|Key]]·Value는 [[040_encoder|인코더]]에서 오는 Attention**이며, [[039_decoder|디코더]]가 [[040_encoder|인코더]]의 출력을 [[316_reference_pattern_nosql|참조]]하여 **소스→타겟 매핑(번역·요약)을 수행**한다.

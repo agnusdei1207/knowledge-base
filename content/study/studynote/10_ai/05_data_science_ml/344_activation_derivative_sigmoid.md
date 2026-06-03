@@ -1,10 +1,9 @@
-+++
-weight = 344
-title = "344. 활성화 함수 도함수 (Activation Derivative Sigmoid)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 344. 활성화 함수 도함수 (Activation Derivative Sigmoid)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

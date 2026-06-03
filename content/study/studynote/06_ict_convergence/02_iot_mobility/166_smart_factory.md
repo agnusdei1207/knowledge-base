@@ -1,10 +1,9 @@
-+++
-weight = 166
-title = "166. 스마트 팩토리 (Smart Factory)"
-date = "2026-04-09"
-[extra]
-categories = "studynote-ict"
-+++
+---
+title: 166. 스마트 팩토리 (Smart Factory)
+date: '2026-04-09'
+tags:
+- studynote-ict
+---
 
 ## 핵심 인사이트
 

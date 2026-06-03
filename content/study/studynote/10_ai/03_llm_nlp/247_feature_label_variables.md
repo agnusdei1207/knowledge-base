@@ -1,10 +1,9 @@
-+++
-weight = 247
-title = "247. 독립 변수 (피처) / 종속 변수 (라벨)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 247. 독립 변수 (피처) / 종속 변수 (라벨)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

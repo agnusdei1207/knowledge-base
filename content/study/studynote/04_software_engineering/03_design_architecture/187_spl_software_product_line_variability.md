@@ -1,10 +1,9 @@
-+++
-weight = 187
-title = "187. 소프트웨어 제품 라인 (SPL) 요구사항 가변성(Variability) 분석"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 187. 소프트웨어 제품 라인 (SPL) 요구사항 가변성(Variability) 분석
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

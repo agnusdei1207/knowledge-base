@@ -1,12 +1,11 @@
-+++
-weight = 17
-title = "17. AS-IS 분석 (현재 상태) vs TO-BE 모델링 (미래 상태)"
-description = "현재 비즈니스 상태(AS-IS)를 진단하고 이상적인 미래 목표 상태(TO-BE)를 설계하는 프로세스 및 시스템 전환의 핵심 기법"
-date = "2026-03-04"
-[taxonomies]
-tags = ["AS-IS", "TO-BE", "Gap Analysis", "프로세스 모델링", "ISP"]
-categories = ["studynote-enterprise"]
-+++
+---
+title: 17. AS-IS 분석 (현재 상태) vs TO-BE 모델링 (미래 상태)
+date: '2026-03-04'
+description: 현재 비즈니스 상태(AS-IS)를 진단하고 이상적인 미래 목표 상태(TO-BE)를 설계하는 프로세스 및 시스템 전환의 핵심
+  기법
+tags:
+- enterprise_systems
+---
 
 # [[178_as_is_to_be_analysis|AS-IS]] 분석과 TO-BE 모델링
 

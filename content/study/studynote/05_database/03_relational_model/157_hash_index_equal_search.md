@@ -1,10 +1,9 @@
-+++
-weight = 157
-title = "157. 해시 인덱스 (Hash Index) - 동등(=) 검색에 빠름, 범위(Range) 검색 불가"
-date = "2026-05-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 157. 해시 인덱스 (Hash Index) - 동등(=) 검색에 빠름, 범위(Range) 검색 불가
+date: '2026-05-05'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트
 

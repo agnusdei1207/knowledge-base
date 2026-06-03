@@ -1,10 +1,9 @@
-+++
-weight = 298
-title = "298. 페일 세이프 (Fail-Safe) - 고장 시 안전한 상태로 유지"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 298. 페일 세이프 (Fail-Safe) - 고장 시 안전한 상태로 유지
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

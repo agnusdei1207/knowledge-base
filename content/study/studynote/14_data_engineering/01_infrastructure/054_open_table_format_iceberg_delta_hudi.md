@@ -1,10 +1,9 @@
-+++
-weight = 54
-title = "54. 오픈 테이블 포맷 (Open Table Format: Iceberg/Delta/Hudi)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: '54. 오픈 테이블 포맷 (Open Table Format: Iceberg/Delta/Hudi)'
+date: '2026-05-01'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

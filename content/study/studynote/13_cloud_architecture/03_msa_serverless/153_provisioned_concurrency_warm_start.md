@@ -1,10 +1,10 @@
-+++
-weight = 153
-title = "153. 프로비저닝된 동시성 / 웜 스타트 (Provisioned Concurrency / Warm Start) - 서버리스 콜드 스타트 압살 쉴드"
-date = "2026-05-03"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 153. 프로비저닝된 동시성 / 웜 스타트 (Provisioned Concurrency / Warm Start) - 서버리스 콜드 스타트
+  압살 쉴드
+date: '2026-05-03'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[202_provisioned_concurrency_serverless_cold_start|프로비저닝된 동시성]]([[202_provisioned_concurrency_serverless_cold_start|Provisioned Concurrency]])은 [[206_serverless_cold_start|서버리스]](AWS [[216_lambda_kappa_architecture_batch_realtime|Lambda]])의 치명적 결함인 '부팅 랙([[347_cold_start_problem|Cold Start]])'을 척살하기 위해, 아키텍트가 아마존(AWS)에 **기본료(돈)를 더 바치고 "야! 내 함수 봇 N마리는 밤새우더라도 절대 죽이지 말고 항상 램(RAM) 예열해서 깨워놔 쾅!" 이라고 강제 록온([[510_lock|Lock]]-on) 치는 인프라 텐트 쉴드**다.

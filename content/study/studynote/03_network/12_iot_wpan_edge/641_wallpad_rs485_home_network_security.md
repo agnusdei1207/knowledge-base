@@ -1,10 +1,9 @@
-+++
-weight = 641
-title = "641. 홈 네트워크 게이트웨이 / 월패드 프로토콜 보안 (RS-485 해킹, 분리 정책 논란)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 641. 홈 네트워크 게이트웨이 / 월패드 프로토콜 보안 (RS-485 해킹, 분리 정책 논란)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

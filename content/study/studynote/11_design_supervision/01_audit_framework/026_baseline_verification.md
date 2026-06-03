@@ -1,10 +1,9 @@
-+++
-weight = 26
-title = "026. 베이스라인 검증 (Baseline Verification)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 026. 베이스라인 검증 (Baseline Verification)
+date: '2026-05-05'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 감리/소프트웨어 공학에서 [[159_baseline_requirements_configuration_management|베이스라인]] [[395_verification_process_review|검증]]([[025_baseline|Baseline]] [[395_verification_process_review|Verification]])은, 프로젝트의 각 단계(분석, 설계, 구현)가 끝날 때마다 산출물들을 꽁꽁 얼려(Freeze) **'변경 불가능한 합의의 [[025_baseline|기준선]]([[025_baseline|Baseline]])'을 확정하고, 다음 단계가 이 [[025_baseline|기준선]]을 정확히 준수했는지 기계적으로 확인하는 쇳덩어리 거버넌스**다.

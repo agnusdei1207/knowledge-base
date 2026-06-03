@@ -1,10 +1,9 @@
-+++
-weight = 220
-title = "220. 정보 시스템 감리 (IT Audit) 개요 - 효과성, 효율성, 안전성 검증"
-date = "2026-05-08"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 220. 정보 시스템 감리 (IT Audit) 개요 - 효과성, 효율성, 안전성 검증
+date: '2026-05-08'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

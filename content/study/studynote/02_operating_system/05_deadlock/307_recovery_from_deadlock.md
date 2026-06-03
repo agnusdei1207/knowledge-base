@@ -1,10 +1,9 @@
-+++
-weight = 307
-title = "307. 교착 상태 복구 (Recovery from Deadlock) - 데드락 해소 조치"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 307. 교착 상태 복구 (Recovery from Deadlock) - 데드락 해소 조치
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

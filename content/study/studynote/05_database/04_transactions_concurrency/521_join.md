@@ -1,10 +1,9 @@
-+++
-weight = 521
-title = "521. 동적 SQL 조립 런타임 질의 파서 (Join)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 521. 동적 SQL 조립 런타임 질의 파서 (Join)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

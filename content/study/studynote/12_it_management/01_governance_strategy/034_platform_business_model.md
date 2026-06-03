@@ -1,9 +1,9 @@
-+++
-title = "플랫폼 비즈니스 모델 (Platform Business Model)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 플랫폼 비즈니스 모델 (Platform Business Model)
+date: '2026-03-04'
+tags:
+- studynote-it-management
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[033_platform_business_model|플랫폼 비즈니스 모델]]([[033_platform_business_model|Platform Business Model]])은 양면 또는 다면 시장에서 참여자들 간의 상호작용을 중개해 [[253_network_effect_metcalfe|네트워크 효과]]([[032_network_effect|Network Effect]])를 통해 가치를 창출하는 디지털 비즈니스의 핵심 패러다임이다.

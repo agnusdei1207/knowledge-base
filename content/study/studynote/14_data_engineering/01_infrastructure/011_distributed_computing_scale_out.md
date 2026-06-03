@@ -1,12 +1,11 @@
-+++
-weight = 11
-title = "11. 분산 컴퓨팅 스케일 아웃 (Scale-out) - 저가형 범용 x86 서버(Commodity Hardware) 대수를 늘려 성능 무한 확장"
-description = "저가형 범용 x86 서버 대수를 늘려 성능 무한 확장을 달성하는 분산 컴퓨팅의 핵심 아키텍처와 트레이드오프"
-date = "2023-10-24"
-[taxonomies]
-tags = ["Scale-out", "Distributed Computing", "Shared-Nothing", "Data Engineering", "Big Data"]
-categories = ["14_data_engineering"]
-+++
+---
+title: 11. 분산 컴퓨팅 스케일 아웃 (Scale-out) - 저가형 범용 x86 서버(Commodity Hardware) 대수를 늘려 성능
+  무한 확장
+date: '2023-10-24'
+description: 저가형 범용 x86 서버 대수를 늘려 성능 무한 확장을 달성하는 분산 컴퓨팅의 핵심 아키텍처와 트레이드오프
+tags:
+- data_engineering
+---
 
 # [[136_variance|분산]] 컴퓨팅 [[202_scale_out_distributed_horizontal_expansion|스케일 아웃]] ([[202_scale_out_distributed_horizontal_expansion|Scale-out]])
 

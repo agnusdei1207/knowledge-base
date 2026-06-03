@@ -1,10 +1,9 @@
-+++
-weight = 349
-title = "349. 델파이 기법 블라인드 합의 전문가 예측 (Delphi Method Expert Forecast)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 349. 델파이 기법 블라인드 합의 전문가 예측 (Delphi Method Expert Forecast)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 614
-title = "614. 시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 614. 시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

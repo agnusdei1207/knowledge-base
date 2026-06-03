@@ -1,10 +1,9 @@
-+++
-weight = 274
-title = "274. FIFO (First-In, First-Out)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 274. FIFO (First-In, First-Out)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 274. [[261_fifo_page_replacement|FIFO]] (First-In, First-Out)
 

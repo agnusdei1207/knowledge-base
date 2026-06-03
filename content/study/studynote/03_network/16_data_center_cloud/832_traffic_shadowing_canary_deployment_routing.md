@@ -1,10 +1,9 @@
-+++
-weight = 832
-title = "832. 트래픽 섀도잉 및 카나리 배포"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 832. 트래픽 섀도잉 및 카나리 배포
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

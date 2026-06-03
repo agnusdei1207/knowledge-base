@@ -1,10 +1,9 @@
-+++
-weight = 129
-title = "129. ORM & 임피던스 불일치 (Object-Relational Mismatch)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 129. ORM & 임피던스 불일치 (Object-Relational Mismatch)
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[004_impedance|임피던스]] 불일치([[004_impedance|Impedance]] Mismatch)는 **객체지향 프로그래밍의 객체 모델과 [[083_relationship_in_er_model|관계]]형 DB의 테이블 모델 간 구조적 차이**로 인해 발생하는 매핑 어려움이며, ORM(Object-Relational [[010_schema_mapping|Mapping]])이 이를 자동으로 해결한다.

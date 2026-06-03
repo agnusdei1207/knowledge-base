@@ -1,10 +1,9 @@
-+++
-weight = 265
-title = "265. 감리 이견 조율 및 중재 (Audit Dispute Mediation)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 265. 감리 이견 조율 및 중재 (Audit Dispute Mediation)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,10 @@
-+++
-weight = 386
-title = "386. 데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean Room 등)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 386. 데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean
+  Room 등)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

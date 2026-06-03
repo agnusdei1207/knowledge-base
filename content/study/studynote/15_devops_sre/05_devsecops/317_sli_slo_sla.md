@@ -1,8 +1,9 @@
-+++
-title = "SLI SLO SLA Error Budget"
-date = "2026-05-09"
-categories = ["studynote-devops-sre"]
-+++
+---
+title: SLI SLO SLA Error Budget
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > - [[102_sli_slo_service_level_indicator_objective|SLI]] ([[102_sli_slo_service_level_indicator_objective|Service Level Indicator]])는 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]을 측정하는 지표, [[181_slo_service_level_objective|SLO]] ([[123_slo_service_level_objective|Service Level Objective]])는 내부 목표, [[085_sla|SLA]] ([[085_sla|Service Level Agreement]])는 외부 계약이다.

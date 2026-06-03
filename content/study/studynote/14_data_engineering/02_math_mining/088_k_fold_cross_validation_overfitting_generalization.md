@@ -1,10 +1,10 @@
-+++
-title = "88. 머신러닝 교차 검증 (K-Fold Cross Validation) - 모델 일반화 성능 측정"
-date = "2026-03-04"
-weight = 88
-[extra]
-categories = ["studynote-data-engineering", "math-mining"]
-+++
+---
+title: 88. 머신러닝 교차 검증 (K-Fold Cross Validation) - 모델 일반화 성능 측정
+date: '2026-03-04'
+tags:
+- math-mining
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

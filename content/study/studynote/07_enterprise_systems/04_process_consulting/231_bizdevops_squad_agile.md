@@ -1,10 +1,9 @@
-+++
-weight = 231
-title = "231. BizDevOps 스쿼드 조직 (BizDevOps Squad Agile)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 231. BizDevOps 스쿼드 조직 (BizDevOps Squad Agile)
+date: '2026-05-08'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

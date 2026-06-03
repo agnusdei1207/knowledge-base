@@ -1,10 +1,9 @@
-+++
-weight = 143
-title = "143. Span 상세 - 서비스·오퍼레이션 단위 추적"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 143. Span 상세 - 서비스·오퍼레이션 단위 추적
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Span은 **[[136_variance|분산]] 트레이스의 기본 단위**로, 하나의 [[090_service_kubernetes_network_load_balancing|서비스]] 내 **특정 오퍼레이션([[461_http_stateless_connection_oriented|HTTP]] 요청·DB [[298_qkv_attention|쿼리]]·[[389_mesh_topology|메시]]지 처리)**의 시작·종료·[[012_metadata|메타데이터]]를 기록하며, 부모-자식 [[083_relationship_in_er_model|관계]]로 트리를 형성한다.

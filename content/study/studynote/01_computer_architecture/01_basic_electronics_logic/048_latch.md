@@ -1,10 +1,9 @@
-+++
-title = "048. 래치 — Latch"
-weight = 48
-date = "2026-04-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 048. 래치 — Latch
+date: '2026-04-05'
+tags:
+- studynote-computer-architecture
+---
 
 > **핵심 인사이트**
 > 1. 래치(Latch)는 레벨 [[507_acid_properties|트리거]](Level-Triggered) 방식의 1비트 기억 소자 — 입력 [[130_signal|신호]]가 활성 레벨인 동안 계속 상태가 변할 수 있어, [[051_flip_flop|플립플롭]]([[051_flip_flop|Flip-Flop]])과 달리 클럭 에지가 아닌 레벨 구간 전체에서 데이터를 통과시킨다.

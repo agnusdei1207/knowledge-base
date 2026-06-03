@@ -1,10 +1,9 @@
-+++
-weight = 108
-title = "108. 짝수 패리티 (Even Parity)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 108. 짝수 패리티 (Even Parity)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 짝수 패리티(Even Parity)는 [[001_dikw_pyramid|데이터]] [[073_bit|비트]]들 사이의 1의 개수를 무조건 '짝수(Even)'로 맞추기 위해, 1의 개수가 홀수 개면 제일 끝에 `1`을 붙이고 합이 짝수 개면 `0`을 붙이는 하드웨어 게이트 레벨 통신 약속이다.

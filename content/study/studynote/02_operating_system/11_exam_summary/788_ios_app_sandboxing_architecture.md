@@ -1,10 +1,9 @@
-+++
-weight = 788
-title = "788. iOS 앱 샌드박싱 구조 (Ios App Sandboxing Architecture)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 788. iOS 앱 샌드박싱 구조 (Ios App Sandboxing Architecture)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

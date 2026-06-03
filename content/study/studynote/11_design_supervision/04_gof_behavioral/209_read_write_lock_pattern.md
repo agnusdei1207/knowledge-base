@@ -1,10 +1,9 @@
-+++
-weight = 209
-title = "209. 읽기-쓰기 락 패턴 (Read-Write Lock Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 209. 읽기-쓰기 락 패턴 (Read-Write Lock Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

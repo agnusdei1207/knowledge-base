@@ -1,10 +1,9 @@
-+++
-title = "041. 위험 관리 4단계 (Risk Management)"
-weight = 41
-date = "2026-03-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 041. 위험 관리 4단계 (Risk Management)
+date: '2026-03-19'
+tags:
+- studynote-software-engineering
+---
 
 > **핵심 인사이트**
 > 1. 소프트웨어 프로젝트 위험 관리([[841_iso_27005_risk_management|Risk Management]])는 [[655_ir_detection_analysis|식별]]([[289_identification_flags_fragmentation_offset|Identification]])→분석(Analysis)→대응(Response)→모니터링(Monitoring) 4단계로 구성되며, "예측할 수 없는 것은 관리할 수 없다"는 원칙에 따라 가시성(Visibility)을 최대화하는 체계다.

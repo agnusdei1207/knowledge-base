@@ -1,10 +1,9 @@
-+++
-weight = 405
-title = "405. 개체 무결성 (Entity Integrity) 기본키 NULL 불가"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 405. 개체 무결성 (Entity Integrity) 기본키 NULL 불가
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

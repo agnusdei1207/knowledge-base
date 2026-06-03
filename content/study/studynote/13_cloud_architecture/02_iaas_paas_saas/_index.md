@@ -1,5 +1,5 @@
-+++
-weight = 2
-title = "02. Iaas Paas Saas"
-sort_by = "weight"
-+++
+---
+title: 02. Iaas Paas Saas
+tags:
+- cloud_architecture
+---

@@ -1,7 +1,8 @@
-+++
-title = "4. O(1) / O(log n) / O(n) / O(n log n) / O(n²) / O(2ⁿ) / O(n!)"
-weight = 4
-+++
+---
+title: 4. O(1) / O(log n) / O(n) / O(n log n) / O(n²) / O(2ⁿ) / O(n!)
+tags:
+- algorithm_stats
+---
 
 # 04. O(1) / O(log n) / O(n) / O(n log n) / O(n²) / O(2ⁿ) / O(n!)
 

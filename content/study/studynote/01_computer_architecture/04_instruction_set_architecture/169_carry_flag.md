@@ -1,10 +1,9 @@
-+++
-weight = 169
-title = "169. 캐리 플래그 (Carry Flag)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 169. 캐리 플래그 (Carry Flag)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

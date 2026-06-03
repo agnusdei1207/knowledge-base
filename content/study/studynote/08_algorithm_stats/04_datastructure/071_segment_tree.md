@@ -1,10 +1,9 @@
-+++
-weight = 71
-title = "세그먼트 트리 (Segment Tree) — 구간 쿼리/업데이트"
-date = "2026-03-28"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 세그먼트 트리 (Segment Tree) — 구간 쿼리/업데이트
+date: '2026-03-28'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **구간 연산의 최적화**: [[055_array|배열]]의 특정 구간 합, 최솟값, 최댓값 등을 구하는 [[298_qkv_attention|쿼리]]와 값 업데이트를 모두 $O(\log n)$ 시간 복잡도에 해결하는 트리 기반 자료구조임.

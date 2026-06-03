@@ -1,10 +1,9 @@
-+++
-weight = 155
-title = "155. ELT vs ETL — 클라우드 시대 데이터 변환 패러다임 전환"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 155. ELT vs ETL — 클라우드 시대 데이터 변환 패러다임 전환
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. [[215_etl_vs_elt_pipeline|ETL]] (Extract, Transform, Load)은 변환 후 적재하는 전통 방식으로 스토리지 비용이 비쌌던 [[061_on_premise_legacy_infrastructure|온프레미스]] [[209_data_warehouse_schema_on_write|DW]] 환경에 최적화되었으나, 클라우드 시대에는 **먼저 적재하고 나중에 변환하는 [[034_elt|ELT]] (Extract, Load, Transform)**가 표준으로 전환되었다.

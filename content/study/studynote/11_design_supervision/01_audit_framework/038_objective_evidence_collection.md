@@ -1,9 +1,9 @@
-+++
-title = "038. 객관적 증거 수집 (Objective Evidence Collection)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 038. 객관적 증거 수집 (Objective Evidence Collection)
+date: '2026-03-03'
+tags:
+- studynote-design-supervision
+---
 
 > **핵심 인사이트**
 > 1. [[056_objective_evidence_collection|객관적 증거]]([[056_objective_evidence_collection|Objective Evidence]])는 사실에 기반하고 [[395_verification_process_review|검증]] 가능한 정보로, 감리/[[606_auditing_linux_auditd|감사]]의 발견 사항(Finding)이 법적 효력을 가지려면 주관적 판단이 아닌 구체적이고 반박하기 어려운 증거로 뒷받침되어야 한다.

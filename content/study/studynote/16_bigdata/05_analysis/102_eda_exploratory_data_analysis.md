@@ -1,10 +1,9 @@
-+++
-weight = 102
-title = "탐색적 데이터 분석 (EDA, Exploratory Data Analysis)"
-date = "2025-05-22"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 탐색적 데이터 분석 (EDA, Exploratory Data Analysis)
+date: '2025-05-22'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **[[064_eda|EDA]] ([[105_exploratory_data_analysis|Exploratory Data Analysis]])**: 수집된 [[001_dikw_pyramid|데이터]]를 편견 없이 들여다보며 [[001_dikw_pyramid|데이터]]의 구조, 특징, [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] 및 변수 간 [[083_relationship_in_er_model|관계]]를 시각적으로 탐색하는 [[001_dikw_pyramid|데이터]] 분석의 첫 단계.

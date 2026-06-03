@@ -1,9 +1,8 @@
-+++
-weight = 9
-title = "06. 시험 빈출 핵심 토픽"
-[extra]
-sort_by = "weight"
-+++
+---
+title: 06. 시험 빈출 핵심 토픽
+tags:
+- cloud_architecture
+---
 
 # 6. 시험 빈출 핵심 토픽
 

@@ -1,10 +1,9 @@
-+++
-weight = 119
-title = "119. 메시지 전달 (Message Passing) 방식 - 안전, 커널 개입(시스템 콜) 오버헤드"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 119. 메시지 전달 (Message Passing) 방식 - 안전, 커널 개입(시스템 콜) 오버헤드
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

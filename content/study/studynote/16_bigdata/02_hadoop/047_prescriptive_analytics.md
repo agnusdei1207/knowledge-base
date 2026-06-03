@@ -1,10 +1,9 @@
-+++
-weight = 47
-title = "25. 처방 분석 (Prescriptive Analytics) — 최적 행동 처방"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 25. 처방 분석 (Prescriptive Analytics) — 최적 행동 처방
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 처방 분석(Prescriptive Analytics)은 [[001_dikw_pyramid|데이터]] 분석의 4단계 중 최고 수준으로, "무엇이 일어날 것인가([[046_predictive_analytics|예측 분석]])"를 넘어 "어떤 행동을 취해야 하는가"를 구체적으로 처방하는 분석 방법이다. 최적화 [[001_algorithm_definition|알고리즘]](OR, Operations Research), 시뮬레이션, 강화학습(RL)을 결합하여 최적 의사결정을 도출한다.

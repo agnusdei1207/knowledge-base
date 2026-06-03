@@ -1,10 +1,9 @@
-+++
-title = "096. IND-CCA2 — 강인한 암호학적 안전성"
-date = "2026-04-05"
-weight = 96
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 096. IND-CCA2 — 강인한 암호학적 안전성
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

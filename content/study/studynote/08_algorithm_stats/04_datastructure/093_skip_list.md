@@ -1,9 +1,9 @@
-+++
-title = "스킵 리스트 (Skip List)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 스킵 리스트 (Skip List)
+date: '2026-03-03'
+tags:
+- studynote-algorithm
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[067_skip_list|스킵 리스트]]([[110_skip_list|Skip List]])는 [[130_probability|확률]]적 다중 레벨 [[056_linked_list|연결 리스트]]로, 균형 [[031_binary_search_algorithm|이진 탐색]] 트리와 동일한 O(log n) 평균 [[282_performance_tactics|성능]]을 단순한 구조로 달성하는 자료구조다.

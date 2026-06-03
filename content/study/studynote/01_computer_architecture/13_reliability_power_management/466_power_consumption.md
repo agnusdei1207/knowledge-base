@@ -1,10 +1,9 @@
-+++
-weight = 466
-title = "466. 전력 소모 (Power Consumption)"
-date = "2026-03-22"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 466. 전력 소모 (Power Consumption)
+date: '2026-03-22'
+tags:
+- studynote-computer-architecture
+---
 
 # 전력 소모 ([[069_type_1_2_error_statistical_power|Power]] Consumption)
 

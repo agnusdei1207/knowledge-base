@@ -1,10 +1,9 @@
-+++
-weight = 127
-title = "127. 온콜 관리 (On-Call Management) - SRE 장애 대응 당번 체계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 127. 온콜 관리 (On-Call Management) - SRE 장애 대응 당번 체계
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 온콜(On-[[189_subroutine_call_return|Call]])은 **지정된 엔지니어가 일정 기간 동안 프로덕션 시스템의 장애·알림에 대응하는 당번 체계**이며, [[100_sre_site_reliability_engineering_error_budget|SRE]] 팀 운영의 핵심 실천이다.

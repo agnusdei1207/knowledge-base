@@ -1,9 +1,9 @@
-+++
-title = "039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로"
-date = "2026-03-04"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로
+date: '2026-03-04'
+tags:
+- studynote-computer-architecture
+---
 
 > **핵심 인사이트**
 > 1. 디코더(Decoder)는 n비트 이진 입력을 최대 2^n개의 출력 중 정확히 하나만 활성화하는 조합 [[369_logic_bomb|논리]] 회로로, [[040_encoder|인코더]]([[040_encoder|Encoder]])의 역함수이며 메모리 주소 디코딩과 [[158_instruction|명령어]] 해독의 핵심 요소다.

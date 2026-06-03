@@ -1,10 +1,9 @@
-+++
-weight = 626
-title = "626. V-모델 개발-테스트 매핑 구조"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 626. V-모델 개발-테스트 매핑 구조
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 441
-title = "441. 배치 정규화 평균 분산 (Batch Normalization MEAN Variance)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 441. 배치 정규화 평균 분산 (Batch Normalization MEAN Variance)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

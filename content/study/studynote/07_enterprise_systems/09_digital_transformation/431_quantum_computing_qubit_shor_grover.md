@@ -1,10 +1,9 @@
-+++
-weight = 431
-title = "431. 양자 컴퓨터 큐비트 쇼어/그로버 알고리즘 (Quantum Computing)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 431. 양자 컴퓨터 큐비트 쇼어/그로버 알고리즘 (Quantum Computing)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

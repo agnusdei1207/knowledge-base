@@ -1,10 +1,9 @@
-+++
-weight = 425
-title = "425. 해시 인덱스 (버킷 충돌 체이닝)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 425. 해시 인덱스 (버킷 충돌 체이닝)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

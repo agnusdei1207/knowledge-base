@@ -1,8 +1,8 @@
-+++
-weight = 15
-title = "15. 컴퓨터 구조 심화 및 미래 기술"
-sort_by = "weight"
-+++
+---
+title: 15. 컴퓨터 구조 심화 및 미래 기술
+tags:
+- computer_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

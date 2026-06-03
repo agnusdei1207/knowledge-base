@@ -1,10 +1,9 @@
-+++
-weight = 29
-title = "29. 부트로더 (Bootloader)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 29. 부트로더 (Bootloader)
+date: '2026-04-29'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 부트로더(Bootloader)는 컴퓨터 전원이 켜질 때 가장 먼저 실행되는 소프트웨어로, 하드웨어 초기화 후 OS [[022_kernel_role|커널]]을 메모리에 적재(Load)하고 제어를 넘기는 역할을 한다. BIOS→[[515_mbr_vs_gpt|MBR]]→부트로더→[[022_kernel_role|커널]] 순서가 전통 부팅 체인이다.

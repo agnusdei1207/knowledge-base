@@ -1,10 +1,9 @@
-+++
-weight = 538
-title = "538. 적대적 예제와 차분 프라이버시 방어 (Adversarial Examples and Differential Privacy Defense)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 538. 적대적 예제와 차분 프라이버시 방어 (Adversarial Examples and Differential Privacy Defense)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

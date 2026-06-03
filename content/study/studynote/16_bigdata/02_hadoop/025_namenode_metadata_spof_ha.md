@@ -1,10 +1,10 @@
-+++
-title = "03. 네임노드 (NameNode) - 메타데이터 관리와 고가용성"
-date = "2026-03-04"
-weight = 25
-[extra]
-categories = ["studynote-bigdata", "hadoop"]
-+++
+---
+title: 03. 네임노드 (NameNode) - 메타데이터 관리와 고가용성
+date: '2026-03-04'
+tags:
+- hadoop
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **HDFS의 중앙 사령탑**: [[014_namenode|네임노드]]([[014_namenode|NameNode]])는 [[001_dikw_pyramid|데이터]]가 저장된 위치, [[501_file_definition_logical_record|파일]] 권한, [[506_directory_structure_symbol_table|디렉터리]] 구조 등 [[501_file_definition_logical_record|파일]] 시스템의 모든 [[012_metadata|메타데이터]]([[061_namespace|Namespace]])를 메모리(RAM) 위에서 통제하는 단일 [[172_maas_mobility_as_a_service|마스]]터 서버입니다.

@@ -1,10 +1,9 @@
-+++
-weight = 570
-title = "570. 하둡 에코시스템 Hive, Pig 분산 DB 질의 쿼리 엔진 맵리듀스 추상화"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 570. 하둡 에코시스템 Hive, Pig 분산 DB 질의 쿼리 엔진 맵리듀스 추상화
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

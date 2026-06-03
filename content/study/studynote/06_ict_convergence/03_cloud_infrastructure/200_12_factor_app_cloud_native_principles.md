@@ -1,10 +1,9 @@
-+++
-weight = 200
-title = "200. 12-Factor App (12 Factor APP Cloud Native Principles)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 200. 12-Factor App (12 Factor APP Cloud Native Principles)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

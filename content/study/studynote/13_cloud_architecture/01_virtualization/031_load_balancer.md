@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "31. 로드 밸런서 — 트래픽 분산의 핵심 기술"
-date = "2026-04-29"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 31. 로드 밸런서 — 트래픽 분산의 핵심 기술
+date: '2026-04-29'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 로드 밸런서(Load Balancer)는 들어오는 네트워크 트래픽을 여러 서버에 [[136_variance|분산]]하여 단일 서버 과부하를 방지하고, 가용성과 확장성을 높이는 인프라 컴포넌트다.

@@ -1,12 +1,10 @@
-+++
-weight = 3
-title = "3. IT 거버넌스 5대 도메인 - 전략적 연계, 가치 전달, 위험 관리, 자원 관리, 성과 측정"
-description = "IT 거버넌스를 실질적으로 구현하기 위한 5가지 핵심 영역의 세부 메커니즘과 상호 작용 및 실무 적용 가이드"
-date = "2026-03-04"
-[taxonomies]
-tags = ["IT거버넌스", "전략적연계", "가치전달", "자원관리"]
-categories = ["studynote-enterprise"]
-+++
+---
+title: 3. IT 거버넌스 5대 도메인 - 전략적 연계, 가치 전달, 위험 관리, 자원 관리, 성과 측정
+date: '2026-03-04'
+description: IT 거버넌스를 실질적으로 구현하기 위한 5가지 핵심 영역의 세부 메커니즘과 상호 작용 및 실무 적용 가이드
+tags:
+- enterprise_systems
+---
 
 # IT 거버넌스 5대 [[064_relation_domain|도메인]] (5 Domains of [[001_it_governance|IT Governance]])
 #### 핵심 인사이트 (3줄 요약)

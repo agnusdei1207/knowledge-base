@@ -1,10 +1,9 @@
-+++
-weight = 370
-title = "370. 최적화 경사 하강법 학습률 적응형 옵티마이저 (Adam 수리 모형) (Learning Rate)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 370. 최적화 경사 하강법 학습률 적응형 옵티마이저 (Adam 수리 모형) (Learning Rate)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

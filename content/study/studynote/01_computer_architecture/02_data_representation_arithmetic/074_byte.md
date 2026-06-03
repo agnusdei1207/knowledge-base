@@ -1,10 +1,9 @@
-+++
-weight = 74
-title = "74. 바이트 (Byte)"
-date = "2026-03-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 74. 바이트 (Byte)
+date: '2026-03-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

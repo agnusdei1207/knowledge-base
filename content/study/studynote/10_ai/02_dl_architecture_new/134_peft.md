@@ -1,10 +1,9 @@
-+++
-weight = 134
-title = "134. PEFT (Parameter-Efficient Fine-Tuning) - 소수 파라미터만 학습하는 효율적 미세 조정"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 134. PEFT (Parameter-Efficient Fine-Tuning) - 소수 파라미터만 학습하는 효율적 미세 조정
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PEFT는 **Foundation Model의 전체 파라미터 중 극소수(0.1~1%)만 추가·학습**하여 [[064_relation_domain|도메인]] 적응하는 기법의 총칭이며, [[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]·[[259_adapter_pattern_interface_wrapper|Adapter]]·Prefix Tuning·Prompt Tuning이 대표이다.

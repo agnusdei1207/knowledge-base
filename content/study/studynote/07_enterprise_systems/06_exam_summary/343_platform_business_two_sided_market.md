@@ -1,10 +1,9 @@
-+++
-weight = 343
-title = "343. 플랫폼 비즈니스 양면 시장 (Platform Business Two-sided Market)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 343. 플랫폼 비즈니스 양면 시장 (Platform Business Two-sided Market)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

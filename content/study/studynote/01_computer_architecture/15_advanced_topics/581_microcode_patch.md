@@ -1,10 +1,9 @@
-+++
-weight = 581
-title = "581. 마이크로코드 보안 패치 원리 (Microcode Security Patch)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 581. 마이크로코드 보안 패치 원리 (Microcode Security Patch)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

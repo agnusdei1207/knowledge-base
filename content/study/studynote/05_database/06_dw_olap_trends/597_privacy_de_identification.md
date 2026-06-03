@@ -1,10 +1,9 @@
-+++
-weight = 597
-title = "597. 개인정보 비식별 조치 K-익명성 l-다양성 t-근접성 프라이버시 데이터 보존 평가 기준"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 597. 개인정보 비식별 조치 K-익명성 l-다양성 t-근접성 프라이버시 데이터 보존 평가 기준
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

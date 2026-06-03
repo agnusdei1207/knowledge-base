@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "149. 벤치마크 프로그램 (Benchmark)"
-date = "2026-05-03"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 149. 벤치마크 프로그램 (Benchmark)
+date: '2026-05-03'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 벤치마크 (Benchmark)는 컴퓨터 하드웨어나 소프트웨어의 [[282_performance_tactics|성능]]을 객관적이고 동일한 조건에서 비교 평가하기 위해, 의도적으로 설계된 표준화된 테스트용 프로그램이자 작업 부하(Workload)의 집합체다.

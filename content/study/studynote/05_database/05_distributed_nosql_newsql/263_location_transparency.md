@@ -1,10 +1,9 @@
-+++
-weight = 263
-title = "263. 위치 투명성 (Location Transparency)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 263. 위치 투명성 (Location Transparency)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 551
-title = "551. 이동통신망(Cellular Network) 통신 개념 (재사용, 핸드오버)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 551. 이동통신망(Cellular Network) 통신 개념 (재사용, 핸드오버)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

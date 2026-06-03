@@ -1,10 +1,9 @@
-+++
-weight = 279
-title = "279. L1/L2 규제 (Regularization)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 279. L1/L2 규제 (Regularization)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

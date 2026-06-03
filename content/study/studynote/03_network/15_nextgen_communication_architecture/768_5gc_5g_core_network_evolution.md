@@ -1,10 +1,9 @@
-+++
-weight = 768
-title = "768. 5GC (5G Core Network 차세대 코어망 SBA 아키텍처)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 768. 5GC (5G Core Network 차세대 코어망 SBA 아키텍처)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,9 @@
-+++
-title = "035. NoSQL 데이터베이스"
-date = "2026-03-03"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 035. NoSQL 데이터베이스
+date: '2026-03-03'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. NoSQL ([[274_nosql|Not Only SQL]])은 [[083_relationship_in_er_model|관계]]형 DB의 고정 [[005_schema|스키마]]와 ACID [[191_transaction_concept_states|트랜잭션]]을 일부 포기하는 대신, 수평 확장([[202_scale_out_distributed_horizontal_expansion|Scale-Out]])·고가용성·대용량 [[004_unstructured_data|비정형 데이터]] 처리에 최적화된 [[001_dikw_pyramid|데이터]] 저장 패러다임이다.

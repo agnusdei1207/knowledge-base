@@ -1,10 +1,9 @@
-+++
-weight = 110
-title = "110. Semantic vs Instance Segmentation - FCN·U-Net·Mask R-CNN·Panoptic 분할 체계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 110. Semantic vs Instance Segmentation - FCN·U-Net·Mask R-CNN·Panoptic 분할 체계
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Semantic Segmentation은 픽셀을 **클래스(종류)별로만 색칠**(고양이 3마리 = 전부 파란색 1덩어리)하고, Instance Segmentation은 **클래스+개체별로 각각 다른 색**으로 분리(고양이 1=빨강, 고양이 2=노랑)하여 동일 클래스 내 개별 객체를 [[655_ir_detection_analysis|식별]]한다.

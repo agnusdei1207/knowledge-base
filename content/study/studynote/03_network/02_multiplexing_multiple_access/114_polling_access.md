@@ -1,10 +1,9 @@
-+++
-weight = 114
-title = "114. 폴링 접속 (Polling Access)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 114. 폴링 접속 (Polling Access)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

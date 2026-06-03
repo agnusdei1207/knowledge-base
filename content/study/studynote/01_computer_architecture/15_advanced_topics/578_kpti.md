@@ -1,10 +1,9 @@
-+++
-weight = 578
-title = "578. 커널 페이지 테이블 격리 (KPTI, Kernel Page Table Isolation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 578. 커널 페이지 테이블 격리 (KPTI, Kernel Page Table Isolation)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

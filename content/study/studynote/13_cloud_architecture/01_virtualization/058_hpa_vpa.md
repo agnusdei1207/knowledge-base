@@ -1,10 +1,8 @@
-+++
-weight = 58
-title = "58. HPA / VPA - 쿠버네티스 자동 확장 전략"
-[taxonomies]
-tags = ["Cloud", "Kubernetes", "K8s", "HPA", "VPA", "Autoscaling"]
-categories = ["13_cloud_architecture"]
-+++
+---
+title: 58. HPA / VPA - 쿠버네티스 자동 확장 전략
+tags:
+- cloud_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

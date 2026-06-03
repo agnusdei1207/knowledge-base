@@ -1,10 +1,9 @@
-+++
-weight = 180
-title = "180. DevOps 조직 토폴로지와 SRE 팀 모델 (50% 인바운드 한계)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 180. DevOps 조직 토폴로지와 SRE 팀 모델 (50% 인바운드 한계)
+date: '2026-04-21'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

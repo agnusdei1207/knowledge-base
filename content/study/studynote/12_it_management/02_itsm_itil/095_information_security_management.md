@@ -1,10 +1,9 @@
-+++
-weight = 95
-title = "95. 정보 보안 관리 (Information Security Management)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 95. 정보 보안 관리 (Information Security Management)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보 보안 관리 (Information [[283_security_tactics|Security]] [[372_management|Management]])의 본질은 조직 자산의 [[002_confidentiality|기밀성]], [[003_integrity|무결성]], 가용성을 [[164_policy|정책]]적으로 통제를 예방·탐지·대응 통제와 증적으로 운영하는 데 있다.

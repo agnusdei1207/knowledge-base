@@ -1,10 +1,9 @@
-+++
-weight = 345
-title = "345. RPA 초자동화 (RPA Robotic Process Automation Hyperautomation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 345. RPA 초자동화 (RPA Robotic Process Automation Hyperautomation)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 334
-title = "334. 데몬셋 전체 노드 로깅 포드 할당 (DaemonSet)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 334. 데몬셋 전체 노드 로깅 포드 할당 (DaemonSet)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[089_daemonset_kubernetes_background_node_agent|데몬셋]] 전체 노드 로깅 [[198_pod_kubernetes_minimum_deployment_unit|포드]] 할당는 클라우드 시스템에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

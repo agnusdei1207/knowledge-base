@@ -1,10 +1,9 @@
-+++
-weight = 201
-title = "201. 리눅스 O(1) 스케줄러 (Linux O1 Scheduler)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 201. 리눅스 O(1) 스케줄러 (Linux O1 Scheduler)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 514
-title = "514. 팩트 테이블 차원 모델 비즈니스 수치 저장 (Optimistic Cc)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 514. 팩트 테이블 차원 모델 비즈니스 수치 저장 (Optimistic Cc)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

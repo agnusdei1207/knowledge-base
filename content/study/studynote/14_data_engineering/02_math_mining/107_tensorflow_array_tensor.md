@@ -1,10 +1,9 @@
-+++
-title = "텐서플로우 배열 (TensorFlow Tensors: Scalar, Vector, Matrix, Tensor)"
-weight = 107
-date = "2026-03-04"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: '텐서플로우 배열 (TensorFlow Tensors: Scalar, Vector, Matrix, Tensor)'
+date: '2026-03-04'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 442
-title = "442. 메모리 풀링 (Memory Pooling)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 442. 메모리 풀링 (Memory Pooling)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

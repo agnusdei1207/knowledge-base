@@ -1,10 +1,9 @@
-+++
-title = "084. AES SPN 구조 — SubBytes/ShiftRows/MixColumns/AddRoundKey"
-date = "2026-04-05"
-weight = 84
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 084. AES SPN 구조 — SubBytes/ShiftRows/MixColumns/AddRoundKey
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

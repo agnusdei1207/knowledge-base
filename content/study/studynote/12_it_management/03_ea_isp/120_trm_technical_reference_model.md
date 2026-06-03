@@ -1,10 +1,9 @@
-+++
-weight = 120
-title = "120. TRM (Technical Reference Model, 기술 참조 모델)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 120. TRM (Technical Reference Model, 기술 참조 모델)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: TRM (Technical [[116_reference_model|Reference Model]], 기술 [[116_reference_model|참조 모델]])의 본질은 기술 인프라 요소 및 표준 규격 명세를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 107
-title = "107. R-CNN, Fast R-CNN, Faster R-CNN (2-Stage 탐지기) 진화"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 107. R-CNN, Fast R-CNN, Faster R-CNN (2-Stage 탐지기) 진화
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[288_object_detection_yolo_rcnn|객체 탐지]]([[288_object_detection_yolo_rcnn|Object Detection]]) 영역에서 영역 추정(Region Proposal)과 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] ([[089_CNN_Convolutional|Convolutional Neural Network]]) [[104_classification_analysis|분류]]를 분리하여 수행하는 2-Stage 모델의 발전 과정(R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] → Fast R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] → Faster R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]])이다.

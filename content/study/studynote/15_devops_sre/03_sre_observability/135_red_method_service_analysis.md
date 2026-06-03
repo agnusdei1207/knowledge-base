@@ -1,10 +1,9 @@
-+++
-weight = 135
-title = "135. RED 메서드 (Rate·Errors·Duration) - 서비스 중심 분석"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 135. RED 메서드 (Rate·Errors·Duration) - 서비스 중심 분석
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RED 메서드는 **Rate(초당 요청 수)·Errors(에러율)·Duration([[138_response_time|응답 시간]])**의 3가지 지표로 [[532_microservices_decomposition_patterns|마이크로서비스]]의 상태를 [[229_monitor|모니터]]링하는 Weaveworks의 방법론이다.

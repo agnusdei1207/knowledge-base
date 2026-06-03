@@ -1,10 +1,9 @@
-+++
-weight = 305
-title = "305. 프라이버시 클린 룸 기업간 익명 조인 (Data Clean Room)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 305. 프라이버시 클린 룸 기업간 익명 조인 (Data Clean Room)
+date: '2026-04-21'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 115
-title = "115. 리틀 엔디안 (Little-Endian)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 115. 리틀 엔디안 (Little-Endian)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 리틀 엔디안(Little-Endian)은 여러 [[074_byte|바이트]]로 된 데이터를 메모리에 적재할 때, **가장 낮은 가중치를 가진 최하위 [[074_byte|바이트]]([[079_lsb|LSB]])를 가장 낮은 메모리 주소(맨 앞)에 역순으로 쑤셔 넣는** 아키텍처 규격이다.

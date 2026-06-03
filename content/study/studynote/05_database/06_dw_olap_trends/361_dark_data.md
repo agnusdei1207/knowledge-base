@@ -1,10 +1,9 @@
-+++
-weight = 361
-title = "361. 다크 데이터 (Dark Data) 관리 및 발견"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 361. 다크 데이터 (Dark Data) 관리 및 발견
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

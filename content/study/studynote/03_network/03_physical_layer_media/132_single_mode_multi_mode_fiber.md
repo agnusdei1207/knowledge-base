@@ -1,10 +1,9 @@
-+++
-weight = 132
-title = "132. 단일모드 광섬유 (Single-mode Fiber, SMF) / 다중모드 광섬유 (MMF)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 132. 단일모드 광섬유 (Single-mode Fiber, SMF) / 다중모드 광섬유 (MMF)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

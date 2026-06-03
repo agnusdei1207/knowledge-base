@@ -1,10 +1,9 @@
-+++
-weight = 804
-title = "804. ECMP (Equal-Cost Multi-Path) 스파인-리프 병렬 라우팅 경로 활성화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 804. ECMP (Equal-Cost Multi-Path) 스파인-리프 병렬 라우팅 경로 활성화
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

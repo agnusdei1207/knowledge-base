@@ -1,10 +1,9 @@
-+++
-weight = 412
-title = "412. 서포트 벡터 회귀 (SVR, Support Vector Regression)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 412. 서포트 벡터 회귀 (SVR, Support Vector Regression)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

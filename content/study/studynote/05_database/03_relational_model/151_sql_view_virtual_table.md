@@ -1,10 +1,9 @@
-+++
-weight = 151
-title = "151. 뷰 (View) - 가상 테이블, 논리적 데이터 독립성 및 보안 제공"
-date = "2026-05-03"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 151. 뷰 (View) - 가상 테이블, 논리적 데이터 독립성 및 보안 제공
+date: '2026-05-03'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 뷰(View)는 하드디스크에 물리적인 진짜 [[001_dikw_pyramid|데이터]](Row)를 1건도 저장하지 않으면서, 오직 [[001_dikw_pyramid|데이터]]의 '조회 [[298_qkv_attention|쿼리]]문([[520_select|SELECT]])' 뼈대만을 메모리 사전에 텍스트로 저장해 두고 겉보기에는 진짜 테이블인 척 둔갑하는 **가상 테이블(Virtual Table)**이다.

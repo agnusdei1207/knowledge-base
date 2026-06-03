@@ -1,10 +1,9 @@
-+++
-weight = 687
-title = "687. 세션 재개 (Session Resumption / TLS Ticket) 기능 구성"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 687. 세션 재개 (Session Resumption / TLS Ticket) 기능 구성
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

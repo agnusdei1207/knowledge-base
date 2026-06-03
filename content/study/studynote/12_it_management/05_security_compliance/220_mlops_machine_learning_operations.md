@@ -1,10 +1,9 @@
-+++
-weight = 220
-title = "220. MLOps (Machine Learning Operations)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 220. MLOps (Machine Learning Operations)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[348_mlops|MLOps]] (Machine [[240_switch_learning_forwarding_flooding|Learning]] Operations)의 본질은 [[190_ai_llm_requirements_specification|AI]] 모델 학습, 테스트, 배포, 추론, 모니터링을 [[081_cd_continuous_deployment_pipeline_architecture|지속적 배포 파이프라인]]([[090_configuration_item|CI]]/CD/[[162_continuous_training_pipeline_model_retraining|CT]])으로 통합 통제하는 랩/운영 융합론을 [[001_dikw_pyramid|데이터]], 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.

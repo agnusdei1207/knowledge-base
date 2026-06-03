@@ -1,10 +1,9 @@
-+++
-weight = 382
-title = "382. 트랜스포머 포지셔널 인코딩 (Positional Encoding) 수식"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 382. 트랜스포머 포지셔널 인코딩 (Positional Encoding) 수식
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

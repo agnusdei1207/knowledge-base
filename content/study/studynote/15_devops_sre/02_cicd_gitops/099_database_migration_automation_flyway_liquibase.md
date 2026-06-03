@@ -1,10 +1,10 @@
-+++
-title = "99. 데이터베이스 마이그레이션 자동화 (Flyway, Liquibase) - CI/CD 기반 스키마 형상 관리"
-date = "2026-03-04"
-weight = 99
-[extra]
-categories = ["studynote-devops-sre", "cicd-gitops"]
-+++
+---
+title: 99. 데이터베이스 마이그레이션 자동화 (Flyway, Liquibase) - CI/CD 기반 스키마 형상 관리
+date: '2026-03-04'
+tags:
+- cicd-gitops
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[271_ddl_liquibase|데이터베이스 마이그레이션]] 자동화는 소스코드처럼 DB [[005_schema|스키마]]([[020_ddl|DDL]]/[[083_dml|DML]])의 변경 이력을 [[020_software_configuration_management|형상 관리]](Version Control)하여 상태를 일치시키는 시스템이다.

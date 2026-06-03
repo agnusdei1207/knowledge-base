@@ -1,10 +1,9 @@
-+++
-weight = 556
-title = "556. 소프트 에러 복구 매커니즘"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 556. 소프트 에러 복구 매커니즘
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

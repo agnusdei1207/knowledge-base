@@ -1,10 +1,9 @@
-+++
-weight = 143
-title = "143. 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 143. 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

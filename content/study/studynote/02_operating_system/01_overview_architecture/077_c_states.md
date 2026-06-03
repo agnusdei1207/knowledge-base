@@ -1,10 +1,9 @@
-+++
-weight = 77
-title = "77. 프로세서 전원 상태 (C-States)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 77. 프로세서 전원 상태 (C-States)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 # 프로세서 전원 상태 (C-States)
 

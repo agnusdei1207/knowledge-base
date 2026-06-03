@@ -1,10 +1,9 @@
-+++
-weight = 859
-title = "859. XXE 공격 흐름 (XXE Attack Flow)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 859. XXE 공격 흐름 (XXE Attack Flow)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

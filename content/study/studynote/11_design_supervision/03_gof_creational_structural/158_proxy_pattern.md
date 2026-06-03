@@ -1,10 +1,9 @@
-+++
-weight = 158
-title = "158. 프록시 패턴 (Proxy Pattern)"
-date = "2025-05-22"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 158. 프록시 패턴 (Proxy Pattern)
+date: '2025-05-22'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 439
-title = "439. 휴리스틱 오라클 (Heuristic Oracle)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 439. 휴리스틱 오라클 (Heuristic Oracle)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

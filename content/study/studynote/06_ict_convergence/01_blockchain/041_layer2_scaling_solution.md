@@ -1,10 +1,9 @@
-+++
-title = "041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)"
-weight = 41
-date = "2026-03-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)
+date: '2026-03-19'
+tags:
+- studynote-ict-convergence
+---
 
 > **핵심 인사이트**
 > 1. 레이어 2(L2) 솔루션은 [[004_blockchain|블록체인]] 트릴레마를 우회하는 핵심 전략으로, 메인체인(L1) 밖에서 트랜잭션을 처리하고 최종 결과만 L1에 기록하여 L1의 보안성을 상속하면서 확장성을 수십~수천 배 향상시킨다.

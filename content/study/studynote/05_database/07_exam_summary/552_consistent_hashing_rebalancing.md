@@ -1,10 +1,9 @@
-+++
-weight = 552
-title = "552. 일관된 해싱 노드 이탈 데이터 리밸런싱 극소화 원리"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 552. 일관된 해싱 노드 이탈 데이터 리밸런싱 극소화 원리
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

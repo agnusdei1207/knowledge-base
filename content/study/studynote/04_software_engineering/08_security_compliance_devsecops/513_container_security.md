@@ -1,10 +1,9 @@
-+++
-weight = 513
-title = "513. 컨테이너 보안 - 이미지 스캐닝, 루트 권한 실행 금지 (Non-root user), 네임스페이스 샌드박스"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 513. 컨테이너 보안 - 이미지 스캐닝, 루트 권한 실행 금지 (Non-root user), 네임스페이스 샌드박스
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

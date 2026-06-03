@@ -1,10 +1,9 @@
-+++
-weight = 325
-title = "325. 고차 함수 (Higher-Order Function) 및 클로저 (Closure)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 325. 고차 함수 (Higher-Order Function) 및 클로저 (Closure)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

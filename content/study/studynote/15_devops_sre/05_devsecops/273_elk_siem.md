@@ -1,10 +1,9 @@
-+++
-weight = 273
-title = "273. 사이버 킬체인 로그 관제 ELK/SIEM 파이프라인 (Security Information and Event Management)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 273. 사이버 킬체인 로그 관제 ELK/SIEM 파이프라인 (Security Information and Event Management)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 624
-title = "624. LwM2M (Lightweight M2M) 표준 프로토콜 관리 메커니즘"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 624. LwM2M (Lightweight M2M) 표준 프로토콜 관리 메커니즘
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

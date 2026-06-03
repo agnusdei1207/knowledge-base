@@ -1,10 +1,9 @@
-+++
-weight = 118
-title = "115. 이미지 분석 (Image Analysis) — CNN 기반 대용량 이미지 배치 처리"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 115. 이미지 분석 (Image Analysis) — CNN 기반 대용량 이미지 배치 처리
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 대규모 이미지 분석은 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] ([[089_CNN_Convolutional|Convolutional Neural Network]]) 아키텍처로 이미지 특성을 자동 추출하고, [[104_classification_analysis|분류]] ([[107_classification|Classification]])·[[288_object_detection_yolo_rcnn|객체 탐지]] ([[288_object_detection_yolo_rcnn|Object Detection]])·[[364_segmentation|세그멘테이션]] ([[364_segmentation|Segmentation]]) [[150_task|태스크]]를 수행하며, 빅데이터 환경에서는 [[136_variance|분산]] 추론 [[123_pipe|파이프]]라인이 필수다.

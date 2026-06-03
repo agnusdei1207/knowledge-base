@@ -1,10 +1,9 @@
-+++
-weight = 262
-title = "262. 데이터 리니지 - 파이프라인 가시성 (Data Lineage)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 262. 데이터 리니지 - 파이프라인 가시성 (Data Lineage)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[214_data_lineage_tracking|데이터 리니지]] - 파이프라인 가시성는 [[001_dikw_pyramid|데이터]] 플랫폼에서 [[001_dikw_pyramid|데이터]] 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

@@ -1,10 +1,9 @@
-+++
-weight = 286
-title = "286. 롤링 배포 (점진 교체 무중단)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 286. 롤링 배포 (점진 교체 무중단)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 147
-title = "147. PMBOK (Project Management Body of Knowledge) - PMI 프로젝트 관리 10대 지식 영역"
-date = "2026-04-19"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 147. PMBOK (Project Management Body of Knowledge) - PMI 프로젝트 관리 10대 지식 영역
+date: '2026-04-19'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PMBOK([[042_relational_algebra_project|Project]] [[372_management|Management]] Body of Knowledge, 프로젝트 관리 지식 체계)은 PMI([[042_relational_algebra_project|Project]] [[372_management|Management]] Institute, 프로젝트 관리 협회)가 제정한 프로젝트 관리의 표준 프레임워크로, **10대 지식 영역(Knowledge Area)과 5개 [[159_process_group|프로세스 그룹]]([[159_process_group|Process Group]])의 교차점에서 49개 프로세스**를 정의한다.

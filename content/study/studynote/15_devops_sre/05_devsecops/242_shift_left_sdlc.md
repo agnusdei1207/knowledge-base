@@ -1,10 +1,9 @@
-+++
-weight = 242
-title = "242. 시프트 레프트 (Shift-Left)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 242. 시프트 레프트 (Shift-Left)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 421
-title = "421. 실행 계획 (Execution Plan 풀 스캔 vs 인덱스 스캔)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 421. 실행 계획 (Execution Plan 풀 스캔 vs 인덱스 스캔)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

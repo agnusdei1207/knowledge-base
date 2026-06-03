@@ -1,10 +1,9 @@
-+++
-weight = 125
-title = "125. 메타데이터 관리 시스템 (MMS) - 데이터에 대한 데이터 관리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 125. 메타데이터 관리 시스템 (MMS) - 데이터에 대한 데이터 관리
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MMS([[203_metadata_management|Metadata Management]] System)는 **[[001_dikw_pyramid|데이터]]의 정의·구조·형식·[[083_relationship_in_er_model|관계]]·출처·변환 규칙 등 '[[001_dikw_pyramid|데이터]]에 대한 [[001_dikw_pyramid|데이터]]([[012_metadata|메타데이터]])'를 체계적으로 수집·저장·검색·관리**하는 시스템이다.

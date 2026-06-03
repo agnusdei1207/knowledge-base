@@ -1,9 +1,9 @@
-+++
-title = "039. BML 루프 심화 — 린 스타트업 측정 지표"
-date = "2026-03-04"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 039. BML 루프 심화 — 린 스타트업 측정 지표
+date: '2026-03-04'
+tags:
+- studynote-enterprise-systems
+---
 
 > **핵심 인사이트**
 > 1. BML(Build-Measure-Learn) 루프에서 "측정(Measure)"의 핵심은 허영 지표(Vanity [[342_routing_metric_hop_bandwidth_delay|Metric]])와 실행 가능 지표(Actionable [[342_routing_metric_hop_bandwidth_delay|Metric]])를 구분하는 것 — "총 가입자 100만"은 성장하는 것처럼 보이지만, 재방문율·전환율·코호트 리텐션 없이는 아무것도 말해주지 않는다.

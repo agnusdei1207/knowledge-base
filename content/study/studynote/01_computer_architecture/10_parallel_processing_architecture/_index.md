@@ -1,8 +1,8 @@
-+++
-weight = 10
-title = "10. 병렬 처리 아키텍처"
-sort_by = "weight"
-+++
+---
+title: 10. 병렬 처리 아키텍처
+tags:
+- computer_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 528
-title = "528. 난독화 (Obfuscation) 및 안티 디버깅 (Anti-debugging)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 528. 난독화 (Obfuscation) 및 안티 디버깅 (Anti-debugging)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

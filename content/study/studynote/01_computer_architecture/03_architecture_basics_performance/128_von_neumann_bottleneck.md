@@ -1,10 +1,9 @@
-+++
-weight = 128
-title = "128. 폰 노이만 병목현상 (Von Neumann Bottleneck)"
-date = "2026-04-25"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 128. 폰 노이만 병목현상 (Von Neumann Bottleneck)
+date: '2026-04-25'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

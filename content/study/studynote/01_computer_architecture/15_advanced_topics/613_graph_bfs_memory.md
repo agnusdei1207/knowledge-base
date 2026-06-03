@@ -1,10 +1,9 @@
-+++
-weight = 613
-title = "613. 그래프 탐색 (BFS/DFS) 전용 메모리 서브시스템"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 613. 그래프 탐색 (BFS/DFS) 전용 메모리 서브시스템
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

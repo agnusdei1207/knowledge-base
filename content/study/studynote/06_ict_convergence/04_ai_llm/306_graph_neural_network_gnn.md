@@ -1,10 +1,9 @@
-+++
-weight = 306
-title = "306. 그래프 신경망 (GNN, Graph Neural Network)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 306. 그래프 신경망 (GNN, Graph Neural Network)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

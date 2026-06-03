@@ -1,10 +1,9 @@
-+++
-weight = 5
-title = "5. 비대칭 다중 처리 (ASMP, Asymmetric Multiprocessing)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 5. 비대칭 다중 처리 (ASMP, Asymmetric Multiprocessing)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 # [[194_numa_scheduling|비대칭 다중 처리]] ([[194_numa_scheduling|ASMP]], Asymmetric Multiprocessing)
 

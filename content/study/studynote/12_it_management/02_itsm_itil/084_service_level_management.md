@@ -1,10 +1,9 @@
-+++
-weight = 84
-title = "84. 서비스 수준 관리 (SLM, Service Level Management)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 84. 서비스 수준 관리 (SLM, Service Level Management)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[090_service_kubernetes_network_load_balancing|서비스]] 수준 관리 ([[313_slm|SLM]], [[090_service_kubernetes_network_load_balancing|Service]] Level [[372_management|Management]])의 본질은 비즈니스 부서와 IT 간의 [[090_service_kubernetes_network_load_balancing|서비스]] 품질 합의서([[085_sla|SLA]]) 체결 및 정기 성과 측정 (모니터링, 보고)를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

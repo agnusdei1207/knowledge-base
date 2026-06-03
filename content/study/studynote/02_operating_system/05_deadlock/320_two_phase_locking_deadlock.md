@@ -1,10 +1,9 @@
-+++
-weight = 320
-title = "320. 2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관) (Two Phase Locking Deadlock)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 320. 2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관) (Two Phase Locking Deadlock)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

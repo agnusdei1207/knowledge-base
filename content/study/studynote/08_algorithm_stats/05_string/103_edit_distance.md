@@ -1,10 +1,9 @@
-+++
-weight = 103
-title = "10. 편집 거리 (Edit Distance / Levenshtein Distance) — DP"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 10. 편집 거리 (Edit Distance / Levenshtein Distance) — DP
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

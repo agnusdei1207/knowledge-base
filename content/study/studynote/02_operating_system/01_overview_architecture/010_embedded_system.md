@@ -1,10 +1,9 @@
-+++
-weight = 10
-title = "10. 임베디드 시스템 (Embedded System)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 10. 임베디드 시스템 (Embedded System)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 임베디드 시스템 (Embedded System)은 특정한 목적을 수행하기 위해 하드웨어와 소프트웨어가 밀접하게 결합된 시스템으로, 제한된 자원(Memory, [[069_type_1_2_error_statistical_power|Power]], CPU) 하에서 최적의 [[282_performance_tactics|성능]]을 내도록 설계된 전용 컴퓨팅 시스템이다.

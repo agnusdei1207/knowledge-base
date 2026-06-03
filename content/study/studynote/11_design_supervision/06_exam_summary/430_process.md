@@ -1,10 +1,9 @@
-+++
-weight = 430
-title = "430. 서버리스 컨테이너 보안 이미지 스캔 (Serverless Container Image Security Scanning)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 430. 서버리스 컨테이너 보안 이미지 스캔 (Serverless Container Image Security Scanning)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [[206_serverless_cold_start|서버리스]]([[206_serverless_cold_start|Serverless]]) [[513_container_security|컨테이너 보안]] 이미지 스캔은 [[561_container_based_deployment|컨테이너]] 이미지를 빌드 직후 자동 분석하여 취약한 산출물이 운영계에 들어가기 전에 차단하는 [[374_supply_chain_security|공급망 보안]] 통제 절차다.

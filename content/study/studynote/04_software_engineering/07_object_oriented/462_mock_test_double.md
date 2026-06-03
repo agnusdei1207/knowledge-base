@@ -1,10 +1,9 @@
-+++
-weight = 462
-title = "462. Mock (목) - 행위(Behavior) 검증을 위해 예상되는 호출 명세가 프로그래밍된 객체"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 462. Mock (목) - 행위(Behavior) 검증을 위해 예상되는 호출 명세가 프로그래밍된 객체
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,9 @@
-+++
-title = "DeFi (Decentralized Finance, 탈중앙화 금융)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: DeFi (Decentralized Finance, 탈중앙화 금융)
+date: '2026-03-03'
+tags:
+- studynote-ict-convergence
+---
 
 > **핵심 인사이트 3줄**
 > 1. DeFi(Decentralized Finance)는 [[022_smart_contract|스마트 컨트랙트]]를 기반으로 은행·거래소·보험 등 전통 금융 [[090_service_kubernetes_network_load_balancing|서비스]]를 탈중앙·무허가·투명한 방식으로 제공하는 [[004_blockchain|블록체인]] 금융 생태계다.

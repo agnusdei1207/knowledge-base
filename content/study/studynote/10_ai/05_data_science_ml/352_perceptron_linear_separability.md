@@ -1,10 +1,9 @@
-+++
-weight = 352
-title = "352. 퍼셉트론 (Perceptron)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 352. 퍼셉트론 (Perceptron)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 519
-title = "519. IOMMU 성능 오버헤드 (IOMMU Performance Overhead)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 519. IOMMU 성능 오버헤드 (IOMMU Performance Overhead)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

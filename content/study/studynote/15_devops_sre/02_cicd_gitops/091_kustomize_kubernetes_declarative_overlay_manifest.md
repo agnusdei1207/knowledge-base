@@ -1,10 +1,9 @@
-+++
-weight = 91
-title = "91. Kustomize (커스터마이즈) - K8s 오버레이 선언적 템플릿 관리"
-date = "2026-04-10"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: 91. Kustomize (커스터마이즈) - K8s 오버레이 선언적 템플릿 관리
+date: '2026-04-10'
+tags:
+- studynote-devops
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

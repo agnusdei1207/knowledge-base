@@ -1,10 +1,9 @@
-+++
-weight = 248
-title = "248. 리팩토링 TDD 안전망 (Refactoring TDD Safety Net)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 248. 리팩토링 TDD 안전망 (Refactoring TDD Safety Net)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

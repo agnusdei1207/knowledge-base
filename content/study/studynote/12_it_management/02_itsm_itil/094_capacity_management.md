@@ -1,10 +1,9 @@
-+++
-weight = 94
-title = "94. 용량 관리 (Capacity Management)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 94. 용량 관리 (Capacity Management)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 용량 관리 (Capacity [[372_management|Management]])의 본질은 현재 및 미래의 비즈니스 수요를 예측하여 적절한 컴퓨팅/네트워크 자원(증설)을 적시에 확보 (클라우드 오토스케일링 연계)를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

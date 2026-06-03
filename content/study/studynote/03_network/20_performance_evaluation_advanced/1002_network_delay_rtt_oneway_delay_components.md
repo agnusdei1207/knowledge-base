@@ -1,10 +1,9 @@
-+++
-weight = 1002
-title = "1002. 네트워크 지연 (Rtt vs 단방향 Delay)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1002. 네트워크 지연 (Rtt vs 단방향 Delay)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

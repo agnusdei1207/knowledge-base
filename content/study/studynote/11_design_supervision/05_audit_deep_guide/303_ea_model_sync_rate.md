@@ -1,10 +1,9 @@
-+++
-weight = 303
-title = "303. EA 포털 갱신율과 현행성 감리 (EA Portal Refresh Rate and Currency Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 303. EA 포털 갱신율과 현행성 감리 (EA Portal Refresh Rate and Currency Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

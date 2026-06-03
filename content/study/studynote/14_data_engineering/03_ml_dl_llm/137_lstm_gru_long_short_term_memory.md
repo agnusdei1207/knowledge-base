@@ -1,10 +1,9 @@
-+++
-weight = 137
-title = "137. LSTM & GRU - 장기 의존성을 해결한 순환 신경망"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 137. LSTM & GRU - 장기 의존성을 해결한 순환 신경망
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[292_lstm|LSTM]]([[292_lstm|Long Short-Term Memory]])은 **Forget·Input·Output 3개의 게이트로 셀 상태(Cell [[272_state_pattern|State]])를 제어**하여 Vanilla RNN의 [[291_long_term_dependency|장기 의존성]]([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]]) 문제를 해결한 순환 신경망이며, GRU는 LSTM을 **2개 게이트(Reset·Update)로 단순화**한 경량 변형이다.

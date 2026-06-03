@@ -1,10 +1,9 @@
-+++
-weight = 329
-title = "329. 마모 평준화 (Wear Leveling)"
-date = "2026-03-27"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 329. 마모 평준화 (Wear Leveling)
+date: '2026-03-27'
+tags:
+- studynote-computer-architecture
+---
 
 # 329. [[479_wear_leveling|마모 평준화]] ([[479_wear_leveling|Wear Leveling]])
 

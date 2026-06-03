@@ -1,10 +1,9 @@
-+++
-weight = 20
-title = "020. 조치 결과 확인 및 시정 조치 검증 체계 (Action Result Verification)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 020. 조치 결과 확인 및 시정 조치 검증 체계 (Action Result Verification)
+date: '2026-05-05'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[020_follow_up_action_verification|조치 결과 확인]](Action Result [[395_verification_process_review|Verification]])은 감리원이 지적한 결함에 대해 수행사가 제출한 조치 결과서가 '종이(문서)상의 눈속임'인지 '물리적(시스템) 해결'인지 **실사(Physical Inspection)를 통해 참/거짓을 판별하는 [[395_verification_process_review|검증]] 아키텍처**다.

@@ -1,10 +1,9 @@
-+++
-weight = 49
-title = "49. 섀도우 IT (Shadow IT)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 49. 섀도우 IT (Shadow IT)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 섀도우 IT (Shadow IT)의 본질은 정보보안/IT 부서 모르게 현업 부서가 무단 사용하는 [[309_saas|SaaS]]/소프트웨어 (통제 사각지대)를 [[090_service_kubernetes_network_load_balancing|서비스]] 모델, 자동화, 책임 분담 기준으로 실현하는 데 있다.

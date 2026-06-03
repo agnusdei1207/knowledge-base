@@ -1,7 +1,8 @@
-+++
-title = "85. 리드 타임 (Lead Time) / 사이클 타임 (Cycle Time)"
-weight = 85
-+++
+---
+title: 85. 리드 타임 (Lead Time) / 사이클 타임 (Cycle Time)
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

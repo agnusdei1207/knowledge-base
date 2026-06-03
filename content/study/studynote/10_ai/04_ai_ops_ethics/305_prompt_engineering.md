@@ -1,10 +1,9 @@
-+++
-weight = 305
-title = "305. 프롬프트 엔지니어링 (Prompt Engineering)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 305. 프롬프트 엔지니어링 (Prompt Engineering)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

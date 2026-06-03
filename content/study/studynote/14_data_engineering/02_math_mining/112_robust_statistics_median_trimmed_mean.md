@@ -1,10 +1,9 @@
-+++
-weight = 112
-title = "112. 로버스트 통계 (Robust Statistics) - 중앙값·절사 평균·이상치 저항 추정량"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 112. 로버스트 통계 (Robust Statistics) - 중앙값·절사 평균·이상치 저항 추정량
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 로버스트 통계(Robust [[168_clustering_factor_index_physical_alignment|Statistics]])는 **[[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]([[076_outlier_detection_iqr_dbscan_isolation_forest|Outlier]])와 분포 가정 위반에 둔감한([[003_resistance|저항]]성 있는) 통계적 추정량**을 사용하여, 오염된 [[001_dikw_pyramid|데이터]]에서도 안정적인 모집단 추론을 가능하게 하는 분야다.

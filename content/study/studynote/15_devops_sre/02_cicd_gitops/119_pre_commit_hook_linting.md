@@ -1,10 +1,9 @@
-+++
-weight = 119
-title = "119. Pre-commit Hook 린팅 (Pre-commit Hook Linting) - 커밋 전 자동 코드 품질 검증"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 119. Pre-commit Hook 린팅 (Pre-commit Hook Linting) - 커밋 전 자동 코드 품질 검증
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Pre-commit Hook은 `git commit` 실행 직전에 **자동으로 린터·포매터·보안 스캔을 실행**하여, 품질 기준을 충족하지 못한 코드의 커밋을 차단하는 **Shift Left 품질 관리 메커니즘**이다.

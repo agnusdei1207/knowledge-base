@@ -1,7 +1,8 @@
-+++
-title = "66. 가중치 (Weight, W) / 편향 (Bias, b) - 선형 방정식의 파라미터 (y = Wx + b)"
-weight = 66
-+++
+---
+title: 66. 가중치 (Weight, W) / 편향 (Bias, b) - 선형 방정식의 파라미터 (y = Wx + b)
+tags:
+- ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

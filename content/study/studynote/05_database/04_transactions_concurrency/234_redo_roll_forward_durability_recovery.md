@@ -1,10 +1,9 @@
-+++
-weight = 234
-title = "234. Redo (Redo Roll Forward Durability Recovery)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 234. Redo (Redo Roll Forward Durability Recovery)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

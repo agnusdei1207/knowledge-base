@@ -1,10 +1,9 @@
-+++
-weight = 579
-title = "579. 무선 LAN 보안 진화 (WEP -> WPA -> WPA2 -> WPA3)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 579. 무선 LAN 보안 진화 (WEP -> WPA -> WPA2 -> WPA3)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

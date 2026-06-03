@@ -1,10 +1,9 @@
-+++
-weight = 735
-title = "735. i-node 직접/간접 포인터 인덱스 (Inode Direct Indirect Pointer Index)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 735. i-node 직접/간접 포인터 인덱스 (Inode Direct Indirect Pointer Index)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

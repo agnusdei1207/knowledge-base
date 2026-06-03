@@ -1,10 +1,9 @@
-+++
-weight = 350
-title = "350. CBAM 경제성 관점 확장 (Cost Benefit Analysis Method)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 350. CBAM 경제성 관점 확장 (Cost Benefit Analysis Method)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

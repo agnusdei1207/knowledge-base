@@ -1,10 +1,9 @@
-+++
-weight = 432
-title = "432. 리스크 기반 테스팅 (Risk-based Testing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 432. 리스크 기반 테스팅 (Risk-based Testing)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,12 +1,11 @@
-+++
-weight = 20
-title = "20. 프라이빗 블록체인 (Private Blockchain) - 허가된 노드만 참여 (하이퍼레저 패브릭)"
-description = "사전에 인가된(Permissioned) 노드만 네트워크에 참여하여 트랜잭션을 처리함으로써, 기업의 데이터 프라이버시와 고성능을 보장하는 엔터프라이즈 블록체인"
-date = "2026-03-04"
-[taxonomies]
-tags = ["프라이빗 블록체인", "허가형", "엔터프라이즈", "하이퍼레저 패브릭", "B2B", "Private Blockchain"]
-categories = ["studynote-ict-convergence"]
-+++
+---
+title: 20. 프라이빗 블록체인 (Private Blockchain) - 허가된 노드만 참여 (하이퍼레저 패브릭)
+date: '2026-03-04'
+description: 사전에 인가된(Permissioned) 노드만 네트워크에 참여하여 트랜잭션을 처리함으로써, 기업의 데이터 프라이버시와 고성능을
+  보장하는 엔터프라이즈 블록체인
+tags:
+- ict_convergence
+---
 
 # 20. 프라이빗 [[004_blockchain|블록체인]] (Private [[004_blockchain|Blockchain]])
 

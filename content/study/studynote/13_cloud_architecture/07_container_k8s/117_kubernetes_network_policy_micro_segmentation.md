@@ -1,10 +1,9 @@
-+++
-weight = 117
-title = "117. K8s Network Policy 마이크로 세그멘테이션 - Pod 간 트래픽 격리·제로 트러스트"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 117. K8s Network Policy 마이크로 세그멘테이션 - Pod 간 트래픽 격리·제로 트러스트
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: K8s Network Policy는 **[[198_pod_kubernetes_minimum_deployment_unit|Pod]] 간 네트워크 트래픽을 라벨 기반으로 허용/거부**하는 선언적 [[690_firewall_generation_evolution|방화벽]] 규칙이며, [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]([[059_micro_segmentation_east_west_traffic|Micro-segmentation]])을 통해 클러스터 내부 **East-West 트래픽을 제어**한다.

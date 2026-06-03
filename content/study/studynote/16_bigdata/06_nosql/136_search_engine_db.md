@@ -1,10 +1,9 @@
-+++
-weight = 136
-title = "136. 검색 엔진 데이터베이스 (Search Engine DB) — Elasticsearch/OpenSearch"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 136. 검색 엔진 데이터베이스 (Search Engine DB) — Elasticsearch/OpenSearch
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 검색 엔진 DB는 [[500_inverted_index_elasticsearch|역색인]]([[500_inverted_index_elasticsearch|Inverted Index]]) 구조로 모든 단어가 어느 문서에 있는지를 미리 색인하여, 수억 개 문서에서도 키워드 검색을 밀리초 만에 처리하는 Lucene 기반 [[136_variance|분산]] 검색 엔진이다.

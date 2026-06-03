@@ -1,12 +1,10 @@
-+++
-weight = 13
-title = "13. 알 필요성 원칙 (Need-to-Know) — 정보 접근 제한"
-description = "사용자가 자신의 직무를 수행하는 데 반드시 필요한 정보에만 접근할 수 있도록 제한하여 데이터 기밀성을 보호하는 핵심 원칙"
-date = "2026-03-25"
-[taxonomies]
-tags = ["보안원칙", "알필요성", "Need-to-Know", "접근제어", "기밀성"]
-categories = ["Security"]
-+++
+---
+title: 13. 알 필요성 원칙 (Need-to-Know) — 정보 접근 제한
+date: '2026-03-25'
+description: 사용자가 자신의 직무를 수행하는 데 반드시 필요한 정보에만 접근할 수 있도록 제한하여 데이터 기밀성을 보호하는 핵심 원칙
+tags:
+- security
+---
 
 # 13. 알 필요성 원칙 (Need-to-Know)
 

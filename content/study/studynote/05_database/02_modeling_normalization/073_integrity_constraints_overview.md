@@ -1,7 +1,8 @@
-+++
-title = "73. 무결성 제약조건 (Integrity Constraints)"
-weight = 73
-+++
+---
+title: 73. 무결성 제약조건 (Integrity Constraints)
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

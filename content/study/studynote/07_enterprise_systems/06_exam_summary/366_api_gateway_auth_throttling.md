@@ -1,10 +1,9 @@
-+++
-weight = 366
-title = "366. API 게이트웨이 인증 스로틀링 집계 (API Gateway Auth Throttling)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 366. API 게이트웨이 인증 스로틀링 집계 (API Gateway Auth Throttling)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

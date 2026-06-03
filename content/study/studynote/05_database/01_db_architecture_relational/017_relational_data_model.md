@@ -1,12 +1,10 @@
-+++
-weight = 17
-title = "17. 관계형 데이터 모델 (Relational Model) - 테이블 구조, E.F. Codd 제안"
-description = "E.F. Codd가 제안한 테이블 구조 기반의 수학적 논리 데이터 모델"
-date = "2026-03-04"
-[taxonomies]
-categories = ["Database"]
-tags = ["Relational Model", "E.F. Codd", "Relation", "Tuple", "Attribute"]
-+++
+---
+title: 17. 관계형 데이터 모델 (Relational Model) - 테이블 구조, E.F. Codd 제안
+date: '2026-03-04'
+description: E.F. Codd가 제안한 테이블 구조 기반의 수학적 논리 데이터 모델
+tags:
+- database
+---
 
 # 17. [[083_relationship_in_er_model|관계]]형 [[014_data_model_components|데이터 모델]] (Relational [[014_data_model_components|Data Model]])
 

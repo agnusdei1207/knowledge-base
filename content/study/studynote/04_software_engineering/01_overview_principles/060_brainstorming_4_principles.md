@@ -1,10 +1,9 @@
-+++
-weight = 60
-title = "60. 브레인스토밍 4원칙 (Brainstorming 4 Principles)"
-date = "2026-04-15"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 60. 브레인스토밍 4원칙 (Brainstorming 4 Principles)
+date: '2026-04-15'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

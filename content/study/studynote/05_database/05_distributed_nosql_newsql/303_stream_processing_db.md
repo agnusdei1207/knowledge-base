@@ -1,10 +1,9 @@
-+++
-weight = 303
-title = "303. 역색인 (Inverted Index) 구조"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 303. 역색인 (Inverted Index) 구조
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

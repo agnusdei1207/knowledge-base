@@ -1,10 +1,9 @@
-+++
-weight = 220
-title = "220. 유비쿼터스 언어 (Ubiquitous Language) - 비즈니스와 기술의 공통 언어"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 220. 유비쿼터스 언어 (Ubiquitous Language) - 비즈니스와 기술의 공통 언어
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

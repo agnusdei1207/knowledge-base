@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "20. 회귀 분석 (Regression Analysis) — 단순/다중/로지스틱"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 20. 회귀 분석 (Regression Analysis) — 단순/다중/로지스틱
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

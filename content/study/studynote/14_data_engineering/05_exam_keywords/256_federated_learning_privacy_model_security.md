@@ -1,10 +1,9 @@
-+++
-weight = 256
-title = "256. 연합 학습 (Federated Learning) 프라이버시 모델 보안"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 256. 연합 학습 (Federated Learning) 프라이버시 모델 보안
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 연합 학습(Federated [[240_switch_learning_forwarding_flooding|Learning]])은 원시 [[001_dikw_pyramid|데이터]]를 중앙 서버에 모으지 않고, 각 디바이스에서 로컬 훈련 후 그래디언트(Gradient)만 집계하여 전역 모델(Global Model)을 개선하는 [[136_variance|분산]] ML 패러다임이다.

@@ -1,10 +1,9 @@
-+++
-weight = 268
-title = "268. 수평 분할 (Horizontal Fragmentation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 268. 수평 분할 (Horizontal Fragmentation)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

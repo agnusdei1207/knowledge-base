@@ -1,10 +1,9 @@
-+++
-weight = 291
-title = "291. EVM 획득 가치 (PV, EV, AC, SPI, CPI)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 291. EVM 획득 가치 (PV, EV, AC, SPI, CPI)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[152_evm_earned_value_management|EVM]] 획득 가치 ([[153_pv_planned_value|PV]], [[154_ev_earned_value|EV]], [[155_ac_actual_cost|AC]], [[159_spi_schedule_performance_index|SPI]], [[158_cpi_cost_performance_index|CPI]])의 본질은 측정식의 의미와 해석 기준을 정확히 이해해야 숫자가 보고용 장식이 아니라 실제 투자·운영 판단 도구가 된다.

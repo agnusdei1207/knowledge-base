@@ -1,10 +1,9 @@
-+++
-weight = 411
-title = "411. 지식 정보 시스템 온톨로지 (OWL, RDF 규격 표현)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 411. 지식 정보 시스템 온톨로지 (OWL, RDF 규격 표현)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

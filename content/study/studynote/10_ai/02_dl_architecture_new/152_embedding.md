@@ -1,10 +1,9 @@
-+++
-weight = 152
-title = "152. 임베딩 (Embedding) - 텍스트를 고차원 텐서 공간의 별로 박아 넣는 마법"
-date = "2026-05-03"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 152. 임베딩 (Embedding) - 텍스트를 고차원 텐서 공간의 별로 박아 넣는 마법
+date: '2026-05-03'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[278_instruction_tuning|임베딩]]([[278_instruction_tuning|Embedding]])은 컴퓨터가 전혀 이해하지 못하는 텍스트(단어, 문장), 이미지 등의 비정형 껍데기 [[001_dikw_pyramid|데이터]]를 ➔ [[190_ai_llm_requirements_specification|AI]] 신경망이 씹고 뜯고 연산할 수 있는 수천 차원의 **실수 [[055_array|배열]](고밀집 벡터, Dense Vector)로 변환 투영하여 우주 공간에 점(Point)으로 록온([[510_lock|Lock]]-on)** 시키는 0순위 번역 믹서기다.

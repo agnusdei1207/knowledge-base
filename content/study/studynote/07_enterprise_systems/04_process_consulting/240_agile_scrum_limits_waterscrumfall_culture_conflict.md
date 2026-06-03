@@ -1,10 +1,9 @@
-+++
-weight = 240
-title = "240. 애자일 스크럼 도입 한계 및 워터스크럼폴 조직 문화 충돌 진단 (Agile Scrum / WaterScrumFall)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 240. 애자일 스크럼 도입 한계 및 워터스크럼폴 조직 문화 충돌 진단 (Agile Scrum / WaterScrumFall)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

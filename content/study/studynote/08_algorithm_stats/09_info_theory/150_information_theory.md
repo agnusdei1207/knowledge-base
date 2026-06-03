@@ -1,10 +1,9 @@
-+++
-weight = 150
-title = "1. 정보이론 (Information Theory) — Shannon, 1948"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 1. 정보이론 (Information Theory) — Shannon, 1948
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

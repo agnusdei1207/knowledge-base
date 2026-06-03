@@ -1,10 +1,9 @@
-+++
-weight = 134
-title = "134. 메타버스 & 가상 현실 경제 - 디지털 세계의 경제 생태계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 134. 메타버스 & 가상 현실 경제 - 디지털 세계의 경제 생태계
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[594_metaverse_realtime_sync_rendering_offloading|메타버스]]는 **물리 세계와 병행하는 3D 가상 세계**에서 아바타를 통해 사회·경제·문화 활동을 하는 플랫폼이며, 가상 현실 경제는 [[594_metaverse_realtime_sync_rendering_offloading|메타버스]] 내에서 **디지털 자산(NFT·토큰)을 거래하는 경제 시스템**이다.

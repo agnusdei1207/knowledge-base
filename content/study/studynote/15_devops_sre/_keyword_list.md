@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "15. 데브옵스 (DevOps) 및 SRE 키워드 목록"
-date = "2026-03-04"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 15. 데브옵스 (DevOps) 및 SRE 키워드 목록
+date: '2026-03-04'
+tags:
+- studynote-devops-sre
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # [[652_devops_calms_culture|데브옵스]] ([[652_devops_calms_culture|DevOps]]) 및 [[100_sre_site_reliability_engineering_error_budget|SRE]] (사이트 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 공학) 키워드 목록 (심화 확장판)

@@ -1,12 +1,10 @@
-+++
-weight = 3
-title = "3. 무결성 (Integrity) — 해시, 전자서명, MAC, HMAC, 체크섬"
-description = "데이터의 위변조를 탐지하고 원본의 완전성을 보장하기 위한 무결성의 핵심 원리, 해시, 전자서명 및 실무 적용 방안"
-date = "2023-10-24"
-[taxonomies]
-tags = ["정보보안", "무결성", "해시", "전자서명", "MAC"]
-categories = ["Security", "Principles"]
-+++
+---
+title: 3. 무결성 (Integrity) — 해시, 전자서명, MAC, HMAC, 체크섬
+date: '2023-10-24'
+description: 데이터의 위변조를 탐지하고 원본의 완전성을 보장하기 위한 무결성의 핵심 원리, 해시, 전자서명 및 실무 적용 방안
+tags:
+- security
+---
 
 # 무결성 (Integrity)
 

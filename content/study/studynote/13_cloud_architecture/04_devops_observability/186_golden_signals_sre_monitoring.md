@@ -1,10 +1,9 @@
-+++
-weight = 186
-title = "186. 골든 시그널 (4 Golden Signals - SRE 모니터링)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 186. 골든 시그널 (4 Golden Signals - SRE 모니터링)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 4 Golden [[611_conditional_access_signals|Signals]](4 골든 시그널)는 구글 SRE가 정의한 모든 [[090_service_kubernetes_network_load_balancing|서비스]]의 모니터링 필수 지표 4가지로, [[141_latency|지연 시간]]([[141_latency|Latency]]), 트래픽(Traffic), 에러(Errors), 포화도(Saturation)이며 이 4가지만 제대로 모니터링해도 대부분의 장애를 선제 감지할 수 있다.

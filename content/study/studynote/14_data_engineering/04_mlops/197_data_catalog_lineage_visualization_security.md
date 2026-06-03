@@ -1,10 +1,9 @@
-+++
-weight = 197
-title = "197. 데이터 카탈로그 (Data Catalog) 계보 (Lineage) 시각화 보안 정책 연계망"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 197. 데이터 카탈로그 (Data Catalog) 계보 (Lineage) 시각화 보안 정책 연계망
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[213_data_catalog_metadata|데이터 카탈로그]]([[213_data_catalog_metadata|Data Catalog]])는 [[001_dikw_pyramid|데이터]] 자산의 [[012_metadata|메타데이터]]를 중앙에서 관리하는 "[[001_dikw_pyramid|데이터]]의 도서관 목록 시스템"이며, [[001_dikw_pyramid|데이터]] 계보([[214_data_lineage_tracking|Data Lineage]])는 [[001_dikw_pyramid|데이터]]의 원천부터 소비까지 흐름을 추적한다.

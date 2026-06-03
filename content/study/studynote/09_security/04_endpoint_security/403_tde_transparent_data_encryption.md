@@ -1,10 +1,9 @@
-+++
-weight = 403
-title = "403. TDE (Transparent Data Encryption)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 403. TDE (Transparent Data Encryption)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

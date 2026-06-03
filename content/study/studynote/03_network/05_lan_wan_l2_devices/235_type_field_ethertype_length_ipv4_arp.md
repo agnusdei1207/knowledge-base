@@ -1,10 +1,9 @@
-+++
-weight = 235
-title = "235. Type 필드 (Ethertype) / Length 필드 (IPv4 = 0x0800, ARP = 0x0806)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 235. Type 필드 (Ethertype) / Length 필드 (IPv4 = 0x0800, ARP = 0x0806)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

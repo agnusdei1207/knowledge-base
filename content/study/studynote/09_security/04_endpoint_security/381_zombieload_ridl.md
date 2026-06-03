@@ -1,10 +1,9 @@
-+++
-weight = 381
-title = "381. ZombieLoad / RIDL 취약점 (Zombieload Ridl)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 381. ZombieLoad / RIDL 취약점 (Zombieload Ridl)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 871
-title = "871. VIM (가상화 인프라 관리자)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 871. VIM (가상화 인프라 관리자)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

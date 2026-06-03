@@ -1,10 +1,9 @@
-+++
-weight = 450
-title = "450. 실시간 전송, 오버헤드 최소화 목적 (VoIP, DNS, 스트리밍)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 450. 실시간 전송, 오버헤드 최소화 목적 (VoIP, DNS, 스트리밍)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

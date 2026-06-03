@@ -1,10 +1,9 @@
-+++
-weight = 1017
-title = "1017. 와이파이 오프로딩"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1017. 와이파이 오프로딩
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

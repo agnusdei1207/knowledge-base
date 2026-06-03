@@ -1,10 +1,9 @@
-+++
-weight = 379
-title = "379. 데이터 웨어하우스 Inmon 방식 주제 통합 (Data Warehouse Inmon)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 379. 데이터 웨어하우스 Inmon 방식 주제 통합 (Data Warehouse Inmon)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

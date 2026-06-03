@@ -1,12 +1,10 @@
-+++
-weight = 18
-title = "18. 감리 보고서 (Audit Report) 구조 - 총평, 분야별 감리 결과, 시정 조치 권고 사항"
-description = "정보시스템 감리의 최종 결과물인 감리 보고서의 작성 원칙, 표준 구조 및 실무적 파급력을 분석합니다."
-date = "2026-03-04"
-[taxonomies]
-tags = ["정보시스템감리", "감리보고서", "시정조치", "권고사항", "의사결정"]
-categories = ["studynote-design-supervision"]
-+++
+---
+title: 18. 감리 보고서 (Audit Report) 구조 - 총평, 분야별 감리 결과, 시정 조치 권고 사항
+date: '2026-03-04'
+description: 정보시스템 감리의 최종 결과물인 감리 보고서의 작성 원칙, 표준 구조 및 실무적 파급력을 분석합니다.
+tags:
+- design_supervision
+---
 
 # 18. 감리 보고서 ([[363_audit|Audit]] Report) 구조 - 총평, 분야별 감리 결과, 시정 조치 권고 사항
 

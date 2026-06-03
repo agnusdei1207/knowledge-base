@@ -1,10 +1,9 @@
-+++
-title = "049. 앙상블 학습 — Ensemble Learning"
-weight = 49
-date = "2026-04-05"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 049. 앙상블 학습 — Ensemble Learning
+date: '2026-04-05'
+tags:
+- studynote-ai
+---
 
 > **핵심 인사이트**
 > 1. [[125_ensemble_learning|앙상블 학습]]([[125_ensemble_learning|Ensemble Learning]])은 여러 약한 학습기(Weak Learner)를 결합하여 하나의 강한 학습기(Strong Learner)를 만드는 방법 — "두 머리가 하나보다 낫다"는 집단 지성의 수학적 구현이며, 단일 모델보다 낮은 [[136_variance|분산]]([[136_variance|Variance]]) 또는 편향([[094_bias|Bias]])을 달성한다.

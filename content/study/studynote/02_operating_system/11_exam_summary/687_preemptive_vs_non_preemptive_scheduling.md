@@ -1,10 +1,9 @@
-+++
-weight = 687
-title = "687. 선점 / 비선점 스케줄링 차이 (Preemptive Vs Non Preemptive Scheduling)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 687. 선점 / 비선점 스케줄링 차이 (Preemptive Vs Non Preemptive Scheduling)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

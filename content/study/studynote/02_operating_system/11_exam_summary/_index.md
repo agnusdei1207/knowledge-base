@@ -1,8 +1,8 @@
-+++
-weight = 11
-title = "11. 시험 빈출 핵심 요약 (Operating System)"
-sort_by = "weight"
-+++
+---
+title: 11. 시험 빈출 핵심 요약 (Operating System)
+tags:
+- operating_system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

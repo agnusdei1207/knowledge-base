@@ -1,10 +1,9 @@
-+++
-weight = 220
-title = "220. 스키마 온 리드 (Schema-on-Read)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 220. 스키마 온 리드 (Schema-on-Read)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]]를 저장할 때 구조를 강제하지 않고, 분석가가 읽을 때 비로소 [[005_schema|스키마]]를 정의하는 **"나중 결정" [[268_strategy_pattern|전략]]**이다.

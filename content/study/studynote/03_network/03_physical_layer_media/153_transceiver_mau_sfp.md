@@ -1,10 +1,9 @@
-+++
-weight = 153
-title = "153. 트랜시버(Transceiver) / MAU / SFP - L1 광/전기 신호 변환 융합 젠더"
-date = "2026-05-03"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 153. 트랜시버(Transceiver) / MAU / SFP - L1 광/전기 신호 변환 융합 젠더
+date: '2026-05-03'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 트랜시버(Transceiver = Transmitter + Receiver)는 컴퓨터의 0과 1 디지털 텍스트 [[001_dikw_pyramid|데이터]]를 ➔ 밖으로 나가는 구리선의 아날로그 전기 파동([[001_voltage|Voltage]])이나 광케이블의 레이저 빛(Optical) 빔으로 **100% 치환 융합 번역 핑퐁 쳐서 쏘고 받는 OSI 1계층(물리) 핵심 대문 젠더(MAU) 쇳덩이**다.

@@ -1,10 +1,9 @@
-+++
-weight = 220
-title = "215. SNS 빅데이터 (Social Media Big Data) — 여론분석/트렌드감지/인플루언서분석"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 215. SNS 빅데이터 (Social Media Big Data) — 여론분석/트렌드감지/인플루언서분석
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

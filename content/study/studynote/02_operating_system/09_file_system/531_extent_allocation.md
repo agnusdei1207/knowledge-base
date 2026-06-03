@@ -1,10 +1,9 @@
-+++
-weight = 531
-title = "531. 익스텐트 (Extent) - 연속된 여러 블록의 묶음 할당 기법 (ext4, XFS 적용 - 메타데이터 감소 효과)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 531. 익스텐트 (Extent) - 연속된 여러 블록의 묶음 할당 기법 (ext4, XFS 적용 - 메타데이터 감소 효과)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

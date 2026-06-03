@@ -1,10 +1,9 @@
-+++
-weight = 936
-title = "936. 주변 보안 (Perimeter Security)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 936. 주변 보안 (Perimeter Security)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

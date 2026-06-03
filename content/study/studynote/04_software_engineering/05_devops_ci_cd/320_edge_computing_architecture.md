@@ -1,10 +1,9 @@
-+++
-weight = 320
-title = "320. 엣지 컴퓨팅 (Edge Computing) 분산 아키텍처 설계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 320. 엣지 컴퓨팅 (Edge Computing) 분산 아키텍처 설계
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

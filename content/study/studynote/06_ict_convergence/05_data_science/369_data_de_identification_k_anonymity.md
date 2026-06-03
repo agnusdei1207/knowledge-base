@@ -1,10 +1,9 @@
-+++
-weight = 369
-title = "369. 데이터 비식별화 K-익명성, L-다양성, T-근접성 (DATA DE Identification K Anonymity)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 369. 데이터 비식별화 K-익명성, L-다양성, T-근접성 (DATA DE Identification K Anonymity)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

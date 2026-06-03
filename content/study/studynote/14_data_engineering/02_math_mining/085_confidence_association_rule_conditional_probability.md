@@ -1,10 +1,10 @@
-+++
-title = "85. 신뢰도 (Confidence) - 연관 규칙 조건부 확률"
-date = "2026-03-04"
-weight = 85
-[extra]
-categories = ["studynote-data-engineering", "math-mining"]
-+++
+---
+title: 85. 신뢰도 (Confidence) - 연관 규칙 조건부 확률
+date: '2026-03-04'
+tags:
+- math-mining
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

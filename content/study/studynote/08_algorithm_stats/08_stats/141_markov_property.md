@@ -1,10 +1,9 @@
-+++
-weight = 141
-title = "12. 마르코프 성질 (Markov Property) — 미래 ⊥ 과거 | 현재"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 12. 마르코프 성질 (Markov Property) — 미래 ⊥ 과거 | 현재
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

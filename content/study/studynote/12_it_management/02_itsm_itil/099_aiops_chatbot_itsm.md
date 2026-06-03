@@ -1,10 +1,9 @@
-+++
-weight = 99
-title = "99. 챗봇 및 AI옵스(AIOps) 결합 ITSM"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 99. 챗봇 및 AI옵스(AIOps) 결합 ITSM
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 챗봇 및 AI옵스([[099_aiops_chatbot_itsm_automation|AIOps]]) 결합 ITSM의 본질은 티켓(요청) 자동 [[104_classification_analysis|분류]], 유사 인시던트 자동 매핑, 장애 전조 예측 자동화를 [[001_dikw_pyramid|데이터]], 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.

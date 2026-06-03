@@ -1,10 +1,9 @@
-+++
-weight = 133
-title = "133. Fine-tuning (미세 조정) - 사전 학습 모델의 도메인 적응"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 133. Fine-tuning (미세 조정) - 사전 학습 모델의 도메인 적응
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Fine-tuning은 **사전 학습된 Foundation Model의 [[267_weight_bias_activation|가중치]]를 [[064_relation_domain|도메인]] 특화 [[001_dikw_pyramid|데이터]]로 추가 학습하여 특정 작업 [[282_performance_tactics|성능]]을 최적화**하는 기법이며, Full [[304_fine_tuning|Fine-tuning]]·[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]·Prompt Tuning으로 구분된다.

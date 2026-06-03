@@ -1,10 +1,9 @@
-+++
-weight = 625
-title = "625. 하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 625. 하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

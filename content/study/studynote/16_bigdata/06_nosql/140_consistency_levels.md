@@ -1,10 +1,9 @@
-+++
-weight = 140
-title = "140. 일관성 수준 선택 (Consistency Levels) — Strong/Eventual/Bounded Staleness"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 140. 일관성 수준 선택 (Consistency Levels) — Strong/Eventual/Bounded Staleness
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [[136_variance|분산]] 시스템의 [[194_consistency_database_integrity|일관성]] 수준은 "[[001_dikw_pyramid|데이터]]가 얼마나 최신이어야 하는가"와 "그 대가로 얼마나 느리고 [[452_availability|가용성]]이 낮아지는가"의 연속적 트레이드오프 스펙트럼이다.

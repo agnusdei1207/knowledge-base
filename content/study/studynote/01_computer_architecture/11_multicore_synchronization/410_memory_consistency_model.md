@@ -1,10 +1,9 @@
-+++
-weight = 410
-title = "410. 메모리 일관성 모델 (Memory Consistency Model)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 410. 메모리 일관성 모델 (Memory Consistency Model)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 메모리 [[194_consistency_database_integrity|일관성]] 모델 (Memory [[194_consistency_database_integrity|Consistency]] Model)
 

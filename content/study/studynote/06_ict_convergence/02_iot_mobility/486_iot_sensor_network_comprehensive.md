@@ -1,10 +1,9 @@
-+++
-weight = 486
-title = "486. IoT 센서 네트워크 종합 (IoT Sensor Network Comprehensive)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 486. IoT 센서 네트워크 종합 (IoT Sensor Network Comprehensive)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 241
-title = "241. 옵티마이저 SGD (Stochastic Gradient Descent) 미니배치 Adam 모멘텀 적응 학습률"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 241. 옵티마이저 SGD (Stochastic Gradient Descent) 미니배치 Adam 모멘텀 적응 학습률
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[163_optimizer_sql_execution_plan_generator|옵티마이저]]([[088_optimizer|Optimizer]])는 [[075_loss_function_cost_function|손실 함수]]([[087_loss_function|Loss Function]])의 기울기(Gradient)를 이용해 모델 파라미터를 반복 갱신하는 [[001_algorithm_definition|알고리즘]]으로, 수렴 속도와 안정성의 균형이 핵심이다.

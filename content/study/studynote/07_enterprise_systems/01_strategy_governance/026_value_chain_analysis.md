@@ -1,10 +1,9 @@
-+++
-weight = 26
-title = "26. 가치 사슬 분석 (Value Chain Analysis) — 포터의 경쟁 우위 원천 분석"
-date = "2026-04-29"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 26. 가치 사슬 분석 (Value Chain Analysis) — 포터의 경쟁 우위 원천 분석
+date: '2026-04-29'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[249_value_chain_competitive_analysis|가치 사슬]]([[249_value_chain_competitive_analysis|Value Chain]])은 마이클 포터(Michael Porter)가 1985년 《경쟁 우위(Competitive Advantage)》에서 제시한 프레임워크로, 기업이 제품·[[090_service_kubernetes_network_load_balancing|서비스]]를 생산하고 고객에게 전달하는 과정을 주활동(Primary Activities)과 지원 활동([[084_support_association_rule_transaction|Support]] Activities)으로 분해하여 경쟁 우위(Cost Advantage 또는 Differentiation)의 원천을 파악한다.

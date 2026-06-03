@@ -1,10 +1,9 @@
-+++
-weight = 66
-title = "Spark Shuffle 최적화 (Shuffle Optimization)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: Spark Shuffle 최적화 (Shuffle Optimization)
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - 셔플(Shuffle)은 [[136_variance|분산]] 환경에서 [[514_partition_slice_volume|파티션]] 간 [[001_dikw_pyramid|데이터]]를 재분배하는 과정으로, 네트워크 I/O와 디스크 [[289_cqrs_db|쓰기]]를 유발하는 스파크 [[282_performance_tactics|성능]]의 최대 병목 구간이다.

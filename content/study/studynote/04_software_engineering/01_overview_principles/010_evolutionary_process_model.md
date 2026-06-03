@@ -1,12 +1,10 @@
-+++
-weight = 10
-title = "10. 진화적 프로세스 모델 (Evolutionary Process Model)"
-description = "초기 핵심 기능 배포 후 지속적인 사용자 피드백을 통해 시스템의 외연과 내실을 확장해 나가는 생명주기"
-date = "2026-03-04"
-[taxonomies]
-tags = ["소프트웨어공학", "SDLC", "진화적모델", "나선형모델", "프로토타이핑"]
-categories = ["studynote-se"]
-+++
+---
+title: 10. 진화적 프로세스 모델 (Evolutionary Process Model)
+date: '2026-03-04'
+description: 초기 핵심 기능 배포 후 지속적인 사용자 피드백을 통해 시스템의 외연과 내실을 확장해 나가는 생명주기
+tags:
+- software_engineering
+---
 
 # [[489_raid_10_hybrid|10]]. 진화적 프로세스 모델 (Evolutionary [[300_process|Process]] Model)
 

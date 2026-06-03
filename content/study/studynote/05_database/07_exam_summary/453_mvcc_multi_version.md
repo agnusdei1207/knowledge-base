@@ -1,10 +1,9 @@
-+++
-weight = 453
-title = "453. MVCC 다중 버전 읽기 일관성"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 453. MVCC 다중 버전 읽기 일관성
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

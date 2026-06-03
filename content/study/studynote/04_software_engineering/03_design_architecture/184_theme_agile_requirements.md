@@ -1,10 +1,9 @@
-+++
-weight = 184
-title = "184. 테마 (Theme) - 에픽들의 상위 카테고리"
-date = "2026-05-06"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 184. 테마 (Theme) - 에픽들의 상위 카테고리
+date: '2026-05-06'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

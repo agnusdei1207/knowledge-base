@@ -1,10 +1,10 @@
-+++
-weight = 457
-title = "457. 스풀링 (Spooling, Simultaneous Peripheral Operation On-Line) - 디스크를 대형 버퍼로 사용 (프린터 큐)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 457. 스풀링 (Spooling, Simultaneous Peripheral Operation On-Line) - 디스크를 대형 버퍼로
+  사용 (프린터 큐)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

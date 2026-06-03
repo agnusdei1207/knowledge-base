@@ -1,10 +1,9 @@
-+++
-weight = 222
-title = "222. 스케일 업(Scale-up) 스케일 아웃 파라미터 분산 로드"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 222. 스케일 업(Scale-up) 스케일 아웃 파라미터 분산 로드
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

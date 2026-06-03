@@ -1,10 +1,9 @@
-+++
-weight = 128
-title = "128. 암묵지 vs 형식지 (Tacit vs Explicit Knowledge) - 지식 변환과 SECI 모델"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 128. 암묵지 vs 형식지 (Tacit vs Explicit Knowledge) - 지식 변환과 SECI 모델
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 암묵지(Tacit)는 **경험·노하우·직관처럼 언어로 표현하기 어려운 개인적 지식**이고, [[129_explicit_knowledge_formalization|형식지]](Explicit)는 **문서·매뉴얼·DB처럼 체계적으로 기록·공유 가능한 지식**이다.

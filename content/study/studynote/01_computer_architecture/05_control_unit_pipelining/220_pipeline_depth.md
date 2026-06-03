@@ -1,10 +1,9 @@
-+++
-weight = 220
-title = "220. 파이프라인 깊이 (Pipeline Depth)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 220. 파이프라인 깊이 (Pipeline Depth)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

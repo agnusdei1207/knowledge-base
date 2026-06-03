@@ -1,10 +1,9 @@
-+++
-weight = 140
-title = "140. LiDAR (Light Detection and Ranging) - ToF 기반 3D 거리 측정"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 140. LiDAR (Light Detection and Ranging) - ToF 기반 3D 거리 측정
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LiDAR는 **레이저 펄스를 발사하여 반사 시간(ToF, Time of Flight)으로 물체까지의 거리를 정밀 측정**하고, 초당 수십만~수백만 포인트의 3D 포인트 클라우드를 생성하는 센서이다.

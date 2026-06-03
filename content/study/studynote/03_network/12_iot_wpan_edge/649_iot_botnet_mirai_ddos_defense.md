@@ -1,10 +1,9 @@
-+++
-weight = 649
-title = "649. 홈넷/IoT 봇넷 방어 기법 (Mirai Botnet DDOS 예방 포트 필터)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 649. 홈넷/IoT 봇넷 방어 기법 (Mirai Botnet DDOS 예방 포트 필터)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

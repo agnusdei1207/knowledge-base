@@ -1,7 +1,8 @@
-+++
-title = "77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-Refactor"
-weight = 77
-+++
+---
+title: 77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-Refactor
+tags:
+- software_engineering
+---
 
 # 테스트 주도 개발 ([[164_tdd_test_driven_development|TDD]], [[411_process|Test-Driven Development]]) - Red-Green-[[213_refactoring_cloud_native_rearchitecture|Refactor]]
 

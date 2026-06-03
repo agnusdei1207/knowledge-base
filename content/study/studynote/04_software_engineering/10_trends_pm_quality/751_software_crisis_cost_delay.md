@@ -1,10 +1,9 @@
-+++
-weight = 751
-title = "751. 소프트웨어 위기 비용 지연 품질 문제"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 751. 소프트웨어 위기 비용 지연 품질 문제
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

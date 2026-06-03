@@ -1,10 +1,9 @@
-+++
-weight = 142
-title = "142. 스키마리스 설계 패턴 (Schemaless Design Patterns) — 임베딩 vs 참조"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 142. 스키마리스 설계 패턴 (Schemaless Design Patterns) — 임베딩 vs 참조
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [[005_schema|스키마]]리스(Schemaless)는 "[[005_schema|스키마]]가 없음"이 아니라 "[[005_schema|스키마]]가 애플리케이션 코드에 있음"으로, [[014_data_model_components|데이터 모델]]링의 책임이 DB에서 애플리케이션으로 이동한 것이다.

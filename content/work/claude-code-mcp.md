@@ -1,4 +1,8 @@
-# 🤖 Claude Code + MCP 운영안
+---
+title: 🤖 Claude Code + MCP 운영안
+tags:
+- work
+---
 
 이 문서는 20명 규모에서 Claude Code와 MCP를 이용해 이 저장소를 단순 문서 창고가 아니라 "지능형 지식베이스"로 쓰기 위한 운영안입니다.
 

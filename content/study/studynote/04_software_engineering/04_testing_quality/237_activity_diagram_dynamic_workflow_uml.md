@@ -1,10 +1,9 @@
-+++
-weight = 237
-title = "237. 액티비티 다이어그램 (Activity Diagram) - 처리 로직 및 워크플로우 (동적)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 237. 액티비티 다이어그램 (Activity Diagram) - 처리 로직 및 워크플로우 (동적)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

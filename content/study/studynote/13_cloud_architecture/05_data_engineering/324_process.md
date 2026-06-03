@@ -1,10 +1,9 @@
-+++
-weight = 324
-title = "324. 엣지 컴퓨팅 분산 지연 최적화 포그 컴퓨팅 (Cloud Architecture Concept)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 324. 엣지 컴퓨팅 분산 지연 최적화 포그 컴퓨팅 (Cloud Architecture Concept)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[235_edge_computing_smart_factory|엣지 컴퓨팅]] [[136_variance|분산]] [[015_지연_데이터_관점|지연]] 최적화 [[106_fog_computing_cisco_architecture|포그 컴퓨팅]]는 클라우드 시스템에서 [[015_지연_데이터_관점|지연]]시간 단축를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

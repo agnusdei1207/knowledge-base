@@ -1,10 +1,10 @@
-+++
-weight = 426
-title = "426. 변경 조건/결정 커버리지 (MC/DC, Modified Condition/Decision Coverage) - 각 개별 조건이 독립적으로 전체 결과에 영향을 미침을 증명 (DO-178B/C 항공/안전 표준)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 426. 변경 조건/결정 커버리지 (MC/DC, Modified Condition/Decision Coverage) - 각 개별 조건이
+  독립적으로 전체 결과에 영향을 미침을 증명 (DO-178B/C 항공/안전 표준)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

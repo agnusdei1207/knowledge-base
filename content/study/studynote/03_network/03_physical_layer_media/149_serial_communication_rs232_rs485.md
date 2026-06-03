@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "149. RS-232C, RS-422, RS-485 시리얼(직렬) 통신 인터페이스"
-date = "2026-05-03"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 149. RS-232C, RS-422, RS-485 시리얼(직렬) 통신 인터페이스
+date: '2026-05-03'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시리얼([[009_직렬_전송_vs_병렬_전송|Serial]], 직렬) 통신은 컴퓨터나 산업용 장비 간에 [[001_dikw_pyramid|데이터]]를 한 가닥의 선을 통해 1비트씩 기차처럼 순서대로 보내는 가장 고전적이고 안정적인 물리 계층(Physical Layer) 통신 규격이다.

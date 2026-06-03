@@ -1,10 +1,9 @@
-+++
-weight = 758
-title = "758. 저널링 파일 시스템 트랜잭션 로그 (Journaling File System Transaction Log)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 758. 저널링 파일 시스템 트랜잭션 로그 (Journaling File System Transaction Log)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

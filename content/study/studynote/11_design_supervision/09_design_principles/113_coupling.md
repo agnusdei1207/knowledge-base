@@ -1,10 +1,9 @@
-+++
-weight = 113
-title = "113. 결합도 (Coupling)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 113. 결합도 (Coupling)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - [[195_coupling_levels|결합도]]는 서로 다른 [[192_module_independence|모듈]]이 얼마나 강하게 서로에게 의존하는지를 나타내는 지표이며, 낮을수록 좋다.

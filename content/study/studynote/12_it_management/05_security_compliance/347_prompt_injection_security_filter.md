@@ -1,10 +1,9 @@
-+++
-weight = 347
-title = "347. 프롬프트 인젝션 보안 필터망 설계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 347. 프롬프트 인젝션 보안 필터망 설계
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[955_prompt_injection|프롬프트 인젝션]] 보안 필터망 설계의 본질은 [[001_dikw_pyramid|데이터]], 모델, 평가, 배포, 책임 통제가 함께 굴러가야 [[231_ai_turing_test|인공지능]] [[090_service_kubernetes_network_load_balancing|서비스]]가 실험을 넘어 운영 자산이 된다.

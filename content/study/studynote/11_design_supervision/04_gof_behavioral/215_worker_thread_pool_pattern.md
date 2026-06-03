@@ -1,10 +1,9 @@
-+++
-weight = 215
-title = "215. 워커 스레드/스레드 풀 패턴 (Worker Thread / Thread Pool Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 215. 워커 스레드/스레드 풀 패턴 (Worker Thread / Thread Pool Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

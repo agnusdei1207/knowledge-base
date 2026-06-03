@@ -1,10 +1,9 @@
-+++
-weight = 53
-title = "53. 데이터 스튜어드십 (Data Stewardship)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 53. 데이터 스튜어드십 (Data Stewardship)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[273_data_stewardship|데이터 스튜어드십]] ([[273_data_stewardship|Data Stewardship]])의 본질은 현업 부서의 [[001_dikw_pyramid|데이터]] 품질 실무 책임을 [[268_strategy_pattern|전략]]·조직·프로세스에 내재화하는 데 있다.

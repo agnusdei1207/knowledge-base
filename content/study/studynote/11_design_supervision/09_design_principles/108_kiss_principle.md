@@ -1,10 +1,9 @@
-+++
-weight = 108
-title = "108. KISS 원칙 (Keep It Simple, Stupid)"
-date = "2026-03-05"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 108. KISS 원칙 (Keep It Simple, Stupid)
+date: '2026-03-05'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[249_kiss_keep_it_simple_stupid|KISS]](Keep It Simple, Stupid)는 시스템을 설계하고 코드를 작성할 때 불필요한 복잡성을 극도로 배제하고, 누구나 직관적으로 이해할 수 있는 가장 단순하고 명확한 해법을 선택해야 한다는 소프트웨어 공학의 대원칙이다.

@@ -1,10 +1,9 @@
-+++
-weight = 141
-title = "141. 데이터 기능 (Data Functions)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 141. 데이터 기능 (Data Functions)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] 기능 ([[001_dikw_pyramid|Data]] Functions)의 본질은 ILF (내부 [[369_logic_bomb|논리]] [[501_file_definition_logical_record|파일]], DB 저장 [[001_dikw_pyramid|데이터]]), EIF (외부 연계 [[501_file_definition_logical_record|파일]], 타 시스템 [[316_reference_pattern_nosql|참조]] [[001_dikw_pyramid|데이터]])를 단계별 산출물과 품질 게이트로 관리하는 데 있다.

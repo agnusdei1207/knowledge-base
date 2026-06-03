@@ -1,10 +1,9 @@
-+++
-weight = 373
-title = "373. ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory Mapping)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 373. ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory Mapping)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

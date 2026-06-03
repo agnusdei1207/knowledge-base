@@ -1,8 +1,8 @@
-+++
-weight = 11
-title = "11. 멀티코어 동기화 및 하드웨어 지원"
-sort_by = "weight"
-+++
+---
+title: 11. 멀티코어 동기화 및 하드웨어 지원
+tags:
+- computer_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 254
-title = "254. 지속 가능한 IT 아키텍처 서버 효율화 (Sustainable IT Architecture)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 254. 지속 가능한 IT 아키텍처 서버 효율화 (Sustainable IT Architecture)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

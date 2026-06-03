@@ -1,10 +1,9 @@
-+++
-weight = 1100
-title = "1100. 스위치 포트 미러링 (SPAN/TAP)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1100. 스위치 포트 미러링 (SPAN/TAP)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

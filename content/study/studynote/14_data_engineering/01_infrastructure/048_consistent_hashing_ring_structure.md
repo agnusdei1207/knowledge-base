@@ -1,10 +1,9 @@
-+++
-title = "048. 일관 해싱 — Consistent Hashing & Ring"
-weight = 48
-date = "2026-04-05"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 048. 일관 해싱 — Consistent Hashing & Ring
+date: '2026-04-05'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. 일관 해싱([[244_consistent_hashing_ring_distribution|Consistent Hashing]])은 노드 추가/제거 시 최소한의 키 재배치만 발생하도록 설계된 해싱 기법 — 전통적인 모듈러 해싱([[067_db_key_uniqueness_minimality|key]] % N)은 노드 수 N이 변하면 거의 모든 키를 재매핑해야 하지만, 일관 해싱은 (K/N)개의 키만 이동한다.

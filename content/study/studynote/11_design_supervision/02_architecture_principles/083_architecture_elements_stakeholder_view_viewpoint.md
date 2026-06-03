@@ -1,10 +1,9 @@
-+++
-weight = 83
-title = "83. 아키텍처 주요 요소 - 이해관계자, 관심사, 뷰, 뷰포인트"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 83. 아키텍처 주요 요소 - 이해관계자, 관심사, 뷰, 뷰포인트
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

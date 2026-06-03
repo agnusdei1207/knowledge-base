@@ -1,10 +1,9 @@
-+++
-weight = 393
-title = "393. 데이터 패브릭 가상화 메타 지능 연결 (Data Fabric)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 393. 데이터 패브릭 가상화 메타 지능 연결 (Data Fabric)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

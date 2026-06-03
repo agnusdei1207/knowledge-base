@@ -1,10 +1,9 @@
-+++
-weight = 79
-title = "079. 프로파일링 및 트레이싱 도구 (Profiling & Tracing Tools)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 079. 프로파일링 및 트레이싱 도구 (Profiling & Tracing Tools)
+date: '2026-05-05'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[613_profiling_gprof|프로파일링]]([[613_profiling_gprof|Profiling]])은 시스템 [[282_performance_tactics|성능]]의 '통계적 요약(어느 함수가 CPU를 많이 먹는가)'을 보여주고, 트레이싱([[657_observability|Tracing]])은 시스템에서 발생한 '개별 이벤트의 정밀한 흐름(시간순 [[568_logs_distributed_logging_elk_fluentd|로그]])'을 추적하는 [[022_kernel_role|커널]] 관측 도구다.

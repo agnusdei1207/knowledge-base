@@ -1,10 +1,9 @@
-+++
-weight = 314
-title = "314. 강화 학습 MDP (Markov Decision Process)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 314. 강화 학습 MDP (Markov Decision Process)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 158
-title = "158. MTBF/MTTR 최적화 (MTBF/MTTR Optimization)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 158. MTBF/MTTR 최적화 (MTBF/MTTR Optimization)
+date: '2026-04-21'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

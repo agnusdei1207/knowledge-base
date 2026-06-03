@@ -1,10 +1,9 @@
-+++
-weight = 26
-title = "26. 엑소커널 (Exokernel) — 하드웨어 추상화 최소화 아키텍처"
-date = "2026-04-29"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 26. 엑소커널 (Exokernel) — 하드웨어 추상화 최소화 아키텍처
+date: '2026-04-29'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 엑소커널(Exokernel)은 MIT가 1994년 제안한 OS [[022_kernel_role|커널]] 아키텍처로, 전통 OS가 하드웨어 자원을 [[198_abstraction_control_data_process|추상화]]하여 제공하는 것과 달리, 하드웨어 자원(CPU, 메모리, 디스크)을 안전하게 [[071_다중화_Multiplexing|다중화]]([[071_다중화_Multiplexing|Multiplexing]])하되 [[198_abstraction_control_data_process|추상화]]는 최소화하여 응용 프로그램이 직접 하드웨어를 제어하도록 한다.

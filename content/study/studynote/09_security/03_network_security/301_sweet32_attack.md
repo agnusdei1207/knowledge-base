@@ -1,10 +1,9 @@
-+++
-weight = 301
-title = "301. Sweet32 (Sweet32)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 301. Sweet32 (Sweet32)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

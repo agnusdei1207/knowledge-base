@@ -1,10 +1,9 @@
-+++
-weight = 952
-title = "952. 은닉 단말 (Hidden Terminal) 문제 (CSMA/CA RTS/CTS)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 952. 은닉 단말 (Hidden Terminal) 문제 (CSMA/CA RTS/CTS)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

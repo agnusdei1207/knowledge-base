@@ -1,10 +1,9 @@
-+++
-weight = 530
-title = "530. Joiner/Mover/Leaver (JML) 프로세스 (Jml Process)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 530. Joiner/Mover/Leaver (JML) 프로세스 (Jml Process)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

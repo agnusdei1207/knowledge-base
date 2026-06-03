@@ -1,10 +1,9 @@
-+++
-weight = 122
-title = "122. 순환 시프트 (Circular Shift / Rotate)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 122. 순환 시프트 (Circular Shift / Rotate)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 순환 시프트(Rotate)는 [[073_bit|비트]] 열을 좌우로 밀어낼 때, **[[057_register|레지스터]] 밖으로 밀려나 추락하는 [[073_bit|비트]]를 주워다가 반대편 텅 빈자리에 다시 쑤셔 넣는 닫힌 궤도**의 이동 연산이다.

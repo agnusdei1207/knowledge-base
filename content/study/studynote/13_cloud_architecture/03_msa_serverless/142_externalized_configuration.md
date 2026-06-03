@@ -1,10 +1,9 @@
-+++
-weight = 142
-title = "142. Externalized Configuration - 외부 설정 관리 패턴"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 142. Externalized Configuration - 외부 설정 관리 패턴
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Externalized Configuration은 **애플리케이션의 [[009_config|설정]](DB URL·API키·[[576_feature_flag_ab_testing_rollout|Feature Flag]])을 코드 외부(환경변수·[[009_config|Config]] Server·[[567_vault|Vault]])로 분리**하여, 코드 변경 없이 환경별(dev/staging/prod) [[009_config|설정]]을 관리하는 패턴이다.

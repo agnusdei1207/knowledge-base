@@ -1,10 +1,9 @@
-+++
-weight = 158
-title = "9. 오류 정정 부호 (ECC, Error Correcting Codes) — 해밍/터보/LDPC/폴라"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 9. 오류 정정 부호 (ECC, Error Correcting Codes) — 해밍/터보/LDPC/폴라
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 953
-title = "953. AI 모델 탈취 (Model Theft)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 953. AI 모델 탈취 (Model Theft)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

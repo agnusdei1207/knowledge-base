@@ -1,10 +1,9 @@
-+++
-weight = 104
-title = "104. ResNet (Residual Network) - 잔차 연결 152층 기울기 소실 돌파"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 104. ResNet (Residual Network) - 잔차 연결 152층 기울기 소실 돌파
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[287_resnet_skip_connection|ResNet]] ([[287_resnet_skip_connection|Residual Network]])은 입력 [[001_dikw_pyramid|데이터]]를 변형하지 않고 다음 층으로 직접 전달하는 우회로(Skip Connection)를 도입해 잔차(Residual)만 학습하게 만든 신경망 구조다.

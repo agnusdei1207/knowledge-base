@@ -1,10 +1,9 @@
-+++
-weight = 372
-title = "372. 이벤트 소싱 상태 이력 불변 저장 (Event Sourcing Immutable History)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 372. 이벤트 소싱 상태 이력 불변 저장 (Event Sourcing Immutable History)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

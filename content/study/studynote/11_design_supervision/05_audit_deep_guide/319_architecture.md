@@ -1,10 +1,9 @@
-+++
-weight = 319
-title = "319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

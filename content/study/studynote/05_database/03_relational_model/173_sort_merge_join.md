@@ -1,10 +1,9 @@
-+++
-weight = 173
-title = "173. 소트 머지 조인 (Sort Merge Join)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 173. 소트 머지 조인 (Sort Merge Join)
+date: '2026-05-06'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 217
-title = "217. 하이퍼컨버지드 인프라 (HCI, Hyper-Converged Infrastructure)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 217. 하이퍼컨버지드 인프라 (HCI, Hyper-Converged Infrastructure)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "040. 데이터 정형화 비율 (Structured vs Unstructured Data Ratio)"
-weight = 252
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 040. 데이터 정형화 비율 (Structured vs Unstructured Data Ratio)
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트**
 > 1. 전 세계 [[001_dikw_pyramid|데이터]]의 80% 이상이 비정형(Unstructured) [[001_dikw_pyramid|데이터]]이며, 기업이 실제로 분석에 활용하는 [[001_dikw_pyramid|데이터]]는 20% 이하의 [[002_structured_data|정형 데이터]]에 불과하다 — 이 "80/20 역설"이 빅데이터 분석의 핵심 도전이자 기회다.

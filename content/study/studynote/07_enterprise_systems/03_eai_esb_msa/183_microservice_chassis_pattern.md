@@ -1,10 +1,9 @@
-+++
-weight = 183
-title = "183. 마이크로서비스 샤시 (Microservice Chassis) - 공통 뼈대 패턴"
-date = "2026-05-06"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 183. 마이크로서비스 샤시 (Microservice Chassis) - 공통 뼈대 패턴
+date: '2026-05-06'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

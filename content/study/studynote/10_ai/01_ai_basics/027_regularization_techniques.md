@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. 규제화 기법 (Regularization Techniques) — 과적합 방지 핵심 전략"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 27. 규제화 기법 (Regularization Techniques) — 과적합 방지 핵심 전략
+date: '2026-04-29'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 규제화([[134_regularization_dropout_batch_norm|Regularization]])는 [[241_machine_learning_basics|머신러닝]] 모델의 과적합([[245_overfitting_variance|Overfitting]])을 방지하기 위해 [[075_loss_function_cost_function|손실 함수]]([[087_loss_function|Loss Function]])에 모델 복잡도를 페널티로 추가하는 기법으로, L1([[102_lasso_ridge_regression_regularization|Lasso]]), L2(Ridge), [[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|Dropout]], [[281_early_stopping|Early Stopping]], [[282_batch_normalization|Batch Normalization]] 등이 있다.

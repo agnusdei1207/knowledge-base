@@ -1,10 +1,9 @@
-+++
-weight = 1047
-title = "1047. 타임 센시티브 네트워킹 (TSN 인프라망)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1047. 타임 센시티브 네트워킹 (TSN 인프라망)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

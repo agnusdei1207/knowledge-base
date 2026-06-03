@@ -1,12 +1,10 @@
-+++
-weight = 21
-title = "21. 형상 식별 (Configuration Identification) - 형상 항목(CI) 선정"
-description = "형상 관리의 첫 단계, 시스템을 구성하는 형상 항목(CI)을 분할하고 유일한 식별 체계를 부여하는 메커니즘"
-date = "2026-03-04"
-[taxonomies]
-categories = ["studynote-se"]
-tags = ["Software Engineering", "SCM", "Configuration Identification", "CI", "형상식별"]
-+++
+---
+title: 21. 형상 식별 (Configuration Identification) - 형상 항목(CI) 선정
+date: '2026-03-04'
+description: 형상 관리의 첫 단계, 시스템을 구성하는 형상 항목(CI)을 분할하고 유일한 식별 체계를 부여하는 메커니즘
+tags:
+- software_engineering
+---
 
 # 형상 [[655_ir_detection_analysis|식별]] (Configuration [[289_identification_flags_fragmentation_offset|Identification]])
 

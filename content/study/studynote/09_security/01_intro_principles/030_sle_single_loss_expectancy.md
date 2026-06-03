@@ -1,10 +1,9 @@
-+++
-weight = 30
-title = "30. SLE·ALE — 단일·연간 손실 기대값"
-date = "2026-04-29"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 30. SLE·ALE — 단일·연간 손실 기대값
+date: '2026-04-29'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SLE(Single Loss Expectancy, 단일 손실 기대값)은 보안 사고 한 번 발생 시 예상 손실액이고, [[032_ale_annual_loss_expectancy|ALE]](Annual Loss Expectancy, 연간 손실 기대값)은 연간 기대 손실액이다. [[028_quantitative_risk_analysis|정량적 위험 분석]]의 핵심 계산식이다.

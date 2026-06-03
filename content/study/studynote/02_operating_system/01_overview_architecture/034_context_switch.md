@@ -1,9 +1,9 @@
-+++
-title = "컨텍스트 스위칭 (Context Switch) 심화"
-date = "2026-03-04"
-[extra]
-categories = "studynote-os"
-+++
+---
+title: 컨텍스트 스위칭 (Context Switch) 심화
+date: '2026-03-04'
+tags:
+- studynote-os
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[033_context|컨텍스트]] 스위칭([[211_context_switch|Context Switch]])은 CPU가 현재 실행 중인 프로세스/[[092_thread_lwp|스레드]]의 상태를 PCB/TCB에 저장하고 다른 프로세스/[[092_thread_lwp|스레드]]의 상태를 복원하는 OS 핵심 메커니즘이다.

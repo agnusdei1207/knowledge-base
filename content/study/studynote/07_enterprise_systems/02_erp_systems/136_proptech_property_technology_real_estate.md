@@ -1,10 +1,9 @@
-+++
-weight = 136
-title = "136. PropTech (부동산 기술) - 디지털 부동산 혁신"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 136. PropTech (부동산 기술) - 디지털 부동산 혁신
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PropTech(Property Technology)는 **부동산 산업에 [[190_ai_llm_requirements_specification|AI]]·빅데이터·[[101_iot_concept|IoT]]·[[004_blockchain|블록체인]]을 적용**하여 거래·관리·투자·건설을 혁신하는 기술 분야이다.

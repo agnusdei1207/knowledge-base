@@ -1,5 +1,5 @@
-+++
-weight = 6
-title = "06. Software Architecture"
-sort_by = "weight"
-+++
+---
+title: 06. Software Architecture
+tags:
+- software_engineering
+---

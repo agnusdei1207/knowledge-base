@@ -1,10 +1,9 @@
-+++
-weight = 379
-title = "379. 캐시 컬러링 (Cache Coloring) / 페이지 컬러링"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 379. 캐시 컬러링 (Cache Coloring) / 페이지 컬러링
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

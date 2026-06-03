@@ -1,10 +1,9 @@
-+++
-weight = 240
-title = "240. 시계열 데이터베이스 (TSDB: InfluxDB, Prometheus)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: '240. 시계열 데이터베이스 (TSDB: InfluxDB, Prometheus)'
+date: '2026-05-05'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[057_tsdb_downsampling_retention_policy|시계열 데이터베이스]](Time Series [[501_database|Database]], TSDB)는 모든 [[001_dikw_pyramid|데이터]]의 뼈대를 오직 **'시간(Timestamp)'**이라는 단일 축으로 고정시키고, 초당 수백만 건씩 쏟아지는 연속된 숫자([[342_routing_metric_hop_bandwidth_delay|Metric]]) [[001_dikw_pyramid|데이터]]를 쇳덩어리에 순차적으로 기록하는 데 미쳐있는 특수 목적 NoSQL이다.

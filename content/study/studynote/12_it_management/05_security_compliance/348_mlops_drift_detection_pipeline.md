@@ -1,10 +1,9 @@
-+++
-weight = 348
-title = "348. MLOps 드리프트 탐지 파이프라인 모니터링 감사"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 348. MLOps 드리프트 탐지 파이프라인 모니터링 감사
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[348_mlops|MLOps]] 드리프트 탐지 파이프라인 모니터링 [[606_auditing_linux_auditd|감사]]의 본질은 [[001_dikw_pyramid|데이터]], 모델, 평가, 배포, 책임 통제가 함께 굴러가야 [[231_ai_turing_test|인공지능]] [[090_service_kubernetes_network_load_balancing|서비스]]가 실험을 넘어 운영 자산이 된다.

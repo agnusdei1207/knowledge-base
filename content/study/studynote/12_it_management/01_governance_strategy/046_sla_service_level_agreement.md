@@ -1,10 +1,9 @@
-+++
-weight = 46
-title = "46. SLA (Service Level Agreement, 서비스 수준 협약서)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 46. SLA (Service Level Agreement, 서비스 수준 협약서)
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

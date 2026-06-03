@@ -1,10 +1,9 @@
-+++
-weight = 194
-title = "194. 메달리온 아키텍처 (Medallion Architecture) Bronze/Silver/Gold 테이블 정제 적재"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 194. 메달리온 아키텍처 (Medallion Architecture) Bronze/Silver/Gold 테이블 정제 적재
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 메달리온 아키텍처(Medallion [[319_architecture|Architecture]])는 원시 [[001_dikw_pyramid|데이터]](Bronze) → 정제 [[001_dikw_pyramid|데이터]](Silver) → 비즈니스 집계(Gold) 3계층으로 [[001_dikw_pyramid|데이터]] 품질을 점진적으로 향상하는 [[210_data_lakehouse_delta_lake|데이터 레이크하우스]] 설계 패턴이다.

@@ -1,10 +1,9 @@
-+++
-weight = 1018
-title = "1018. 밀리미터파 (mmWave) 전파 감쇠"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1018. 밀리미터파 (mmWave) 전파 감쇠
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

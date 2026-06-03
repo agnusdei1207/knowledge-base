@@ -1,10 +1,9 @@
-+++
-weight = 771
-title = "771. BDD Given-When-Then 행동 명세 테스트"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 771. BDD Given-When-Then 행동 명세 테스트
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

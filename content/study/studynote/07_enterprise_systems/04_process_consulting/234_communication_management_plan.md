@@ -1,10 +1,9 @@
-+++
-weight = 234
-title = "234. 의사소통 관리 계획 수립 절차"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 234. 의사소통 관리 계획 수립 절차
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

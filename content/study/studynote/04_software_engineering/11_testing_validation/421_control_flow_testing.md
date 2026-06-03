@@ -1,10 +1,9 @@
-+++
-weight = 421
-title = "421. 제어 흐름 테스트 (Control Flow Testing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 421. 제어 흐름 테스트 (Control Flow Testing)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

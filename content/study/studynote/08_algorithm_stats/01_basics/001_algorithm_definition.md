@@ -1,7 +1,8 @@
-+++
-title = "1. 알고리즘 (Algorithm) 정의 — 유한성/확정성/입력/출력/효율성"
-weight = 1
-+++
+---
+title: 1. 알고리즘 (Algorithm) 정의 — 유한성/확정성/입력/출력/효율성
+tags:
+- algorithm_stats
+---
 
 # 01. 알고리즘 (Algorithm) 정의
 

@@ -1,6 +1,7 @@
 ---
-title: "🏢 Work (기업 업무 허브)"
-weight: 1
+title: 🏢 Work (기업 업무 허브)
+tags:
+- work
 ---
 
 # 🏢 Work (기업 업무 허브)

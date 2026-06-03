@@ -1,10 +1,9 @@
-+++
-weight = 618
-title = "618. 캐시 미스 오버헤드 측정 분석망 구조 적용 (Cache Miss Overhead)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 618. 캐시 미스 오버헤드 측정 분석망 구조 적용 (Cache Miss Overhead)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

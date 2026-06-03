@@ -1,10 +1,9 @@
-+++
-weight = 436
-title = "436. 테스트 오라클 (Test Oracle) - 테스트 결과 참/거짓 판단 기준"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 436. 테스트 오라클 (Test Oracle) - 테스트 결과 참/거짓 판단 기준
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

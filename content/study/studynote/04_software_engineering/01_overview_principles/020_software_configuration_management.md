@@ -1,12 +1,10 @@
-+++
-weight = 20
-title = "20. 형상 관리 (SCM, Software Configuration Management)"
-description = "소프트웨어 생명주기 전반의 변경 사항을 식별하고 통제하는 형상 관리의 4단계와 베이스라인 전략을 다룹니다."
-date = "2026-03-04"
-[taxonomies]
-tags = ["형상 관리", "SCM", "베이스라인", "버전 관리", "형상 통제", "CCB"]
-categories = ["studynote-se"]
-+++
+---
+title: 20. 형상 관리 (SCM, Software Configuration Management)
+date: '2026-03-04'
+description: 소프트웨어 생명주기 전반의 변경 사항을 식별하고 통제하는 형상 관리의 4단계와 베이스라인 전략을 다룹니다.
+tags:
+- software_engineering
+---
 
 # 20. 형상 관리 ([[167_scm_software_configuration_management|SCM]], Software [[089_configuration_management|Configuration Management]])
 

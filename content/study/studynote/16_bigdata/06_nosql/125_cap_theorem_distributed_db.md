@@ -1,10 +1,9 @@
-+++
-weight = 125
-title = "CAP 정리 (CAP Theorem)"
-date = "2024-05-22"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: CAP 정리 (CAP Theorem)
+date: '2024-05-22'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **[[136_variance|분산]]의 불가능성:** [[194_consistency_database_integrity|일관성]](C), [[452_availability|가용성]](A), [[514_partition_slice_volume|파티션]] 감내(P) 세 가지를 [[136_variance|분산]] 시스템에서 동시에 완벽하게 만족할 수 없다는 에릭 브루어의 이론임.

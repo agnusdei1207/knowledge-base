@@ -1,12 +1,12 @@
-+++
-weight = 7
-title = "7. 데이터 레이크 (Data Lake) - 하둡/S3 등 저렴한 스토리지에 원시(Raw) 형태의 모든 비정형/정형 데이터를 구조화 없이 무한 저장"
-description = "정형, 반정형, 비정형 데이터를 원시(Raw) 상태로 무한 저장하는 데이터 레이크의 아키텍처, 스키마 온 리드 원리, 그리고 데이터 늪(Swamp) 방지 전략을 분석합니다."
-date = "2024-05-15"
-[taxonomies]
-tags = ["Data Lake", "Hadoop", "Big Data", "Schema-on-Read", "Data Swamp"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 7. 데이터 레이크 (Data Lake) - 하둡/S3 등 저렴한 스토리지에 원시(Raw) 형태의 모든 비정형/정형 데이터를 구조화 없이
+  무한 저장
+date: '2024-05-15'
+description: 정형, 반정형, 비정형 데이터를 원시(Raw) 상태로 무한 저장하는 데이터 레이크의 아키텍처, 스키마 온 리드 원리, 그리고
+  데이터 늪(Swamp) 방지 전략을 분석합니다.
+tags:
+- data_engineering
+---
 
 # [[208_data_lake_schema_on_read|데이터 레이크]] ([[208_data_lake_schema_on_read|Data Lake]])
 

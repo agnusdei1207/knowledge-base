@@ -1,10 +1,9 @@
-+++
-weight = 381
-title = "381. ETL 변환 적재 병목 구조 분석 (ETL: Extract-Transform-Load)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: '381. ETL 변환 적재 병목 구조 분석 (ETL: Extract-Transform-Load)'
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

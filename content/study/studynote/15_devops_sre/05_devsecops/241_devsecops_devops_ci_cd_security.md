@@ -1,10 +1,9 @@
-+++
-weight = 241
-title = "241. DevSecOps 사상 (DevSecOps)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 241. DevSecOps 사상 (DevSecOps)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

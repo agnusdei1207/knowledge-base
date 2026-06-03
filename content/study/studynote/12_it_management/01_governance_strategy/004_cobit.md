@@ -1,12 +1,11 @@
-+++
-weight = 4
-title = "4. COBIT (Control Objectives for Information and Related Technologies) - ISACA 제정 IT 거버넌스 통제 프레임워크"
-description = "IT 거버넌스 및 관리를 실무에 적용하기 위해 ISACA가 제정한 글로벌 베스트 프랙티스 통제 프레임워크"
-date = "2026-03-04"
-[taxonomies]
-tags = ["COBIT", "IT 거버넌스", "ISACA", "통제 프레임워크", "IT 감사"]
-categories = ["12_it_management"]
-+++
+---
+title: 4. COBIT (Control Objectives for Information and Related Technologies) - ISACA
+  제정 IT 거버넌스 통제 프레임워크
+date: '2026-03-04'
+description: IT 거버넌스 및 관리를 실무에 적용하기 위해 ISACA가 제정한 글로벌 베스트 프랙티스 통제 프레임워크
+tags:
+- it_management
+---
 
 # COBIT (Control Objectives for Information and Related Technologies)
 

@@ -1,10 +1,9 @@
-+++
-weight = 198
-title = "198. 추상화 (Abstraction) - 제어, 자료, 과정 추상화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 198. 추상화 (Abstraction) - 제어, 자료, 과정 추상화
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

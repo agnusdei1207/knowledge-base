@@ -1,10 +1,9 @@
-+++
-weight = 117
-title = "117. 베이즈 에러 (Bayes Error) - 최적 분류기의 이론적 오류 하한"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 117. 베이즈 에러 (Bayes Error) - 최적 분류기의 이론적 오류 하한
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 베이즈 에러(Bayes Error)는 **어떤 분류기도 달성할 수 없는 최소 오류율**이며, [[001_dikw_pyramid|데이터]] 자체의 **본질적 노이즈(겹치는 분포)** 때문에 발생하는 **이론적 오류 하한**이다.

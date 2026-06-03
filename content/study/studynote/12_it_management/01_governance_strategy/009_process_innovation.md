@@ -1,12 +1,10 @@
-+++
-weight = 9
-title = "9. PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신"
-description = "정보기술을 활용하여 업무 프로세스의 본질적创新을 통해 기업 경쟁력을 높이는 기법"
-date = "2026-04-05"
-[taxonomies]
-tags = ["PI", "프로세스 혁신", "업무 혁신", "IT 활용", "경쟁력"]
-categories = ["12_it_management"]
-+++
+---
+title: 9. PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신
+date: '2026-04-05'
+description: 정보기술을 활용하여 업무 프로세스의 본질적创新을 통해 기업 경쟁력을 높이는 기법
+tags:
+- it_management
+---
 
 # PI (프로세스 혁신: [[300_process|Process]] Innovation)
 

@@ -1,10 +1,9 @@
-+++
-weight = 310
-title = "310. AI 윤리, 편향성 , 저작권 (Copyright) 이슈 (Bias)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 310. AI 윤리, 편향성 , 저작권 (Copyright) 이슈 (Bias)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

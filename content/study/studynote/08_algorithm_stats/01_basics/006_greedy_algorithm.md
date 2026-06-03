@@ -1,7 +1,8 @@
-+++
-title = "6. 탐욕 알고리즘 (Greedy Algorithm) — 지역 최적 → 전체 최적"
-weight = 6
-+++
+---
+title: 6. 탐욕 알고리즘 (Greedy Algorithm) — 지역 최적 → 전체 최적
+tags:
+- algorithm_stats
+---
 
 # 06. 탐욕 [[001_algorithm_definition|알고리즘]] (Greedy [[001_algorithm_definition|Algorithm]])
 

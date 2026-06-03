@@ -1,10 +1,10 @@
-+++
-weight = 175
-title = "175. 재해 복구 시스템 (Disaster Recovery System, DRS) 및 업무 연속성 계획 (Business Continuity Plan, BCP) 전략"
-date = "2026-03-04"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 175. 재해 복구 시스템 (Disaster Recovery System, DRS) 및 업무 연속성 계획 (Business Continuity
+  Plan, BCP) 전략
+date: '2026-03-04'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

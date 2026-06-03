@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "31. 클라이언트-서버 DBMS 아키텍처 — DB 접근 구조"
-date = "2026-04-29"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 31. 클라이언트-서버 DBMS 아키텍처 — DB 접근 구조
+date: '2026-04-29'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 클라이언트-서버 [[502_dbms|DBMS]] 아키텍처는 DB 엔진을 서버에 중앙 집중화하고, 클라이언트는 SQL 요청만 전송하는 구조다. [[501_file_definition_logical_record|파일]] 공유 방식(모든 클라이언트가 DB [[501_file_definition_logical_record|파일]] 직접 접근)의 [[014_concurrency|동시성]]·보안·[[003_integrity|무결성]] 문제를 해결했다.

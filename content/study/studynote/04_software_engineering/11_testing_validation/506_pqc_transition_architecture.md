@@ -1,10 +1,9 @@
-+++
-weight = 506
-title = "506. 양자 내성 암호 (PQC) 전환 대비 SW 아키텍처 검토"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 506. 양자 내성 암호 (PQC) 전환 대비 SW 아키텍처 검토
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 241
-title = "241. 패키지 다이어그램 / 복합 구조 다이어그램"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 241. 패키지 다이어그램 / 복합 구조 다이어그램
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 629
-title = "629. 마이크로 그리드 (Microgrid) / AMI (원격검침인프라) 통신 (PLC/RF 장치) 탑재 방식"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 629. 마이크로 그리드 (Microgrid) / AMI (원격검침인프라) 통신 (PLC/RF 장치) 탑재 방식
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

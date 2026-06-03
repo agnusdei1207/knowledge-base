@@ -1,10 +1,9 @@
-+++
-weight = 98
-title = "98. 셀프 서비스 포털 (Self-Service Portal) - 헬프데스크 혁신"
-date = "2026-04-10"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 98. 셀프 서비스 포털 (Self-Service Portal) - 헬프데스크 혁신
+date: '2026-04-10'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

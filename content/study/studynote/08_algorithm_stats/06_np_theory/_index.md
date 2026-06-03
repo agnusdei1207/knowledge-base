@@ -1,8 +1,8 @@
-+++
-weight = 12
-title = "06. 계산 복잡도 이론 및 NP-완전"
-sort_by = "weight"
-+++
+---
+title: 06. 계산 복잡도 이론 및 NP-완전
+tags:
+- algorithm_stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

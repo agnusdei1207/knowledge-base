@@ -1,10 +1,9 @@
-+++
-weight = 147
-title = "147. eBPF (Extended Berkeley Packet Filter) - 커널 레벨 샌드박스 관측 기술"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 147. eBPF (Extended Berkeley Packet Filter) - 커널 레벨 샌드박스 관측 기술
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[615_ebpf|eBPF]](Extended [[069_ebpf|Berkeley Packet Filter]])는 리눅스 [[022_kernel_role|커널]] 소스코드를 수정하거나 [[022_kernel_role|커널]] [[192_module_independence|모듈]]을 로드하지 않고도, **[[022_kernel_role|커널]] 공간([[022_kernel_role|Kernel]] Space)에 안전하게 샌드박스화된 프로그램을 동적으로 삽입해 네트워크 트래픽·시스템 콜·[[294_function_calling_tool_use|함수 호출]] 이벤트를 오버헤드 없이 관측·필터링**하는 혁신적 리눅스 [[022_kernel_role|커널]] 기술이다.

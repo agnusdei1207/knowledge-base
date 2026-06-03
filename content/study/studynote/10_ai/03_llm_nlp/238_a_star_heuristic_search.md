@@ -1,10 +1,9 @@
-+++
-weight = 238
-title = "238. A* (A Star) 알고리즘 (휴리스틱 G+H)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 238. A* (A Star) 알고리즘 (휴리스틱 G+H)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

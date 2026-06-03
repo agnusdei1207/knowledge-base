@@ -1,10 +1,9 @@
-+++
-weight = 228
-title = "228. 합성곱 (CNN) 1D, 2D, 3D 구조 확장"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 228. 합성곱 (CNN) 1D, 2D, 3D 구조 확장
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 515
-title = "515. MBR (Master Boot Record) vs GPT (GUID Partition Table)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 515. MBR (Master Boot Record) vs GPT (GUID Partition Table)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 454
-title = "454. 할루시네이션 환각 (Hallucination Prevention)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 454. 할루시네이션 환각 (Hallucination Prevention)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

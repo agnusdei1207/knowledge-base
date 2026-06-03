@@ -1,10 +1,9 @@
-+++
-weight = 241
-title = "241. BDI VXLAN 오버레이 네트워크 인프라 연동 (Bridge Domain Interface)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 241. BDI VXLAN 오버레이 네트워크 인프라 연동 (Bridge Domain Interface)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 254
-title = "254. 난독화 리버스 엔지니어링 방어 (Obfuscation & Reverse Engineering Defense)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 254. 난독화 리버스 엔지니어링 방어 (Obfuscation & Reverse Engineering Defense)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

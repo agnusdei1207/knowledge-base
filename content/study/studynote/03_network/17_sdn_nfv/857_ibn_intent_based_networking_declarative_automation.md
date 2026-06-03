@@ -1,10 +1,9 @@
-+++
-weight = 857
-title = "857. IBN (인텐트 기반 네트워킹)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 857. IBN (인텐트 기반 네트워킹)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

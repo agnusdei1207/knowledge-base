@@ -1,10 +1,9 @@
-+++
-weight = 570
-title = "570. 단일 스레드 성능 (STP) vs 다중 스레드 성능 (MTP)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 570. 단일 스레드 성능 (STP) vs 다중 스레드 성능 (MTP)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

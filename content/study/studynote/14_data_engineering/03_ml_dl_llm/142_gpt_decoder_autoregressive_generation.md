@@ -1,10 +1,9 @@
-+++
-weight = 142
-title = "142. GPT Decoder - 자기회귀 생성 모델 상세"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 142. GPT Decoder - 자기회귀 생성 모델 상세
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[302_gpt_autoregressive|GPT]] Decoder는 **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]] Decoder에서 Masked [[124_self_attention|Self-Attention]](Causal Mask)을 사용**하여 왼→오 방향으로만 문맥을 참조하며 다음 토큰을 예측(CLM)하는 자기회귀 [[087_process_state_transition|생성]] 모델이다.

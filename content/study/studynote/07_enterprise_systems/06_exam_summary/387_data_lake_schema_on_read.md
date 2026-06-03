@@ -1,10 +1,9 @@
-+++
-weight = 387
-title = "387. 데이터 레이크 스키마 온 리드 비정형 (Data Lake: Schema-on-Read)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: '387. 데이터 레이크 스키마 온 리드 비정형 (Data Lake: Schema-on-Read)'
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

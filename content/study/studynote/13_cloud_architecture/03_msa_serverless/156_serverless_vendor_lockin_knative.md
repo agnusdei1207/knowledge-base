@@ -1,10 +1,9 @@
-+++
-weight = 156
-title = "156. 서버리스 벤더 락인과 Knative (Vendor Lock-in / Knative)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 156. 서버리스 벤더 락인과 Knative (Vendor Lock-in / Knative)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[206_serverless_cold_start|서버리스]] [[342_faas|FaaS]] (Function [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]])는 각 벤더 고유의 이벤트 [[014_api_posix|API]], [[009_config|설정]] 형식, SDK에 종속되어 코드·인프라를 다른 클라우드로 이식하기 어려운 벤더 락인 ([[254_cloud_vendor_lock_in_avoidance_portability_multi_cloud|Vendor Lock-in]]) 리스크를 내포한다.

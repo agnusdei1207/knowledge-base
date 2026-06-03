@@ -1,12 +1,10 @@
-+++
-weight = 15
-title = "15. 계층형 데이터 모델 (Hierarchical Model) - 트리 구조 (1:N)"
-description = "최초의 데이터베이스 관리 시스템 아키텍처이자 트리 구조 기반의 1:N 데이터 모델의 한계와 실무 적용"
-date = "2024-05-18"
-[taxonomies]
-tags = ["Database", "Data Model", "Hierarchical Model", "Tree Structure"]
-categories = ["studynote", "5_database"]
-+++
+---
+title: 15. 계층형 데이터 모델 (Hierarchical Model) - 트리 구조 (1:N)
+date: '2024-05-18'
+description: 최초의 데이터베이스 관리 시스템 아키텍처이자 트리 구조 기반의 1:N 데이터 모델의 한계와 실무 적용
+tags:
+- database
+---
 
 # 15. 계층형 [[014_data_model_components|데이터 모델]] (Hierarchical Model) - 트리 구조
 

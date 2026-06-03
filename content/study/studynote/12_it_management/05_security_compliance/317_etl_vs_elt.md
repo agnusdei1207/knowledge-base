@@ -1,10 +1,9 @@
-+++
-weight = 317
-title = "317. ETL 적재 전 변환 vs ELT 적재 후 클라우드 변환"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 317. ETL 적재 전 변환 vs ELT 적재 후 클라우드 변환
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[215_etl_vs_elt_pipeline|ETL]] 적재 전 변환 vs [[034_elt|ELT]] 적재 후 클라우드 변환의 본질은 수집, 저장, 품질, 활용, 거버넌스가 분리되지 않아야 [[001_dikw_pyramid|데이터]] 자산이 실제 의사결정 가치로 전환된다.

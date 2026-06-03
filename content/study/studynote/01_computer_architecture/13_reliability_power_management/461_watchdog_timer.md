@@ -1,10 +1,9 @@
-+++
-weight = 461
-title = "461. 워치독 타이머 (Watchdog Timer)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 461. 워치독 타이머 (Watchdog Timer)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 워치독 타이머 (Watchdog [[071_os_timer|Timer]])
 

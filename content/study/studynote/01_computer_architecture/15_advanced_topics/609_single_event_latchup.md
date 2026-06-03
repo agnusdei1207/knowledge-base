@@ -1,10 +1,9 @@
-+++
-weight = 609
-title = "609. 단일 이벤트 래치업 (SEL, Single Event Latchup)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 609. 단일 이벤트 래치업 (SEL, Single Event Latchup)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

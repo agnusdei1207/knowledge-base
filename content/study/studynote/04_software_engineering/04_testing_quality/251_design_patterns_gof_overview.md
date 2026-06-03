@@ -1,10 +1,9 @@
-+++
-weight = 251
-title = "251. 디자인 패턴 (Design Patterns) 개요 - GoF (Gang of Four) 23가지"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 251. 디자인 패턴 (Design Patterns) 개요 - GoF (Gang of Four) 23가지
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 60
-title = "60. 하이퍼바이저 우회/탈출 (Hypervisor Escape) 보안 위협"
-date = "2026-04-07"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 60. 하이퍼바이저 우회/탈출 (Hypervisor Escape) 보안 위협
+date: '2026-04-07'
+tags:
+- studynote-cloud
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

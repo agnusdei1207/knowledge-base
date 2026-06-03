@@ -1,10 +1,9 @@
-+++
-weight = 220
-title = "220. 콜백 패턴 (Callback Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 220. 콜백 패턴 (Callback Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

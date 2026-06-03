@@ -1,10 +1,9 @@
-+++
-weight = 75
-title = "75. 인시던트 관리 (Incident Management)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 75. 인시던트 관리 (Incident Management)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인시던트 관리 (Incident [[372_management|Management]])의 본질은 예기치 않은 [[090_service_kubernetes_network_load_balancing|서비스]] 중단 발생 시 '최대한 빨리 정상 [[090_service_kubernetes_network_load_balancing|서비스]]를 [[658_ir_recovery|복구]]'하는 것이 목표를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

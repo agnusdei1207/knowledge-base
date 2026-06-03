@@ -1,10 +1,9 @@
-+++
-weight = 586
-title = "586. 푸시 다운 조인 프레디케이트 (Join Predicate Pushdown) 뷰 연산 쿼리 변환"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 586. 푸시 다운 조인 프레디케이트 (Join Predicate Pushdown) 뷰 연산 쿼리 변환
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

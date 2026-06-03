@@ -1,10 +1,9 @@
-+++
-weight = 229
-title = "229. 인텐트 기반 네트워킹 (IBN)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 229. 인텐트 기반 네트워킹 (IBN)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

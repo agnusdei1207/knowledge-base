@@ -1,10 +1,9 @@
-+++
-weight = 160
-title = "160. QA vs QC (Quality Assurance vs Quality Control, 품질 보증 vs 품질 통제)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 160. QA vs QC (Quality Assurance vs Quality Control, 품질 보증 vs 품질 통제)
+date: '2026-04-21'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트
 

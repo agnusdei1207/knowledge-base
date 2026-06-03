@@ -1,10 +1,9 @@
-+++
-weight = 391
-title = "391. 다변량 통계 주성분 고유값 크기 순 컷오프 (Scree Plot 기준)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 391. 다변량 통계 주성분 고유값 크기 순 컷오프 (Scree Plot 기준)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

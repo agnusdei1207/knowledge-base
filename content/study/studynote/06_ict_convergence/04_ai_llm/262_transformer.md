@@ -1,10 +1,9 @@
-+++
-weight = 262
-title = "262. 트랜스포머 어텐션 기반 병렬 연산 구조 (Transformer)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 262. 트랜스포머 어텐션 기반 병렬 연산 구조 (Transformer)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

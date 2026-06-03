@@ -1,10 +1,9 @@
-+++
-weight = 800
-title = "800. RISC-V PMP (Physical Memory Protection)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 800. RISC-V PMP (Physical Memory Protection)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

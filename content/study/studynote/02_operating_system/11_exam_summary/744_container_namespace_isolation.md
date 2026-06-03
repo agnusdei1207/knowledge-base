@@ -1,10 +1,9 @@
-+++
-weight = 744
-title = "744. 컨테이너 네임스페이스 격리 (Container Namespace Isolation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 744. 컨테이너 네임스페이스 격리 (Container Namespace Isolation)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

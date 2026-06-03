@@ -1,10 +1,9 @@
-+++
-weight = 144
-title = "144. Hub-and-Spoke 아키텍처 심화 - EAI 중앙 통합"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 144. Hub-and-Spoke 아키텍처 심화 - EAI 중앙 통합
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[152_hub_dummy_switching_intelligent|Hub]]-and-Spoke 심화에서 Hub는 **[[389_mesh_topology|메시]]지 변환(Transformation)·[[339_routing_overview_best_path_selection|라우팅]]([[339_routing_overview_best_path_selection|Routing]])·[[073_container_orchestration_tools|오케스트레이션]]([[073_container_orchestration_tools|Orchestration]])·[[295_protocol_field_tcp_udp_icmp|프로토콜]] 변환**을 수행하며, [[259_adapter_pattern_interface_wrapper|어댑터]](Spoke)가 각 시스템과의 연결을 담당한다.

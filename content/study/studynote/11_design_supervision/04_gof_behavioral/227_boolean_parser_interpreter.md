@@ -1,10 +1,9 @@
-+++
-weight = 227
-title = "227. 불리언 파서 인터프리터 (Boolean Parser Interpreter)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 227. 불리언 파서 인터프리터 (Boolean Parser Interpreter)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

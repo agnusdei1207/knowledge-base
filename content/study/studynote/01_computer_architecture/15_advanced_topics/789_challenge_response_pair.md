@@ -1,10 +1,9 @@
-+++
-weight = 789
-title = "789. 도전-응답 쌍 (Challenge-Response Pair, CRP)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 789. 도전-응답 쌍 (Challenge-Response Pair, CRP)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

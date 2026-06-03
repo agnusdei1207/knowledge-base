@@ -1,10 +1,9 @@
-+++
-weight = 588
-title = "588. MANET (Mobile Ad-hoc Network)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 588. MANET (Mobile Ad-hoc Network)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

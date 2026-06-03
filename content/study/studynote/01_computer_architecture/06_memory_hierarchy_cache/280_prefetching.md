@@ -1,10 +1,9 @@
-+++
-weight = 280
-title = "280. 프리페칭 (Prefetching)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 280. 프리페칭 (Prefetching)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

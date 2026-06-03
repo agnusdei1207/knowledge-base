@@ -1,10 +1,9 @@
-+++
-weight = 499
-title = "499. SQL 인젝션 방어 - Prepared Statement, ORM"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 499. SQL 인젝션 방어 - Prepared Statement, ORM
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

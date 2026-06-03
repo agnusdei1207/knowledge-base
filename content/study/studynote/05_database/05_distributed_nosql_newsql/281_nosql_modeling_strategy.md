@@ -1,10 +1,9 @@
-+++
-weight = 281
-title = "281. 샤드 키 (Shard Key / Partition Key)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 281. 샤드 키 (Shard Key / Partition Key)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

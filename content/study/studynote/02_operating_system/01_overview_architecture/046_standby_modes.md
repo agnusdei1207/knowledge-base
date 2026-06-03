@@ -1,10 +1,9 @@
-+++
-title = "046. 대기 모드 — OS Standby & Sleep Modes"
-weight = 46
-date = "2026-04-05"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 046. 대기 모드 — OS Standby & Sleep Modes
+date: '2026-04-05'
+tags:
+- studynote-operating-system
+---
 
 > **핵심 인사이트**
 > 1. 대기 모드(Standby/Sleep Mode)는 OS가 시스템 전력을 절감하면서도 빠른 복귀를 보장하는 전력 관리 상태 — [[075_acpi|ACPI]](Advanced Configuration and [[069_type_1_2_error_statistical_power|Power]] Interface) 표준이 S0(완전 활성)부터 S5(소프트 파워오프)까지 6단계를 정의한다.

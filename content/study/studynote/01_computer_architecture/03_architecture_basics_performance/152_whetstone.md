@@ -1,10 +1,9 @@
-+++
-weight = 152
-title = "152. Whetstone (웻스톤) 벤치마크"
-date = "2026-05-03"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 152. Whetstone (웻스톤) 벤치마크
+date: '2026-05-03'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 웻스톤(Whetstone)은 단순 정수 덧셈을 벗어나, **삼각함수, 지수 연산, [[055_array|배열]] 인덱싱 등 고난도 [[087_floating_point|부동소수점]]([[087_floating_point|Floating Point]]) 실수 연산**을 컴퓨터가 초당 얼마나 폭발적으로 씹어 넘기는지를 측정하기 위해 1972년 발명된 역사상 최초의 합성 벤치마크(Synthetic [[149_benchmark|Benchmark]])다.

@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "31. 기능 점수 검증 — FP 산정의 정확성 확보"
-date = "2026-04-29"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 31. 기능 점수 검증 — FP 산정의 정확성 확보
+date: '2026-04-29'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[140_function_point|기능 점수]]([[140_function_point|Function Point]], [[293_fp_function_point|FP]]) [[395_verification_process_review|검증]]은 소프트웨어 개발 규모 산정 결과의 [[002_bigdata_5v|정확성]]을 감리 관점에서 검토하는 활동이다. [[293_fp_function_point|FP]] 산정 오류는 예산·일정·품질 계획 전체에 연쇄 영향을 주므로 감리의 핵심 검토 항목이다.

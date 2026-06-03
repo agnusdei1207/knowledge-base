@@ -1,10 +1,9 @@
-+++
-weight = 81
-title = "81. RC4 (Rivest Cipher 4)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 81. RC4 (Rivest Cipher 4)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

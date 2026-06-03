@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. 가치 사슬 본원적 활동 (Value Chain Primary Activities)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 27. 가치 사슬 본원적 활동 (Value Chain Primary Activities)
+date: '2026-04-29'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 마이클 포터(Michael Porter)의 [[249_value_chain_competitive_analysis|가치 사슬]]([[249_value_chain_competitive_analysis|Value Chain]]) 분석에서 본원적 활동(Primary Activities)은 제품·[[090_service_kubernetes_network_load_balancing|서비스]]의 물리적 생산, 판매, 배송, 사후 [[090_service_kubernetes_network_load_balancing|서비스]]에 직접 관여하는 5가지 활동(내부 물류·운영·외부 물류·마케팅·[[090_service_kubernetes_network_load_balancing|서비스]])으로 구성된다.

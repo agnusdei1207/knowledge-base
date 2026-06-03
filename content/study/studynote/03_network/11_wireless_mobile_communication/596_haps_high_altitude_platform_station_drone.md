@@ -1,10 +1,9 @@
-+++
-weight = 596
-title = "596. HAPS (고고도 전송 기지국, 성층권 드론 통신)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 596. HAPS (고고도 전송 기지국, 성층권 드론 통신)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

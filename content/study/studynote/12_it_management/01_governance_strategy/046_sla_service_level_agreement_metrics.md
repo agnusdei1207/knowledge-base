@@ -1,10 +1,9 @@
-+++
-title = "046. SLA — 서비스 수준 협약 측정 지표"
-weight = 46
-date = "2026-04-05"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 046. SLA — 서비스 수준 협약 측정 지표
+date: '2026-04-05'
+tags:
+- studynote-it-management
+---
 
 > **핵심 인사이트**
 > 1. [[085_sla|SLA]]([[085_sla|Service Level Agreement]])는 [[090_service_kubernetes_network_load_balancing|서비스]] 제공자와 고객 간의 계약적 품질 약속 — 단순한 기술 지표가 아니라 비즈니스 기대를 수치로 구체화한 계약이며, 미달 시 페널티(크레딧, [[090_service_kubernetes_network_load_balancing|서비스]] 해지)가 발생한다.

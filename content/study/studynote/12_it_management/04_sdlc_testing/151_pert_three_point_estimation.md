@@ -1,10 +1,9 @@
-+++
-weight = 151
-title = "151. PERT (Program Evaluation and Review Technique, 3점 추정) - 불확실성 늪의 확률적 엑스레이"
-date = "2026-05-03"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 151. PERT (Program Evaluation and Review Technique, 3점 추정) - 불확실성 늪의 확률적 엑스레이
+date: '2026-05-03'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: PERT(Program Evaluation and [[153_requirements_review_inspection_walkthrough|Review]] Technique)는 R&D처럼 세상에 처음 해보는 일이라 "도대체 며칠 걸릴지 1도 모르겠는 멘붕 늪" 프로젝트에서 ➔ 개발자한테 **낙관치(최단), 최빈치(보통), 비관치(최악) 3개 [[134_random_variable|확률 변수]]를 강제로 다 토해내게 쥐어짜서 베타 분포(Beta) 수학 믹서기로 갈아버리는 [[130_probability|확률]]론적 일정 엑스레이 튜닝기**다.

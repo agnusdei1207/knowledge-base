@@ -1,10 +1,9 @@
-+++
-weight = 270
-title = "270. 캐시 미스의 원인 (3C: Compulsory, Capacity, Conflict)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: '270. 캐시 미스의 원인 (3C: Compulsory, Capacity, Conflict)'
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 391
-title = "391. 우선순위 큐 (PQ), 맞춤형 큐 (CQ), WFQ, CBWFQ, LLQ"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 391. 우선순위 큐 (PQ), 맞춤형 큐 (CQ), WFQ, CBWFQ, LLQ
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

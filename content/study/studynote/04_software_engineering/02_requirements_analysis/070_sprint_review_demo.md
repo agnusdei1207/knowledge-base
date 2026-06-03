@@ -1,7 +1,8 @@
-+++
-title = "70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백"
-weight = 70
-+++
+---
+title: 70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

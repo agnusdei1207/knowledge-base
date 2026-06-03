@@ -1,10 +1,9 @@
-+++
-weight = 204
-title = "204. 폴라 코드 (Polar Code)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 204. 폴라 코드 (Polar Code)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 761
-title = "761. MIL-HDBK-217 고장률 예측"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 761. MIL-HDBK-217 고장률 예측
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

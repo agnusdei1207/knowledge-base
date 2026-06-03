@@ -1,10 +1,9 @@
-+++
-weight = 593
-title = "593. 디지털 트윈 (Digital Twin) 소프트웨어 통합 통신 아키텍처"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 593. 디지털 트윈 (Digital Twin) 소프트웨어 통합 통신 아키텍처
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

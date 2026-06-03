@@ -1,10 +1,9 @@
-+++
-weight = 59
-title = "59. 영구 저장소 (Persistent Storage) - 데이터 파일, 로그 파일, 제어 파일"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 59. 영구 저장소 (Persistent Storage) - 데이터 파일, 로그 파일, 제어 파일
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

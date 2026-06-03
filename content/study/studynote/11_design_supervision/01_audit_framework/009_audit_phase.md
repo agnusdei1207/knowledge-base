@@ -1,12 +1,10 @@
-+++
-weight = 9
-title = "9. 감리 단계 (Audit Phase) - 사업의 진행 단계 (요구정의, 설계, 종료/구현)"
-description = "요구정의, 설계, 종료의 3단계로 구성된 정보시스템 감리 단계의 체계와 실무 적용"
-date = "2026-04-05"
-[taxonomies]
-tags = ["감리단계", "요구정의", "설계", "종료", "감리시점"]
-categories = ["11_design_supervision"]
-+++
+---
+title: 9. 감리 단계 (Audit Phase) - 사업의 진행 단계 (요구정의, 설계, 종료/구현)
+date: '2026-04-05'
+description: 요구정의, 설계, 종료의 3단계로 구성된 정보시스템 감리 단계의 체계와 실무 적용
+tags:
+- design_supervision
+---
 
 # 09. 감리 단계
 

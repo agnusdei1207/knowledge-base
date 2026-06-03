@@ -1,10 +1,9 @@
-+++
-weight = 710
-title = "710. 분산 서비스 거부 공격 (DDoS, Distributed DoS 위협) 봇넷 시스템 C&C 서버 증폭, 감염 및 반사"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 710. 분산 서비스 거부 공격 (DDoS, Distributed DoS 위협) 봇넷 시스템 C&C 서버 증폭, 감염 및 반사
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 558
-title = "558. 가상 장치 파일 시스템 (sysfs, procfs) - 커널 변수와 하드웨어 정보 노출 통로"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 558. 가상 장치 파일 시스템 (sysfs, procfs) - 커널 변수와 하드웨어 정보 노출 통로
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

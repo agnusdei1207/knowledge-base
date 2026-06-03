@@ -1,10 +1,9 @@
-+++
-weight = 17
-title = "17. MOSFET"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 17. MOSFET
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MOSFET (금속-산화막-[[009_semiconductor|반도체]] [[016_fet|전계효과 트랜지스터]])은 게이트를 얇은 [[010_insulator|절연체]](산화막)로 막아, 물리적인 [[002_current|전류]] 소모 없이 [[001_voltage|전압]](전기장)만으로 [[238_switch_operation_principles|스위치]]를 켜고 끄는 완벽한 무접점 소자다.

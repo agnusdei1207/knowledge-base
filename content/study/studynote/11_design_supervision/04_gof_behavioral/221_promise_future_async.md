@@ -1,10 +1,9 @@
-+++
-weight = 221
-title = "221. Promise/Future 비동기 패턴 (Promise/Future Async Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 221. Promise/Future 비동기 패턴 (Promise/Future Async Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

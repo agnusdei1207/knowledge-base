@@ -1,10 +1,9 @@
-+++
-weight = 393
-title = "393. Memory Encryption Engine (메모리 암호화 엔진)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 393. Memory Encryption Engine (메모리 암호화 엔진)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,9 @@
-+++
-title = "036. 네트워크 효과 & 메칼프의 법칙"
-date = "2026-03-03"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 036. 네트워크 효과 & 메칼프의 법칙
+date: '2026-03-03'
+tags:
+- studynote-enterprise-systems
+---
 
 > **핵심 인사이트**
 > 1. [[253_network_effect_metcalfe|네트워크 효과]]([[032_network_effect|Network Effect]])는 [[090_service_kubernetes_network_load_balancing|서비스]]의 사용자가 증가할수록 각 사용자의 가치가 증가하는 현상으로, [[072_platform_business_two_sided_market|플랫폼 비즈니스]]가 독점적 지위를 확보하는 핵심 메커니즘이다.

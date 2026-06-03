@@ -1,10 +1,9 @@
-+++
-weight = 532
-title = "532. 3PC 타임아웃 우회 비블로킹 프로토콜 통신 구조"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 532. 3PC 타임아웃 우회 비블로킹 프로토콜 통신 구조
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 54
-title = "54. GitHub Flow"
-date = "2026-05-01"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 54. GitHub Flow
+date: '2026-05-01'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 64
-title = "64. 접근 통제 및 권한 관리 (RBAC) - 권한 오남용 감사"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 64. 접근 통제 및 권한 관리 (RBAC) - 권한 오남용 감사
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 306
-title = "306. 서비스 디스커버리 (Service Discovery) 패턴"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 306. 서비스 디스커버리 (Service Discovery) 패턴
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

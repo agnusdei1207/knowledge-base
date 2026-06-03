@@ -1,10 +1,9 @@
-+++
-weight = 130
-title = "130. MongoDB 아키텍처 — ReplicaSet/Sharding/Mongos"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 130. MongoDB 아키텍처 — ReplicaSet/Sharding/Mongos
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: MongoDB의 ReplicaSet은 자동 장애 조치(Automatic [[300_failover_architecture|Failover]])를 제공하는 고가용성 단위이며, Sharding은 이 ReplicaSet을 기반으로 [[001_dikw_pyramid|데이터]]를 수평 [[136_variance|분산]]하여 무제한 확장을 실현한다.

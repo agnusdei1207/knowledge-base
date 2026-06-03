@@ -1,10 +1,9 @@
-+++
-weight = 613
-title = "613. 프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 613. 프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

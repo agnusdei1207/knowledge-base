@@ -1,10 +1,9 @@
-+++
-weight = 346
-title = "346. 애자일 스프린트 마일스톤 평가 (Agile Sprint Milestone Evaluation)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 346. 애자일 스프린트 마일스톤 평가 (Agile Sprint Milestone Evaluation)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 540
-title = "540. 버퍼 오버플로우 하드웨어 방어 (Intel CET 등)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 540. 버퍼 오버플로우 하드웨어 방어 (Intel CET 등)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

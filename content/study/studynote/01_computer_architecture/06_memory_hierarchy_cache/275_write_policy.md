@@ -1,10 +1,9 @@
-+++
-weight = 275
-title = "275. 캐시 쓰기 정책 (Write Policy)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 275. 캐시 쓰기 정책 (Write Policy)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 275. 캐시 [[289_cqrs_db|쓰기]] [[164_policy|정책]] (Write [[164_policy|Policy]])
 

@@ -1,10 +1,10 @@
-+++
-weight = 163
-title = "163. 마이크로그리드 (Microgrid) - 기존 광역 전력망과 독립적으로 분산 전원(태양광 등)과 ESS를 갖춘 소규모 지역 자급자족 전력망"
-date = "2026-05-05"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 163. 마이크로그리드 (Microgrid) - 기존 광역 전력망과 독립적으로 분산 전원(태양광 등)과 ESS를 갖춘 소규모 지역 자급자족
+  전력망
+date: '2026-05-05'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트
 

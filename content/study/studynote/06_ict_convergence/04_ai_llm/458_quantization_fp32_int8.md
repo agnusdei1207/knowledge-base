@@ -1,10 +1,9 @@
-+++
-weight = 458
-title = "458. 양자화 FP32 INT8 압축 (Quantization Fp32 Int8)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 458. 양자화 FP32 INT8 압축 (Quantization Fp32 Int8)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

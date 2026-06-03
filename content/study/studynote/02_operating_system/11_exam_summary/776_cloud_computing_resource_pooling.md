@@ -1,10 +1,9 @@
-+++
-weight = 776
-title = "776. 클라우드 컴퓨팅 OS 자원 풀링 (Cloud Computing Resource Pooling)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 776. 클라우드 컴퓨팅 OS 자원 풀링 (Cloud Computing Resource Pooling)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

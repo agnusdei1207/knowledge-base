@@ -1,10 +1,9 @@
-+++
-weight = 188
-title = "188. Code Signing (코드 서명)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 188. Code Signing (코드 서명)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

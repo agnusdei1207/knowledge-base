@@ -1,10 +1,9 @@
-+++
-weight = 187
-title = "187. 혼합 정밀도 훈련 (Mixed Precision Training)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 187. 혼합 정밀도 훈련 (Mixed Precision Training)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

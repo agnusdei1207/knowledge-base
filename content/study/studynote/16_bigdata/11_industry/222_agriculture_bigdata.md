@@ -1,10 +1,9 @@
-+++
-weight = 222
-title = "217. 농업 빅데이터 (Agricultural Big Data) — 정밀농업/수확량예측/토양분석"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 217. 농업 빅데이터 (Agricultural Big Data) — 정밀농업/수확량예측/토양분석
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

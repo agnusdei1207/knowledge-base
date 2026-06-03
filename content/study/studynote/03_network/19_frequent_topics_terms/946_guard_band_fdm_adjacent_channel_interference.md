@@ -1,10 +1,9 @@
-+++
-weight = 946
-title = "946. FDM 가드 밴드 (Guard Band)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 946. FDM 가드 밴드 (Guard Band)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

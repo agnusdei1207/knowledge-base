@@ -1,10 +1,9 @@
-+++
-weight = 154
-title = "154. ESB (Enterprise Service Bus) - 스파게티 강결합을 찢어발긴 SOA 중앙 고속도로 통역 뇌"
-date = "2026-05-03"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 154. ESB (Enterprise Service Bus) - 스파게티 강결합을 찢어발긴 SOA 중앙 고속도로 통역 뇌
+date: '2026-05-03'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[146_esb_enterprise_service_bus_architecture|ESB]] ([[146_esb_enterprise_service_bus_architecture|Enterprise Service Bus]])는 거대한 전사 기업 인프라에서 수백 개의 낡고 새로운 이기종 서버([[081_erp_enterprise_resource_planning|ERP]], [[107_crm_customer_relationship_management|CRM]], C언어 메인프레임) 쇳덩이들이 서로 1:1([[142_point_to_point_integration_spaghetti|Point-to-Point]]) 다이렉트 직통 찌르기로 얽혀 뻗어버리는 스파게티 강결합 지옥을 척살 타파하기 위해 ➔ **정중앙을 관통하는 거대한 1통짜리 '[[389_mesh_topology|메시]]지 [[345_data_bus|데이터 버스]]([[344_bus|Bus]] 고속도로)'를 뚫어주는 [[618_soa_hardware|SOA]] 0순위 지능형 백본 미들웨어(Middleware) 대장 봇**이다.

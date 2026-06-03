@@ -1,10 +1,9 @@
-+++
-weight = 131
-title = "131. ECDHE (Ephemeral Elliptic Curve Diffie-Hellman)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 131. ECDHE (Ephemeral Elliptic Curve Diffie-Hellman)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

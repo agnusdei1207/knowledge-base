@@ -1,10 +1,9 @@
-+++
-weight = 504
-title = "504. 캐시 웨이 예측 (Cache Way Prediction)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 504. 캐시 웨이 예측 (Cache Way Prediction)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

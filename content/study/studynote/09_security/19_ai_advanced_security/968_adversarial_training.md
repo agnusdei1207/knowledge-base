@@ -1,10 +1,9 @@
-+++
-weight = 968
-title = "968. 적대적 훈련 (Adversarial Training)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 968. 적대적 훈련 (Adversarial Training)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

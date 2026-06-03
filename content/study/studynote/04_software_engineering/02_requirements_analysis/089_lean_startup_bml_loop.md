@@ -1,7 +1,8 @@
-+++
-title = "89. 린 스타트업 (Lean Startup) - 구축-측정-학습 피드백 루프"
-weight = 89
-+++
+---
+title: 89. 린 스타트업 (Lean Startup) - 구축-측정-학습 피드백 루프
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

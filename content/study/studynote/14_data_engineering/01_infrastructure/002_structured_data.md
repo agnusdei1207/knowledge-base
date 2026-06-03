@@ -1,12 +1,11 @@
-+++
-weight = 2
-title = "2. 정형 데이터 (Structured Data) - RDBMS 테이블 같이 엄격한 스키마 구조 보유"
-description = "관계형 데이터베이스 테이블처럼 엄격한 스키마 구조를 보유하는 데이터 유형의 정의, RDBMS 기반 저장 구조, OLTP와 OLAP 환경에서의 활용"
-date = "2024-05-24"
-[taxonomies]
-tags = ["정형데이터", "RDBMS", "스키마", "OLTP", "OLAP", "데이터엔지니어링"]
-categories = ["studynote", "14_data_engineering"]
-+++
+---
+title: 2. 정형 데이터 (Structured Data) - RDBMS 테이블 같이 엄격한 스키마 구조 보유
+date: '2024-05-24'
+description: 관계형 데이터베이스 테이블처럼 엄격한 스키마 구조를 보유하는 데이터 유형의 정의, RDBMS 기반 저장 구조, OLTP와 OLAP
+  환경에서의 활용
+tags:
+- data_engineering
+---
 
 # 02. 정형 [[001_dikw_pyramid|데이터]] (Structured [[001_dikw_pyramid|Data]])
 

@@ -1,10 +1,9 @@
-+++
-weight = 92
-title = "92. Helm (헬름) - 쿠버네티스 패키지 매니저 차트 템플릿"
-date = "2026-04-10"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: 92. Helm (헬름) - 쿠버네티스 패키지 매니저 차트 템플릿
+date: '2026-04-10'
+tags:
+- studynote-devops
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[207_helm_kubernetes_package_manager_chart|Helm]]([[207_helm_kubernetes_package_manager_chart|헬름]])은 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 환경을 위한 패키지 매니저로, 여러 개의 복잡한 YAML 매니페스트 [[501_file_definition_logical_record|파일]]들을 '차트(Chart)'라는 [[369_logic_bomb|논리]]적 패키지 단위로 묶어 설치, 업그레이드, [[098_rollback_strategy_pipeline_error_threshold|롤백]]을 제어하는 도구다.

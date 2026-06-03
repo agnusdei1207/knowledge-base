@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. 변경 관리 (Change Management) — 소프트웨어 변경의 체계적 통제"
-date = "2026-04-29"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 27. 변경 관리 (Change Management) — 소프트웨어 변경의 체계적 통제
+date: '2026-04-29'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[079_change_enablement|변경 관리]](Change [[372_management|Management]])는 소프트웨어 개발 및 운영 중 발생하는 모든 변경(요구사항 변경, [[352_defect_definition|결함]] 수정, 기능 추가)을 공식 프로세스로 통제하여 변경의 영향 범위를 분석하고 품질·일정·비용 영향을 관리하는 [[167_scm_software_configuration_management|SCM]]([[020_software_configuration_management|Software Configuration Management]])의 핵심 활동이다.

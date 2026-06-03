@@ -1,10 +1,9 @@
-+++
-weight = 144
-title = "144. CPU 친화성 (CPU Affinity) - Soft Affinity vs Hard Affinity"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 144. CPU 친화성 (CPU Affinity) - Soft Affinity vs Hard Affinity
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

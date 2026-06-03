@@ -1,10 +1,9 @@
-+++
-weight = 741
-title = "741. 버퍼 오버플로우 공격 스택 (Buffer Overflow Attack Stack)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 741. 버퍼 오버플로우 공격 스택 (Buffer Overflow Attack Stack)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 451
-title = "451. A06. 취약한 컴포넌트 (Vulnerable Components)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 451. A06. 취약한 컴포넌트 (Vulnerable Components)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

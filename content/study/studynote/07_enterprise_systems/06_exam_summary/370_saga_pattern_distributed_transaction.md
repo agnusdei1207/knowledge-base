@@ -1,10 +1,9 @@
-+++
-weight = 370
-title = "370. 사가 패턴 보상 트랜잭션 분산 트랜잭션 (Saga Pattern)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 370. 사가 패턴 보상 트랜잭션 분산 트랜잭션 (Saga Pattern)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

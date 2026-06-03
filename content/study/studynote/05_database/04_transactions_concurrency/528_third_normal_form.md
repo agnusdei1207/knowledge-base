@@ -1,10 +1,9 @@
-+++
-weight = 528
-title = "528. 동시성 오손 읽기 고립 수준 회피 (Dirty Read)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 528. 동시성 오손 읽기 고립 수준 회피 (Dirty Read)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

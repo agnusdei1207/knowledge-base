@@ -1,10 +1,9 @@
-+++
-weight = 116
-title = "116. Matter 스마트 홈 표준 - Apple·Google·Amazon 통합 IoT 프로토콜"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 116. Matter 스마트 홈 표준 - Apple·Google·Amazon 통합 IoT 프로토콜
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[612_matter_csa_smart_home_standard|Matter]](구 [[042_relational_algebra_project|Project]] CHIP)는 Apple·Google·Amazon·Samsung이 공동 개발한 **스마트 홈 디바이스 상호 운용성 표준**으로, [[609_zigbee_ieee_802_15_4_mesh_iot|Zigbee]]·[[610_z_wave_900mhz_smart_home_iot|Z-Wave]]·Wi-Fi·[[092_thread_lwp|Thread]] 위에서 동작하는 **애플리케이션 계층 [[295_protocol_field_tcp_udp_icmp|프로토콜]]**이다.

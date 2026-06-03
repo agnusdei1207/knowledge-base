@@ -1,10 +1,9 @@
-+++
-weight = 159
-title = "159. PKI (Public Key Infrastructure) — 공개키 인증서 체계"
-date = "2026-05-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 159. PKI (Public Key Infrastructure) — 공개키 인증서 체계
+date: '2026-05-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트
 

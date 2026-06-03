@@ -1,10 +1,9 @@
-+++
-weight = 497
-title = "497. GraphQL DoS (GraphQL DoS)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 497. GraphQL DoS (GraphQL DoS)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

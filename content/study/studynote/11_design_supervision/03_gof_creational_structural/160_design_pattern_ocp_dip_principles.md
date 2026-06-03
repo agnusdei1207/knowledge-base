@@ -1,10 +1,9 @@
-+++
-weight = 160
-title = "160. 디자인 패턴과 설계 원칙 (OCP·DIP와 디자인 패턴)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 160. 디자인 패턴과 설계 원칙 (OCP·DIP와 디자인 패턴)
+date: '2026-04-21'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트
 

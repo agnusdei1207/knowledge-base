@@ -1,10 +1,9 @@
-+++
-weight = 412
-title = "412. 행위 주도 개발 (Behavior-Driven Development)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 412. 행위 주도 개발 (Behavior-Driven Development)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: 행위 주도 개발 ([[126_bdd_behavior_driven_development_given_when_then|Behavior-Driven Development]], [[165_bdd_behavior_driven_development|BDD]])은 사용자 관점의 행위와 기대 결과를 공통 언어로 정의해 개발·테스트·업무를 정렬하는 접근법이다.

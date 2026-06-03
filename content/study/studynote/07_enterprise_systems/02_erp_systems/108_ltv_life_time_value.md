@@ -1,10 +1,9 @@
-+++
-weight = 108
-title = "108. LTV (고객 생애 가치)"
-date = "2026-04-10"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 108. LTV (고객 생애 가치)
+date: '2026-04-10'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LTV(Life Time Value, 고객 생애 가치)는 어떤 신규 고객이 [[090_service_kubernetes_network_load_balancing|서비스]]에 최초 가입한 순간부터 탈퇴하여 영원히 떠날 때까지의 전체 생애 주기 동안, 기업에 창출해 줄 것으로 예상되는 '순이익의 누적 총합(현재 가치)'이다.

@@ -1,10 +1,9 @@
-+++
-weight = 1068
-title = "1068. gRPC / 프로토콜 버퍼 직렬화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1068. gRPC / 프로토콜 버퍼 직렬화
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

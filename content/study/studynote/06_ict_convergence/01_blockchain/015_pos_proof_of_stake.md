@@ -1,12 +1,10 @@
-+++
-weight = 15
-title = "15. 지분 증명 (PoS, Proof of Stake) - 보유 지분(Coin)에 비례해 블록 생성 권한 부여 (이더리움 2.0)"
-description = "보유 지분(Coin)에 비례해 블록 생성 권한 부여 (이더리움 2.0)"
-date = "2024-05-18"
-[taxonomies]
-tags = ["블록체인", "PoS", "지분 증명", "이더리움", "합의 알고리즘"]
-categories = ["studynote-ict-convergence"]
-+++
+---
+title: 15. 지분 증명 (PoS, Proof of Stake) - 보유 지분(Coin)에 비례해 블록 생성 권한 부여 (이더리움 2.0)
+date: '2024-05-18'
+description: 보유 지분(Coin)에 비례해 블록 생성 권한 부여 (이더리움 2.0)
+tags:
+- ict_convergence
+---
 
 # 지분 증명 (PoS, Proof of Stake)
 

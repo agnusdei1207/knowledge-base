@@ -1,10 +1,9 @@
-+++
-weight = 154
-title = "154. 구조 패턴: 컴포지트 (Composite Pattern) - 트리 쇳덩이를 단일 껍데기로 압살 융합한 마트료시카 마법"
-date = "2026-05-03"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: '154. 구조 패턴: 컴포지트 (Composite Pattern) - 트리 쇳덩이를 단일 껍데기로 압살 융합한 마트료시카 마법'
+date: '2026-05-03'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[385_composite_pattern_summary|컴포지트 패턴]]([[261_composite_pattern_tree_structure|Composite]] Pattern)은 더 이상 쪼갤 수 없는 '단일 잎사귀 객체(Leaf)'와 ➔ 그 잎사귀들을 100개 뱃속에 포용해 묶어둔 뚱뚱한 '복합 폴더 객체([[261_composite_pattern_tree_structure|Composite]])'를 ➔ **아예 100% 동일한 부모 껍데기 인터페이스([[603_component_independent_deployment_unit|Component]])로 덮어씌워 퉁쳐버리는(Polymorphism 다형성) 트리(Tree) 구조 조립의 0순위 성배 패턴**이다.

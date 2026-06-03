@@ -1,10 +1,9 @@
-+++
-weight = 128
-title = "128. 논리적 데이터 독립성 & 뷰 (Logical Data Independence & View)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 128. 논리적 데이터 독립성 & 뷰 (Logical Data Independence & View)
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[369_logic_bomb|논리]]적 [[004_data_independence|데이터 독립성]]은 **[[369_logic_bomb|논리]] [[005_schema|스키마]](테이블 구조)를 변경해도 [[007_external_schema|외부 스키마]](뷰·응용 프로그램)에 영향을 주지 않는 성질**이며, ANSI/SPARC 3단계 아키텍처의 핵심이다.

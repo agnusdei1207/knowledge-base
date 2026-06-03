@@ -1,9 +1,9 @@
-+++
-title = "038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴"
-date = "2026-03-03"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴
+date: '2026-03-03'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > 1. 워터스크럼폴(WaterScrumFall)은 기획과 배포는 전통적인 워터폴 방식으로, 개발만 [[062_scrum_framework_overview|스크럼]] 형태로 [[216_progress_in_synchronization|진행]]되는 반(半)[[004_agile_relation|애자일]] [[128_water_scrum_fall_anti_pattern|안티패턴]]으로, [[004_agile_relation|애자일]]의 핵심 가치인 "고객 피드백을 통한 지속적 적응"이 불가능한 형태다.

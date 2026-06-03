@@ -1,10 +1,9 @@
-+++
-weight = 167
-title = "167. SCM (Software Configuration Management, 소프트웨어 형상 관리)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 167. SCM (Software Configuration Management, 소프트웨어 형상 관리)
+date: '2026-04-21'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

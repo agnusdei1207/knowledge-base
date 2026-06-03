@@ -1,10 +1,9 @@
-+++
-weight = 278
-title = "278. 가상 회선 전송 방식 (연결형 패킷 교환"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 278. 가상 회선 전송 방식 (연결형 패킷 교환
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 184
-title = "184. 프레이밍 (Framing) 메커니즘"
-date = "2026-05-06"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 184. 프레이밍 (Framing) 메커니즘
+date: '2026-05-06'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

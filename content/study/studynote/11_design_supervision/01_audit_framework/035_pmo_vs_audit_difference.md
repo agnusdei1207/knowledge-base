@@ -1,9 +1,9 @@
-+++
-title = "035. PMO vs 감리 차이점"
-date = "2026-03-03"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 035. PMO vs 감리 차이점
+date: '2026-03-03'
+tags:
+- studynote-design-supervision
+---
 
 > **핵심 인사이트**
 > 1. [[059_pmo_project_management_office|PMO]] ([[059_pmo_project_management_office|Project Management Office]])는 조직 내부의 프로젝트 지원·표준화·거버넌스 기관이고, 감리([[363_audit|Audit]])는 제3자가 프로젝트의 법적·기술적 준수 여부를 독립적으로 [[395_verification_process_review|검증]]하는 외부 통제 메커니즘이다.

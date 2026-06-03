@@ -1,10 +1,9 @@
-+++
-weight = 619
-title = "619. MSA (Microservices) 트래픽 처리용 하드웨어"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 619. MSA (Microservices) 트래픽 처리용 하드웨어
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

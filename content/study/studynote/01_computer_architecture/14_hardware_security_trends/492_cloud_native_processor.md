@@ -1,10 +1,9 @@
-+++
-weight = 492
-title = "492. 클라우드 네이티브 프로세서 (ARM Neoverse 등)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 492. 클라우드 네이티브 프로세서 (ARM Neoverse 등)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,4 +1,8 @@
-# 🧩 Codex SDK 문서 업무 운영안
+---
+title: 🧩 Codex SDK 문서 업무 운영안
+tags:
+- work
+---
 
 이 문서는 전 직원이 Codex를 업무 도구로 쓰는 상황에서, 내부적으로 Python Codex SDK를 어떻게 문서 업무 자동화에 활용할지 정리한 운영안입니다.
 

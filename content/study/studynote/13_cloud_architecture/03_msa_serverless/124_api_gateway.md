@@ -1,10 +1,9 @@
-+++
-weight = 124
-title = "124. API Gateway - MSA 외부 진입점·라우팅·인증·Rate Limiting"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 124. API Gateway - MSA 외부 진입점·라우팅·인증·Rate Limiting
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[014_api_posix|API]] Gateway는 **MSA에서 모든 외부 요청의 단일 진입점(Single Entry Point)**이며, 요청 [[339_routing_overview_best_path_selection|라우팅]]·[[303_authentication_authorization_patterns|인증]]·[[520_rate_limiting|Rate Limiting]]·로깅·응답 캐시를 수행하는 **리버스 [[264_proxy_pattern_surrogate_access_control|프록시]] + 크로스커팅 관심사 처리기**이다.

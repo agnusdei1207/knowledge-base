@@ -1,10 +1,9 @@
-+++
-weight = 121
-title = "121. 스마트 팩토리 4단계 (Smart Factory Maturity Levels) - Industry 4.0 성숙도 모델"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 121. 스마트 팩토리 4단계 (Smart Factory Maturity Levels) - Industry 4.0 성숙도 모델
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[166_smart_factory|스마트 팩토리]] 4단계는 제조 현장의 [[055_digital_transformation|디지털 전환]] 수준을 **기초(ICT 미적용)→중간1(자동화)→중간2(연결·가시화)→고도화(지능화·자율 최적화)**로 [[104_classification_analysis|분류]]하는 성숙도 모델이다.

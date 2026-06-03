@@ -1,10 +1,9 @@
-+++
-weight = 116
-title = "116. 참조 모델 (Reference Model)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 116. 참조 모델 (Reference Model)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[116_reference_model|참조 모델]] ([[116_reference_model|Reference Model]])의 본질은 아키텍처 구성 시 가이드가 되는 범용적 표준 모델을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

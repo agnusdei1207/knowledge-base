@@ -1,10 +1,9 @@
-+++
-weight = 177
-title = "177. 델타 레이크하우스 (Delta Lakehouse) - Time Travel과 트랜잭션"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 177. 델타 레이크하우스 (Delta Lakehouse) - Time Travel과 트랜잭션
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

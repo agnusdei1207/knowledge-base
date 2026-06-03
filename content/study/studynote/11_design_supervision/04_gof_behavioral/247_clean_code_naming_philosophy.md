@@ -1,10 +1,9 @@
-+++
-weight = 247
-title = "247. 클린 코드 네이밍 철학 (Clean Code Self-Documenting Naming)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 247. 클린 코드 네이밍 철학 (Clean Code Self-Documenting Naming)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

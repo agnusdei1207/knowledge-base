@@ -1,10 +1,9 @@
-+++
-weight = 183
-title = "183. 다단계 큐 스케줄링 (Multilevel Queue Scheduling)"
-date = "2026-05-06"
-[extra]
-categories = ["studynote-operating-system"]
-+++
+---
+title: 183. 다단계 큐 스케줄링 (Multilevel Queue Scheduling)
+date: '2026-05-06'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

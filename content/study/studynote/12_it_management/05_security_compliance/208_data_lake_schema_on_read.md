@@ -1,10 +1,9 @@
-+++
-weight = 208
-title = "208. 데이터 레이크 (Data Lake)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 208. 데이터 레이크 (Data Lake)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] 레이크 ([[001_dikw_pyramid|Data]] Lake)의 본질은 [[005_schema|스키마]]리스([[009_schema_on_read|Schema-on-read]]) 원시 [[001_dikw_pyramid|데이터]] 중앙 저장소를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

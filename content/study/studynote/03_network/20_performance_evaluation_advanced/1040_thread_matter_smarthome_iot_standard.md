@@ -1,10 +1,9 @@
-+++
-weight = 1040
-title = "1040. 매터 (Matter)와 스레드"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1040. 매터 (Matter)와 스레드
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

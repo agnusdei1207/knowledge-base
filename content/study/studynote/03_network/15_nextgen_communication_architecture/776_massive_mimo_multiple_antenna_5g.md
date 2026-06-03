@@ -1,10 +1,9 @@
-+++
-weight = 776
-title = "776. Massive MIMO 대거 다중 배열 안테나 시스템 고주파 전파 빔 관리"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 776. Massive MIMO 대거 다중 배열 안테나 시스템 고주파 전파 빔 관리
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

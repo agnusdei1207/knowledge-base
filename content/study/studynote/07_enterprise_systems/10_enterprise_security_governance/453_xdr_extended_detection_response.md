@@ -1,10 +1,9 @@
-+++
-weight = 453
-title = "453. XDR 통합 탐지 대응 (XDR, Extended Detection and Response)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 453. XDR 통합 탐지 대응 (XDR, Extended Detection and Response)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

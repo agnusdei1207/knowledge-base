@@ -1,10 +1,9 @@
-+++
-weight = 261
-title = "261. TDD (Test-Driven Development) 실패-구현-리팩토링 레드 그린 사이클"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 261. TDD (Test-Driven Development) 실패-구현-리팩토링 레드 그린 사이클
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

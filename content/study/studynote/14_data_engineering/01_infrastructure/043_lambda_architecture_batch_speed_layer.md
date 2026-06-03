@@ -1,10 +1,9 @@
-+++
-title = "043. 람다 아키텍처 — 배치 & 스피드 레이어"
-weight = 43
-date = "2026-04-05"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 043. 람다 아키텍처 — 배치 & 스피드 레이어
+date: '2026-04-05'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[095_lambda_architecture|람다 아키텍처]]([[095_lambda_architecture|Lambda Architecture]])는 Nathan Marz가 제안한 [[001_dikw_pyramid|데이터]] 처리 아키텍처로 — 배치 레이어([[002_bigdata_5v|정확성]]), 스피드 레이어(실시간성), 서빙 레이어(통합 조회)의 3계층으로 "정확하고 빠른" [[001_dikw_pyramid|데이터]] 처리를 달성하지만, 동일 로직을 두 번 구현해야 하는 "코드 중복" 문제가 근본 한계이다.

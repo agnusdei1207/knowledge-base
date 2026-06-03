@@ -1,10 +1,9 @@
-+++
-weight = 172
-title = "172. 빌더 패턴을 활용한 불변 객체 (Immutable Object) 설계"
-date = "2026-04-21"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 172. 빌더 패턴을 활용한 불변 객체 (Immutable Object) 설계
+date: '2026-04-21'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

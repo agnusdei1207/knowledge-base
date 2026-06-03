@@ -1,10 +1,9 @@
-+++
-weight = 133
-title = "133. EPM/CPM (Enterprise Performance Management) - 기업 성과 관리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 133. EPM/CPM (Enterprise Performance Management) - 기업 성과 관리
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EPM(Enterprise [[282_performance_tactics|Performance]] [[372_management|Management]], =[[150_cpm_critical_path_method|CPM]])은 **기업의 [[268_strategy_pattern|전략]] 목표를 재무·운영 성과 지표로 분해하고 계획→실행→[[229_monitor|모니터]]링→분석의 순환으로 경영 성과를 관리**하는 시스템이다.

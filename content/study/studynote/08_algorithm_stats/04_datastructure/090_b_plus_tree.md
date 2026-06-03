@@ -1,9 +1,9 @@
-+++
-title = "B+트리 (B+-Tree)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: B+트리 (B+-Tree)
+date: '2026-03-03'
+tags:
+- studynote-algorithm
+---
 
 > **핵심 인사이트 3줄**
 > 1. B+트리(B+-Tree)는 B-트리에서 [[001_dikw_pyramid|데이터]]를 리프 노드에만 저장하고, 모든 리프를 연결 리스트로 이어 범위 검색(Range Scan) [[282_performance_tactics|성능]]을 O(k)로 극적으로 개선한 구조다.

@@ -1,11 +1,9 @@
-+++
-weight = 725
-title = "725. ACPI S-States (S0 ~ S5)"
-date = "2026-05-08"
-
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 725. ACPI S-States (S0 ~ S5)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

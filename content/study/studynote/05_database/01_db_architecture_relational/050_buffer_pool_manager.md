@@ -1,10 +1,18 @@
-+++
-title = "버퍼 풀 매니저 (Buffer Pool Manager)"
-date = 2025-01-01
-description = "DBMS 버퍼 풀 매니저의 페이지 교체 정책(LRU, Clock), 더티 페이지 플러시, InnoDB 버퍼 풀 구조를 다룬다."
-categories = "studynote-db"
-tags = ["buffer pool", "LRU", "clock algorithm", "dirty page", "InnoDB", "page replacement", "WAL", "DBMS"]
-+++
+---
+title: 버퍼 풀 매니저 (Buffer Pool Manager)
+date: '2025-01-01'
+description: DBMS 버퍼 풀 매니저의 페이지 교체 정책(LRU, Clock), 더티 페이지 플러시, InnoDB 버퍼 풀 구조를 다룬다.
+tags:
+- DBMS
+- InnoDB
+- LRU
+- WAL
+- buffer pool
+- clock algorithm
+- dirty page
+- page replacement
+- studynote-db
+---
 
 > **핵심 인사이트 3줄**
 > 1. 버퍼 풀(Buffer Pool)은 디스크 I/O를 줄이기 위해 자주 접근하는 [[286_page_frame|페이지]]를 메모리에 캐시하는 DBMS의 핵심 [[603_component_independent_deployment_unit|컴포넌트]]다.

@@ -1,10 +1,9 @@
-+++
-weight = 152
-title = "152. 메달리온 아키텍처 (Medallion Architecture) — Delta Lake 기반 3계층"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 152. 메달리온 아키텍처 (Medallion Architecture) — Delta Lake 기반 3계층
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. [[194_medallion_architecture_bronze_silver_gold|메달리온 아키텍처]]([[194_medallion_architecture_bronze_silver_gold|Medallion Architecture]])는 Databricks가 제시한 [[147_delta_lake|Delta Lake]] 기반 **Bronze→Silver→Gold 3계층 [[645_data_pipeline_acceleration|데이터 파이프라인]] 설계 표준**으로, 각 계층이 점진적으로 [[001_dikw_pyramid|데이터]] 품질을 높인다.

@@ -1,10 +1,9 @@
-+++
-weight = 133
-title = "133. 볼류메트릭 비디오 & 홀로그램 - 3D 실감 콘텐츠 기술"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 133. 볼류메트릭 비디오 & 홀로그램 - 3D 실감 콘텐츠 기술
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 볼류메트릭 비디오(Volumetric Video)는 **피사체를 360도 다방향 카메라로 촬영하여 3D 포인트 클라우드/메시로 재구성**한 콘텐츠이며, 시청자가 **자유 시점(Free Viewpoint)**에서 감상할 수 있다.

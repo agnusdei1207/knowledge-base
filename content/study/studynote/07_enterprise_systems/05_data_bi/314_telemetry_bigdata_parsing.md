@@ -1,10 +1,9 @@
-+++
-weight = 314
-title = "314. 텔레메트리 빅데이터 파싱 수집 엔진 (Telemetry Big Data Parsing)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 314. 텔레메트리 빅데이터 파싱 수집 엔진 (Telemetry Big Data Parsing)
+date: '2026-04-21'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

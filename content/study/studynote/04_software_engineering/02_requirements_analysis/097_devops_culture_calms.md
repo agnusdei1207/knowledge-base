@@ -1,10 +1,9 @@
-+++
-title = "97. DevOps (Development + Operations) - 문화, 자동화, 측정, 공유"
-weight = 97
-date = "2026-02-15"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 97. DevOps (Development + Operations) - 문화, 자동화, 측정, 공유
+date: '2026-02-15'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[652_devops_calms_culture|데브옵스]]([[652_devops_calms_culture|DevOps]])는 특정 도구(Tool)나 직무 타이틀이 아니라, 개발(Dev)과 운영(Ops) 간의 [[002_silo_hyeonhyung|사일로]]([[002_silo_hyeonhyung|Silo]])를 허물고 하나의 목표를 향해 협업하게 만드는 조직의 문화이자 철학이다.

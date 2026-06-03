@@ -1,10 +1,9 @@
-+++
-weight = 495
-title = "495. 장치 드라이버 (Device Driver) 커널 인터페이스 구현"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 495. 장치 드라이버 (Device Driver) 커널 인터페이스 구현
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

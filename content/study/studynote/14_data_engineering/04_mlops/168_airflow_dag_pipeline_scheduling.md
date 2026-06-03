@@ -1,10 +1,9 @@
-+++
-weight = 168
-title = "168. 데이터 파이프라인 워크플로우 DAG 제어 (Apache Airflow) 자동화"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 168. 데이터 파이프라인 워크플로우 DAG 제어 (Apache Airflow) 자동화
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Airflow는 파이썬 코드로 워크플로우를 [[401_bayesian_network_dag_causality|DAG]] ([[255_apache_airflow_dag|Directed Acyclic Graph]], 방향성 비순환 [[070_graph_datastructure|그래프]])로 정의하고, [[079_kube_scheduler_pod_placement|스케줄러]]가 이를 자동 실행·모니터링하는 [[191_oss_license_compliance|오픈소스]] [[073_container_orchestration_tools|오케스트레이션]] 플랫폼이다.

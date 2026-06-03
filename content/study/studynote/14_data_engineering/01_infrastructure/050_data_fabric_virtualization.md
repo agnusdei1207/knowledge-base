@@ -1,10 +1,17 @@
-+++
-title = "데이터 패브릭 가상화 (Data Fabric Virtualization)"
-date = 2025-01-01
-description = "데이터 패브릭의 개념, 데이터 가상화와의 차이, AI 기반 메타데이터 관리, 실시간 데이터 통합 아키텍처를 다룬다."
-categories = "studynote-dataeng"
-tags = ["data fabric", "data virtualization", "metadata", "data catalog", "AI-driven", "federated query", "data mesh"]
-+++
+---
+title: 데이터 패브릭 가상화 (Data Fabric Virtualization)
+date: '2025-01-01'
+description: 데이터 패브릭의 개념, 데이터 가상화와의 차이, AI 기반 메타데이터 관리, 실시간 데이터 통합 아키텍처를 다룬다.
+tags:
+- AI-driven
+- data catalog
+- data fabric
+- data mesh
+- data virtualization
+- federated query
+- metadata
+- studynote-dataeng
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[212_data_fabric_virtualization|데이터 패브릭]]([[212_data_fabric_virtualization|Data Fabric]])은 [[136_variance|분산]]된 [[001_dikw_pyramid|데이터]] 소스를 물리적으로 이동하지 않고 단일 통합 레이어를 통해 접근할 수 있게 하는 아키텍처 패턴이다.

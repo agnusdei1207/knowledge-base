@@ -1,10 +1,9 @@
-+++
-weight = 49
-title = "27. 데이터 직렬화: Avro / Protobuf / Thrift"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: '27. 데이터 직렬화: Avro / Protobuf / Thrift'
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Avro, [[535_sync_communication_rest_grpc|Protocol Buffers]](Protobuf), Apache Thrift는 구조화된 [[001_dikw_pyramid|데이터]]를 언어·플랫폼 독립적인 바이너리 형식으로 [[149_serial_communication_rs232_rs485|직렬]]화(Serialization)하는 프레임워크로, [[343_json|JSON]]/XML 대비 크기·속도에서 탁월한 효율을 제공한다.

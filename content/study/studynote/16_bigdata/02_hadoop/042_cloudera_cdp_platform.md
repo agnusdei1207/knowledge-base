@@ -1,10 +1,9 @@
-+++
-title = "Cloudera CDP (Cloudera Data Platform)"
-weight = 42
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: Cloudera CDP (Cloudera Data Platform)
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **[[193_crl_distribution_point_cdp|CDP]]**는 클라우드와 [[061_on_premise_legacy_infrastructure|온프레미스]] 환경을 통합 관리하는 클라우데라의 차세대 하이브리드 [[001_dikw_pyramid|데이터]] 플랫폼이다.

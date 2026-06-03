@@ -1,10 +1,9 @@
-+++
-weight = 317
-title = "317. 데이터 메시 도메인 주도 분산 데이터 프로덕트 (Cloud Architecture Concept)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 317. 데이터 메시 도메인 주도 분산 데이터 프로덕트 (Cloud Architecture Concept)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[211_data_mesh_domain_ownership|데이터 메시]] [[064_relation_domain|도메인]] 주도 [[136_variance|분산]] [[001_dikw_pyramid|데이터]] 프로덕트는 클라우드 시스템에서 [[001_dikw_pyramid|데이터]] 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

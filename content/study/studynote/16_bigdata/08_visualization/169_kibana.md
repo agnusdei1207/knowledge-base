@@ -1,10 +1,9 @@
-+++
-weight = 169
-title = "169. Kibana — ELK Stack 시각화 로그 분석 도구"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 169. Kibana — ELK Stack 시각화 로그 분석 도구
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Kibana는 Elasticsearch에 저장된 [[001_dikw_pyramid|데이터]]를 [[003_bigdata_7v|시각화]]하는 레이어로, [[568_logs_distributed_logging_elk_fluentd|로그]] 탐색·대시보드·[[162_apm_application_performance_management|APM]] (Application [[609_performance_monitoring|Performance Monitoring]])을 하나의 UI로 통합한다.

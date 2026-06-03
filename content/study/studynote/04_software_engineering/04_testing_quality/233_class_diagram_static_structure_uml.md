@@ -1,10 +1,9 @@
-+++
-weight = 233
-title = "233. 클래스 다이어그램 (Class Diagram) - 정적 구조 표현"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 233. 클래스 다이어그램 (Class Diagram) - 정적 구조 표현
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

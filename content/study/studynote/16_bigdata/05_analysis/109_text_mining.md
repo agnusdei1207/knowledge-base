@@ -1,10 +1,9 @@
-+++
-weight = 109
-title = "106. 텍스트 마이닝 (Text Mining) — TF-IDF/Word2Vec/BERT 기반 텍스트 분석"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 106. 텍스트 마이닝 (Text Mining) — TF-IDF/Word2Vec/BERT 기반 텍스트 분석
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 텍스트 마이닝 (Text Mining)은 비정형 텍스트 [[001_dikw_pyramid|데이터]]를 정형 특성 벡터로 변환한 뒤, 통계·ML·딥러닝 모델을 적용하여 [[104_classification_analysis|분류]]·군집·요약·[[083_relationship_in_er_model|관계]] 추출 등의 지식을 발굴하는 종합 분석 기법이다.

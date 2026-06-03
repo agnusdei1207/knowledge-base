@@ -1,10 +1,9 @@
-+++
-weight = 378
-title = "378. gRPC 프로토콜 버퍼 직렬화 통신 (gRPC Protocol Buffers)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 378. gRPC 프로토콜 버퍼 직렬화 통신 (gRPC Protocol Buffers)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

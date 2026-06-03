@@ -1,10 +1,9 @@
-+++
-weight = 422
-title = "422. 구문 커버리지 (Statement Coverage) - 코드의 모든 문장을 최소 한 번 실행"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 422. 구문 커버리지 (Statement Coverage) - 코드의 모든 문장을 최소 한 번 실행
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,12 +1,10 @@
-+++
-weight = 16
-title = "16. 위임 지분 증명 (DPoS, Delegated PoS) - 대표자(BP)를 투표로 선출해 합의 위임 (빠른 속도, EOS)"
-description = "네트워크 참여자의 투표로 선출된 소수의 대표자(BP)가 블록 생성과 합의를 대리하는 고속 블록체인 합의 알고리즘"
-date = "2026-03-04"
-[taxonomies]
-tags = ["DPoS", "합의 알고리즘", "블록체인", "EOS", "위임 지분 증명", "거버넌스"]
-categories = ["studynote-ict-convergence"]
-+++
+---
+title: 16. 위임 지분 증명 (DPoS, Delegated PoS) - 대표자(BP)를 투표로 선출해 합의 위임 (빠른 속도, EOS)
+date: '2026-03-04'
+description: 네트워크 참여자의 투표로 선출된 소수의 대표자(BP)가 블록 생성과 합의를 대리하는 고속 블록체인 합의 알고리즘
+tags:
+- ict_convergence
+---
 
 # 16. 위임 [[015_pos_proof_of_stake|지분 증명]] (DPoS, Delegated Proof of Stake)
 

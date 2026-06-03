@@ -1,10 +1,9 @@
-+++
-weight = 185
-title = "185. 다단계 피드백 큐 스케줄링 (Multilevel Feedback Queue, MLFQ) - 프로세스의 큐 이동 허용"
-date = "2026-05-06"
-[extra]
-categories = ["studynote-operating-system"]
-+++
+---
+title: 185. 다단계 피드백 큐 스케줄링 (Multilevel Feedback Queue, MLFQ) - 프로세스의 큐 이동 허용
+date: '2026-05-06'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

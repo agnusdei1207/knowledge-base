@@ -1,10 +1,10 @@
-+++
-weight = 689
-title = "689. 양자 내성 암호 (PQC, Post-Quantum Cryptography) 체계 및 통신망 교환 표준 (Shor's Algorithm 위협 대처)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 689. 양자 내성 암호 (PQC, Post-Quantum Cryptography) 체계 및 통신망 교환 표준 (Shor's Algorithm
+  위협 대처)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,12 +1,10 @@
-+++
-weight = 78
-title = "78. DataStream API / Table API & SQL — Flink 두 계층"
-description = "Naive Bayes 분류기의 확률적 원리, 조건부 독립 가정,贝叶斯定理 적용 방법, 텍스트 분류에서의 활용"
-date = "2026-04-05"
-[taxonomies]
-tags = ["NaiveBayes", "나이브 베이즈", "베이즈 정리", "조건부 독립", "확률적 분류기", "텍스트 분류"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 78. DataStream API / Table API & SQL — Flink 두 계층
+date: '2026-04-05'
+description: Naive Bayes 분류기의 확률적 원리, 조건부 독립 가정,贝叶斯定理 적용 방법, 텍스트 분류에서의 활용
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

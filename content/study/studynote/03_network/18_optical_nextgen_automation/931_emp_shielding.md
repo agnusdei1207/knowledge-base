@@ -1,10 +1,9 @@
-+++
-weight = 931
-title = "931. EMP (전자기 펄스 방호 케이블 광망 쉴딩)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 931. EMP (전자기 펄스 방호 케이블 광망 쉴딩)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

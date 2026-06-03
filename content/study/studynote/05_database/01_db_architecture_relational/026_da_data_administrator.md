@@ -1,10 +1,9 @@
-+++
-weight = 26
-title = "26. DA (Data Administrator) — 데이터 관리자"
-date = "2026-04-29"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 26. DA (Data Administrator) — 데이터 관리자
+date: '2026-04-29'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[104_da_as_is_analysis|DA]] ([[001_dikw_pyramid|Data]] Administrator, [[001_dikw_pyramid|데이터]] 관리자)는 조직 전체의 [[001_dikw_pyramid|데이터]] 자산([[001_dikw_pyramid|Data]] Asset)을 [[268_strategy_pattern|전략]]적으로 관리하는 역할로, [[001_dikw_pyramid|데이터]] 표준 정의, [[014_data_model_components|데이터 모델]] 설계·검토, [[001_dikw_pyramid|데이터]] 품질 관리, [[012_metadata|메타데이터]]([[012_metadata|Metadata]]) 관리를 담당한다. DBA가 특정 DB 시스템의 운영·[[282_performance_tactics|성능]]을 책임진다면, DA는 [[001_dikw_pyramid|데이터]] 자체의 의미·품질·거버넌스를 책임진다.

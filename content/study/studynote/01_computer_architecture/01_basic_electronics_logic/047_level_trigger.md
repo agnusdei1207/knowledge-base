@@ -1,10 +1,9 @@
-+++
-title = "047. 레벨 트리거 — Level Trigger"
-weight = 47
-date = "2026-04-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 047. 레벨 트리거 — Level Trigger
+date: '2026-04-05'
+tags:
+- studynote-computer-architecture
+---
 
 > **핵심 인사이트**
 > 1. 레벨 [[507_acid_properties|트리거]](Level Trigger)는 클록 신호의 레벨(High 또는 Low) 자체가 유지되는 동안 [[001_dikw_pyramid|데이터]]를 통과시키는 방식 — 엣지 [[507_acid_properties|트리거]]([[046_edge_trigger|Edge Trigger]])가 상승/하강 순간만 감지하는 것과 달리, 레벨이 유지되는 전체 시간 동안 입력이 출력에 영향을 미친다.

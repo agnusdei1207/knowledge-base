@@ -1,10 +1,9 @@
-+++
-weight = 800
-title = "800. 주파수 집성 기술 고급 모델 연대 전방위 고밀도 셀 간 간섭 회피 CoMP(상호협력 통신 체계 전파 최적화 망)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 800. 주파수 집성 기술 고급 모델 연대 전방위 고밀도 셀 간 간섭 회피 CoMP(상호협력 통신 체계 전파 최적화 망)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

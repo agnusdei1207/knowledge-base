@@ -1,10 +1,9 @@
-+++
-weight = 157
-title = "157. HSM (Hardware Security Module) — 물리적 키 보호"
-date = "2026-05-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 157. HSM (Hardware Security Module) — 물리적 키 보호
+date: '2026-05-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트
 

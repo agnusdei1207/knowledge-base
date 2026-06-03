@@ -1,10 +1,9 @@
-+++
-weight = 286
-title = "286. 페이지 (Page)와 프레임 (Frame)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 286. 페이지 (Page)와 프레임 (Frame)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

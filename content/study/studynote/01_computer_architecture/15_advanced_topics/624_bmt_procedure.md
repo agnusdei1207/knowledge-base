@@ -1,10 +1,9 @@
-+++
-weight = 624
-title = "624. BMT (Bench Mark Test) 절차 및 평가 항목"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 624. BMT (Bench Mark Test) 절차 및 평가 항목
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

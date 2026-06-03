@@ -1,10 +1,9 @@
-+++
-title = "045. K-평균 군집화 — K-Means Clustering"
-weight = 45
-date = "2026-04-05"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 045. K-평균 군집화 — K-Means Clustering
+date: '2026-04-05'
+tags:
+- studynote-ai
+---
 
 > **핵심 인사이트**
 > 1. K-Means는 [[001_dikw_pyramid|데이터]]를 K개의 군집(Cluster)으로 나누는 [[122_unsupervised_learning|비지도 학습]]([[122_unsupervised_learning|Unsupervised Learning]])의 대표 [[001_algorithm_definition|알고리즘]] — 각 군집의 중심점(Centroid)을 반복 갱신해 군집 내 [[136_variance|분산]]을 최소화하며, 라벨(정답)이 없는 [[001_dikw_pyramid|데이터]]에서 숨은 패턴을 발견한다.

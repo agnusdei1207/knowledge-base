@@ -1,10 +1,9 @@
-+++
-title = "048. 벡터 데이터베이스 — Vector Database"
-weight = 260
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 048. 벡터 데이터베이스 — Vector Database
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트**
 > 1. [[223_vector_database_embedding|벡터 데이터베이스]]([[223_vector_database_embedding|Vector Database]])는 고차원 벡터 [[278_instruction_tuning|임베딩]]을 저장하고 근사 최근접 이웃([[350_ann|ANN]]) 검색을 수행하도록 특화된 [[002_database_definition|데이터베이스]] — [[263_llm_large_language_model|LLM]]·이미지 인식·[[211_recommendation_system|추천 시스템]]에서 "의미적으로 유사한 항목을 빠르게 찾는" 핵심 인프라가 되었다.

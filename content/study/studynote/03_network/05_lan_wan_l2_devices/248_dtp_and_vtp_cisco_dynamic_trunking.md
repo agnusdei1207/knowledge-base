@@ -1,10 +1,9 @@
-+++
-weight = 248
-title = "248. DTP (Dynamic Trunking Protocol) / VTP (VLAN Trunking Protocol)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 248. DTP (Dynamic Trunking Protocol) / VTP (VLAN Trunking Protocol)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

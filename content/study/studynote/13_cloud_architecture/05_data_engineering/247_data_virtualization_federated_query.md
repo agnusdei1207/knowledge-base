@@ -1,10 +1,9 @@
-+++
-weight = 247
-title = "247. 데이터 가상화 - 연방 쿼리 (Data Virtualization)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 247. 데이터 가상화 - 연방 쿼리 (Data Virtualization)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[360_data_virtualization|데이터 가상화]] - [[195_federated_query_data_fabric_distributed_join|연방 쿼리]]는 [[001_dikw_pyramid|데이터]] 플랫폼에서 [[001_dikw_pyramid|데이터]] 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

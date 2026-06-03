@@ -1,10 +1,9 @@
-+++
-weight = 167
-title = "167. 쿠브플로우 (Kubeflow) - 쿠버네티스 기반 ML 파이프라인"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 167. 쿠브플로우 (Kubeflow) - 쿠버네티스 기반 ML 파이프라인
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Kubeflow는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]([[205_kubernetes_container_orchestration|Kubernetes]]) 위에서 ML 워크로드를 [[073_container_orchestration_tools|오케스트레이션]]하는 플랫폼으로, [[001_dikw_pyramid|데이터]] 과학자가 [[561_container_based_deployment|컨테이너]] 기반의 재현 가능한 ML 파이프라인을 [[401_bayesian_network_dag_causality|DAG]] ([[255_apache_airflow_dag|Directed Acyclic Graph]])로 정의하고 실행할 수 있게 한다.

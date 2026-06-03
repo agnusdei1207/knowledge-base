@@ -1,10 +1,9 @@
-+++
-weight = 113
-title = "113. Kubeflow MLOps 오케스트레이션 - K8s 네이티브 ML 파이프라인·실험 관리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 113. Kubeflow MLOps 오케스트레이션 - K8s 네이티브 ML 파이프라인·실험 관리
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Kubeflow는 [[205_kubernetes_container_orchestration|Kubernetes]] 위에서 **ML 워크플로 전체([[001_dikw_pyramid|데이터]] 전처리 → 학습 → [[041_bagging_boosting|하이퍼파라미터 튜닝]] → 서빙 → 모니터링)**를 선언적으로 [[073_container_orchestration_tools|오케스트레이션]]하는 [[190_cncf_landscape_observability|CNCF]] 기반 **[[348_mlops|MLOps]] 플랫폼**이다.

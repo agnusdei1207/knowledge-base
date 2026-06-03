@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. 그룹 바이 (GROUP BY) / 해빙 (HAVING) - HAVING은 그룹화 결과에 대한 조건"
-date = "2026-05-03"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 148. 그룹 바이 (GROUP BY) / 해빙 (HAVING) - HAVING은 그룹화 결과에 대한 조건
+date: '2026-05-03'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: `GROUP BY`는 수백만 건의 원본 [[001_dikw_pyramid|데이터]]를 지정된 기준(예: 부서명)으로 묶어 요약된 집계 덩어리로 [[347_compaction|압축]]하는 연산이며, `HAVING`은 그 [[347_compaction|압축]]된 결과 통계값에 대해 조건을 걸어 걸러내는 2차 필터링 구문이다.

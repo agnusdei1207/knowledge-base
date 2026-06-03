@@ -1,10 +1,10 @@
-+++
-weight = 788
-title = "788. 비지상 네트워크망 (NTN Non-Terrestrial Network. 스타링크 연계 도심 항공 모빌리티 UAM 커버 위성 3D 연계 라우팅 끊김 보완/위성 안테나 최적화망 구성 기술 발전/해상 통합 통신 지원 기반 연구 궤도 지연 최적 방침 구조적 구성)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 788. 비지상 네트워크망 (NTN Non-Terrestrial Network. 스타링크 연계 도심 항공 모빌리티 UAM 커버 위성 3D
+  연계 라우팅 끊김 보완/위성 안테나 최적화망 구성 기술 발전/해상 통합 통신 지원 기반 연구 궤도 지연 최적 방침 구조적 구성)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 792
-title = "792. AI 내재화 (AI-Native)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 792. AI 내재화 (AI-Native)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

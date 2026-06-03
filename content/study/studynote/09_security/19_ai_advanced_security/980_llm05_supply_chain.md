@@ -1,10 +1,9 @@
-+++
-weight = 980
-title = "980. LLM05: Supply Chain (LLM05: Supply Chain)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: '980. LLM05: Supply Chain (LLM05: Supply Chain)'
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,11 +1,9 @@
-+++
-weight = 11
-title = "11. 빌드, 릴리스, 실행 (Build, Release, Run) 단계의 엄격한 분리"
-date = "2026-04-05"
-[taxonomies]
-tags = ["Build Release Run", "빌드", "릴리스", "실행", "12팩터"]
-categories = ["15_devops_sre"]
-+++
+---
+title: 11. 빌드, 릴리스, 실행 (Build, Release, Run) 단계의 엄격한 분리
+date: '2026-04-05'
+tags:
+- devops_sre
+---
 
 # 빌드, 릴리스, 실행
 

@@ -1,9 +1,9 @@
-+++
-title = "035. 롱테일 이론 (Long Tail Theory)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 035. 롱테일 이론 (Long Tail Theory)
+date: '2026-03-03'
+tags:
+- studynote-enterprise-systems
+---
 
 > **핵심 인사이트**
 > 1. [[031_long_tail|Long Tail]] Theory(Chris Anderson, 2004)는 소수의 인기 상품(Head)보다 다수의 비인기 상품([[031_long_tail|Long Tail]])의 합산 매출이 더 클 수 있다는 디지털 경제학 이론이다.

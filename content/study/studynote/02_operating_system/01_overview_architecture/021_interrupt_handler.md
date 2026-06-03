@@ -1,10 +1,9 @@
-+++
-weight = 21
-title = "21. 인터럽트 핸들러 (Interrupt Handler)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 21. 인터럽트 핸들러 (Interrupt Handler)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 # [[016_interrupt_mechanism|인터럽트]] 핸들러 ([[016_interrupt_mechanism|Interrupt]] Handler)
 

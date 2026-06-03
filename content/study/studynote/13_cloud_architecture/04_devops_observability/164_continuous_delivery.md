@@ -1,10 +1,9 @@
-+++
-title = "164. 지속적 제공 (Continuous Delivery)"
-weight = 164
-date = "2026-03-04"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 164. 지속적 제공 (Continuous Delivery)
+date: '2026-03-04'
+tags:
+- studynote-cloud
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - 코드 변경 사항이 빌드 및 테스트를 거쳐 운영 환경에 배포 가능한 상태(Ready to Deploy)로 자동화되는 프로세스임.

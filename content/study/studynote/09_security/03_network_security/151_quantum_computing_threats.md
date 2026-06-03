@@ -1,10 +1,9 @@
-+++
-weight = 151
-title = "151. 양자 컴퓨팅의 암호학적 위협 (Q-Day) — 쇼어(Shor)와 그로버(Grover) 알고리즘의 심판"
-date = "2026-05-03"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 151. 양자 컴퓨팅의 암호학적 위협 (Q-Day) — 쇼어(Shor)와 그로버(Grover) 알고리즘의 심판
+date: '2026-05-03'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[447_quantum_computer|양자 컴퓨터]]([[447_quantum_computer|Quantum Computer]])는 0과 1이 동시에 겹쳐있는 [[448_qubit|큐비트]]([[448_qubit|Qubit]])의 **'중첩([[219_quantum_superposition_qubit|Superposition]])'** 흑마법을 써서, 기존 펜티엄 컴퓨터가 1만 년 동안 하나씩 대입해 볼 거대한 우주 숫자의 소인수분해 자물쇠를 ➔ 단 한 턴(Turn)의 파동 간섭 [[430_index_fast_full_scan|병렬]] 스캔만으로 0.1초 컷으로 관측해 무너뜨리는 4차원 파괴 연산 기계다.

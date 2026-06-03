@@ -1,10 +1,9 @@
-+++
-weight = 1014
-title = "1014. 캐리어 어그리게이션 (CA)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1014. 캐리어 어그리게이션 (CA)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 174
-title = "174. 개인정보 영향평가 (Privacy Impact Assessment, PIA)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 174. 개인정보 영향평가 (Privacy Impact Assessment, PIA)
+date: '2026-03-04'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

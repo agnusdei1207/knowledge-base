@@ -1,10 +1,9 @@
-+++
-weight = 364
-title = "364. UEFI 부트킷 (UEFI Bootkit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 364. UEFI 부트킷 (UEFI Bootkit)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

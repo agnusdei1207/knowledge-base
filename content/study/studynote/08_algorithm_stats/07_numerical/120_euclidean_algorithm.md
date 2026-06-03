@@ -1,10 +1,9 @@
-+++
-title = "001. 유클리드 호제법 — Euclidean Algorithm"
-weight = 120
-date = "2026-04-05"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 001. 유클리드 호제법 — Euclidean Algorithm
+date: '2026-04-05'
+tags:
+- studynote-algorithm-stats
+---
 
 > **핵심 인사이트**
 > 1. 유클리드 호제법(Euclidean [[001_algorithm_definition|Algorithm]])은 "두 수의 [[116_gcd_rsa|최대공약수]]([[663_macos_ios_gcd_grand_central_dispatch|GCD]])는 큰 수를 작은 수로 나눈 나머지와 작은 수의 GCD와 같다"는 원리 — 기원전 300년경 유클리드가 제안한 가장 오래된 [[001_algorithm_definition|알고리즘]] 중 하나로, [[663_macos_ios_gcd_grand_central_dispatch|GCD]](a, b) = [[663_macos_ios_gcd_grand_central_dispatch|GCD]](b, a mod b)로 표현된다.

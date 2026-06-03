@@ -1,10 +1,9 @@
-+++
-weight = 50
-title = "28. Hadoop 보안 — Kerberos, Ranger, Atlas"
-date = "2026-04-29"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 28. Hadoop 보안 — Kerberos, Ranger, Atlas
+date: '2026-04-29'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 보안은 3개 레이어로 구성된다. [[545_kerberos_kdc_ticket_based_auth|Kerberos]]([[303_authentication_authorization_patterns|인증]] — 누구인가?), Apache Ranger(권한 부여 — 무엇을 할 수 있는가?), Apache Atlas([[052_data_governance_framework|데이터 거버넌스]] — 어떤 [[001_dikw_pyramid|데이터]]인가·어떻게 이동하는가?)가 완전한 엔터프라이즈 보안 [[057_stack|스택]]을 형성한다.

@@ -1,10 +1,9 @@
-+++
-weight = 76
-title = "76. K8s 마스터 노드 컴포넌트 4가지"
-date = "2026-04-07"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 76. K8s 마스터 노드 컴포넌트 4가지
+date: '2026-04-07'
+tags:
+- studynote-cloud
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 90
-title = "90. 정규화 (Regularization) - 과적합 방지 및 L1/L2 규제"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 90. 정규화 (Regularization) - 과적합 방지 및 L1/L2 규제
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

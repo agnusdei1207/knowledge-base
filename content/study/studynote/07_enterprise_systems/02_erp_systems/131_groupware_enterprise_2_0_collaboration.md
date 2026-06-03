@@ -1,10 +1,9 @@
-+++
-weight = 131
-title = "131. 그룹웨어 & Enterprise 2.0 협업 - 기업 협업 플랫폼의 진화"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 131. 그룹웨어 & Enterprise 2.0 협업 - 기업 협업 플랫폼의 진화
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 그룹웨어는 **전자결재·일정·게시판 등 업무 협업 SW**이고, Enterprise 2.0은 **위키·블로그·SNS 등 Web 2.0 기술을 기업에 적용**하여 수평적·자발적 협업을 실현하는 패러다임이다.

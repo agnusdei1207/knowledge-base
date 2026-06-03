@@ -1,10 +1,9 @@
-+++
-weight = 110
-title = "110. 내부 개발자 플랫폼 (IDP, Internal Developer Platform) - Backstage·셀프서비스 카탈로그"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 110. 내부 개발자 플랫폼 (IDP, Internal Developer Platform) - Backstage·셀프서비스 카탈로그
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[536_idp_identity_provider|IDP]]([[200_internal_developer_platform_backstage|Internal Developer Platform]])는 [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] 팀이 구축한 **사내 전용 개발 환경 자판기**로, 앱 개발자가 인프라·보안·[[090_configuration_item|CI]]/CD 지식 없이 **셀프서비스 포털에서 클릭 한 번으로 Golden Path(표준 템플릿) 환경을 즉시 [[528_provisioning|프로비저닝]]**받는 시스템이다.

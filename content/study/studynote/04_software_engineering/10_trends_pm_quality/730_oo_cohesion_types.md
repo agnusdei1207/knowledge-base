@@ -1,10 +1,9 @@
-+++
-weight = 730
-title = "730. 객체지향 응집도 (우연, 논리, 시간, 절차, 통신, 순차, 기능)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 730. 객체지향 응집도 (우연, 논리, 시간, 절차, 통신, 순차, 기능)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

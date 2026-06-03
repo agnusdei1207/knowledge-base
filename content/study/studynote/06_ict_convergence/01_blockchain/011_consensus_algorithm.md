@@ -1,12 +1,10 @@
-+++
-weight = 11
-title = "11. 합의 알고리즘 (Consensus Algorithm) - 분산 노드 간 상태 일치 달성 매커니즘"
-description = "분산 노드 간 상태 일치 달성 매커니즘"
-date = "2024-05-18"
-[taxonomies]
-tags = ["블록체인", "합의 알고리즘", "Consensus Algorithm", "분산원장"]
-categories = ["studynote-ict-convergence"]
-+++
+---
+title: 11. 합의 알고리즘 (Consensus Algorithm) - 분산 노드 간 상태 일치 달성 매커니즘
+date: '2024-05-18'
+description: 분산 노드 간 상태 일치 달성 매커니즘
+tags:
+- ict_convergence
+---
 
 # 합의 [[001_algorithm_definition|알고리즘]] (Consensus [[001_algorithm_definition|Algorithm]])
 

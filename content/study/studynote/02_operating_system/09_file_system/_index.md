@@ -1,8 +1,8 @@
-+++
-weight = 9
-title = "09. 파일 시스템 및 디스크 관리"
-sort_by = "weight"
-+++
+---
+title: 09. 파일 시스템 및 디스크 관리
+tags:
+- operating_system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

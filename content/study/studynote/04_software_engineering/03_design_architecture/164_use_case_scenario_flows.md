@@ -1,12 +1,10 @@
-+++
-weight = 164
-title = "164. 유스케이스 시나리오 (Use Case Scenario) - 기본 흐름, 대안 흐름, 예외 흐름"
-description = "액터와 시스템의 상호작용을 기본 흐름, 대안 흐름, 예외 흐름으로 구조화해 요구사항을 구현 가능한 시나리오로 바꾸는 명세 기법"
-date = "2026-04-03"
-[taxonomies]
-tags = ["유스케이스", "Use Case", "소프트웨어 공학", "요구사항 분석", "시나리오", "기본 흐름", "예외 흐름", "UML"]
-categories = ["Software Engineering"]
-+++
+---
+title: 164. 유스케이스 시나리오 (Use Case Scenario) - 기본 흐름, 대안 흐름, 예외 흐름
+date: '2026-04-03'
+description: 액터와 시스템의 상호작용을 기본 흐름, 대안 흐름, 예외 흐름으로 구조화해 요구사항을 구현 가능한 시나리오로 바꾸는 명세 기법
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

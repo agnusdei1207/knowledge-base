@@ -1,10 +1,9 @@
-+++
-weight = 113
-title = "113. Z-Wave 스마트 홈 (Z-Wave Smart Home) - 900MHz 서브 GHz 저간섭 WPAN"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 113. Z-Wave 스마트 홈 (Z-Wave Smart Home) - 900MHz 서브 GHz 저간섭 WPAN
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Z-Wave는 **900MHz 서브 GHz ISM 밴드**에서 동작하는 저전력 [[389_mesh_topology|메시]] 네트워크 [[295_protocol_field_tcp_udp_icmp|프로토콜]]로, 2.4GHz를 사용하는 [[609_zigbee_ieee_802_15_4_mesh_iot|Zigbee]]·Wi-Fi·BLE와 **주파수 간섭이 없다**는 고유한 강점으로 스마트 홈 시장을 공략한다.

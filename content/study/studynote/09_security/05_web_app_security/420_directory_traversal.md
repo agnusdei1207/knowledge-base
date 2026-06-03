@@ -1,10 +1,9 @@
-+++
-weight = 420
-title = "420. 보편적 자원 순회 (Directory Traversal)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 420. 보편적 자원 순회 (Directory Traversal)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

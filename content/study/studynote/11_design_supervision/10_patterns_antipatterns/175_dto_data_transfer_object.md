@@ -1,10 +1,9 @@
-+++
-weight = 175
-title = "175. DTO 패턴 (Data Transfer Object Pattern)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 175. DTO 패턴 (Data Transfer Object Pattern)
+date: '2026-04-21'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

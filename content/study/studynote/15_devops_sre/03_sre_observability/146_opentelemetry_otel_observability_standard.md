@@ -1,10 +1,9 @@
-+++
-weight = 146
-title = "146. OpenTelemetry (OTel) - 관측 가능성 통합 표준"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 146. OpenTelemetry (OTel) - 관측 가능성 통합 표준
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OpenTelemetry는 **[[567_metrics_time_series_prometheus_grafana|Metrics]]·[[568_logs_distributed_logging_elk_fluentd|Logs]]·Traces 3축 텔레메트리 [[001_dikw_pyramid|데이터]]의 수집·전파·내보내기를 통합 표준화**한 [[190_cncf_landscape_observability|CNCF]] 프로젝트이며, OpenTracing+OpenCensus의 통합체이다.

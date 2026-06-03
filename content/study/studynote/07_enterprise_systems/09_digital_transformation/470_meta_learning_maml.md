@@ -1,10 +1,9 @@
-+++
-weight = 470
-title = "470. 메타 러닝 (Meta-Learning: MAML)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: '470. 메타 러닝 (Meta-Learning: MAML)'
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

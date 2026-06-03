@@ -1,10 +1,9 @@
-+++
-weight = 357
-title = "357. O-RAN 프론트홀 개방 사양 무결 망 진단"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 357. O-RAN 프론트홀 개방 사양 무결 망 진단
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[782_o_ran_open_ran_white_box_interface|O-RAN]] [[784_fronthaul_ecpri_split_option|프론트홀]] 개방 사양 무결 망 진단의 본질은 핵심 기술, 운영 조건, 위험 통제, 생태계 [[268_strategy_pattern|전략]]을 함께 봐야 신기술 도입이 유행이 아니라 사업 역량이 된다.

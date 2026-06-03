@@ -1,10 +1,9 @@
-+++
-weight = 250
-title = "250. RLHF (Reinforcement Learning from Human Feedback) 정렬 CoT 프롬프트 심화"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 250. RLHF (Reinforcement Learning from Human Feedback) 정렬 CoT 프롬프트 심화
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RLHF([[094_reinforcement_learning|Reinforcement Learning]] from Human Feedback)는 인간이 선호하는 출력을 [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]] 신호로 삼아 [[263_llm_large_language_model|LLM]]([[263_llm_large_language_model|Large Language Model]])이 "도움이 되고·무해하며·솔직한(HHH: Helpful, Harmless, Honest)" 응답을 [[087_process_state_transition|생성]]하도록 **정렬(Alignment)**시키는 핵심 기술이다.

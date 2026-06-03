@@ -1,10 +1,10 @@
-+++
-weight = 548
-title = "548. SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한 (Special Permissions Setuid)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 548. SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한 (Special Permissions
+  Setuid)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 395
-title = "395. 유전 알고리즘 적합도(Fitness), 룰렛 휠 선택, 교차(Crossover), 변이(Mutation) (GA)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 395. 유전 알고리즘 적합도(Fitness), 룰렛 휠 선택, 교차(Crossover), 변이(Mutation) (GA)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

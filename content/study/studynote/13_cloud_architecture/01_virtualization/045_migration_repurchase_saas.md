@@ -1,10 +1,9 @@
-+++
-title = "045. 클라우드 이전 전략 — Repurchase & SaaS Migration"
-weight = 45
-date = "2026-04-05"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 045. 클라우드 이전 전략 — Repurchase & SaaS Migration
+date: '2026-04-05'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. 클라우드 이전(Migration) [[268_strategy_pattern|전략]]의 6R(또는 7R) 프레임워크 — Retire(폐기), Retain(유지), Rehost([[086_lift_association_rule_marketing|Lift]] & Shift), Replatform(이식), Repurchase([[309_saas|SaaS]] 전환), [[213_refactoring_cloud_native_rearchitecture|Refactor]](재설계), Relocate(이전)으로 각 워크로드에 최적 [[268_strategy_pattern|전략]]을 선택한다.

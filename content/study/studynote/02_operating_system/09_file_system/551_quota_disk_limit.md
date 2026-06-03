@@ -1,10 +1,9 @@
-+++
-weight = 551
-title = "551. 할당량 (Quota) 시스템 - 유저/그룹 별 디스크 사용량 제한"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 551. 할당량 (Quota) 시스템 - 유저/그룹 별 디스크 사용량 제한
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

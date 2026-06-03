@@ -1,10 +1,9 @@
-+++
-weight = 102
-title = "회귀 라쏘 (Lasso) 및 릿지 (Ridge) 규제 (Regularization)"
-date = "2024-05-22"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 회귀 라쏘 (Lasso) 및 릿지 (Ridge) 규제 (Regularization)
+date: '2024-05-22'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 라쏘 (Lasso)와 릿지 (Ridge)는 [[241_machine_learning_basics|머신러닝]] 모델이 훈련 [[001_dikw_pyramid|데이터]]에 과도하게 맞춰지는 과적합 ([[245_overfitting_variance|Overfitting]])을 방지하기 위해 [[267_weight_bias_activation|가중치]] 크기에 제약을 가하는 규제 ([[134_regularization_dropout_batch_norm|Regularization]]) 기법이다.

@@ -1,10 +1,9 @@
-+++
-weight = 509
-title = "509. OCAP (OpenCable Application Platform)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 509. OCAP (OpenCable Application Platform)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

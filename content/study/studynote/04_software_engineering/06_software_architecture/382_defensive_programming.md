@@ -1,10 +1,9 @@
-+++
-weight = 382
-title = "382. 방어적 프로그래밍 (Defensive Programming) - 예외 처리, Assertion 적극 활용"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 382. 방어적 프로그래밍 (Defensive Programming) - 예외 처리, Assertion 적극 활용
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

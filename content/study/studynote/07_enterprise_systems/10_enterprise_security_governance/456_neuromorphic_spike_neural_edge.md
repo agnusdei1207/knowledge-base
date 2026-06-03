@@ -1,10 +1,9 @@
-+++
-weight = 456
-title = "456. 뉴로모픽 연산 스파이크 신경망 저전력 에지 컴퓨팅 (Neuromorphic Computing & SNN)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 456. 뉴로모픽 연산 스파이크 신경망 저전력 에지 컴퓨팅 (Neuromorphic Computing & SNN)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

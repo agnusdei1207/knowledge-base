@@ -1,8 +1,9 @@
-+++
-title = "OpenTelemetry CNCF"
-date = "2026-05-09"
-categories = ["studynote-devops-sre"]
-+++
+---
+title: OpenTelemetry CNCF
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > - [[146_opentelemetry_otel_observability_standard|OpenTelemetry]] ([[146_opentelemetry_otel_observability_standard|OTel]])는 [[567_metrics_time_series_prometheus_grafana|Metrics]]·[[568_logs_distributed_logging_elk_fluentd|Logs]]·Traces 세 기둥을 단일 SDK로 계측하는 [[190_cncf_landscape_observability|CNCF]] ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] Computing Foundation) 표준이다.

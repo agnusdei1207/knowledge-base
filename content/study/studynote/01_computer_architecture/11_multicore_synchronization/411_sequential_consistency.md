@@ -1,10 +1,9 @@
-+++
-weight = 411
-title = "411. 순차적 일관성 (Sequential Consistency)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 411. 순차적 일관성 (Sequential Consistency)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

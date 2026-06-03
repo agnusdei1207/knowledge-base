@@ -1,10 +1,9 @@
-+++
-weight = 234
-title = "234. 퍼지 로직 (Fuzzy Logic)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 234. 퍼지 로직 (Fuzzy Logic)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

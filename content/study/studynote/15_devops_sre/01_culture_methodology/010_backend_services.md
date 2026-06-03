@@ -1,11 +1,10 @@
-+++
-weight = 10
-title = "10. 백엔드 서비스 (Backing Services) - DB, 큐, 캐시 등을 네트워크로 연결된 자원(Attached Resource)으로 취급"
-date = "2026-04-05"
-[taxonomies]
-tags = ["Backing Services", "백엔드 서비스", "12팩터", "네트워크", "자원"]
-categories = ["15_devops_sre"]
-+++
+---
+title: 10. 백엔드 서비스 (Backing Services) - DB, 큐, 캐시 등을 네트워크로 연결된 자원(Attached Resource)으로
+  취급
+date: '2026-04-05'
+tags:
+- devops_sre
+---
 
 # 백엔드 [[090_service_kubernetes_network_load_balancing|서비스]]
 

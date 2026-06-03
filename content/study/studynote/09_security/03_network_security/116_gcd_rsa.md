@@ -1,10 +1,9 @@
-+++
-weight = 116
-title = "116. GCD (최대공약수)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 116. GCD (최대공약수)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

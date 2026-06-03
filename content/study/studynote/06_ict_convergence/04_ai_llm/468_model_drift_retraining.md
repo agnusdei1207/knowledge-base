@@ -1,10 +1,9 @@
-+++
-weight = 468
-title = "468. 모델 드리프트 (Model Drift)와 재학습 (Retraining)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 468. 모델 드리프트 (Model Drift)와 재학습 (Retraining)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

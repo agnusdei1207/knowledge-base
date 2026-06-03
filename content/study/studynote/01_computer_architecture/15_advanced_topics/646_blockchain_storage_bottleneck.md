@@ -1,10 +1,9 @@
-+++
-weight = 646
-title = "646. 블록체인 노드 스토리지 병목 현상"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 646. 블록체인 노드 스토리지 병목 현상
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

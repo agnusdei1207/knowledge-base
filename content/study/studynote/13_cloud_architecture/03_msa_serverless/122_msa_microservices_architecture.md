@@ -1,10 +1,9 @@
-+++
-weight = 122
-title = "122. MSA (Microservices Architecture) - 서비스별 독립 배포·스케일링 아키텍처"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 122. MSA (Microservices Architecture) - 서비스별 독립 배포·스케일링 아키텍처
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MSA는 **애플리케이션을 비즈니스 [[064_relation_domain|도메인]] 단위의 독립 [[090_service_kubernetes_network_load_balancing|서비스]]로 분리**하여, 각 [[090_service_kubernetes_network_load_balancing|서비스]]가 **자체 DB·[[007_codebase|코드베이스]]·배포 파이프라인**을 가지고 독립적으로 개발·배포·[[249_scaling_normalization_standardization|스케일링]]되는 아키텍처다.

@@ -1,10 +1,9 @@
-+++
-weight = 123
-title = "123. 파이프 (Pipe) - 단방향(Half-duplex), 부모-자식 간"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 123. 파이프 (Pipe) - 단방향(Half-duplex), 부모-자식 간
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

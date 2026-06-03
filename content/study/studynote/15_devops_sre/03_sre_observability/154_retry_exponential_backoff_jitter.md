@@ -1,10 +1,10 @@
-+++
-weight = 154
-title = "154. 재시도, 지수 백오프 및 지터 (Retry, Exponential Backoff, Jitter) - 클라우드 연쇄 폭파 디도스 방어 쉴드"
-date = "2026-05-03"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 154. 재시도, 지수 백오프 및 지터 (Retry, Exponential Backoff, Jitter) - 클라우드 연쇄 폭파 디도스
+  방어 쉴드
+date: '2026-05-03'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[136_variance|분산]] [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]]) 환경에서 타겟 서버가 뻗어 [[573_timeout_retry_backoff_strategy|타임아웃]] 에러를 뱉었을 때 ➔ 걍 대충 "1초 뒤에 무조건 다시 찔러봐 ㅋ" 무지성 폭격(Retry)을 치면 좀비 트래픽 디도스(DDoS)가 터져 서버가 영구 멸망하므로!! ➔ **재시도 간격을 $2초 ➔ 4초 ➔ 8초$ 로 기하급수적으로 숨통 틔워 늦추고(Exponential Backoff), 거기에 난수 타이머 0.3초 꼼수(Jitter)를 섞어 흩뿌려 쏘는 [[100_sre_site_reliability_engineering_error_budget|SRE]] 트래픽 튜닝 텐트의 절대 헌법**이다.

@@ -1,10 +1,9 @@
-+++
-weight = 412
-title = "412. 카티션 프로덕트 (조인 조건 누락)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 412. 카티션 프로덕트 (조인 조건 누락)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

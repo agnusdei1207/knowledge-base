@@ -1,10 +1,9 @@
-+++
-weight = 131
-title = "131. 손실 함수·옵티마이저·경사 하강법 - 딥러닝 학습의 3대 축"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 131. 손실 함수·옵티마이저·경사 하강법 - 딥러닝 학습의 3대 축
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 딥러닝 학습은 **①[[075_loss_function_cost_function|손실 함수]]([[087_loss_function|Loss Function]])로 예측과 정답의 차이를 측정**하고, **②[[275_gradient_descent_sgd|경사 하강법]]([[165_gradient_descent|Gradient Descent]])으로 손실을 줄이는 방향을 계산**하며, **③[[163_optimizer_sql_execution_plan_generator|옵티마이저]]([[088_optimizer|Optimizer]])가 가중치를 업데이트**하는 3단계 순환이다.

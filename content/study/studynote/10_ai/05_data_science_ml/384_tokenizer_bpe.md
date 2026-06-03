@@ -1,10 +1,9 @@
-+++
-weight = 384
-title = "384. 토크나이저 BPE (Byte Pair Encoding)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 384. 토크나이저 BPE (Byte Pair Encoding)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

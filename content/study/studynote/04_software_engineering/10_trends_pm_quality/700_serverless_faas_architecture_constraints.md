@@ -1,10 +1,9 @@
-+++
-weight = 700
-title = "700. 서버리스 FaaS 아키텍처 제약"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 700. 서버리스 FaaS 아키텍처 제약
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 557
-title = "557. 행동 요인 (Behavioral Factor)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 557. 행동 요인 (Behavioral Factor)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

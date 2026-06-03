@@ -1,10 +1,9 @@
-+++
-weight = 894
-title = "894. SCADA (Supervisory Control and Data Acquisition)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 894. SCADA (Supervisory Control and Data Acquisition)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

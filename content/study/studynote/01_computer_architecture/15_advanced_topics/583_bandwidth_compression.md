@@ -1,10 +1,9 @@
-+++
-weight = 583
-title = "583. 데이터 대역폭 압축 인코딩 (Bandwidth Compression Encoding)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 583. 데이터 대역폭 압축 인코딩 (Bandwidth Compression Encoding)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. 빌더 (Builder) 패턴 - 복잡한 인스턴스의 생성 과정과 표현 분리"
-date = "2026-05-03"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 148. 빌더 (Builder) 패턴 - 복잡한 인스턴스의 생성 과정과 표현 분리
+date: '2026-05-03'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[256_builder_pattern_step_by_step_creation|빌더]] ([[256_builder_pattern_step_by_step_creation|Builder]]) 패턴은 파라미터가 수십 개에 달하는 복잡한 객체의 **'[[087_process_state_transition|생성]] 과정(조립)'과 '최종 표현 방법'을 분리**하여, 동일한 조립 공정으로 서로 다른 [[082_attribute_types_er_model|속성]]을 가진 객체를 유연하게 만들어내는 [[087_process_state_transition|생성]](Creational) [[251_design_patterns_gof_overview|디자인 패턴]]이다.

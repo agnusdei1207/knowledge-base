@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "2. 이진 탐색 (Binary Search) — O(log n)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 2. 이진 탐색 (Binary Search) — O(log n)
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 284
-title = "284. 양자화 (Quantization / QLoRA)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 284. 양자화 (Quantization / QLoRA)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

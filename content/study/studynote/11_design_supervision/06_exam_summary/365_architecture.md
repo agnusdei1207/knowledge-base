@@ -1,10 +1,9 @@
-+++
-weight = 365
-title = "365. 클린 아키텍처 (Clean Architecture)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 365. 클린 아키텍처 (Clean Architecture)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

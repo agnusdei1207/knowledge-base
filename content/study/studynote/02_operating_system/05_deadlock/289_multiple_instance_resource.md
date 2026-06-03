@@ -1,10 +1,9 @@
-+++
-weight = 289
-title = "289. 다중 인스턴스 자원 환경 (Multiple Instance Resource)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 289. 다중 인스턴스 자원 환경 (Multiple Instance Resource)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

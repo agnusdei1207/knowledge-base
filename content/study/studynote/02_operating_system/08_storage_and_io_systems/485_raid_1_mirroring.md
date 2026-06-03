@@ -1,10 +1,9 @@
-+++
-weight = 485
-title = "485. RAID 1 (미러링, Mirroring) (RAID 1 Mirroring)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 485. RAID 1 (미러링, Mirroring) (RAID 1 Mirroring)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

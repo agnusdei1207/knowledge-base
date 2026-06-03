@@ -1,9 +1,9 @@
-+++
-title = "039. 피처 플래그 (Feature Flag / Feature Toggle)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 039. 피처 플래그 (Feature Flag / Feature Toggle)
+date: '2026-03-04'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > 1. [[576_feature_flag_ab_testing_rollout|피처 플래그]]([[576_feature_flag_ab_testing_rollout|Feature Flag]])는 코드 배포와 기능 활성화를 분리하는 기술로, "항상 배포 가능한 상태(Always Deployable)"를 유지하면서 특정 사용자/비율에게만 새 기능을 점진적으로 노출할 수 있는 현대 [[090_configuration_item|CI]]/CD의 핵심 요소다.

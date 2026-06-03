@@ -1,10 +1,10 @@
-+++
-weight = 910
-title = "910. 네트워크 코딩 (Network Coding 중간 노드가 패킷 스토어 앤 포워드가 아닌 대수적 연산 병합/조합 전송 대역폭 절감 신뢰도 향상 분산 통신 기법 수학 모델 원리 개념)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 910. 네트워크 코딩 (Network Coding 중간 노드가 패킷 스토어 앤 포워드가 아닌 대수적 연산 병합/조합 전송 대역폭 절감
+  신뢰도 향상 분산 통신 기법 수학 모델 원리 개념)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

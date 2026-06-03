@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. SPACE 프레임워크 — 개발자 생산성 5차원 측정"
-date = "2026-04-29"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 27. SPACE 프레임워크 — 개발자 생산성 5차원 측정
+date: '2026-04-29'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SPACE 프레임워크는 GitHub Research와 Microsoft가 2021년 발표한 개발자 생산성(Developer Productivity) 측정 모델로, Satisfaction & Wellbeing, [[282_performance_tactics|Performance]], Activity, Communication & Collaboration, Efficiency & Flow의 5차원을 통해 생산성을 다면적으로 측정한다.

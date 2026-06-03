@@ -1,10 +1,9 @@
-+++
-weight = 286
-title = "286. 1×1 합성곱 (1x1 Convolution)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 286. 1×1 합성곱 (1x1 Convolution)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

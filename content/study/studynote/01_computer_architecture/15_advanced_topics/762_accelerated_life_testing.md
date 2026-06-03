@@ -1,10 +1,9 @@
-+++
-weight = 762
-title = "762. 가속 수명 시험 (ALT)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 762. 가속 수명 시험 (ALT)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

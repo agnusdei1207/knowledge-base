@@ -1,10 +1,9 @@
-+++
-weight = 466
-title = "466. 시프트 레프트 테스팅 (Shift-Left Testing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 466. 시프트 레프트 테스팅 (Shift-Left Testing)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

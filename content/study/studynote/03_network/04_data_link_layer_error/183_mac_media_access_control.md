@@ -1,10 +1,9 @@
-+++
-weight = 183
-title = "183. 매체 접근 제어 (MAC, Media Access Control) - IEEE 802.3~802.11"
-date = "2026-05-06"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 183. 매체 접근 제어 (MAC, Media Access Control) - IEEE 802.3~802.11
+date: '2026-05-06'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

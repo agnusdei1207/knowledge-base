@@ -1,10 +1,9 @@
-+++
-weight = 29
-title = "29. 드롭아웃 (Dropout)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 29. 드롭아웃 (Dropout)
+date: '2026-04-29'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[280_dropout|드롭아웃]]([[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|Dropout]])은 학습 시 각 뉴런을 [[130_probability|확률]] p로 무작위로 비활성화하여 신경망 과적합을 방지하는 [[134_regularization_dropout_batch_norm|정규화 기법]]이다. 매 미니배치마다 다른 서브 네트워크를 학습하여 [[257_ensemble_learning|앙상블]]([[257_ensemble_learning|Ensemble]]) 효과를 낸다.

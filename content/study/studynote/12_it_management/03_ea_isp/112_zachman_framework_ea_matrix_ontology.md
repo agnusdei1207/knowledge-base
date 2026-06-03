@@ -1,10 +1,9 @@
-+++
-weight = 112
-title = "112. 잭맨 프레임워크 (Zachman Framework)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 112. 잭맨 프레임워크 (Zachman Framework)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[112_zachman_framework|잭맨 프레임워크]] ([[112_zachman_framework|Zachman Framework]])의 본질은 EA의 시초, 6하 원칙(행)과 5개 관점(열)을 조합한 36개 매트릭스로 기업 구성요소 [[655_ir_detection_analysis|식별]] ([[104_classification_analysis|분류]] 체계에 초점)를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

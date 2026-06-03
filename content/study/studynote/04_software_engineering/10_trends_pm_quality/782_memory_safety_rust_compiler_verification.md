@@ -1,10 +1,9 @@
-+++
-weight = 782
-title = "782. 메모리 안전성 언어 (Rust) 컴파일러 검증 차용"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 782. 메모리 안전성 언어 (Rust) 컴파일러 검증 차용
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

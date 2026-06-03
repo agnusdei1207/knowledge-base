@@ -1,10 +1,9 @@
-+++
-weight = 133
-title = "133. 하이브리드 암호 시스템 (Hybrid Encryption)과 KEM/DEM 아키텍처 (Hybrid Encryption)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 133. 하이브리드 암호 시스템 (Hybrid Encryption)과 KEM/DEM 아키텍처 (Hybrid Encryption)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

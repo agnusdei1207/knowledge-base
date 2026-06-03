@@ -1,10 +1,9 @@
-+++
-weight = 113
-title = "113. 역정규화 기법 (Denormalization Techniques) - 테이블 병합·분할·중복 컬럼"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 113. 역정규화 기법 (Denormalization Techniques) - 테이블 병합·분할·중복 컬럼
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[111_denormalization_performance_tradeoff|역정규화]] 기법은 [[093_normalization|정규화]]된 스키마에서 **테이블 병합(Merge)·분할(Split)·중복 컬럼 추가(Redundancy)·파생 컬럼 추가(Derived)** 등의 구체적 물리 설계 패턴을 적용하여 읽기 [[282_performance_tactics|성능]]을 최적화하는 실무 방법론이다.

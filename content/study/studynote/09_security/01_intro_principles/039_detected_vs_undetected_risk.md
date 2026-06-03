@@ -1,9 +1,9 @@
-+++
-title = "039. 탐지 위험 vs 미탐지 위험 (Detected vs Undetected Risk)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 039. 탐지 위험 vs 미탐지 위험 (Detected vs Undetected Risk)
+date: '2026-03-04'
+tags:
+- studynote-security
+---
 
 > **핵심 인사이트**
 > 1. 탐지 위험(Detected [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])은 이미 식별된 위험으로 통제·모니터링이 가능하지만, 미탐지 위험(Undetected [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])은 존재하지만 아직 식별되지 않아 아무런 대응이 없는 위험 — 가장 위험한 것은 "우리가 모르는 것을 모른다(Unknown Unknown)"는 사각지대다.

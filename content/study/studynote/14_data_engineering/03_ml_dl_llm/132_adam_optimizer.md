@@ -1,10 +1,9 @@
-+++
-weight = 132
-title = "132. Adam 옵티마이저 - 적응형 학습률의 사실상 표준"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 132. Adam 옵티마이저 - 적응형 학습률의 사실상 표준
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[277_adam_optimizer|Adam]]([[277_adam_optimizer|Adaptive Moment Estimation]])은 **[[276_momentum_optimizer|Momentum]](1차 모멘트, 이동 평균) + RMSProp(2차 모멘트, 기울기 제곱 이동 평균)**을 결합한 적응형 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]이며, 파라미터별로 **[[080_gradient_descent_learning_rate|학습률]]을 자동 조정**한다.

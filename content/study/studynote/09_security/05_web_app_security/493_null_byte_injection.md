@@ -1,10 +1,9 @@
-+++
-weight = 493
-title = "493. NULL Byte Injection (널 바이트 주입)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 493. NULL Byte Injection (널 바이트 주입)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

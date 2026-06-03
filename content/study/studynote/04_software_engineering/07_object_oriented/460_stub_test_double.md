@@ -1,10 +1,9 @@
-+++
-weight = 460
-title = "460. Stub (스텁) - 호출 시 준비된 답변만 반환 (상태 검증용)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 460. Stub (스텁) - 호출 시 준비된 답변만 반환 (상태 검증용)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

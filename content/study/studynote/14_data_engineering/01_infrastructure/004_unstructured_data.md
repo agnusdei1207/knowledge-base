@@ -1,12 +1,10 @@
-+++
-weight = 4
-title = "4. 비정형 데이터 (Unstructured Data) - 스키마가 없는 텍스트, 음성, 비디오, 이미지 데이터"
-description = "텍스트, 이미지, 오디오 등 사전 정의된 스키마가 없는 원시 데이터의 특성과 딥러닝/벡터 DB 기반의 처리 아키텍처"
-date = "2024-05-24"
-[taxonomies]
-tags = ["비정형데이터", "데이터레이크", "벡터DB", "데이터엔지니어링"]
-categories = ["studynote", "14_data_engineering"]
-+++
+---
+title: 4. 비정형 데이터 (Unstructured Data) - 스키마가 없는 텍스트, 음성, 비디오, 이미지 데이터
+date: '2024-05-24'
+description: 텍스트, 이미지, 오디오 등 사전 정의된 스키마가 없는 원시 데이터의 특성과 딥러닝/벡터 DB 기반의 처리 아키텍처
+tags:
+- data_engineering
+---
 
 # 04. 비정형 [[001_dikw_pyramid|데이터]] (Unstructured [[001_dikw_pyramid|Data]])
 

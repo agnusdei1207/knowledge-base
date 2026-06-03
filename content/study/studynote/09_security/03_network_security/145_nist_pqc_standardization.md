@@ -1,10 +1,9 @@
-+++
-weight = 145
-title = "145. NIST PQC 표준화 (Nist Pqc Standardization)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 145. NIST PQC 표준화 (Nist Pqc Standardization)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

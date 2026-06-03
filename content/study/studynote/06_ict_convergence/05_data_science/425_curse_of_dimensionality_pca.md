@@ -1,10 +1,9 @@
-+++
-weight = 425
-title = "425. 차원의 저주 PCA 해결 (Curse OF Dimensionality PCA)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 425. 차원의 저주 PCA 해결 (Curse OF Dimensionality PCA)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

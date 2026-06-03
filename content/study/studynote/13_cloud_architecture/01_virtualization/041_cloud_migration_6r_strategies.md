@@ -1,10 +1,9 @@
-+++
-title = "041. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R)"
-weight = 41
-date = "2026-04-05"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 041. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R)
+date: '2026-04-05'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. 클라우드 마이그레이션 6R [[268_strategy_pattern|전략]]은 AWS가 Gartner의 5Rs를 확장한 클라우드 이전 유형 [[104_classification_analysis|분류]] 체계로, Retire(폐기)·Retain(유지)·Rehost([[212_rehost_lift_and_shift_migration_strategy|리호스트]])·Replatform(리플랫폼)·Repurchase(재구매)·[[213_refactoring_cloud_native_rearchitecture|Refactor]]/Re-architect(재설계)의 6가지 경로를 제시한다.

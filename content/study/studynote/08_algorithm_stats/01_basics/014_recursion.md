@@ -1,7 +1,8 @@
-+++
-title = "14. 재귀 (Recursion) — 기본 사례, 재귀 사례, 스택 오버플로우"
-weight = 14
-+++
+---
+title: 14. 재귀 (Recursion) — 기본 사례, 재귀 사례, 스택 오버플로우
+tags:
+- algorithm_stats
+---
 
 # 14. 재귀 (Recursion)
 

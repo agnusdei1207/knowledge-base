@@ -1,10 +1,9 @@
-+++
-weight = 303
-title = "303. 은행원 알고리즘 한계 (Bankers Limitations)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 303. 은행원 알고리즘 한계 (Bankers Limitations)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 123
-title = "123. OCF (Open Connectivity Foundation) - IoT 상호운용성 표준"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 123. OCF (Open Connectivity Foundation) - IoT 상호운용성 표준
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OCF는 **이기종 [[101_iot_concept|IoT]] 디바이스 간 [[287_interoperability_tactics|상호운용성]]([[084_blockchain_interoperability_polkadot_cosmos|Interoperability]])을 보장**하는 개방형 표준으로, 제조사·[[295_protocol_field_tcp_udp_icmp|프로토콜]]에 관계없이 디바이스가 **자동 발견(Discovery)·통신·보안 연결**될 수 있도록 한다.

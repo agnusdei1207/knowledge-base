@@ -1,10 +1,9 @@
-+++
-weight = 372
-title = "372. 시민 개발자 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 372. 시민 개발자 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[259_citizen_developer|시민 개발자]] 로우코드 거버넌스 및 섀도우 IT 양성화 통제 방안의 본질은 [[164_policy|정책]], 역할, 통제, 증빙이 같은 [[025_baseline|기준선]] 위에서 움직여야 경영 리스크와 실행 속도를 동시에 관리할 수 있다.

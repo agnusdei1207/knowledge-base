@@ -1,10 +1,9 @@
-+++
-title = "043. 보호와 보안 (Protection & Security)"
-weight = 43
-date = "2026-04-05"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 043. 보호와 보안 (Protection & Security)
+date: '2026-04-05'
+tags:
+- studynote-operating-system
+---
 
 > **핵심 인사이트**
 > 1. OS에서 [[571_protection_vs_security|보호]]([[571_protection_vs_security|Protection]])는 "합법적인 사용자가 리소스에 올바르게 접근하도록 제어"하는 메커니즘이고, 보안([[283_security_tactics|Security]])은 "외부 위협으로부터 시스템을 방어"하는 [[164_policy|정책]] — 두 개념은 목적과 대상이 다르며 계층적으로 보안이 [[571_protection_vs_security|보호]]를 포함한다.

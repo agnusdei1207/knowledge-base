@@ -1,10 +1,9 @@
-+++
-weight = 83
-title = "08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

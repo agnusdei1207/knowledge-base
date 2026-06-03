@@ -1,9 +1,9 @@
-+++
-title = "037. 시스템 데몬 (System Daemon)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 037. 시스템 데몬 (System Daemon)
+date: '2026-03-03'
+tags:
+- studynote-operating-system
+---
 
 > **핵심 인사이트**
 > 1. 데몬(Daemon)은 백그라운드에서 지속적으로 실행되는 [[090_service_kubernetes_network_load_balancing|서비스]] 프로세스로, 터미널(제어 터미널)에 연결되지 않고 부팅 시 시작해 시스템이 종료될 때까지 운영된다.

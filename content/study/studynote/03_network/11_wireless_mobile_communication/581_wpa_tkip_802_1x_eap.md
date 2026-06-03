@@ -1,10 +1,9 @@
-+++
-weight = 581
-title = "581. WPA (TKIP + 802.1X + EAP)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 581. WPA (TKIP + 802.1X + EAP)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

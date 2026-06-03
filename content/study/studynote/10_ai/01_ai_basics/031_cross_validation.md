@@ -1,10 +1,9 @@
-+++
-weight = 31
-title = "31. 교차 검증 심화 — k-Fold부터 시계열 분할까지"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 31. 교차 검증 심화 — k-Fold부터 시계열 분할까지
+date: '2026-04-29'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[250_cross_validation_kfold|교차 검증]]([[083_cross_validation|Cross Validation]])은 제한된 [[001_dikw_pyramid|데이터]]에서 모델 [[282_performance_tactics|성능]]을 최대한 공정하게 추정하는 기법이다. k-Fold는 [[001_dikw_pyramid|데이터]]를 k개로 나눠 순환하며 k번 평가한 평균으로 모델 [[282_performance_tactics|성능]]을 추정한다.

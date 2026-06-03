@@ -1,10 +1,9 @@
-+++
-weight = 354
-title = "354. 피처 스토어 머신러닝 변수 마트 팀간 공유 캐싱망 (Feature Store)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 354. 피처 스토어 머신러닝 변수 마트 팀간 공유 캐싱망 (Feature Store)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[165_feature_store_training_serving_consistency|피처 스토어]] [[241_machine_learning_basics|머신러닝]] 변수 마트 팀간 공유 캐싱망는 클라우드 시스템에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

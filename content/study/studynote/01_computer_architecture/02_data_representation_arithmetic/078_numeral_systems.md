@@ -1,10 +1,9 @@
-+++
-weight = 78
-title = "78. 진법 변환 (2진수, 8진수, 10진수, 16진수)"
-date = "2026-03-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 78. 진법 변환 (2진수, 8진수, 10진수, 16진수)
+date: '2026-03-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

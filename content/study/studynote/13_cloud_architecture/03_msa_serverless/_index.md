@@ -1,8 +1,8 @@
-+++
-weight = 4
-title = "03. 마이크로서비스 아키텍처 (MSA) 및 서버리스"
-sort_by = "weight"
-+++
+---
+title: 03. 마이크로서비스 아키텍처 (MSA) 및 서버리스
+tags:
+- cloud_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

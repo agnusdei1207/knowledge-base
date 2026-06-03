@@ -1,10 +1,9 @@
-+++
-weight = 396
-title = "396. Remote Attestation (원격 플랫폼 증명)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 396. Remote Attestation (원격 플랫폼 증명)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

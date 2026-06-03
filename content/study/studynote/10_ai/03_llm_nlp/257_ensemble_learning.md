@@ -1,10 +1,9 @@
-+++
-weight = 257
-title = "257. 앙상블 (Ensemble) 학습"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 257. 앙상블 (Ensemble) 학습
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

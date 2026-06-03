@@ -1,10 +1,9 @@
-+++
-weight = 702
-title = "702. 스푸핑 (Spoofing) 기만 위장 공격 종류 및 특성 분석"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 702. 스푸핑 (Spoofing) 기만 위장 공격 종류 및 특성 분석
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 28
-title = "28. 플랫폼 엔지니어링과 IDP (Platform Engineering & Internal Developer Platform)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 28. 플랫폼 엔지니어링과 IDP (Platform Engineering & Internal Developer Platform)
+date: '2026-04-29'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]([[109_platform_engineering_cognitive_load|Platform Engineering]])은 [[058_dx_developer_experience|개발자 경험]](Developer Experience, [[726_platform_engineering_idp_dx|DX]])을 향상시키기 위해 [[110_idp_internal_developer_platform_backstage|내부 개발자 플랫폼]]([[536_idp_identity_provider|IDP]], [[200_internal_developer_platform_backstage|Internal Developer Platform]])을 구축·운영하는 전문 엔지니어링 분야다. 개발팀이 인프라를 직접 관리하지 않고 셀프 [[090_service_kubernetes_network_load_balancing|서비스]]로 사용할 수 있는 "황금 경로(Golden Path)"를 제공한다.

@@ -1,10 +1,9 @@
-+++
-weight = 251
-title = "251. 엣지 네이티브 설계 패턴 (Edge Native)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 251. 엣지 네이티브 설계 패턴 (Edge Native)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 68
-title = "68. 소프트웨어 접근성 (Software Accessibility) 점검"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 68. 소프트웨어 접근성 (Software Accessibility) 점검
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

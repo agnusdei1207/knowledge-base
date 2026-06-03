@@ -1,10 +1,9 @@
-+++
-weight = 147
-title = "147. 집계 함수 (Aggregate Function) - SUM, AVG, MAX, MIN, COUNT"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 147. 집계 함수 (Aggregate Function) - SUM, AVG, MAX, MIN, COUNT
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 집계 함수([[222_aggregate_ddd_transaction_consistency|Aggregate]] Function)는 여러 행(Row)의 값을 하나의 결과값으로 요약하는 SQL(Structured Query Language) 함수로, `GROUP BY`와 결합하여 그룹별 통계를 [[087_process_state_transition|생성]]하는 [[001_dikw_pyramid|데이터]] 분석의 핵심 도구다.

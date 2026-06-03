@@ -1,10 +1,9 @@
-+++
-weight = 847
-title = "847. NIST CSF Tier (보안 성숙도 단계)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 847. NIST CSF Tier (보안 성숙도 단계)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

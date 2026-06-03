@@ -1,10 +1,9 @@
-+++
-weight = 29
-title = "29. Apache ZooKeeper"
-date = "2026-04-29"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 29. Apache ZooKeeper
+date: '2026-04-29'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache ZooKeeper는 [[136_variance|분산]] 시스템의 조율(Coordination) [[090_service_kubernetes_network_load_balancing|서비스]]다. [[136_variance|분산]] 잠금(Distributed [[510_lock|Lock]]), 리더 선출(Leader Election), [[009_config|설정]] 관리([[009_config|Config]]), [[306_service_discovery_pattern|서비스 디스커버리]]([[303_service_discovery|Service Discovery]])를 [[194_consistency_database_integrity|일관성]] 있게 제공하는 [[136_variance|분산]] [[086_CP_순환_전치_GI|CP]] 시스템이다.

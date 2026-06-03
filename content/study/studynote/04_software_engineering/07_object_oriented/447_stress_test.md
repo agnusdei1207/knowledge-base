@@ -1,10 +1,9 @@
-+++
-weight = 447
-title = "447. 스트레스 테스트 (Stress Test) - 임계점 이상의 과부하 상태에서 시스템 붕괴 및 복구 반응 확인"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 447. 스트레스 테스트 (Stress Test) - 임계점 이상의 과부하 상태에서 시스템 붕괴 및 복구 반응 확인
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 160
-title = "160. 디퓨전 모델 (Diffusion Model)"
-date = "2026-04-17"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 160. 디퓨전 모델 (Diffusion Model)
+date: '2026-04-17'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트
 

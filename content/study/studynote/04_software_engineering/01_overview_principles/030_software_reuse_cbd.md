@@ -1,10 +1,9 @@
-+++
-weight = 30
-title = "30. 소프트웨어 재사용과 CBD — Component Based Development"
-date = "2026-04-29"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 30. 소프트웨어 재사용과 CBD — Component Based Development
+date: '2026-04-29'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소프트웨어 재사용(Software Reuse)은 이미 [[395_verification_process_review|검증]]된 소프트웨어 자산을 새 시스템 개발에 활용하는 전략이다. CBD(Component-Based Development)는 독립적으로 배포 가능한 [[603_component_independent_deployment_unit|컴포넌트]] 단위로 소프트웨어를 개발·조립하는 방법론이다.

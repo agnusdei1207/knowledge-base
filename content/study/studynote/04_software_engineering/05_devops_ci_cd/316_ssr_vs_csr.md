@@ -1,10 +1,9 @@
-+++
-weight = 316
-title = "316. 서버 사이드 렌더링 (SSR) vs 클라이언트 사이드 렌더링 (CSR)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 316. 서버 사이드 렌더링 (SSR) vs 클라이언트 사이드 렌더링 (CSR)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

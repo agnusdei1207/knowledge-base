@@ -1,12 +1,11 @@
-+++
-weight = 12
-title = "12. 퍼지 논리 (Fuzzy Logic) - 0과 1 사이의 확률적 연속값(소속도)을 이용해 애매한 개념 처리 (Zadeh 제안)"
-description = "0과 1의 이분법적 논리를 넘어, 소속도(Membership) 기반의 연속값으로 인간의 애매한 언어와 사고를 정량화하는 제어 기법"
-date = "2024-05-24"
-[taxonomies]
-tags = ["AI", "퍼지 논리", "Fuzzy Logic", "소속 함수", "전문가 시스템", "제어공학"]
-categories = ["studynote-ai"]
-+++
+---
+title: 12. 퍼지 논리 (Fuzzy Logic) - 0과 1 사이의 확률적 연속값(소속도)을 이용해 애매한 개념 처리 (Zadeh 제안)
+date: '2024-05-24'
+description: 0과 1의 이분법적 논리를 넘어, 소속도(Membership) 기반의 연속값으로 인간의 애매한 언어와 사고를 정량화하는 제어
+  기법
+tags:
+- ai
+---
 # 12. 퍼지 [[369_logic_bomb|논리]] ([[234_fuzzy_logic|Fuzzy Logic]])
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 고전적인 크리스프 집합(Crisp Set, 0 또는 1)과 달리, 특정 집합에 속하는 정도를 0에서 1 사이의 연속적인 실수값(소속도, Degree of Membership)으로 표현하는 다치 [[369_logic_bomb|논리]](Multi-valued Logic) 체계.

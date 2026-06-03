@@ -1,10 +1,9 @@
-+++
-weight = 172
-title = "172. 선언형 vs 명령형 인프라 접근 (Declarative vs Imperative Infrastructure)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 172. 선언형 vs 명령형 인프라 접근 (Declarative vs Imperative Infrastructure)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

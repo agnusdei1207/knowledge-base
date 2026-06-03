@@ -1,10 +1,9 @@
-+++
-weight = 268
-title = "268. 소프트웨어 트랜잭셔널 메모리 (STM)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 268. 소프트웨어 트랜잭셔널 메모리 (STM)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

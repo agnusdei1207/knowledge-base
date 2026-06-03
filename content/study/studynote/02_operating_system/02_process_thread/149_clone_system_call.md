@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "149. 클론 (clone) 시스템 콜 - 리눅스 프로세스와 스레드 생성의 통합 API"
-date = "2026-05-03"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 149. 클론 (clone) 시스템 콜 - 리눅스 프로세스와 스레드 생성의 통합 API
+date: '2026-05-03'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: `clone()` 시스템 콜은 리눅스 [[022_kernel_role|커널]]에서 프로세스([[300_process|Process]])와 [[092_thread_lwp|스레드]]([[092_thread_lwp|Thread]])를 [[087_process_state_transition|생성]]하는 유일하고도 가장 근원적인 범용 인터페이스([[014_api_posix|API]])이다.

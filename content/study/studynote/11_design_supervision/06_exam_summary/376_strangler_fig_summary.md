@@ -1,10 +1,9 @@
-+++
-weight = 376
-title = "376. 스트랭글러 피그 패턴 (Strangler Fig Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 376. 스트랭글러 피그 패턴 (Strangler Fig Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

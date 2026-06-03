@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. 논리 게이트 (Logic Gates) — 디지털 회로의 기본 소자"
-date = "2026-04-29"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 27. 논리 게이트 (Logic Gates) — 디지털 회로의 기본 소자
+date: '2026-04-29'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[369_logic_bomb|논리]] 게이트(Logic Gate)는 불 대수([[022_boolean_algebra|Boolean Algebra]])를 전자 회로로 구현한 기본 소자로, 0(Low)·1(High) 두 상태의 입력을 받아 [[369_logic_bomb|논리]] 연산(AND, OR, NOT, NAND, NOR, XOR, XNOR)을 수행하여 출력한다.

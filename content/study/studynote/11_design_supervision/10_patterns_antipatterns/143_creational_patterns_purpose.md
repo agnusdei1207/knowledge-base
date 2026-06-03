@@ -1,10 +1,9 @@
-+++
-weight = 143
-title = "143. 생성 패턴의 목적 (Creational Patterns Purpose)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 143. 생성 패턴의 목적 (Creational Patterns Purpose)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

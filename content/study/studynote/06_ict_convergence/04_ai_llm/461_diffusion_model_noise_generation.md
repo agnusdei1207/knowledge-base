@@ -1,10 +1,9 @@
-+++
-weight = 461
-title = "461. 디퓨전 노이즈 역산 생성 (Diffusion Model Noise Generation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 461. 디퓨전 노이즈 역산 생성 (Diffusion Model Noise Generation)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

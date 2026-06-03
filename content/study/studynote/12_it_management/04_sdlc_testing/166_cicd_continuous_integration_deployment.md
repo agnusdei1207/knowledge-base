@@ -1,10 +1,9 @@
-+++
-weight = 166
-title = "166. CI/CD (Continuous Integration/Continuous Deployment, 지속적 통합/배포)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 166. CI/CD (Continuous Integration/Continuous Deployment, 지속적 통합/배포)
+date: '2026-04-21'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

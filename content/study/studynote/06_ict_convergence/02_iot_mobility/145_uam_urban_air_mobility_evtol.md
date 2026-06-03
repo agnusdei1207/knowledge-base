@@ -1,10 +1,9 @@
-+++
-weight = 145
-title = "145. UAM (Urban Air Mobility) - 도심 항공 모빌리티 & eVTOL"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 145. UAM (Urban Air Mobility) - 도심 항공 모빌리티 & eVTOL
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: UAM은 **전기 수직이착륙(eVTOL) 항공기로 도심 내 단거리(30~100km) 항공 이동**을 제공하는 차세대 교통 시스템이며, "하늘을 나는 택시"이다.

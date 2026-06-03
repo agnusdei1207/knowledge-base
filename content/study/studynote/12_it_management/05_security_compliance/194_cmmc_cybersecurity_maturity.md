@@ -1,10 +1,9 @@
-+++
-weight = 194
-title = "194. CMMC (Cybersecurity Maturity Model Certification)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 194. CMMC (Cybersecurity Maturity Model Certification)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CMMC (Cybersecurity [[011_maturity_model|Maturity Model]] Certification)의 본질은 미국 국방부 사이버보안 성숙도 [[303_authentication_authorization_patterns|인증]] 모델 (방산 [[374_supply_chain_security|공급망 보안]])를 예방·탐지·대응 통제와 증적으로 운영하는 데 있다.

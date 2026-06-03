@@ -1,10 +1,9 @@
-+++
-weight = 331
-title = "331. 린 스타트업 MVP 배포 실험 BML 루프 (Lean Startup MVP BML Loop)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 331. 린 스타트업 MVP 배포 실험 BML 루프 (Lean Startup MVP BML Loop)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

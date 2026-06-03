@@ -1,10 +1,9 @@
-+++
-weight = 284
-title = "284. 데이터 마이닝 (Data Mining) 연관 분석/분류/군집 CRISP-DM"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 284. 데이터 마이닝 (Data Mining) 연관 분석/분류/군집 CRISP-DM
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

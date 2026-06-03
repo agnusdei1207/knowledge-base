@@ -1,10 +1,9 @@
-+++
-weight = 203
-title = "203. 클라우드 마이그레이션 6R 기법"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 203. 클라우드 마이그레이션 6R 기법
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 클라우드 마이그레이션 6R 기법의 본질은 Rehost(그대로 이전), Replatform(OS/DB 변경 이전), [[213_refactoring_cloud_native_rearchitecture|Refactor]]([[619_msa_traffic_hardware|MSA]]/PaaS로 구조 전면 수정), Repurchase([[309_saas|SaaS]] 구매 대체)를 [[090_service_kubernetes_network_load_balancing|서비스]] 모델, 자동화, 책임 분담 기준으로 실현하는 데 있다.

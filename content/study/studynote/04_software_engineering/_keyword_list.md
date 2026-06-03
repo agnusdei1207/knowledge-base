@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "04. 소프트웨어공학 키워드 목록"
-date = "2026-03-04"
-[extra]
-categories = "studynote-se"
-+++
+---
+title: 04. 소프트웨어공학 키워드 목록
+date: '2026-03-04'
+tags:
+- studynote-se
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # 소프트웨어공학 ([[001_software_engineering_definition|Software Engineering]]) 키워드 목록 (심화 확장판)

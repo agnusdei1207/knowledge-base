@@ -1,10 +1,9 @@
-+++
-weight = 409
-title = "409. 관계 대수 (절차적 연산)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 409. 관계 대수 (절차적 연산)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

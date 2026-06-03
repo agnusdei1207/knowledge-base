@@ -1,10 +1,9 @@
-+++
-weight = 84
-title = "84. 힙 (Heap) 영역 - 동적 할당 (malloc/free)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 84. 힙 (Heap) 영역 - 동적 할당 (malloc/free)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

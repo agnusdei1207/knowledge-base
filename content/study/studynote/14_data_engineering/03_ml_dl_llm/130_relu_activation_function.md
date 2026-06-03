@@ -1,10 +1,9 @@
-+++
-weight = 130
-title = "130. ReLU 활성화 함수 - 딥러닝 르네상스를 연 비선형 변환"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 130. ReLU 활성화 함수 - 딥러닝 르네상스를 연 비선형 변환
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[269_relu_activation|ReLU]]([[269_relu_activation|Rectified Linear Unit]])는 **f(x) = max(0, x)**로 정의되는 [[129_activation_function|활성화 함수]]이며, 양수는 그대로 통과, 음수는 0으로 차단하는 단순한 구조로 **[[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]] 문제를 해결**하여 딥러닝을 실용화했다.

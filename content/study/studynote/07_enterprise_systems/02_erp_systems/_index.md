@@ -1,8 +1,8 @@
-+++
-weight = 2
-title = "02. 전사적 자원 관리 (ERP) 시스템"
-sort_by = "weight"
-+++
+---
+title: 02. 전사적 자원 관리 (ERP) 시스템
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

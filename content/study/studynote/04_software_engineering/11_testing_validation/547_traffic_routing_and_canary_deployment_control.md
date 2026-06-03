@@ -1,10 +1,9 @@
-+++
-weight = 547
-title = "547. 트래픽 라우팅 및 카나리 배포 제어 (Service Mesh의 역할)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 547. 트래픽 라우팅 및 카나리 배포 제어 (Service Mesh의 역할)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

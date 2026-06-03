@@ -1,10 +1,9 @@
-+++
-weight = 975
-title = "975. OWASP LLM Top 10 (OWASP LLM Top 10)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 975. OWASP LLM Top 10 (OWASP LLM Top 10)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 123
-title = "123. 서버리스 & FaaS (Serverless / AWS Lambda) - 인프라 없는 함수 단위 컴퓨팅"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 123. 서버리스 & FaaS (Serverless / AWS Lambda) - 인프라 없는 함수 단위 컴퓨팅
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[206_serverless_cold_start|서버리스]]([[206_serverless_cold_start|Serverless]])는 **서버 [[528_provisioning|프로비저닝]]·관리 없이 코드만 배포하면 클라우드가 자동 실행·[[249_scaling_normalization_standardization|스케일링]]·과금**하는 컴퓨팅 모델이며, [[342_faas|FaaS]](Function [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]])는 **함수 단위로 실행**되는 [[206_serverless_cold_start|서버리스]]의 대표 형태이다.

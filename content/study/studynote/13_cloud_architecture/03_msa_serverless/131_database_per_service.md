@@ -1,10 +1,9 @@
-+++
-weight = 131
-title = "131. Database per Service - MSA 데이터 분리 패턴"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 131. Database per Service - MSA 데이터 분리 패턴
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[501_database|Database]] per Service는 **각 마이크로서비스가 독립적인 [[001_dikw_pyramid|데이터]]베이스를 소유**하여 다른 [[090_service_kubernetes_network_load_balancing|서비스]]가 직접 DB에 접근하지 못하고 **오직 API로만 통신**하는 [[619_msa_traffic_hardware|MSA]] [[001_dikw_pyramid|데이터]] 패턴이다.

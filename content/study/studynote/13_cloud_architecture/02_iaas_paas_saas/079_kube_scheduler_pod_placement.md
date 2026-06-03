@@ -1,10 +1,9 @@
-+++
-weight = 79
-title = "79. Kube-Scheduler (스케줄러) - 새로 생성된 Pod가 자원 여유가 있는 어떤 워커 노드에 배치될지 결정"
-date = "2026-04-07"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 79. Kube-Scheduler (스케줄러) - 새로 생성된 Pod가 자원 여유가 있는 어떤 워커 노드에 배치될지 결정
+date: '2026-04-07'
+tags:
+- studynote-cloud
+---
 
 # Kube-Scheduler (스케줄러) - [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]의 지능형 테트리스 봇
 

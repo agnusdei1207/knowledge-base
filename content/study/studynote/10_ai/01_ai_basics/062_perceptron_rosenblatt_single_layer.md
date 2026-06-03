@@ -1,10 +1,9 @@
-+++
-weight = 62
-title = "62. 퍼셉트론 (Perceptron) - 단층 신경망"
-date = "2026-04-07"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 62. 퍼셉트론 (Perceptron) - 단층 신경망
+date: '2026-04-07'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

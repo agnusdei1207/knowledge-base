@@ -1,10 +1,9 @@
-+++
-title = "046. 에지 트리거 — Edge Trigger"
-weight = 46
-date = "2026-04-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 046. 에지 트리거 — Edge Trigger
+date: '2026-04-05'
+tags:
+- studynote-computer-architecture
+---
 
 > **핵심 인사이트**
 > 1. 에지 [[507_acid_properties|트리거]](Edge Trigger)는 클럭 신호의 엣지(Rising 또는 Falling) 순간에만 데이터를 샘플링하는 [[051_flip_flop|플립플롭]] 동작 방식 — 레벨 [[507_acid_properties|트리거]]([[047_level_trigger|Level Trigger]])보다 타이밍 제어가 정밀하며 현대 디지털 회로에서 표준이다.

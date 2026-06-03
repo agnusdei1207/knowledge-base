@@ -1,10 +1,9 @@
-+++
-weight = 152
-title = "152. 구조 패턴: 객체 어댑터 vs 클래스 어댑터 (Object vs Class Adapter) - 상속과 합성의 십자 트레이드오프"
-date = "2026-05-03"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: '152. 구조 패턴: 객체 어댑터 vs 클래스 어댑터 (Object vs Class Adapter) - 상속과 합성의 십자 트레이드오프'
+date: '2026-05-03'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[259_adapter_pattern_interface_wrapper|어댑터]]([[259_adapter_pattern_interface_wrapper|Adapter]]) 패턴은 규격이 안 맞는 두 인터페이스를 연결할 때, 낡은 로봇(Adaptee)을 내 뱃속 변수로 품어버리는 **'객체 [[259_adapter_pattern_interface_wrapper|어댑터]](Object [[259_adapter_pattern_interface_wrapper|Adapter]] / 합성 Composition)'**와 ➔ 낡은 로봇의 핏줄을 내 호적에 직접 엮어 다중 [[234_uml_class_relationships_generalization_dependency|상속]](Multiple Inheritance) 치는 **'클래스 [[259_adapter_pattern_interface_wrapper|어댑터]](Class [[259_adapter_pattern_interface_wrapper|Adapter]])'** 2가지 흑마법으로 도끼 찢기 분할된다.

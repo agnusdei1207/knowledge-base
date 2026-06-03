@@ -1,10 +1,10 @@
-+++
-weight = 334
-title = "334. Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego ConstraintTemplate Conftest Policy as Code)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 334. Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego
+  ConstraintTemplate Conftest Policy as Code)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

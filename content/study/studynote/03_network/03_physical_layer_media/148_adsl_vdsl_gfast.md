@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. VDSL (Very high-bit-rate DSL) / ADSL (Asymmetric DSL) / G.fast"
-date = "2026-05-03"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 148. VDSL (Very high-bit-rate DSL) / ADSL (Asymmetric DSL) / G.fast
+date: '2026-05-03'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DSL (Digital Subscriber Line) 기술은 기존에 깔려 있던 구리 전화선의 남는 고주파수 대역을 활용해, 선로 교체 없이 메가비트급 고속 [[001_dikw_pyramid|데이터]] 통신을 제공한 혁신적인 주파수 분할 기술이다.

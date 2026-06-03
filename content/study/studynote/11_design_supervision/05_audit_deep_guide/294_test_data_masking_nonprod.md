@@ -1,10 +1,9 @@
-+++
-weight = 294
-title = "294. 비운영 환경 테스트데이터 마스킹 감리 (Non Production Test Data Masking Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 294. 비운영 환경 테스트데이터 마스킹 감리 (Non Production Test Data Masking Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

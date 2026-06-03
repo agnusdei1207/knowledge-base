@@ -1,10 +1,9 @@
-+++
-weight = 442
-title = "442. 인텐트 기반 IBN 아키텍처 자동 변환망 (Intent-Based Networking Architecture)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 442. 인텐트 기반 IBN 아키텍처 자동 변환망 (Intent-Based Networking Architecture)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

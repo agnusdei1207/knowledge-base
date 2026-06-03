@@ -1,10 +1,9 @@
-+++
-weight = 620
-title = "620. 이벤트 소싱 상태 재생 가능성 보장"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 620. 이벤트 소싱 상태 재생 가능성 보장
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

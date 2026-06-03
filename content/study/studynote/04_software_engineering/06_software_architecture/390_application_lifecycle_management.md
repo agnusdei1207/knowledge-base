@@ -1,10 +1,9 @@
-+++
-weight = 390
-title = "390. 애플리케이션 라이프사이클 관리 (ALM) 시스템 도입"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 390. 애플리케이션 라이프사이클 관리 (ALM) 시스템 도입
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

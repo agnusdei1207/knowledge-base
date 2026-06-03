@@ -1,10 +1,9 @@
-+++
-weight = 458
-title = "458. 고립화 수준 (Read Uncommitted~Serializable)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 458. 고립화 수준 (Read Uncommitted~Serializable)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

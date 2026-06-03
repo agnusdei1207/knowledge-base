@@ -1,10 +1,9 @@
-+++
-weight = 642
-title = "642. 망분리 (Network Separation) 및 제로 트러스트 연결형 논리망 보안 정책"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 642. 망분리 (Network Separation) 및 제로 트러스트 연결형 논리망 보안 정책
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

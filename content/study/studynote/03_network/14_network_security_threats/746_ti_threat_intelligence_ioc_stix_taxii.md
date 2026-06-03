@@ -1,10 +1,9 @@
-+++
-weight = 746
-title = "746. TI (Threat Intelligence) 융합 / STIX, TAXII 표준 지표 관리, IoC (침해지표) 반영"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 746. TI (Threat Intelligence) 융합 / STIX, TAXII 표준 지표 관리, IoC (침해지표) 반영
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

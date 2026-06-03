@@ -1,10 +1,9 @@
-+++
-weight = 334
-title = "334. ITSM ITIL 서비스 카탈로그 관리 (ITSM ITIL Service Catalog)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 334. ITSM ITIL 서비스 카탈로그 관리 (ITSM ITIL Service Catalog)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

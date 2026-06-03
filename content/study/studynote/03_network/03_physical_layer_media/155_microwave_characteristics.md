@@ -1,10 +1,9 @@
-+++
-weight = 155
-title = "155. 마이크로파 (Microwave) - 1GHz~300GHz 직진성의 저격수 스나이퍼 빔"
-date = "2026-05-03"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 155. 마이크로파 (Microwave) - 1GHz~300GHz 직진성의 저격수 스나이퍼 빔
+date: '2026-05-03'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[154_radio_wave_classification|마이크로파]]([[154_radio_wave_classification|Microwave]])는 1GHz부터 300GHz 대역의 극초고주파 전파 텐트로, 파장 길이가 수 mm ~ 30cm에 불과해 이름에 '마이크로(Micro 작다)'가 붙은 **'빛(Light)과 똑같이 벽을 못 뚫고 오직 거울반사 100% 직진만 쓩 🚀 쏘아 갈기는 물리 계층(L1)의 스나이퍼 레이저 빔 쇳덩이'**다.

@@ -1,10 +1,9 @@
-+++
-weight = 161
-title = "161. 데이터 시각화 원칙 (Data Visualization Principles) — Tufte 데이터 잉크 비율"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 161. 데이터 시각화 원칙 (Data Visualization Principles) — Tufte 데이터 잉크 비율
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

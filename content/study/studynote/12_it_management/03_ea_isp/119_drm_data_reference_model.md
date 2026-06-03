@@ -1,10 +1,9 @@
-+++
-weight = 119
-title = "119. DRM (Data Reference Model, 데이터 참조 모델)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 119. DRM (Data Reference Model, 데이터 참조 모델)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[119_drm_data_reference_model_standard|DRM]] ([[001_dikw_pyramid|Data]] [[116_reference_model|Reference Model]], [[001_dikw_pyramid|데이터]] [[116_reference_model|참조 모델]])의 본질은 범정부 [[001_dikw_pyramid|데이터]] 교환 표준 및 [[104_classification_analysis|분류]] 체계를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 733
-title = "733. GQM 지표 측정 골 기반 구조"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 733. GQM 지표 측정 골 기반 구조
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

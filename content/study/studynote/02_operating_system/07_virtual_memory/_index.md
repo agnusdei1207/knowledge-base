@@ -1,8 +1,8 @@
-+++
-weight = 7
-title = "07. 가상 메모리 및 스와핑"
-sort_by = "weight"
-+++
+---
+title: 07. 가상 메모리 및 스와핑
+tags:
+- operating_system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

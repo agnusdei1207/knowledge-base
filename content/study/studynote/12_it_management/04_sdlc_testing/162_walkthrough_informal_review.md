@@ -1,10 +1,9 @@
-+++
-weight = 162
-title = "162. 워크스루 (Walkthrough, 비공식 검토)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 162. 워크스루 (Walkthrough, 비공식 검토)
+date: '2026-04-21'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

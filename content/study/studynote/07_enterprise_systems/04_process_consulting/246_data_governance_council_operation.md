@@ -1,10 +1,9 @@
-+++
-weight = 246
-title = "246. 데이터 거버넌스 협의체 운영 (Data Governance Council)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 246. 데이터 거버넌스 협의체 운영 (Data Governance Council)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "049. 스토리지 엔진 — InnoDB vs MyISAM"
-weight = 49
-date = "2026-04-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 049. 스토리지 엔진 — InnoDB vs MyISAM
+date: '2026-04-05'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트**
 > 1. InnoDB와 MyISAM의 핵심 차이는 "[[191_transaction_concept_states|트랜잭션]] + 외래키 지원 여부" — InnoDB는 ACID [[191_transaction_concept_states|트랜잭션]]·외래키·행 단위 잠금을 지원하는 반면, MyISAM은 이 모두를 지원하지 않는 대신 단순한 구조로 읽기 전용 환경에서 빠른 [[282_performance_tactics|성능]]을 보인다.

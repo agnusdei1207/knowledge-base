@@ -1,10 +1,9 @@
-+++
-title = "045. 클러스터 시스템 — Cluster System"
-weight = 45
-date = "2026-04-05"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 045. 클러스터 시스템 — Cluster System
+date: '2026-04-05'
+tags:
+- studynote-operating-system
+---
 
 > **핵심 인사이트**
 > 1. 클러스터 시스템(Cluster System)은 여러 독립 컴퓨터(노드)를 고속 네트워크로 연결해 하나의 단일 시스템처럼 동작시키는 아키텍처 — 단일 고성능 컴퓨터([[195_real_time_scheduling|SMP]], [[621_scale_up_system_bus|Scale-Up]])의 비용과 한계를 극복하기 위해 상용 하드웨어([[202_scale_out_distributed_horizontal_expansion|Scale-Out]])를 활용한다.

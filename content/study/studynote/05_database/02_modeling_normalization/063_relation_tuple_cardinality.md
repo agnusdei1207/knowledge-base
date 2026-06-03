@@ -1,7 +1,8 @@
-+++
-title = "63. 튜플 (Tuple / Row / Cardinality) - 릴레이션의 행 (카디널리티)"
-weight = 63
-+++
+---
+title: 63. 튜플 (Tuple / Row / Cardinality) - 릴레이션의 행 (카디널리티)
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

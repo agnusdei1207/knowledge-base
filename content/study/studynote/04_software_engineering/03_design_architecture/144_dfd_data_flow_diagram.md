@@ -1,10 +1,9 @@
-+++
-weight = 144
-title = "144. DFD (Data Flow Diagram) - 데이터 흐름도 상세"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 144. DFD (Data Flow Diagram) - 데이터 흐름도 상세
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: DFD는 **프로세스(○)·[[001_dikw_pyramid|데이터]] 흐름(→)·[[001_dikw_pyramid|데이터]] 저장소(═)·외부 엔티티(□)** 4가지 기호로 시스템의 [[001_dikw_pyramid|데이터]] 변환과 흐름을 계층적으로 표현하는 [[143_structured_analysis_dfd_dd_minispec|구조적 분석]] 도구이다.

@@ -1,10 +1,9 @@
-+++
-weight = 123
-title = "123. 강화 학습 (Reinforcement Learning) - 보상 기반 행동 최적화"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 123. 강화 학습 (Reinforcement Learning) - 보상 기반 행동 최적화
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]은 **에이전트(Agent)가 환경([[066_gitlab_flow_environment_branch_strategy|Environment]])과 상호작용하면서 보상(Reward)을 최대화하는 행동 [[164_policy|정책]]([[164_policy|Policy]])을 학습**하는 ML 패러다임이며, 별도의 정답 라벨 없이 **시행착오(Trial and Error)**를 통해 학습한다.

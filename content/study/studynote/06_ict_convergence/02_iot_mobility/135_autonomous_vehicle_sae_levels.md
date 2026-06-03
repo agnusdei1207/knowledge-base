@@ -1,10 +1,9 @@
-+++
-weight = 135
-title = "135. 자율주행 SAE 레벨 (Level 0~5) - 자율주행 단계 분류"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 135. 자율주행 SAE 레벨 (Level 0~5) - 자율주행 단계 분류
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SAE J3016은 **자율주행을 Level 0(비자동)~Level 5(완전 자율)의 6단계**로 분류하는 국제 표준이며, Level 3(조건부 자율)부터 시스템이 주행의 주체가 된다.

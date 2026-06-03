@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "149. 네트워크 슬라이싱 (Network Slicing) - 5G 융합 가상 격리 전용망"
-date = "2026-05-03"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 149. 네트워크 슬라이싱 (Network Slicing) - 5G 융합 가상 격리 전용망
+date: '2026-05-03'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 네트워크 슬라이싱(Network Slicing)은 1개의 거대한 물리적 [[418_5g_embb_urllc_mmtc_slicing|5G]] 인프라 망([[171_antenna_basic_dipole_resonance|안테나]], 코어망)을 SDN과 [[865_nfv_network_functions_virtualization_architecture|NFV]] [[015_virtualization|가상화]] 칼날로 썰어, [[140_bandwidth|대역폭]]과 지연율이 완벽히 독립 보장된 N개의 '논리적 맞춤형 프라이빗 전용망([[331_neuromorphic_ai_db|Slice]])'으로 찢어내는 [[418_5g_embb_urllc_mmtc_slicing|5G]] 핵심 아키텍처다.

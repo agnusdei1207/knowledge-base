@@ -1,10 +1,9 @@
-+++
-weight = 222
-title = "222. North-South 트래픽 (North South Traffic Perimeter Security)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 222. North-South 트래픽 (North South Traffic Perimeter Security)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

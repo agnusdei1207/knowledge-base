@@ -1,10 +1,9 @@
-+++
-weight = 257
-title = "257. 리틀의 법칙 성능 진단 (Little's Law Performance Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 257. 리틀의 법칙 성능 진단 (Little's Law Performance Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

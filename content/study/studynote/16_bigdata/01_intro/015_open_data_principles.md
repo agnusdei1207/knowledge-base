@@ -1,12 +1,10 @@
-+++
-weight = 15
-title = "15. 오픈데이터 원칙 — FAIR (Findable/Accessible/Interoperable/Reusable)"
-description = "데이터의 기계 판독성과 재사용성을 극대화하는 FAIR 원칙의 아키텍처 및 실무 도입 전략"
-date = "2024-05-23"
-[taxonomies]
-tags = ["빅데이터", "오픈데이터", "FAIR 원칙", "메타데이터", "데이터 거버넌스"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 15. 오픈데이터 원칙 — FAIR (Findable/Accessible/Interoperable/Reusable)
+date: '2024-05-23'
+description: 데이터의 기계 판독성과 재사용성을 극대화하는 FAIR 원칙의 아키텍처 및 실무 도입 전략
+tags:
+- bigdata
+---
 
 # 오픈데이터 원칙 (FAIR)
 

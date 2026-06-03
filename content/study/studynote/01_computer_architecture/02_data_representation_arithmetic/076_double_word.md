@@ -1,10 +1,9 @@
-+++
-weight = 76
-title = "76. 더블 워드 (Double Word)"
-date = "2026-03-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 76. 더블 워드 (Double Word)
+date: '2026-03-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

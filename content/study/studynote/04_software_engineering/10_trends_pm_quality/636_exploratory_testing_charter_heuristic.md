@@ -1,10 +1,9 @@
-+++
-weight = 636
-title = "636. 탐색적 테스트 차터 기반 휴리스틱"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 636. 탐색적 테스트 차터 기반 휴리스틱
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

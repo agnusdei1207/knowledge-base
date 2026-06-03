@@ -1,10 +1,9 @@
-+++
-weight = 979
-title = "979. IPSec 터널/수송 모드"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 979. IPSec 터널/수송 모드
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

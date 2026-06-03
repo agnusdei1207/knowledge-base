@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "05. Apache Oozie와 Airflow - 워크플로우 오케스트레이션의 진화"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 05. Apache Oozie와 Airflow - 워크플로우 오케스트레이션의 진화
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # Apache Oozie와 Airflow - 워크플로우 [[073_container_orchestration_tools|오케스트레이션]]의 진화
 

@@ -1,10 +1,9 @@
-+++
-weight = 147
-title = "147. CRYSTALS-Dilithium (ML-DSA) — 격자 기반 디지털 서명"
-date = "2026-04-19"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 147. CRYSTALS-Dilithium (ML-DSA) — 격자 기반 디지털 서명
+date: '2026-04-19'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CRYSTALS-Dilithium(크리스탈스-딜리시움)은 격자(Lattice) 수학 문제의 어려움에 기반한 양자 내성(Post-[[690_round_robin_time_quantum|Quantum]], [[351_quantum_computing_pqc_transition|PQC]]) 디지털 서명 [[001_algorithm_definition|알고리즘]]으로, NIST(National Institute of Standards and Technology)가 2024년 ML-DSA([[192_module_independence|Module]] Lattice-Based [[675_digital_signature_process_asymmetric_key|Digital Signature]] [[001_algorithm_definition|Algorithm]], FIPS 204)로 표준화했다.

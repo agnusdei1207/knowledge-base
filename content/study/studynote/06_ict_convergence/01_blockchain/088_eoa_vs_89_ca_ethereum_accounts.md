@@ -1,7 +1,8 @@
-+++
-title = "88. EOA (Externally Owned Account) - 개인키로 통제되는 일반 사용자 계정"
-weight = 88
-+++
+---
+title: 88. EOA (Externally Owned Account) - 개인키로 통제되는 일반 사용자 계정
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

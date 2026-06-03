@@ -1,10 +1,9 @@
-+++
-weight = 122
-title = "122. 컨테이너 오케스트레이션 (Container Orchestration) - K8s 핵심 개념과 아키텍처"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 122. 컨테이너 오케스트레이션 (Container Orchestration) - K8s 핵심 개념과 아키텍처
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[561_container_based_deployment|컨테이너]] 오케스트레이션은 **수백~수천 개 [[561_container_based_deployment|컨테이너]]의 배포·[[249_scaling_normalization_standardization|스케일링]]·네트워킹·자동 [[658_ir_recovery|복구]]를 자동화**하는 시스템이며, [[205_kubernetes_container_orchestration|Kubernetes]](K8s)가 사실상 유일한 산업 표준이다.

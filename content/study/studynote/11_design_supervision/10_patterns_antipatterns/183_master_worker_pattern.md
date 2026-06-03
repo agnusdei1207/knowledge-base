@@ -1,10 +1,9 @@
-+++
-weight = 183
-title = "183. 마스터-워커 패턴 (Master-Worker Pattern)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 183. 마스터-워커 패턴 (Master-Worker Pattern)
+date: '2026-05-06'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

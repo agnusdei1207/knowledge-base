@@ -1,10 +1,9 @@
-+++
-weight = 155
-title = "6. 채널 용량 (Channel Capacity) — 샤논 용량 공식"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 6. 채널 용량 (Channel Capacity) — 샤논 용량 공식
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

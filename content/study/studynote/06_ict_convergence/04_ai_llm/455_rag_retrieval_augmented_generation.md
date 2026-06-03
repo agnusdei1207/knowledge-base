@@ -1,10 +1,9 @@
-+++
-weight = 455
-title = "455. RAG 검색 증강 외부 주입 (RAG Retrieval Augmented Generation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 455. RAG 검색 증강 외부 주입 (RAG Retrieval Augmented Generation)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

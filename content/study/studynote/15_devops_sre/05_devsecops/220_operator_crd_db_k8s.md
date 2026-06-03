@@ -1,10 +1,9 @@
-+++
-weight = 220
-title = "220. 오퍼레이터 (Operator) 패턴"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 220. 오퍼레이터 (Operator) 패턴
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

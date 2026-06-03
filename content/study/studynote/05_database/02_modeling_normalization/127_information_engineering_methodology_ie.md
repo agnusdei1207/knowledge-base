@@ -1,10 +1,9 @@
-+++
-weight = 127
-title = "127. 정보공학 방법론 (IE, Information Engineering) - 데이터 중심 시스템 개발"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 127. 정보공학 방법론 (IE, Information Engineering) - 데이터 중심 시스템 개발
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: IE(Information Engineering)는 **기업 전체 [[001_dikw_pyramid|데이터]]를 중심으로 정보 시스템을 체계적으로 개발**하는 방법론으로, [[101_isp_information_strategy_planning_4_steps|ISP]](정보전략계획)→BAA(업무영역분석)→BSD(시스템 설계)→SC(구축)의 4단계로 구성된다.

@@ -1,10 +1,9 @@
-+++
-weight = 423
-title = "423. 접근 제어 회피 (Access Control Bypass)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 423. 접근 제어 회피 (Access Control Bypass)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

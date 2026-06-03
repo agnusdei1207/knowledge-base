@@ -1,10 +1,9 @@
-+++
-weight = 760
-title = "760. 인스펙션 중재자(Moderator) 주도 공식 검토"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 760. 인스펙션 중재자(Moderator) 주도 공식 검토
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

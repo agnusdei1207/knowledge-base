@@ -1,10 +1,9 @@
-+++
-weight = 81
-title = "81. 사용자 스토리 (User Story) - Who, What, Why 형식"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 81. 사용자 스토리 (User Story) - Who, What, Why 형식
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 226
-title = "226. 슈퍼컴퓨팅 / HPC 인프라 아키텍처 (High Performance Computing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 226. 슈퍼컴퓨팅 / HPC 인프라 아키텍처 (High Performance Computing)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

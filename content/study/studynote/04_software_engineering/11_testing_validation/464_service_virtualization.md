@@ -1,10 +1,9 @@
-+++
-weight = 464
-title = "464. 서비스 가상화 (Service Virtualization)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 464. 서비스 가상화 (Service Virtualization)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "049. 섀도 IT 리스크 관리 — Shadow IT Risk"
-weight = 49
-date = "2026-04-05"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 049. 섀도 IT 리스크 관리 — Shadow IT Risk
+date: '2026-04-05'
+tags:
+- studynote-it-management
+---
 
 > **핵심 인사이트**
 > 1. 섀도 IT([[049_shadow_it|Shadow IT]])는 IT 부서의 공식 승인 없이 직원이 업무에 사용하는 기술·[[090_service_kubernetes_network_load_balancing|서비스]]를 뜻하며, 생산성 향상 욕구와 IT 거버넌스의 긴장에서 발생 — Google Drive, Slack, Notion 등 SaaS의 폭발적 증가로 섀도 IT의 범위가 전례 없이 확대됐다.

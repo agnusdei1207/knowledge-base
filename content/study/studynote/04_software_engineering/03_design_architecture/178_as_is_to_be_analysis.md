@@ -1,7 +1,8 @@
-+++
-title = "178. AS-IS (현재 상태) / TO-BE (미래 상태) 분석"
-weight = 178
-+++
+---
+title: 178. AS-IS (현재 상태) / TO-BE (미래 상태) 분석
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

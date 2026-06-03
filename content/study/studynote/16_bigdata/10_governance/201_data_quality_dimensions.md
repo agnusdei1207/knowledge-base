@@ -1,10 +1,9 @@
-+++
-weight = 201
-title = "195. 데이터 품질 차원 (Data Quality Dimensions) — 완전성/정확성/일관성/적시성"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 195. 데이터 품질 차원 (Data Quality Dimensions) — 완전성/정확성/일관성/적시성
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

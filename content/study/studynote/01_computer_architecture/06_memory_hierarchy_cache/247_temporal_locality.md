@@ -1,10 +1,9 @@
-+++
-weight = 247
-title = "247. 시간적 지역성 (Temporal Locality)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 247. 시간적 지역성 (Temporal Locality)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 247. 시간적 지역성 (Temporal Locality)
 

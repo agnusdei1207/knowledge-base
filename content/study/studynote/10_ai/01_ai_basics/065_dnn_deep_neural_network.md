@@ -1,7 +1,8 @@
-+++
-title = "65. 심층 신경망 (DNN, Deep Neural Network) - 2개 이상의 은닉층을 가진 다층 퍼셉트론"
-weight = 65
-+++
+---
+title: 65. 심층 신경망 (DNN, Deep Neural Network) - 2개 이상의 은닉층을 가진 다층 퍼셉트론
+tags:
+- ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

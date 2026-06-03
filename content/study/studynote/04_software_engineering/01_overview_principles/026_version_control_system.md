@@ -1,10 +1,9 @@
-+++
-weight = 26
-title = "26. VCS (Version Control System) — 형상 이력 관리 시스템"
-date = "2026-04-29"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 26. VCS (Version Control System) — 형상 이력 관리 시스템
+date: '2026-04-29'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: VCS (Version Control System, [[288_version_ihl_tos_total_length|버전]] 관리 시스템)는 소프트웨어의 소스 코드·문서·[[009_config|설정]] 파일의 변경 이력을 추적하고, 이전 [[288_version_ihl_tos_total_length|버전]]으로 되돌리거나 여러 사람의 변경을 병합하는 협업 도구로, [[167_scm_software_configuration_management|SCM]] ([[020_software_configuration_management|Software Configuration Management]])의 핵심 구현체다.

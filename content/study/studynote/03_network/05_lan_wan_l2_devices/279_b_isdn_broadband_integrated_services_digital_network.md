@@ -1,10 +1,9 @@
-+++
-weight = 279
-title = "279. 브로드밴드통신망 (B-ISDN)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 279. 브로드밴드통신망 (B-ISDN)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

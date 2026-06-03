@@ -1,10 +1,9 @@
-+++
-weight = 558
-title = "558. 벡터 데이터 ANN 인덱싱 파라미터(M, efConstruction) 성능/리콜 튜닝"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 558. 벡터 데이터 ANN 인덱싱 파라미터(M, efConstruction) 성능/리콜 튜닝
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

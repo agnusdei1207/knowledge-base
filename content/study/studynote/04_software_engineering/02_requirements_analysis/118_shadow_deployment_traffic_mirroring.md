@@ -1,10 +1,9 @@
-+++
-weight = 118
-title = "118. 섀도 배포 (Shadow Deployment) - 트래픽 미러링·무위험 프로덕션 검증"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 118. 섀도 배포 (Shadow Deployment) - 트래픽 미러링·무위험 프로덕션 검증
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 섀도 배포는 실제 프로덕션 트래픽을 **신버전에 [[016_replication_factor|복제]]([[333_raid_1|미러링]])**하되, 신버전의 응답은 **사용자에게 반환하지 않고 버리는** 방식으로 실 트래픽 기반 [[395_verification_process_review|검증]]을 수행하는 배포 [[268_strategy_pattern|전략]]이다.

@@ -1,10 +1,9 @@
-+++
-weight = 18
-title = "18. 소프트웨어 인터럽트 / 트랩 (Trap) / 예외 (Exception)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 18. 소프트웨어 인터럽트 / 트랩 (Trap) / 예외 (Exception)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 # 소프트웨어 [[016_interrupt_mechanism|인터럽트]], [[677_trap_based_system_call_implementation|트랩]] 및 예외 (Software [[016_interrupt_mechanism|Interrupt]], [[677_trap_based_system_call_implementation|Trap]] & Exception)
 

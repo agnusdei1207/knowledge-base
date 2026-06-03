@@ -1,10 +1,9 @@
-+++
-weight = 289
-title = "289. R 트리 (R-Tree) / MBR (Minimum Bounding Rectangle)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 289. R 트리 (R-Tree) / MBR (Minimum Bounding Rectangle)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 224
-title = "224. 하드웨어 가속 컴파일러 (TensorRT / ONNX)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 224. 하드웨어 가속 컴파일러 (TensorRT / ONNX)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

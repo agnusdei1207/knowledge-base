@@ -1,10 +1,9 @@
-+++
-weight = 168
-title = "168. 품질 기능 전개 (QFD, Quality Function Deployment)"
-date = "2026-04-03"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 168. 품질 기능 전개 (QFD, Quality Function Deployment)
+date: '2026-04-03'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

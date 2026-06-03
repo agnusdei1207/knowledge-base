@@ -1,10 +1,9 @@
-+++
-weight = 696
-title = "696. Fibre Channel (FC) 프로토콜"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 696. Fibre Channel (FC) 프로토콜
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

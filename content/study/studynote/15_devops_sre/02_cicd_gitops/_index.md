@@ -1,8 +1,8 @@
-+++
-weight = 2
-title = "02. CI/CD 및 GitOps 아키텍처"
-sort_by = "weight"
-+++
+---
+title: 02. CI/CD 및 GitOps 아키텍처
+tags:
+- devops_sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

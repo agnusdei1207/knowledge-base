@@ -1,12 +1,10 @@
-+++
-weight = 13
-title = "13. PBFT (Practical BFT) - 다수결 기반 상태 기계 복제 합의 (텐더민트, 하이퍼레저)"
-description = "다수결 기반 상태 기계 복제 합의 (텐더민트, 하이퍼레저)"
-date = "2024-05-18"
-[taxonomies]
-tags = ["블록체인", "PBFT", "합의 알고리즘", "하이퍼레저", "텐더민트"]
-categories = ["studynote-ict-convergence"]
-+++
+---
+title: 13. PBFT (Practical BFT) - 다수결 기반 상태 기계 복제 합의 (텐더민트, 하이퍼레저)
+date: '2024-05-18'
+description: 다수결 기반 상태 기계 복제 합의 (텐더민트, 하이퍼레저)
+tags:
+- ict_convergence
+---
 
 # PBFT (Practical Byzantine [[800_system_architecture_fault_tolerance_dual|Fault Tolerance]])
 

@@ -1,10 +1,9 @@
-+++
-weight = 236
-title = "236. WAL 프로토콜 (Write-Ahead Logging)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 236. WAL 프로토콜 (Write-Ahead Logging)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

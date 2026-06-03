@@ -1,10 +1,9 @@
-+++
-weight = 218
-title = "218. 명령어 파이프라이닝 (Instruction Pipelining)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 218. 명령어 파이프라이닝 (Instruction Pipelining)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

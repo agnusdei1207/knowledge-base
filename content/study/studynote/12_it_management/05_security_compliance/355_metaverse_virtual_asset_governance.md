@@ -1,10 +1,9 @@
-+++
-weight = 355
-title = "355. 메타버스 가상 자산 통제망"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 355. 메타버스 가상 자산 통제망
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[594_metaverse_realtime_sync_rendering_offloading|메타버스]] 가상 자산 통제망의 본질은 신원, 합의, 자산, 거버넌스가 함께 설계되어야 [[136_variance|분산]] 환경에서도 신뢰를 유지할 수 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 749
-title = "749. 무정전 운영 (Non-Stop Operation) 아키텍처"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 749. 무정전 운영 (Non-Stop Operation) 아키텍처
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

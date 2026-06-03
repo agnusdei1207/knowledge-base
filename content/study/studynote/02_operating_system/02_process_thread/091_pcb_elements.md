@@ -1,10 +1,9 @@
-+++
-weight = 91
-title = "91. PCB 요소 - PID, 상태, PC, 레지스터, 스케줄링 정보, 메모리 정보, 회계 정보, I/O 상태 정보"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 91. PCB 요소 - PID, 상태, PC, 레지스터, 스케줄링 정보, 메모리 정보, 회계 정보, I/O 상태 정보
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

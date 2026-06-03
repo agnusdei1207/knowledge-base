@@ -1,10 +1,9 @@
-+++
-weight = 136
-title = "136. Orchestration Saga - 중앙 오케스트레이터 기반 분산 트랜잭션"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 136. Orchestration Saga - 중앙 오케스트레이터 기반 분산 트랜잭션
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[073_container_orchestration_tools|Orchestration]] Saga는 **중앙 오케스트레이터([[250_coordinator_participant_2pc_roles|Coordinator]])가 각 서비스에 명령을 보내고 응답을 받아 [[191_transaction_concept_states|트랜잭션]] 흐름을 제어**하며, 실패 시 보상 [[191_transaction_concept_states|트랜잭션]]을 순차적으로 호출한다.

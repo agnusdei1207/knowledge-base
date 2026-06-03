@@ -1,10 +1,9 @@
-+++
-weight = 218
-title = "218. 양자 컴퓨팅 핵심 원리 (Quantum Computing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 218. 양자 컴퓨팅 핵심 원리 (Quantum Computing)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

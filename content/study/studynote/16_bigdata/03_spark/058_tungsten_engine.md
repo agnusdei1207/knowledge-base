@@ -1,10 +1,9 @@
-+++
-weight = 58
-title = "Tungsten Engine"
-date = "2024-03-23"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: Tungsten Engine
+date: '2024-03-23'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - Tungsten은 Spark의 하드웨어 [[282_performance_tactics|성능]]을 극한으로 끌어올리기 위한 실행 엔진 최적화 프로젝트로, 메모리 관리와 CPU 효율성에 집중한다.

@@ -1,10 +1,9 @@
-+++
-weight = 547
-title = "547. LDAP 기반 인증/조회 (LDAP)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 547. LDAP 기반 인증/조회 (LDAP)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

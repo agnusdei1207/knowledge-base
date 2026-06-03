@@ -1,10 +1,9 @@
-+++
-weight = 465
-title = "465. A09. 로깅/모니터링 실패 (Logging Monitoring Failure)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 465. A09. 로깅/모니터링 실패 (Logging Monitoring Failure)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

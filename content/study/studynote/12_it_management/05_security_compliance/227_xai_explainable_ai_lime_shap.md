@@ -1,10 +1,9 @@
-+++
-weight = 227
-title = "227. 설명 가능한 AI (XAI) 도입"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 227. 설명 가능한 AI (XAI) 도입
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 설명 가능한 [[190_ai_llm_requirements_specification|AI]] (XAI) 도입의 본질은 딥러닝 블랙박스 결과 도출 근거 제시 지표 ([[326_lime|LIME]], [[327_shap|SHAP]])를 예방·탐지·대응 통제와 증적으로 운영하는 데 있다.

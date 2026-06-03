@@ -1,10 +1,9 @@
-+++
-weight = 3
-title = "003. 기업 거버넌스와 IT 거버넌스의 관계"
-date = "2026-05-05"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 003. 기업 거버넌스와 IT 거버넌스의 관계
+date: '2026-05-05'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[003_corporate_governance_it_governance|기업 거버넌스]]([[003_corporate_governance_it_governance|Corporate Governance]])가 회사의 비전과 이익 창출을 위한 '비즈니스 방향타'라면, IT 거버넌스([[001_it_governance|IT Governance]])는 그 비즈니스 [[268_strategy_pattern|전략]]을 물리적으로 달성하기 위해 IT 자원과 투자를 통제하는 **'종속적 하위 엔진'**이다.

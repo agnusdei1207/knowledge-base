@@ -1,10 +1,9 @@
-+++
-weight = 28
-title = "28. Apache Hive"
-date = "2026-04-29"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 28. Apache Hive
+date: '2026-04-29'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Hive는 [[013_hdfs|HDFS]](또는 S3) 위에 SQL 인터페이스(HiveQL)를 제공하는 [[209_data_warehouse_schema_on_write|데이터 웨어하우스]] 인프라다. SQL [[298_qkv_attention|쿼리]]를 [[018_mapreduce|MapReduce]]/Tez/Spark 잡으로 변환하여 대규모 [[228_batch_processing_hadoop_spark|배치 처리]]를 SQL로 가능하게 한다.

@@ -1,10 +1,9 @@
-+++
-weight = 265
-title = "265. 복제 투명성 (Replication Transparency)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 265. 복제 투명성 (Replication Transparency)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

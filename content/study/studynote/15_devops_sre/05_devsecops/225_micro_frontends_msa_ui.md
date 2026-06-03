@@ -1,10 +1,9 @@
-+++
-weight = 225
-title = "225. 마이크로 프론트엔드 (Micro Frontends) 아키텍처"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 225. 마이크로 프론트엔드 (Micro Frontends) 아키텍처
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

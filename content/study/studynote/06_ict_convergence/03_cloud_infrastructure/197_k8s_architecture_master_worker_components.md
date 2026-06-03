@@ -1,10 +1,9 @@
-+++
-weight = 197
-title = "197. K8s 컴포넌트 (K8s Architecture Master Worker Components)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 197. K8s 컴포넌트 (K8s Architecture Master Worker Components)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

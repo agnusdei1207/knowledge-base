@@ -1,10 +1,9 @@
-+++
-weight = 22
-title = "22. 데이터 자산 평가 — 재무적 가치화, ISO/IEC 22123"
-date = "2026-04-02"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 22. 데이터 자산 평가 — 재무적 가치화, ISO/IEC 22123
+date: '2026-04-02'
+tags:
+- studynote-bigdata
+---
 
 # 스몰 [[001_dikw_pyramid|데이터]] (Small [[001_dikw_pyramid|Data]]) - 빅데이터의 사각지대를 메우는 통찰의 힘
 

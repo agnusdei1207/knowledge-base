@@ -1,7 +1,9 @@
-+++
-title = "72. 컨테이너 런타임 (Container Runtime) - 실제 컨테이너를 구동하는 저수준 엔진 (containerd, CRI-O, runc)"
-weight = 72
-+++
+---
+title: 72. 컨테이너 런타임 (Container Runtime) - 실제 컨테이너를 구동하는 저수준 엔진 (containerd, CRI-O,
+  runc)
+tags:
+- cloud_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 345
-title = "345. 신뢰성 (Reliability) / 보안성 (Security)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 345. 신뢰성 (Reliability) / 보안성 (Security)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

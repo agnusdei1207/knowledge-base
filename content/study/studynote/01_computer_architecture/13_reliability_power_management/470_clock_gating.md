@@ -1,10 +1,9 @@
-+++
-weight = 470
-title = "470. 클럭 게이팅 (Clock Gating)"
-date = "2026-03-22"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 470. 클럭 게이팅 (Clock Gating)
+date: '2026-03-22'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

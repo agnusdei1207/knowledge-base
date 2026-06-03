@@ -1,10 +1,9 @@
-+++
-weight = 554
-title = "554. 소유 요인 (Possession Factor)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 554. 소유 요인 (Possession Factor)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

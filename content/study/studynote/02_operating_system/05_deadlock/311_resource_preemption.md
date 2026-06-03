@@ -1,10 +1,9 @@
-+++
-weight = 311
-title = "311. 자원 선점 (Resource Preemption) 방식 - 다른 프로세스의 자원을 강제로 뺏음"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 311. 자원 선점 (Resource Preemption) 방식 - 다른 프로세스의 자원을 강제로 뺏음
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

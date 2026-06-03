@@ -1,10 +1,9 @@
-+++
-weight = 863
-title = "863. HIPAA (Health Insurance Portability and Accountability Act)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 863. HIPAA (Health Insurance Portability and Accountability Act)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

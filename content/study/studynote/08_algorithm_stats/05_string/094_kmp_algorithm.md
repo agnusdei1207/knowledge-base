@@ -1,10 +1,9 @@
-+++
-weight = 94
-title = "KMP (Knuth-Morris-Pratt) 알고리즘"
-date = "2024-03-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: KMP (Knuth-Morris-Pratt) 알고리즘
+date: '2024-03-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **불필요한 비교 제거**: 문자열 매칭 실패 시 이미 비교한 정보를 활용하여 패턴의 시작점을 효율적으로 건너뛰는 [[001_algorithm_definition|알고리즘]]임.

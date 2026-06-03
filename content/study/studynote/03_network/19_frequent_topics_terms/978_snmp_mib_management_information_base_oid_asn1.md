@@ -1,10 +1,9 @@
-+++
-weight = 978
-title = "978. SNMP MIB 구조"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 978. SNMP MIB 구조
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

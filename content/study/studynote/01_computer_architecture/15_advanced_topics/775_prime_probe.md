@@ -1,10 +1,9 @@
-+++
-weight = 775
-title = "775. Prime+Probe 기법"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 775. Prime+Probe 기법
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

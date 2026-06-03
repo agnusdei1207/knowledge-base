@@ -1,10 +1,10 @@
-+++
-weight = 370
-title = "370. RP (Rendezvous Point, PIM-SM), RPF (Reverse Path Forwarding) 멀티캐스트 루프 방지"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 370. RP (Rendezvous Point, PIM-SM), RPF (Reverse Path Forwarding) 멀티캐스트 루프
+  방지
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

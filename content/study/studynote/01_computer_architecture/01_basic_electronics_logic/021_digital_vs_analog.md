@@ -1,10 +1,9 @@
-+++
-weight = 21
-title = "21. 디지털 시스템 vs 아날로그 시스템"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 21. 디지털 시스템 vs 아날로그 시스템
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 아날로그(Analog) 시스템은 자연계 물리량처럼 연속적인 값을 다루며, 디지털(Digital) 시스템은 이 연속된 [[130_signal|신호]]를 0과 1이라는 불연속적인 이산값(Discrete Value)으로 쪼개어 처리하는 체계다.

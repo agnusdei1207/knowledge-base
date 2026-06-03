@@ -1,10 +1,9 @@
-+++
-weight = 61
-title = "61. 컨테이너 (Container) - 경량 가상화"
-date = "2026-04-07"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 61. 컨테이너 (Container) - 경량 가상화
+date: '2026-04-07'
+tags:
+- studynote-cloud
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

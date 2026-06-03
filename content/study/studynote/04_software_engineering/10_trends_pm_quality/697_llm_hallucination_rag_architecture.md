@@ -1,10 +1,9 @@
-+++
-weight = 697
-title = "697. LLM 환각 방지 RAG 아키텍처"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 697. LLM 환각 방지 RAG 아키텍처
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

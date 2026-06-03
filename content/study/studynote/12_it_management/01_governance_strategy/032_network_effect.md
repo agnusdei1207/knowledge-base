@@ -1,10 +1,9 @@
-+++
-weight = 32
-title = "32. 네트워크 효과 (Network Effect) / 메트칼프의 법칙"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 32. 네트워크 효과 (Network Effect) / 메트칼프의 법칙
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

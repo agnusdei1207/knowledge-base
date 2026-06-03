@@ -1,10 +1,9 @@
-+++
-weight = 95
-title = "95. HPA (Horizontal Pod Autoscaler) - CPU 기반 파드 자동 스케일링"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 95. HPA (Horizontal Pod Autoscaler) - CPU 기반 파드 자동 스케일링
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

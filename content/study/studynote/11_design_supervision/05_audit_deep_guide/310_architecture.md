@@ -1,10 +1,9 @@
-+++
-weight = 310
-title = "310. 마이크로세그멘테이션 기반 수평 이동 방어 아키텍처 (Micro-Segmentation Architecture)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 310. 마이크로세그멘테이션 기반 수평 이동 방어 아키텍처 (Micro-Segmentation Architecture)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

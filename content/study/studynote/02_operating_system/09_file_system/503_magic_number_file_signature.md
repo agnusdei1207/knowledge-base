@@ -1,10 +1,9 @@
-+++
-weight = 503
-title = "503. 매직 넘버 (Magic Number) - 파일 확장자 외 내용 식별자"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 503. 매직 넘버 (Magic Number) - 파일 확장자 외 내용 식별자
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

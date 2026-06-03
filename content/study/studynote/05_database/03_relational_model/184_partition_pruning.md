@@ -1,10 +1,9 @@
-+++
-weight = 184
-title = "184. 파티션 프루닝 (Partition Pruning)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 184. 파티션 프루닝 (Partition Pruning)
+date: '2026-05-06'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

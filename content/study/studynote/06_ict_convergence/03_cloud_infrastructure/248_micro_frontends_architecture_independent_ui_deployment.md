@@ -1,10 +1,9 @@
-+++
-weight = 248
-title = "248. 마이크로 프론트엔드 아키텍처 (Micro Frontends)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 248. 마이크로 프론트엔드 아키텍처 (Micro Frontends)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 158
-title = "158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 (RPC 스타일)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 (RPC 스타일)
+date: '2026-05-05'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트
 

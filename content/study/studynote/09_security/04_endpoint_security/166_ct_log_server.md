@@ -1,10 +1,9 @@
-+++
-weight = 166
-title = "166. CT 로그 서버 — Google/Rustproof 등 다수 운영"
-date = "2026-04-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 166. CT 로그 서버 — Google/Rustproof 등 다수 운영
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트
 

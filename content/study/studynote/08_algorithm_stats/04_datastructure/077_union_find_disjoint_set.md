@@ -1,10 +1,9 @@
-+++
-weight = 77
-title = "25. Union-Find (Disjoint Set) — 분리 집합 자료구조"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 25. Union-Find (Disjoint Set) — 분리 집합 자료구조
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[070_union_find|Union-Find]] (또는 Disjoint Set Union, [[145_dsu_csu_digital_service_unit|DSU]])는 여러 원소들을 서로소 집합(Disjoint Set)으로 관리하며, Union(두 집합 합치기)과 Find(원소의 소속 집합 루트 찾기) 연산을 효율적으로 지원하는 자료구조다.

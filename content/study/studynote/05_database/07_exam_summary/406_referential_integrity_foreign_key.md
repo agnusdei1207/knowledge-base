@@ -1,10 +1,9 @@
-+++
-weight = 406
-title = "406. 참조 무결성 (Referential) 외래키"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 406. 참조 무결성 (Referential) 외래키
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

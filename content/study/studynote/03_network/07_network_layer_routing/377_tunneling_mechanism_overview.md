@@ -1,10 +1,9 @@
-+++
-weight = 377
-title = "377. 터널링 (Tunneling) 메커니즘 개요"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 377. 터널링 (Tunneling) 메커니즘 개요
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 161
-title = "데브옵스 (DevOps: Culture, Automation, Collaboration)"
-date = "2025-05-14"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: '데브옵스 (DevOps: Culture, Automation, Collaboration)'
+date: '2025-05-14'
+tags:
+- studynote-cloud
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **개발과 운영의 통합**: 개발(Dev)과 운영(Ops) 팀 간의 소유권 공유와 협업을 통해 소프트웨어 배포 속도와 안정성을 동시에 달성함.

@@ -1,9 +1,9 @@
-+++
-title = "039. OS 서비스 (Operating System Services)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 039. OS 서비스 (Operating System Services)
+date: '2026-03-04'
+tags:
+- studynote-operating-system
+---
 
 > **핵심 인사이트**
 > 1. [[001_operating_system_purpose|운영체제]] [[090_service_kubernetes_network_load_balancing|서비스]]는 사용자/애플리케이션을 위한 [[090_service_kubernetes_network_load_balancing|서비스]](UI, 프로그램 실행, I/O, [[501_file_definition_logical_record|파일]] 시스템, 통신, 에러 처리)와 시스템 효율을 위한 [[090_service_kubernetes_network_load_balancing|서비스]]([[041_resource_allocation|자원 할당]], 로깅, [[571_protection_vs_security|보호]]·보안)로 구분되며, 이 모두가 시스템 콜([[013_system_call|System Call]])을 통해 제공된다.

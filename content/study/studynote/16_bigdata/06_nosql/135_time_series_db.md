@@ -1,10 +1,9 @@
-+++
-weight = 135
-title = "135. 시계열 데이터베이스 (Time Series DB) — InfluxDB/TimescaleDB/QuestDB"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 135. 시계열 데이터베이스 (Time Series DB) — InfluxDB/TimescaleDB/QuestDB
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 시계열 DB(TSDB, Time Series [[501_database|Database]])는 타임스탬프를 기본 [[154_database_index_b_tree_search_optimization|인덱스]]로 설계하여 시간 순 추가(Append) 전용 워크로드에서 범용 DB 대비 [[489_raid_10_hybrid|10]]~100배 높은 [[347_compaction|압축]]률과 [[289_cqrs_db|쓰기]] [[139_throughput|처리량]]을 달성한다.

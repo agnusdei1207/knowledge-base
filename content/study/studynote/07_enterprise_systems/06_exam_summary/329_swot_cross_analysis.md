@@ -1,10 +1,9 @@
-+++
-weight = 329
-title = "329. SWOT 교차 분석 전략 도출 SO ST WO WT (SWOT Cross Analysis)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 329. SWOT 교차 분석 전략 도출 SO ST WO WT (SWOT Cross Analysis)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

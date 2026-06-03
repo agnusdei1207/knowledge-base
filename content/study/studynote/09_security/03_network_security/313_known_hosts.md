@@ -1,10 +1,9 @@
-+++
-weight = 313
-title = "313. ~/.ssh/known_hosts 파일 예시 (Known Hosts)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 313. ~/.ssh/known_hosts 파일 예시 (Known Hosts)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

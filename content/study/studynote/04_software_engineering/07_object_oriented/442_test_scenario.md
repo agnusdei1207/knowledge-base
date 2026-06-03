@@ -1,10 +1,9 @@
-+++
-weight = 442
-title = "442. 테스트 시나리오 (Test Scenario) - 테스트 케이스들을 흐름에 따라 묶은 집합"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 442. 테스트 시나리오 (Test Scenario) - 테스트 케이스들을 흐름에 따라 묶은 집합
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

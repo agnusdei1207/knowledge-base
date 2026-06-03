@@ -1,10 +1,9 @@
-+++
-weight = 798
-title = "798. 메이커 빔 생성 안테나 메타 표면 적용 무전원 IoT 환경 센서 연계 통신 시스템 구조 파악 설계 통신 방향 제안"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 798. 메이커 빔 생성 안테나 메타 표면 적용 무전원 IoT 환경 센서 연계 통신 시스템 구조 파악 설계 통신 방향 제안
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

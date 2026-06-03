@@ -1,10 +1,9 @@
-+++
-weight = 484
-title = "484. DAO 탈중앙화 자율 조직 (DAO, Decentralized Autonomous Organization)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 484. DAO 탈중앙화 자율 조직 (DAO, Decentralized Autonomous Organization)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

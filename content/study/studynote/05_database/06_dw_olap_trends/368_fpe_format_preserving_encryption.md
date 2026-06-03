@@ -1,10 +1,9 @@
-+++
-weight = 368
-title = "368. FPE (Format Preserving Encryption)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 368. FPE (Format Preserving Encryption)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

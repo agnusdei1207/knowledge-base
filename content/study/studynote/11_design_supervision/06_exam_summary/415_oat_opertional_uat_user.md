@@ -1,10 +1,10 @@
-+++
-weight = 415
-title = "415. 운영 인수 테스트·사용자 인수 테스트 감리 시점 (Operational and User Acceptance Test Audit Timing)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 415. 운영 인수 테스트·사용자 인수 테스트 감리 시점 (Operational and User Acceptance Test Audit
+  Timing)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

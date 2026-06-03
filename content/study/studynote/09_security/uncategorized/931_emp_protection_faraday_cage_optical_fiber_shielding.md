@@ -1,10 +1,9 @@
-+++
-weight = 931
-title = "931. EMP 방호 통신망 (전자기 펄스 쉴딩 시스템)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 931. EMP 방호 통신망 (전자기 펄스 쉴딩 시스템)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

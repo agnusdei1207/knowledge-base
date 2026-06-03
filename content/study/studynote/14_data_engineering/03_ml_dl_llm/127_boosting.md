@@ -1,10 +1,9 @@
-+++
-weight = 127
-title = "127. Boosting (부스팅) - 순차적 오류 보정 앙상블 학습"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 127. Boosting (부스팅) - 순차적 오류 보정 앙상블 학습
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Boosting은 **이전 모델이 틀린 샘플에 [[267_weight_bias_activation|가중치]]를 높여 다음 모델이 집중 학습**하는 순차적 [[257_ensemble_learning|앙상블]] 기법이며, 약한 학습기를 순서대로 결합하여 강한 학습기를 만든다.

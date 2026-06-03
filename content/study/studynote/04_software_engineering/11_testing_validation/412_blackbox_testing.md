@@ -1,10 +1,9 @@
-+++
-weight = 412
-title = "412. 블랙박스 테스트 (Black-box Test / 명세 기반 테스트)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 412. 블랙박스 테스트 (Black-box Test / 명세 기반 테스트)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

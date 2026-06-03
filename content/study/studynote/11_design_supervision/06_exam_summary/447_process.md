@@ -1,9 +1,9 @@
-+++
-weight = 447
-title = "447. 데이터 레이크하우스 스키마 온 리드 융합망 (Data Lakehouse Schema-on-Read Convergence Architecture)"
-date = "2026-05-10"
-categories = "studynote-design-supervision"
-+++
+---
+title: 447. 데이터 레이크하우스 스키마 온 리드 융합망 (Data Lakehouse Schema-on-Read Convergence Architecture)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

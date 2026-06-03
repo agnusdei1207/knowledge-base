@@ -1,7 +1,8 @@
-+++
-title = "91. 합성 자산 (Synthetic Assets) 토큰 구조"
-weight = 91
-+++
+---
+title: 91. 합성 자산 (Synthetic Assets) 토큰 구조
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

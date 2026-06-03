@@ -1,10 +1,9 @@
-+++
-weight = 352
-title = "352. 페이지 크기 (Page Size) - 주로 4KB. 커지면 내부 단편화 증가, 테이블 크기 감소"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 352. 페이지 크기 (Page Size) - 주로 4KB. 커지면 내부 단편화 증가, 테이블 크기 감소
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

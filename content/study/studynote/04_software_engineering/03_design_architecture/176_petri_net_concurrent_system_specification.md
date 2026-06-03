@@ -1,12 +1,10 @@
-+++
-weight = 176
-title = "176. 페트리 넷 (Petri Net) - 병행 시스템 명세"
-description = "페트리 넷의 Place, Transition, Token을 이용해 병행 시스템의 자원 경쟁과 검증 포인트를 정리한다."
-date = "2026-04-03"
-[taxonomies]
-tags = ["페트리 넷", "Petri Net", "정형 명세", "병행 시스템", "동시성", "Concurrency", "소프트웨어 공학", "Deadlock", "상태 머신"]
-categories = ["Software Engineering"]
-+++
+---
+title: 176. 페트리 넷 (Petri Net) - 병행 시스템 명세
+date: '2026-04-03'
+description: 페트리 넷의 Place, Transition, Token을 이용해 병행 시스템의 자원 경쟁과 검증 포인트를 정리한다.
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 252
-title = "252. 데이터 마스킹 및 난독화 - PII 보호 (Data Masking)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 252. 데이터 마스킹 및 난독화 - PII 보호 (Data Masking)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[819_data_masking|데이터 마스킹]] 및 [[528_obfuscation_anti_debugging_mobile|난독화]] - PII [[571_protection_vs_security|보호]]는 [[001_dikw_pyramid|데이터]] 플랫폼에서 [[001_dikw_pyramid|데이터]] 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

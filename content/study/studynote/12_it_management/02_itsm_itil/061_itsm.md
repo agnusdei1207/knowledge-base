@@ -1,10 +1,9 @@
-+++
-weight = 61
-title = "61. ITSM (IT Service Management)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 61. ITSM (IT Service Management)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[096_iso_iec_20000_itsm_certification|ITSM]] (IT [[090_service_kubernetes_network_load_balancing|Service]] [[372_management|Management]])의 본질은 IT 시스템 중심에서 '[[090_service_kubernetes_network_load_balancing|서비스]]'와 '고객' 중심으로 IT 운영 관리 패러다임 전환을 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

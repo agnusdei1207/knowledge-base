@@ -1,10 +1,9 @@
-+++
-weight = 555
-title = "555. 내재 요인 (Inherence Factor)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 555. 내재 요인 (Inherence Factor)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

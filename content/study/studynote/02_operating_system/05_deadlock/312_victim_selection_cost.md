@@ -1,10 +1,9 @@
-+++
-weight = 312
-title = "312. 희생자 선택 (Victim Selection) 최소 비용 기준"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 312. 희생자 선택 (Victim Selection) 최소 비용 기준
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

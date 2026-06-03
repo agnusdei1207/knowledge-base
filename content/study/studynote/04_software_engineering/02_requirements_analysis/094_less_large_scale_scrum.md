@@ -1,7 +1,8 @@
-+++
-title = "94. LeSS (Large-Scale Scrum) - 다수 팀 스크럼 확장"
-weight = 94
-+++
+---
+title: 94. LeSS (Large-Scale Scrum) - 다수 팀 스크럼 확장
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LeSS (Large-Scale [[658_agile_scrum_roles|Scrum]])는 2~8개의 복수 [[004_agile_relation|애자일]] 팀이 단일 제품 (Product)을 개발할 때, SAFe처럼 관료제적 계층을 덧붙이지 않고 원래 [[062_scrum_framework_overview|스크럼]] ([[658_agile_scrum_roles|Scrum]])의 본질을 그대로 뻥튀기(Scaling)하여 적용하는 가장 미니멀한 [[092_scaled_agile_frameworks_overview|대규모 애자일]] 프레임워크다.

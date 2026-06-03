@@ -1,10 +1,9 @@
-+++
-title = "8. 확률 분포 — 이항/포아송/정규/지수/균등"
-weight = 137
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 8. 확률 분포 — 이항/포아송/정규/지수/균등
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

@@ -1,10 +1,9 @@
-+++
-weight = 93
-title = "93. IT 서비스 연속성 관리 (ITSCM, IT Service Continuity Management)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 93. IT 서비스 연속성 관리 (ITSCM, IT Service Continuity Management)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: IT [[090_service_kubernetes_network_load_balancing|서비스]] 연속성 관리 (ITSCM, IT [[090_service_kubernetes_network_load_balancing|Service]] Continuity [[372_management|Management]])의 본질은 대형 재난/재해 발생 시 핵심 IT [[090_service_kubernetes_network_load_balancing|서비스]]를 [[658_ir_recovery|복구]]([[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]])하기 위한 예방 및 BCP 연계 관리를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

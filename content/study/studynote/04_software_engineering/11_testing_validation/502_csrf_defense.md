@@ -1,10 +1,9 @@
-+++
-weight = 502
-title = "502. 크로스 사이트 요청 위조 (CSRF) 방어"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 502. 크로스 사이트 요청 위조 (CSRF) 방어
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

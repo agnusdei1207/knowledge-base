@@ -1,10 +1,9 @@
-+++
-weight = 214
-title = "214. 하드와이어드 제어 (Hardwired Control)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 214. 하드와이어드 제어 (Hardwired Control)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "03. 데이터통신/네트워크 키워드 목록"
-date = "2026-03-04"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 03. 데이터통신/네트워크 키워드 목록
+date: '2026-03-04'
+tags:
+- studynote-network
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # [[001_dikw_pyramid|데이터]]통신 / 네트워크 키워드 목록 (1,200+ 심화 확장판)

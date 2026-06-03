@@ -1,10 +1,9 @@
-+++
-title = "040. CAP 정리 (CAP Theorem)"
-weight = 40
-date = "2026-03-19"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 040. CAP 정리 (CAP Theorem)
+date: '2026-03-19'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[341_process|CAP]] 정리([[219_cap_pacelc_distributed_tradeoff|CAP Theorem]], Brewer 2000)는 [[136_variance|분산]] [[002_database_definition|데이터베이스]] 시스템이 [[194_consistency_database_integrity|일관성]]([[194_consistency_database_integrity|Consistency]])·[[452_availability|가용성]]([[452_availability|Availability]])·[[514_partition_slice_volume|파티션]] 내성([[514_partition_slice_volume|Partition]] Tolerance) 세 가지를 동시에 완벽히 보장할 수 없으며, [[514_partition_slice_volume|파티션]](네트워크 분리)은 실제 환경에서 불가피하므로 [[086_CP_순환_전치_GI|CP]] 또는 [[572_ap_access_point_ds_distribution_system|AP]] 중 하나를 선택해야 한다는 근본 제약이다.

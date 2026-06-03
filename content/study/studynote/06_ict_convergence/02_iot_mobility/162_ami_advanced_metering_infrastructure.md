@@ -1,10 +1,9 @@
-+++
-weight = 162
-title = "162. AMI (Advanced Metering Infrastructure) - 지능형 원격 검침 인프라"
-date = "2026-05-05"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 162. AMI (Advanced Metering Infrastructure) - 지능형 원격 검침 인프라
+date: '2026-05-05'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트
 

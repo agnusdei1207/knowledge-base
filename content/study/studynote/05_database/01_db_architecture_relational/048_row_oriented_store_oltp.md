@@ -1,10 +1,9 @@
-+++
-title = "048. 행 지향 저장소 — Row-Oriented Store & OLTP"
-weight = 48
-date = "2026-04-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 048. 행 지향 저장소 — Row-Oriented Store & OLTP
+date: '2026-04-05'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트**
 > 1. 행 지향 저장소(Row-Oriented Store)는 한 행의 모든 컬럼 [[001_dikw_pyramid|데이터]]를 연속 저장 — 특정 행의 전체 [[082_attribute_types_er_model|속성]]을 한 번에 읽는 [[327_hint_handoff|OLTP]](Online [[191_transaction_concept_states|Transaction]] Processing) 워크로드에 최적화되어 있으며, INSERT/UPDATE/DELETE 시 단일 I/O로 행 전체를 처리한다.

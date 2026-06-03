@@ -1,10 +1,9 @@
-+++
-weight = 519
-title = "519. 서버리스 오로라 스토리지 분산 복제 쿼럼"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 519. 서버리스 오로라 스토리지 분산 복제 쿼럼
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

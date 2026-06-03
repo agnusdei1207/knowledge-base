@@ -1,10 +1,9 @@
-+++
-weight = 808
-title = "808. 네트워크 지터 (Jitter, 지연 변이) 데이터센터 스토리지 망 동기 치명적 영향 대안"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 808. 네트워크 지터 (Jitter, 지연 변이) 데이터센터 스토리지 망 동기 치명적 영향 대안
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

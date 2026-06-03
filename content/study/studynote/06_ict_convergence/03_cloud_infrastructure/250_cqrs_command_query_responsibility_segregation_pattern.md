@@ -1,10 +1,9 @@
-+++
-weight = 250
-title = "250. CQRS (Command Query Responsibility Segregation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 250. CQRS (Command Query Responsibility Segregation)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

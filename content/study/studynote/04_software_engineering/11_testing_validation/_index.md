@@ -1,8 +1,8 @@
-+++
-weight = 7
-title = "07. 소프트웨어 테스트 및 검증"
-sort_by = "weight"
-+++
+---
+title: 07. 소프트웨어 테스트 및 검증
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

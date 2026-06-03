@@ -1,10 +1,9 @@
-+++
-weight = 432
-title = "432. 소트 머지 조인 (정렬 후 병합)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 432. 소트 머지 조인 (정렬 후 병합)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

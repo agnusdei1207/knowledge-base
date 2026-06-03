@@ -1,10 +1,9 @@
-+++
-weight = 17
-title = "10. 기수 정렬 (Radix Sort) — O(d·n), 고정 자릿수"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 10. 기수 정렬 (Radix Sort) — O(d·n), 고정 자릿수
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[077_radix|기수]] 정렬은 [[001_dikw_pyramid|데이터]]를 자릿수(digit) 단위로 분리해 각 자릿수마다 안정 정렬을 반복 적용함으로써 O(d·n) 시간에 정수를 정렬한다.

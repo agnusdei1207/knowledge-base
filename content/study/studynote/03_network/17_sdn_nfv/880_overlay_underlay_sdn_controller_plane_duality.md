@@ -1,10 +1,9 @@
-+++
-weight = 880
-title = "880. 오버레이 SDN vs 언더레이 SDN"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 880. 오버레이 SDN vs 언더레이 SDN
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 229
-title = "229. 스트림 처리 (Stream Processing)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 229. 스트림 처리 (Stream Processing)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스트림 처리([[467_http2_stream_multiplexing_tcp_hol|Stream]] Processing)는 [[001_dikw_pyramid|데이터]]가 발생하는 즉시 밀리초~초 단위로 실시간 처리하는 방식으로, **[[141_latency|지연 시간]]([[141_latency|Latency]])을 최소화**하여 실시간 의사결정을 가능하게 한다.

@@ -1,10 +1,9 @@
-+++
-weight = 566
-title = "566. mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 566. mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

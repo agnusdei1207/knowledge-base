@@ -1,12 +1,10 @@
-+++
-weight = 74
-title = "74. 보호 대역 (Guard Band)"
-description = "주파수 분할 다중화에서 인접 채널 간 간섭을 방지하는 여유 대역"
-date = "2024-05-20"
-[taxonomies]
-tags = ["Guard Band", "Multiplexing", "Interference", "Spectrum"]
-categories = ["Network", "Physical Layer"]
-+++
+---
+title: 74. 보호 대역 (Guard Band)
+date: '2024-05-20'
+description: 주파수 분할 다중화에서 인접 채널 간 간섭을 방지하는 여유 대역
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,9 @@
-+++
-title = "037. 감산기 (Subtractor) — 반감산기·전감산기"
-date = "2026-03-03"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 037. 감산기 (Subtractor) — 반감산기·전감산기
+date: '2026-03-03'
+tags:
+- studynote-computer-architecture
+---
 
 > **핵심 인사이트**
 > 1. 감산기(Subtractor)는 두 이진수를 빼는 회로로, 반감산기(Half Subtractor)는 Borrow 입력 없이, 전감산기(Full Subtractor)는 이전 단계 Borrow를 포함해 3비트를 처리한다.

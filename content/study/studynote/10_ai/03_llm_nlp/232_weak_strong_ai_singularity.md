@@ -1,10 +1,9 @@
-+++
-weight = 232
-title = "232. 약인공지능, 강인공지능, 초인공지능과 특이점 (WEAK Strong Singularity)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 232. 약인공지능, 강인공지능, 초인공지능과 특이점 (WEAK Strong Singularity)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

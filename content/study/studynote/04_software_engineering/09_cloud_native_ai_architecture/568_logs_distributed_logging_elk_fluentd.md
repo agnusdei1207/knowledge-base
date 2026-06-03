@@ -1,10 +1,9 @@
-+++
-weight = 568
-title = "568. 로그 (Logs) - 분산 로그 수집 (ELK Stack - Elasticsearch, Logstash, Kibana / Fluentd)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 568. 로그 (Logs) - 분산 로그 수집 (ELK Stack - Elasticsearch, Logstash, Kibana / Fluentd)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

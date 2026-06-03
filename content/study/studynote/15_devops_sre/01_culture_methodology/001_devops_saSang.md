@@ -1,11 +1,10 @@
-+++
-weight = 1
-title = "1. 데브옵스 (DevOps) 사상 - 개발(Dev)과 운영(Ops) 간의 소통, 협업, 통합을 강조하여 소프트웨어 배포 속도와 안정성을 극대화하는 문화적/기술적 패러다임"
-date = "2026-04-05"
-[taxonomies]
-tags = ["DevOps", "사상", "패러다임", "CI/CD", "문화"]
-categories = ["15_devops_sre"]
-+++
+---
+title: 1. 데브옵스 (DevOps) 사상 - 개발(Dev)과 운영(Ops) 간의 소통, 협업, 통합을 강조하여 소프트웨어 배포 속도와 안정성을
+  극대화하는 문화적/기술적 패러다임
+date: '2026-04-05'
+tags:
+- devops_sre
+---
 
 # [[652_devops_calms_culture|데브옵스]] 사상
 

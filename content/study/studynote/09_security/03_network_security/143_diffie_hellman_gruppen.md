@@ -1,10 +1,9 @@
-+++
-weight = 143
-title = "143. Diffie-Hellman Gruppen (DH 그룹과 파라미터)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 143. Diffie-Hellman Gruppen (DH 그룹과 파라미터)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

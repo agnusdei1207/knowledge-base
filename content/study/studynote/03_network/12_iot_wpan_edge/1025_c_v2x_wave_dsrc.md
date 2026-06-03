@@ -1,10 +1,9 @@
-+++
-weight = 1025
-title = "1025. C-V2X / WAVE (DSRC) 매체 제어"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1025. C-V2X / WAVE (DSRC) 매체 제어
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

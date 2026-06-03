@@ -1,10 +1,9 @@
-+++
-weight = 413
-title = "413. 서드파티 종속과 벤더 락인 통제 (Vendor Lock-in Control)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 413. 서드파티 종속과 벤더 락인 통제 (Vendor Lock-in Control)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [[385_third_party_cookie_deprecation_cdw|서드파티]] 종속과 벤더 락인 통제는 외부 솔루션의 편의성과 장기 종속 위험을 균형 있게 관리하는 아키텍처·계약·운영 [[268_strategy_pattern|전략]]이다.

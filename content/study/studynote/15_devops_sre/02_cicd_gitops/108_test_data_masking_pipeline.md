@@ -1,10 +1,9 @@
-+++
-weight = 108
-title = "108. 테스트 데이터 마스킹 파이프라인 (Test Data Masking)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 108. 테스트 데이터 마스킹 파이프라인 (Test Data Masking)
+date: '2026-03-04'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[819_data_masking|데이터 마스킹]] [[123_pipe|파이프]]라인은 운영 환경(Production)의 리얼 [[001_dikw_pyramid|데이터]]를 개발/테스트 환경으로 [[016_replication_factor|복제]]해 올 때, 이름, 주민번호, 계좌번호 등 민감한 [[781_personal_information|개인정보]](PII)를 비식별화([[812_anonymization|Anonymization]]) [[001_algorithm_definition|알고리즘]]으로 자동 변조하여 주입하는 [[638_security_automation|보안 자동화]] 체계다.

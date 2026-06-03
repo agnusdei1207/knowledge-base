@@ -1,9 +1,8 @@
-+++
-weight = 16
-title = "16. 데이터 및 개인정보 보호 (Data & Privacy Protection)"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 16. 데이터 및 개인정보 보호 (Data & Privacy Protection)
+tags:
+- studynote-security
+---
 
 # 16. 데이터 및 개인정보 보호
 

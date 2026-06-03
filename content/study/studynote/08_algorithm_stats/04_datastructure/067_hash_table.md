@@ -1,10 +1,9 @@
-+++
-weight = 67
-title = "15. 해시 테이블 (Hash Table) — 해시 함수, 충돌 처리"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 15. 해시 테이블 (Hash Table) — 해시 함수, 충돌 처리
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

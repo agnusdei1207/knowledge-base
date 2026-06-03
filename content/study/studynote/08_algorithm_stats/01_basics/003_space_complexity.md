@@ -1,7 +1,8 @@
-+++
-title = "3. 공간 복잡도 (Space Complexity)"
-weight = 3
-+++
+---
+title: 3. 공간 복잡도 (Space Complexity)
+tags:
+- algorithm_stats
+---
 
 # 03. 공간 복잡도 (Space Complexity)
 

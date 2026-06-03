@@ -1,10 +1,9 @@
-+++
-weight = 303
-title = "303. 서비스 디스커버리 동적 IP 라우팅"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 303. 서비스 디스커버리 동적 IP 라우팅
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[306_service_discovery_pattern|서비스 디스커버리]] 동적 IP 라우팅의 본질은 자산, 위협, [[571_protection_vs_security|보호]] 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

@@ -1,9 +1,9 @@
-+++
-title = "035. 블로킹 팩터 (Blocking Factor)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 035. 블로킹 팩터 (Blocking Factor)
+date: '2026-03-03'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트**
 > 1. 블로킹 팩터([[122_sync_async_communication|Blocking]] Factor, BF)는 디스크 블록 하나에 저장 가능한 레코드 수로, [[501_file_definition_logical_record|파일]] I/O 효율을 직접 결정하는 핵심 저장 매개변수다.

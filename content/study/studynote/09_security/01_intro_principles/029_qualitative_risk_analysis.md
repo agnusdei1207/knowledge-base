@@ -1,10 +1,9 @@
-+++
-weight = 29
-title = "29. 정성적 위험 분석 (Qualitative Risk Analysis)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 29. 정성적 위험 분석 (Qualitative Risk Analysis)
+date: '2026-04-29'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정성적 위험 분석(Qualitative [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Analysis)은 위험을 High/Medium/Low 또는 1~5 척도로 정의하고 위협 발생 가능성(Likelihood)과 영향도(Impact)를 주관적으로 평가하여 위험 매트릭스([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Matrix)에 위치시키는 방법론이다.

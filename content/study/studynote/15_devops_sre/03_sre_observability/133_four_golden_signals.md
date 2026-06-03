@@ -1,10 +1,9 @@
-+++
-weight = 133
-title = "133. 4대 골든 시그널 (Four Golden Signals) - SRE 핵심 모니터링 지표"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 133. 4대 골든 시그널 (Four Golden Signals) - SRE 핵심 모니터링 지표
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 4대 [[186_golden_signals_sre_monitoring|골든 시그널]]은 **[[141_latency|Latency]]([[138_response_time|응답 시간]])·Traffic(요청량)·Errors(에러율)·Saturation(포화도)**이며, Google SRE가 정의한 **"이 4가지만 [[229_monitor|모니터]]링하면 [[090_service_kubernetes_network_load_balancing|서비스]] 상태를 파악할 수 있다"**는 핵심 지표이다.

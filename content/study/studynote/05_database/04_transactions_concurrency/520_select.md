@@ -1,10 +1,9 @@
-+++
-weight = 520
-title = "520. PACELC 분산 DB 장애 평시 트레이드 오프 이론 (Select)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 520. PACELC 분산 DB 장애 평시 트레이드 오프 이론 (Select)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 605
-title = "605. 싱글톤 패턴 메모리/쓰레드 세이프 설계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 605. 싱글톤 패턴 메모리/쓰레드 세이프 설계
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "042. A/B 테스팅 가설 검증"
-weight = 42
-date = "2026-04-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 042. A/B 테스팅 가설 검증
+date: '2026-04-05'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > 1. A/B 테스팅은 제품 변경사항의 효과를 통계적으로 [[395_verification_process_review|검증]]하는 실험 방법론으로, [[652_devops_calms_culture|DevOps]]/[[100_sre_site_reliability_engineering_error_budget|SRE]] 관점에서 [[576_feature_flag_ab_testing_rollout|피처 플래그]]([[576_feature_flag_ab_testing_rollout|Feature Flag]])와 결합하면 코드 배포 없이 실험을 제어하고 [[098_rollback_strategy_pipeline_error_threshold|롤백]] [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 없이 사용자 경험을 개선할 수 있다.

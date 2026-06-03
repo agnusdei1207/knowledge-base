@@ -1,10 +1,9 @@
-+++
-weight = 9
-title = "9. 실시간 시스템 (Real-time System) - Hard vs Soft"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 9. 실시간 시스템 (Real-time System) - Hard vs Soft
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 실시간 시스템 (Real-time System)은 논리적인 결과의 정확성뿐만 아니라, 결과가 도출되는 시점([[766_realtime_scheduling_deadline|Deadline]])이 시스템의 성공 여부를 결정하는 결정론적(Deterministic) 컴퓨팅 시스템이다.

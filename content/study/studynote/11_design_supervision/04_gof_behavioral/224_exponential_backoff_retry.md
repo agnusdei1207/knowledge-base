@@ -1,10 +1,9 @@
-+++
-weight = 224
-title = "224. 지수 백오프 재시도 패턴 (Exponential Backoff and Retry Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 224. 지수 백오프 재시도 패턴 (Exponential Backoff and Retry Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 109
-title = "109. 이미지 분할 (Image Segmentation) - Semantic·Instance·U-Net 픽셀 단위 추론"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 109. 이미지 분할 (Image Segmentation) - Semantic·Instance·U-Net 픽셀 단위 추론
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[289_image_segmentation|이미지 분할]]([[364_segmentation|Segmentation]])은 Bounding Box의 둔탁한 한계를 넘어, 입력 이미지의 **모든 픽셀에 클래스 레이블을 할당하는 Pixel-wise [[107_classification|Classification]]**으로 객체의 정확한 윤곽을 도려낸다.

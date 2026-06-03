@@ -1,10 +1,9 @@
-+++
-weight = 67
-title = "67. 서비스 운영 (Service Operation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 67. 서비스 운영 (Service Operation)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[090_service_kubernetes_network_load_balancing|서비스]] 운영 ([[090_service_kubernetes_network_load_balancing|Service]] [[329_delta_encoding|Operation]])의 본질은 [[074_event_management|이벤트 관리]], [[075_incident_management|인시던트 관리]], [[077_problem_management|문제 관리]], 접근 관리를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

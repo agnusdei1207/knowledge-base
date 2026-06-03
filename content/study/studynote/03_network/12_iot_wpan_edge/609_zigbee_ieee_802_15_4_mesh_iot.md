@@ -1,10 +1,9 @@
-+++
-weight = 609
-title = "609. ZigBee (지그비)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 609. ZigBee (지그비)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

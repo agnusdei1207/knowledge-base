@@ -1,10 +1,9 @@
-+++
-weight = 227
-title = "227. 아키텍처 평가 기법 개요"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 227. 아키텍처 평가 기법 개요
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

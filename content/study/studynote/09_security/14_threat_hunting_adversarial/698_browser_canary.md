@@ -1,10 +1,9 @@
-+++
-weight = 698
-title = "698. 브라우저 카나리 (Browser Canary)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 698. 브라우저 카나리 (Browser Canary)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

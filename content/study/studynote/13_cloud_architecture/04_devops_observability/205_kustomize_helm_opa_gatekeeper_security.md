@@ -1,10 +1,9 @@
-+++
-weight = 205
-title = "205. Policy as Code / OPA Gatekeeper (쿠버네티스 정책 자동 검증)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 205. Policy as Code / OPA Gatekeeper (쿠버네티스 정책 자동 검증)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

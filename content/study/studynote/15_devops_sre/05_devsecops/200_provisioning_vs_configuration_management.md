@@ -1,10 +1,9 @@
-+++
-weight = 200
-title = "200. 프로비저닝 (Provisioning) vs 구성 관리 (Configuration Management)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 200. 프로비저닝 (Provisioning) vs 구성 관리 (Configuration Management)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

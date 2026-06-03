@@ -1,10 +1,9 @@
-+++
-weight = 146
-title = "146. OOA (객체지향 분석) - 객체·클래스·관계 중심 분석"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 146. OOA (객체지향 분석) - 객체·클래스·관계 중심 분석
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OOA는 **문제 영역(Problem [[064_relation_domain|Domain]])을 객체·클래스·[[082_attribute_types_er_model|속성]]·메서드·[[083_relationship_in_er_model|관계]]로 모델링**하는 분석 기법이며, [[143_structured_analysis_dfd_dd_minispec|구조적 분석]]([[144_dfd_data_flow_diagram|DFD]])의 "[[001_dikw_pyramid|데이터]]·프로세스 분리"와 달리 **[[001_dikw_pyramid|데이터]]+행위를 객체로 캡슐화**한다.

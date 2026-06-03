@@ -1,10 +1,9 @@
-+++
-weight = 227
-title = "227. 트랜잭션 고립화 수준 (Isolation Level)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 227. 트랜잭션 고립화 수준 (Isolation Level)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

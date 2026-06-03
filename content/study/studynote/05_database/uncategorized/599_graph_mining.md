@@ -1,10 +1,9 @@
-+++
-weight = 599
-title = "599. 그래프 마이닝 네트워크 라우팅 추천 엔진 사기 탐지 소셜 연결 데이터 연산"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 599. 그래프 마이닝 네트워크 라우팅 추천 엔진 사기 탐지 소셜 연결 데이터 연산
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

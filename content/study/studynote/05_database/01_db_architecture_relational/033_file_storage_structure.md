@@ -1,9 +1,9 @@
-+++
-title = "파일 저장 구조 (File Storage Structure)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 파일 저장 구조 (File Storage Structure)
+date: '2026-03-03'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트 3줄**
 > 1. DBMS의 [[501_file_definition_logical_record|파일]] 저장 구조는 [[001_dikw_pyramid|데이터]]를 물리적으로 디스크에 배치하는 방식으로, 순차·힙·해시·클러스터 [[501_file_definition_logical_record|파일]] 구조에 따라 I/O 패턴이 크게 달라진다.

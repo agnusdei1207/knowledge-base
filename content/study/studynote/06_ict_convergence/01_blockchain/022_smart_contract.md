@@ -1,12 +1,10 @@
-+++
-weight = 22
-title = "22. 스마트 컨트랙트 (Smart Contract) - 조건이 충족되면 블록체인 상에서 자동 실행되는 프로그램 코드 (닉 자보 제안)"
-description = "사전에 합의된 특정 조건이 충족되면 중앙의 중개자 없이 블록체인 상에서 자동으로 실행되는 자기 실행형 프로그램 코드"
-date = "2024-05-18"
-[taxonomies]
-tags = ["Smart Contract", "Solidity", "Blockchain", "Ethereum", "Web3"]
-categories = ["studynote-ict-convergence"]
-+++
+---
+title: 22. 스마트 컨트랙트 (Smart Contract) - 조건이 충족되면 블록체인 상에서 자동 실행되는 프로그램 코드 (닉 자보 제안)
+date: '2024-05-18'
+description: 사전에 합의된 특정 조건이 충족되면 중앙의 중개자 없이 블록체인 상에서 자동으로 실행되는 자기 실행형 프로그램 코드
+tags:
+- ict_convergence
+---
 
 # 22. 스마트 컨트랙트 (Smart Contract)
 

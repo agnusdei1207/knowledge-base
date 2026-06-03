@@ -1,7 +1,8 @@
-+++
-title = "78. 리팩토링 (Refactoring) - 외부 동작 변경 없이 내부 구조 개선"
-weight = 78
-+++
+---
+title: 78. 리팩토링 (Refactoring) - 외부 동작 변경 없이 내부 구조 개선
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

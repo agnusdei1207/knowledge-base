@@ -1,10 +1,9 @@
-+++
-weight = 28
-title = "28. RWA — 실물 자산 토큰화 (Real World Asset Tokenization)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 28. RWA — 실물 자산 토큰화 (Real World Asset Tokenization)
+date: '2026-04-29'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RWA(Real World Asset) [[820_tokenization|토큰화]]는 부동산·채권·예술품·탄소 크레딧 등 실물 자산을 [[004_blockchain|블록체인]] 토큰으로 표현하여 분할 소유권, 즉각 결제, 24/7 거래를 가능하게 하는 금융 혁신이다.

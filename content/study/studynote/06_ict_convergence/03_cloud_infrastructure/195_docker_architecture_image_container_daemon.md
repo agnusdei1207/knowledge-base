@@ -1,10 +1,9 @@
-+++
-weight = 195
-title = "195. 도커 아키텍처 (Docker)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 195. 도커 아키텍처 (Docker)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

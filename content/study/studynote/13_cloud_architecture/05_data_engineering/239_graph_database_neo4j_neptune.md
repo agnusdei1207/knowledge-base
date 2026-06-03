@@ -1,10 +1,9 @@
-+++
-weight = 239
-title = "239. 그래프 데이터베이스 (Neo4j, AWS Neptune)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 239. 그래프 데이터베이스 (Neo4j, AWS Neptune)
+date: '2026-05-05'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[039_graph_db|그래프 데이터베이스]]([[039_graph_db|Graph DB]])는 테이블(표) 형태를 버리고, [[001_dikw_pyramid|데이터]]를 **노드(Node, 점)**와 그들 간의 [[083_relationship_in_er_model|관계]]를 나타내는 **엣지(Edge, 선)**라는 1급 객체(First-class citizen)로 물리적 저장소에 직결시키는 [[035_nosql|NoSQL]] 아키텍처다.

@@ -1,10 +1,10 @@
-+++
-weight = 749
-title = "749. 다크 데이터 / Data Loss Prevention (DLP 네트워크 기반 메일 메신저 단말 외장 유출 차단 모델 시스템 개념 데이터 기밀 탐지 적용 원리 분석 적용 구조 파편 제어)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 749. 다크 데이터 / Data Loss Prevention (DLP 네트워크 기반 메일 메신저 단말 외장 유출 차단 모델 시스템 개념
+  데이터 기밀 탐지 적용 원리 분석 적용 구조 파편 제어)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

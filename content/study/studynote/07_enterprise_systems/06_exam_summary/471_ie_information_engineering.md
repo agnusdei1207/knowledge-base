@@ -1,10 +1,9 @@
-+++
-weight = 471
-title = "471. 정보 공학 방법론 데이터 모델 주도 (IE, Information Engineering)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 471. 정보 공학 방법론 데이터 모델 주도 (IE, Information Engineering)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,12 +1,10 @@
-+++
-weight = 174
-title = "174. 페어와이즈 (Pairwise) 우선순위 결정 기법"
-description = "여러 요구사항을 1:1로 비교해 우선순위를 정하는 페어와이즈 기법의 원리와 실무 적용 기준을 정리한다."
-date = "2026-04-03"
-[taxonomies]
-tags = ["페어와이즈", "Pairwise", "우선순위", "요구사항 공학", "소프트웨어 공학", "의사결정", "요구사항 분석", "AHP"]
-categories = ["Software Engineering"]
-+++
+---
+title: 174. 페어와이즈 (Pairwise) 우선순위 결정 기법
+date: '2026-04-03'
+description: 여러 요구사항을 1:1로 비교해 우선순위를 정하는 페어와이즈 기법의 원리와 실무 적용 기준을 정리한다.
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

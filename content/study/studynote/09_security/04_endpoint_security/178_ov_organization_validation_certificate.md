@@ -1,10 +1,9 @@
-+++
-weight = 178
-title = "178. OV (Organization Validation) 인증서"
-date = "2026-05-06"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 178. OV (Organization Validation) 인증서
+date: '2026-05-06'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

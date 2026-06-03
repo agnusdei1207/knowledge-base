@@ -1,10 +1,9 @@
-+++
-weight = 319
-title = "319. 교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 319. 교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

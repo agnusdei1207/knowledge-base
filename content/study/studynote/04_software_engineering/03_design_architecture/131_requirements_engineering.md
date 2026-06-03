@@ -1,10 +1,9 @@
-+++
-weight = 131
-title = "131. 요구사항 공학 (Requirements Engineering) - 체계적 요구 수집·분석·관리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 131. 요구사항 공학 (Requirements Engineering) - 체계적 요구 수집·분석·관리
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구사항 공학은 **요구 도출(Elicitation)→분석(Analysis)→명세([[148_requirements_specification_formal_informal|Specification]])→[[395_verification_process_review|검증]]([[396_validation|Validation]])→관리([[372_management|Management]])**의 체계적 프로세스로 소프트웨어가 무엇을 해야 하는지를 정의한다.

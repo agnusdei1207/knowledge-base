@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "08. 알고리즘/자료구조/통계 키워드 목록"
-date = "2026-03-03"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 08. 알고리즘/자료구조/통계 키워드 목록
+date: '2026-03-03'
+tags:
+- studynote-algorithm
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # [[001_algorithm_definition|알고리즘]] / 자료구조 / 통계 키워드 목록

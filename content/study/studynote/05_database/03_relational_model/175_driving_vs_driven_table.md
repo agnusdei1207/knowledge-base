@@ -1,10 +1,10 @@
-+++
-weight = 175
-title = "175. 드라이빙 테이블 (Driving Table / Outer Table) vs 드리븐 테이블 (Driven Table / Inner Table)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 175. 드라이빙 테이블 (Driving Table / Outer Table) vs 드리븐 테이블 (Driven Table / Inner
+  Table)
+date: '2026-05-06'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

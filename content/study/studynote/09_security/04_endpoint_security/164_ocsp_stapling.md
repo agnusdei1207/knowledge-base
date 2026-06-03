@@ -1,10 +1,9 @@
-+++
-title = "164. OCSP 스테이플링 — 서버가 OCSP 응답 사전 가져옴"
-date = "2026-04-05"
-weight = 164
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 164. OCSP 스테이플링 — 서버가 OCSP 응답 사전 가져옴
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

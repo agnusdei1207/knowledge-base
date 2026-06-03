@@ -1,10 +1,9 @@
-+++
-weight = 739
-title = "739. 히트파이프 (Heatpipe)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 739. 히트파이프 (Heatpipe)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

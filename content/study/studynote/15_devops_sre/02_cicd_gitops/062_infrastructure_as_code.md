@@ -1,10 +1,9 @@
-+++
-weight = 62
-title = "62. 인프라스트럭처 애즈 코드 (Infrastructure as Code, IaC)"
-date = "2026-04-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 62. 인프라스트럭처 애즈 코드 (Infrastructure as Code, IaC)
+date: '2026-04-05'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

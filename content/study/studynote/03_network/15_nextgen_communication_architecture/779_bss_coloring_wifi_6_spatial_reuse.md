@@ -1,10 +1,10 @@
-+++
-weight = 779
-title = "779. BSS Coloring (간섭 채널 색상 코드 배정 구분 노이즈 신호 차단 무선 채널 활용 체계 고밀도 효율화 기능망 확장 연대 와이파이 혼선 배제 방식 응용 구조 체제)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 779. BSS Coloring (간섭 채널 색상 코드 배정 구분 노이즈 신호 차단 무선 채널 활용 체계 고밀도 효율화 기능망 확장 연대
+  와이파이 혼선 배제 방식 응용 구조 체제)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

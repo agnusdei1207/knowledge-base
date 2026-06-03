@@ -1,12 +1,10 @@
-+++
-weight = 90
-title = "90. Azure Event Hubs — Kafka 호환 API, AMQP 지원"
-description = "RNN의 기본 구조와 한계, LSTM의 게이트 메커니즘, 시계열/NLP에서의 활용"
-date = "2026-04-05"
-[taxonomies]
-tags = ["RNN", "LSTM", "순환신경망", "장단기기억", "시계열", "순환연결", "게이트"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 90. Azure Event Hubs — Kafka 호환 API, AMQP 지원
+date: '2026-04-05'
+description: RNN의 기본 구조와 한계, LSTM의 게이트 메커니즘, 시계열/NLP에서의 활용
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

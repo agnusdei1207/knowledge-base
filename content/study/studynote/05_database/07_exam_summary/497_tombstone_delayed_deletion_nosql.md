@@ -1,10 +1,9 @@
-+++
-weight = 497
-title = "497. 툼스톤 마킹 지연 삭제 NoSQL 설계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 497. 툼스톤 마킹 지연 삭제 NoSQL 설계
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

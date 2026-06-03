@@ -1,10 +1,9 @@
-+++
-weight = 237
-title = "237. 디지털 휴먼 (Digital Human) 및 메타버스 CS(Customer Service) 채널 통합 구조"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 237. 디지털 휴먼 (Digital Human) 및 메타버스 CS(Customer Service) 채널 통합 구조
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 디지털 휴먼 (Digital Human) 및 [[594_metaverse_realtime_sync_rendering_offloading|메타버스]] CS([[026_three_c_analysis|Customer]] [[090_service_kubernetes_network_load_balancing|Service]]) 채널 통합 구조의 본질은 신원, 합의, 자산, 거버넌스가 함께 설계되어야 [[136_variance|분산]] 환경에서도 신뢰를 유지할 수 있다.

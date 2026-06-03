@@ -1,10 +1,9 @@
-+++
-weight = 236
-title = "236. 상태 공간 탐색 (DFS / BFS)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 236. 상태 공간 탐색 (DFS / BFS)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

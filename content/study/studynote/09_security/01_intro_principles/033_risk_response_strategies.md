@@ -1,9 +1,9 @@
-+++
-title = "위험 대응 전략 (Risk Response Strategies)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 위험 대응 전략 (Risk Response Strategies)
+date: '2026-03-03'
+tags:
+- studynote-security
+---
 
 > **핵심 인사이트 3줄**
 > 1. 위험 대응 [[268_strategy_pattern|전략]]은 회피(Avoid)·전가(Transfer)·완화(Mitigate)·수용(Accept) 4가지로, 위험의 크기·비용·조직 특성에 따라 최적 조합을 선택한다.

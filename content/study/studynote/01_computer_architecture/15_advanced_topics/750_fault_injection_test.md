@@ -1,10 +1,9 @@
-+++
-weight = 750
-title = "750. 결함 주입 테스트 (Fault Injection Test)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 750. 결함 주입 테스트 (Fault Injection Test)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 9999
-title = "09. 정보보안 키워드 목록"
-date = "2026-03-25"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 09. 정보보안 키워드 목록
+date: '2026-03-25'
+tags:
+- studynote-security
+---
 [[267_weight_bias_activation|weight]] = 9999
 
 # 정보보안 (Information [[283_security_tactics|Security]]) 키워드 목록

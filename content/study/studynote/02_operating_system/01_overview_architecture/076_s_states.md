@@ -1,10 +1,9 @@
-+++
-weight = 76
-title = "76. 시스템 전원 상태 (S-States, S0~S5)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 76. 시스템 전원 상태 (S-States, S0~S5)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

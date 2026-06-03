@@ -1,10 +1,9 @@
-+++
-weight = 339
-title = "339. 개인정보 암호화 단방향·양방향 조치 (Personal Data Encryption Control)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 339. 개인정보 암호화 단방향·양방향 조치 (Personal Data Encryption Control)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

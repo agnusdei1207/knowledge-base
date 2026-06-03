@@ -1,10 +1,9 @@
-+++
-weight = 416
-title = "416. DML (INSERT, UPDATE, DELETE 롤백 가능)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 416. DML (INSERT, UPDATE, DELETE 롤백 가능)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

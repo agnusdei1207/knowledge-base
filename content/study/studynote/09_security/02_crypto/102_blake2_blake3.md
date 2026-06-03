@@ -1,10 +1,9 @@
-+++
-title = "102. BLAKE2/BLAKE3 — 빠른 성능 해시, AES 대체"
-date = "2026-04-05"
-weight = 102
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 102. BLAKE2/BLAKE3 — 빠른 성능 해시, AES 대체
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

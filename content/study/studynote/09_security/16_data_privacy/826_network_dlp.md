@@ -1,10 +1,9 @@
-+++
-weight = 826
-title = "826. 네트워크 DLP (Network DLP)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 826. 네트워크 DLP (Network DLP)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

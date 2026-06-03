@@ -1,10 +1,9 @@
-+++
-weight = 770
-title = "770. 페트리 넷 병행/비동기 시스템 정형 명세"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 770. 페트리 넷 병행/비동기 시스템 정형 명세
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

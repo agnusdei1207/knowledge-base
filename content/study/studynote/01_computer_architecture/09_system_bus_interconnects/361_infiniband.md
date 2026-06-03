@@ -1,10 +1,9 @@
-+++
-weight = 361
-title = "361. 인피니밴드 (InfiniBand)"
-date = "2026-03-27"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 361. 인피니밴드 (InfiniBand)
+date: '2026-03-27'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

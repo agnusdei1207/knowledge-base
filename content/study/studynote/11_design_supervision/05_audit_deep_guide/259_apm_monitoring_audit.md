@@ -1,10 +1,9 @@
-+++
-weight = 259
-title = "259. APM 모니터링 감리 (APM Monitoring Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 259. APM 모니터링 감리 (APM Monitoring Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

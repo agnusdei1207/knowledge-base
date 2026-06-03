@@ -1,10 +1,9 @@
-+++
-weight = 192
-title = "192. LIME (부분적 모델 해석 기법)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 192. LIME (부분적 모델 해석 기법)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

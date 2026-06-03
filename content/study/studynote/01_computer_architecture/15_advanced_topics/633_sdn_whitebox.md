@@ -1,10 +1,9 @@
-+++
-weight = 633
-title = "633. SDN (Software Defined Network) 화이트박스 스위치"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 633. SDN (Software Defined Network) 화이트박스 스위치
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

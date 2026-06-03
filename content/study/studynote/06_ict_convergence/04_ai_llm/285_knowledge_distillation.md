@@ -1,10 +1,9 @@
-+++
-weight = 285
-title = "285. 지식 증류 (Knowledge Distillation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 285. 지식 증류 (Knowledge Distillation)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 640
-title = "640. 성능 테스트 부하/스트레스/스파이크/인듀어런스"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 640. 성능 테스트 부하/스트레스/스파이크/인듀어런스
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

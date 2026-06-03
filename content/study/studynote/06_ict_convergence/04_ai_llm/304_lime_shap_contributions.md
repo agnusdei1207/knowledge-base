@@ -1,10 +1,9 @@
-+++
-weight = 304
-title = "304. LIME / SHAP 지표 (부분적 / 게임이론 전역적 변수 기여 해석)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 304. LIME / SHAP 지표 (부분적 / 게임이론 전역적 변수 기여 해석)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

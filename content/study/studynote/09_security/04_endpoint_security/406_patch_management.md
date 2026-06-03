@@ -1,10 +1,9 @@
-+++
-weight = 406
-title = "406. 패치 관리 (Patch Management)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 406. 패치 관리 (Patch Management)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

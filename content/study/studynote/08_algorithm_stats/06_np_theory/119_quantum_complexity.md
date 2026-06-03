@@ -1,10 +1,9 @@
-+++
-title = "014. 양자 복잡도 — BQP, QMA"
-weight = 119
-date = "2026-04-05"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 014. 양자 복잡도 — BQP, QMA
+date: '2026-04-05'
+tags:
+- studynote-algorithm-stats
+---
 
 > **핵심 인사이트**
 > 1. BQP(Bounded-error [[690_round_robin_time_quantum|Quantum]] [[195_polynomial_generator_crc|Polynomial]] time)는 양자 컴퓨터가 다항 시간에 효율적으로 풀 수 있는 문제 클래스 — 고전 컴퓨터의 P에 대응하며, Shor [[001_algorithm_definition|알고리즘]](인수분해)과 [[986_grover_algorithm_impact|Grover]] [[001_algorithm_definition|알고리즘]](탐색)이 BQP의 대표적 예다.

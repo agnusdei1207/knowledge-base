@@ -1,10 +1,9 @@
-+++
-weight = 497
-title = "497. 행정안전부/KISA 소프트웨어 개발 보안 가이드"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 497. 행정안전부/KISA 소프트웨어 개발 보안 가이드
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

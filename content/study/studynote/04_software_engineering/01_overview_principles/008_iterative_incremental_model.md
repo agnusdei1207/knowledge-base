@@ -1,12 +1,10 @@
-+++
-weight = 8
-title = "8. 반복적/점진적 모델 (Iterative and Incremental Model)"
-description = "소프트웨어의 디테일을 반복적으로 고도화하고 기능을 점진적으로 추가하여 완성하는 현대 애자일의 근간"
-date = "2026-03-04"
-[taxonomies]
-tags = ["소프트웨어공학", "SDLC", "반복적모델", "점진적모델", "애자일"]
-categories = ["studynote-se"]
-+++
+---
+title: 8. 반복적/점진적 모델 (Iterative and Incremental Model)
+date: '2026-03-04'
+description: 소프트웨어의 디테일을 반복적으로 고도화하고 기능을 점진적으로 추가하여 완성하는 현대 애자일의 근간
+tags:
+- software_engineering
+---
 
 # 08. 반복적/점진적 모델 (Iterative and Incremental Model)
 

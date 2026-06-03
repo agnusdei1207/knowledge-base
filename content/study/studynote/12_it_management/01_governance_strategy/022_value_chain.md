@@ -1,10 +1,9 @@
-+++
-weight = 22
-title = "22. 가치 사슬 (Value Chain)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 22. 가치 사슬 (Value Chain)
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 465
-title = "465. 락스텝 (Lockstep) 아키텍처"
-date = "2026-03-22"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 465. 락스텝 (Lockstep) 아키텍처
+date: '2026-03-22'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

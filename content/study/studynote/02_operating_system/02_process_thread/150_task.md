@@ -1,10 +1,9 @@
-+++
-weight = 150
-title = "150. 태스크 (Task) - 리눅스의 프로세스/스레드 대통합 용어"
-date = "2026-05-03"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 150. 태스크 (Task) - 리눅스의 프로세스/스레드 대통합 용어
+date: '2026-05-03'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 태스크(Task)는 리눅스 [[022_kernel_role|커널]]이 프로세스와 [[092_thread_lwp|스레드]]를 차별 없이 뭉뚱그려 부르는 100% 통일된 실행 흐름의 최소 단위 명칭이며, [[022_kernel_role|커널]] 내부에서는 모두 동일한 `task_struct`라는 쇳덩이 자료구조 하나로 1:1 매핑되어 관리된다.

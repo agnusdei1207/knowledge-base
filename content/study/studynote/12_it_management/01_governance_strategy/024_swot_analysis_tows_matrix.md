@@ -1,10 +1,9 @@
-+++
-weight = 24
-title = "24. SWOT 분석 / TOWS 매트릭스"
-date = "2026-04-29"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 24. SWOT 분석 / TOWS 매트릭스
+date: '2026-04-29'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SWOT 분석은 조직의 내부 강점(Strengths)·약점(Weaknesses)과 외부 기회(Opportunities)·위협(Threats)을 체계적으로 식별하는 [[102_environmental_analysis_pest_5forces_value_chain|환경 분석]] 도구이며, TOWS 매트릭스는 이 4개 요소를 교차하여 SO·[[587_st|ST]]·WO·WT 4가지 [[268_strategy_pattern|전략]] 방향을 도출하는 [[268_strategy_pattern|전략]] 수립 도구다.

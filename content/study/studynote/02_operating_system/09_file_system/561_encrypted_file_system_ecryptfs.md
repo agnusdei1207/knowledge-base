@@ -1,10 +1,9 @@
-+++
-weight = 561
-title = "561. 암호화 파일 시스템 (eCryptfs / Windows EFS)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 561. 암호화 파일 시스템 (eCryptfs / Windows EFS)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

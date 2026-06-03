@@ -1,8 +1,8 @@
-+++
-weight = 10
-title = "10. 엔터프라이즈 보안 거버넌스 및 리스크 관리"
-sort_by = "weight"
-+++
+---
+title: 10. 엔터프라이즈 보안 거버넌스 및 리스크 관리
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

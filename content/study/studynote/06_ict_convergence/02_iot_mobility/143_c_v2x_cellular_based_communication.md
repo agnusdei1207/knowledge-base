@@ -1,10 +1,9 @@
-+++
-weight = 143
-title = "143. C-V2X (Cellular V2X) - 5G 셀룰러 기반 차량 통신"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 143. C-V2X (Cellular V2X) - 5G 셀룰러 기반 차량 통신
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: C-V2X는 **[[751_3gpp_3rd_generation_partnership_project|3GPP]] 표준 기반으로 셀룰러 네트워크(4G [[752_lte_long_term_evolution_4g|LTE]]/[[763_5g_nr_new_radio_scalable_numerology|5G NR]])를 활용**한 차량 통신 기술이며, Uu(기지국 경유)와 PC5(사이드링크, [[120_direct_communication|직접 통신]]) 두 가지 인터페이스를 제공한다.

@@ -1,11 +1,9 @@
-+++
-weight = 5
-title = "5. 피드백 루프 (Feedback Loop) - 운영 환경의 이슈와 사용자 반응을 즉각적으로 개발 계획에 반영하는 순환 구조"
-date = "2026-04-05"
-[taxonomies]
-tags = ["Feedback Loop", "피드백", "루프", "데브옵스", "개선"]
-categories = ["15_devops_sre"]
-+++
+---
+title: 5. 피드백 루프 (Feedback Loop) - 운영 환경의 이슈와 사용자 반응을 즉각적으로 개발 계획에 반영하는 순환 구조
+date: '2026-04-05'
+tags:
+- devops_sre
+---
 
 # 피드백 루프
 

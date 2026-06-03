@@ -1,10 +1,9 @@
-+++
-weight = 152
-title = "152. 데몬화 (Daemonization) 절차 - fork, setsid, umask, 파일 디스크립터 닫기"
-date = "2026-05-03"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 152. 데몬화 (Daemonization) 절차 - fork, setsid, umask, 파일 디스크립터 닫기
+date: '2026-05-03'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 데몬(Daemon)은 터미널 창([[158_instruction|명령어]] 창)이 닫혀도 죽지 않고 백그라운드에서 24시간 365일 무한 루프로 돌아가며 클라이언트의 요청을 기다리는 시스템의 뼈대 프로세스(예: Nginx, [[538_ssh_vs_telnet_secure_remote|SSH]])다.

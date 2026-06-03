@@ -1,12 +1,10 @@
-+++
-weight = 93
-title = "93. 카파 아키텍처 — 스트리밍만으로 단순화, Kafka + Flink"
-description = "추천 시스템의 개념, 협업 필터링, 콘텐츠 기반 필터링, 딥러닝 기반 추천, 실전 적용 사례"
-date = "2026-04-05"
-[taxonomies]
-tags = ["추천시스템", "Recommendation", "협업필터링", "콘텐츠기반", "딥러닝", "매트릭스분해", "개인화"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 93. 카파 아키텍처 — 스트리밍만으로 단순화, Kafka + Flink
+date: '2026-04-05'
+description: 추천 시스템의 개념, 협업 필터링, 콘텐츠 기반 필터링, 딥러닝 기반 추천, 실전 적용 사례
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

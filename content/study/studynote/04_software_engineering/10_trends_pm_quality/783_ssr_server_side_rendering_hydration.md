@@ -1,10 +1,9 @@
-+++
-weight = 783
-title = "783. 서버 사이드 렌더링(SSR) 하이드레이션(Hydration)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 783. 서버 사이드 렌더링(SSR) 하이드레이션(Hydration)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

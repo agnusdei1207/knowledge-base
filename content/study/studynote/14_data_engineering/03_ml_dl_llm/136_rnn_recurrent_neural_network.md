@@ -1,10 +1,9 @@
-+++
-weight = 136
-title = "136. RNN (Recurrent Neural Network) - 순환 신경망과 시퀀스 처리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 136. RNN (Recurrent Neural Network) - 순환 신경망과 시퀀스 처리
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: RNN은 **은닉 상태(Hidden [[272_state_pattern|State]])를 이전 시점에서 현재 시점으로 순환(Recurrence)하여 시퀀스 [[001_dikw_pyramid|데이터]](텍스트·시계열·음성)의 순서 의존성을 학습**하는 신경망이다.

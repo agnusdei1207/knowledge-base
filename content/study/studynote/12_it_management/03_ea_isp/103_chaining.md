@@ -1,7 +1,8 @@
-+++
-title = "103. SAT (Satisfiability) — 최초 NP-완전 증명 (Cook-Levin)"
-weight = 103
-+++
+---
+title: 103. SAT (Satisfiability) — 최초 NP-완전 증명 (Cook-Levin)
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

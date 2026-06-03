@@ -1,10 +1,9 @@
-+++
-weight = 65
-title = "65. Shuffle 최적화 — spark.sql.shuffle.partitions, AQE 코어리스"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 65. Shuffle 최적화 — spark.sql.shuffle.partitions, AQE 코어리스
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

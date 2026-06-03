@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. 유니커널 (Unikernel) — 단일 주소 공간 최소화 커널"
-date = "2026-04-29"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 27. 유니커널 (Unikernel) — 단일 주소 공간 최소화 커널
+date: '2026-04-29'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[640_unikernel_mirageos_architecture|유니커널]]([[640_unikernel_mirageos_architecture|Unikernel]])은 단일 응용 프로그램과 OS [[336_library_vs_framework|라이브러리]]를 컴파일 타임에 하나의 실행 가능 이미지로 결합하여, [[054_hypervisor|하이퍼바이저]] 위에서 직접 실행되는 최소화 단일 주소 공간 OS([[336_library_vs_framework|Library]] OS)다.

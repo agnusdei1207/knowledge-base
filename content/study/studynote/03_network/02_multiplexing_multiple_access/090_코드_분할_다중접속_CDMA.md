@@ -1,12 +1,10 @@
-+++
-weight = 90
-title = "90. CDMA (Code Division Multiple Access) - 왈시 코드 (Walsh Code)"
-description = "CDMA의 직교성 메커니즘, 확산 스펙트럼, 전력 제어 및 실무적 한계 분석"
-date = "2026-03-30"
-[taxonomies]
-tags = ["Network", "CDMA", "Multiple Access", "Wireless"]
-categories = ["studynote-network"]
-+++
+---
+title: 90. CDMA (Code Division Multiple Access) - 왈시 코드 (Walsh Code)
+date: '2026-03-30'
+description: CDMA의 직교성 메커니즘, 확산 스펙트럼, 전력 제어 및 실무적 한계 분석
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

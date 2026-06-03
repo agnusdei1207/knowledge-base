@@ -1,10 +1,9 @@
-+++
-title = "044. 셸 — Shell"
-weight = 44
-date = "2026-04-05"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 044. 셸 — Shell
+date: '2026-04-05'
+tags:
+- studynote-operating-system
+---
 
 > **핵심 인사이트**
 > 1. 셸(Shell)은 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]과 사용자 사이의 인터페이스로 — 사용자의 명령을 해석·실행하는 명령 해석기([[271_command_pattern|Command]] [[277_interpreter_pattern|Interpreter]])이며, 이름처럼 [[022_kernel_role|커널]]을 감싸는 "껍데기" 역할을 한다.

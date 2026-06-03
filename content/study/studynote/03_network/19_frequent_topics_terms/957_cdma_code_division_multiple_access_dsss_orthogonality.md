@@ -1,10 +1,9 @@
-+++
-weight = 957
-title = "957. 코드 분할 다중 접속 (CDMA)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 957. 코드 분할 다중 접속 (CDMA)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

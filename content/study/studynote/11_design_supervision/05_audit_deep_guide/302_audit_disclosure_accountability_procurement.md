@@ -1,10 +1,9 @@
-+++
-weight = 302
-title = "302. 감리 공시와 조달 책임성 확보 (Audit Disclosure Accountability in Public Procurement)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 302. 감리 공시와 조달 책임성 확보 (Audit Disclosure Accountability in Public Procurement)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

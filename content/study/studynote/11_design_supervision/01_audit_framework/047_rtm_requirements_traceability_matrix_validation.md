@@ -1,10 +1,9 @@
-+++
-title = "047. 요구사항 추적 매트릭스 — RTM 심화"
-weight = 47
-date = "2026-04-05"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 047. 요구사항 추적 매트릭스 — RTM 심화
+date: '2026-04-05'
+tags:
+- studynote-design-supervision
+---
 
 > **핵심 인사이트**
 > 1. [[667_requirements_traceability_matrix|RTM]]([[667_requirements_traceability_matrix|Requirements Traceability Matrix]])은 요구사항과 설계·개발·테스트 산출물 간의 연결 고리를 추적하는 표 — "요구사항 RQ-001이 어느 설계 문서, 어느 코드, 어느 테스트 케이스에 반영되었는가"를 한눈에 [[396_validation|확인]]하며, 누락·중복·불일치를 방지한다.

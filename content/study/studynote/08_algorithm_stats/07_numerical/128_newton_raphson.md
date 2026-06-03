@@ -1,10 +1,9 @@
-+++
-weight = 128
-title = "9. 뉴턴-랩슨 (Newton-Raphson) — 수치 해법, 제곱근"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 9. 뉴턴-랩슨 (Newton-Raphson) — 수치 해법, 제곱근
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,7 +1,8 @@
-+++
-title = "83. 플래닝 포커 (Planning Poker) - 다수 전문가 합의 기반 산정"
-weight = 83
-+++
+---
+title: 83. 플래닝 포커 (Planning Poker) - 다수 전문가 합의 기반 산정
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

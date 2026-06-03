@@ -1,10 +1,9 @@
-+++
-weight = 114
-title = "114. BPTT (Backpropagation Through Time) - 시간 축 역전파와 Truncated BPTT"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 114. BPTT (Backpropagation Through Time) - 시간 축 역전파와 Truncated BPTT
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BPTT([[272_backpropagation|Backpropagation]] Through Time)는 RNN의 순환 구조를 **시간 축으로 펼친(Unfolding) 후 일반 [[272_backpropagation|역전파]]를 적용**하는 학습 [[001_algorithm_definition|알고리즘]]이며, 펼친 길이 T에 비례하여 $O(T)$의 시간·메모리 비용이 발생한다.

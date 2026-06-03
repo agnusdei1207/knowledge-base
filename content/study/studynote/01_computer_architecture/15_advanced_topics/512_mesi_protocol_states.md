@@ -1,10 +1,9 @@
-+++
-weight = 512
-title = "512. 메시 프로토콜 상태 전이도 (MESI Protocol State Transition Diagram)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 512. 메시 프로토콜 상태 전이도 (MESI Protocol State Transition Diagram)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

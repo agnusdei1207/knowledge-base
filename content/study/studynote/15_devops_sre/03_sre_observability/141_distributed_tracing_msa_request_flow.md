@@ -1,10 +1,9 @@
-+++
-weight = 141
-title = "141. 분산 트레이싱 (Distributed Tracing) - MSA 요청 흐름 추적"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 141. 분산 트레이싱 (Distributed Tracing) - MSA 요청 흐름 추적
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[112_distributed_tracing_microservices|분산 트레이싱]]은 **하나의 사용자 요청이 여러 [[532_microservices_decomposition_patterns|마이크로서비스]]를 거치는 전체 경로를 Trace ID로 추적**하는 기술이며, 각 [[090_service_kubernetes_network_load_balancing|서비스]] 구간을 Span으로 기록하여 [[015_지연_데이터_관점|지연]]·에러 지점을 정확히 [[655_ir_detection_analysis|식별]]한다.

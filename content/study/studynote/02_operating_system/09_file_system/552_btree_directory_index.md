@@ -1,10 +1,9 @@
-+++
-weight = 552
-title = "552. B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화) (Btree Directory Index)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 552. B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화) (Btree Directory Index)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

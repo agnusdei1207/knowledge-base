@@ -1,10 +1,9 @@
-+++
-weight = 315
-title = "315. 임베디드 도큐먼트 (Embedded Document) 패턴"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 315. 임베디드 도큐먼트 (Embedded Document) 패턴
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

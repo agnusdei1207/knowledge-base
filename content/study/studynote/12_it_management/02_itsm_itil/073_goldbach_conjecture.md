@@ -1,7 +1,8 @@
-+++
-title = "73. 골드바흐 추측 (Goldbach's Conjecture)"
-weight = 73
-+++
+---
+title: 73. 골드바흐 추측 (Goldbach's Conjecture)
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,7 +1,8 @@
-+++
-title = "97. 타원곡선 디지털 서명 알고리즘 (ECDSA) 및 슈노르 서명 (Schnorr Signature - 다중 서명 병합 축소)"
-weight = 97
-+++
+---
+title: 97. 타원곡선 디지털 서명 알고리즘 (ECDSA) 및 슈노르 서명 (Schnorr Signature - 다중 서명 병합 축소)
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

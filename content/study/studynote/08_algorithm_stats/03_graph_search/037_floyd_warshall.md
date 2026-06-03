@@ -1,10 +1,9 @@
-+++
-weight = 37
-title = "9. 플로이드-워샬 (Floyd-Warshall) — 전체 쌍 최단 경로, O(V³)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 9. 플로이드-워샬 (Floyd-Warshall) — 전체 쌍 최단 경로, O(V³)
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

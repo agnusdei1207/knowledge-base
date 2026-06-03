@@ -1,10 +1,9 @@
-+++
-weight = 152
-title = "152. HNDL (Harvest Now, Decrypt Later) - 양자 컴퓨터 시한폭탄 수확 테러"
-date = "2026-05-03"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 152. HNDL (Harvest Now, Decrypt Later) - 양자 컴퓨터 시한폭탄 수확 테러
+date: '2026-05-03'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: HNDL(Harvest Now, Decrypt Later)은 국가 지원 해커([[748_apt|APT]])들이 현재 낡은 공개키 암호([[110_rsa|RSA]], [[130_ecdh|ECDH]])로 암호화되어 흐르는 전 세계 인터넷 트래픽 패킷들을 ➔ **당장 해독 불가능한 쓰레기 쇳덩이 상태 그대로 무식하게 긁어모아 하드디스크 창고에 수확(Harvest) 저장해 두는 장기 시한폭탄 [[461_spy_test_double|스파이]] 전술**이다.

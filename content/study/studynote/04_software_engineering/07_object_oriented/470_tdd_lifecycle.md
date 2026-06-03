@@ -1,10 +1,10 @@
-+++
-weight = 470
-title = "470. TDD (Test Driven Development) 생명주기 - 실패하는 테스트 작성(Red) -> 통과하는 최소 코드 작성(Green) -> 리팩토링(Refactor)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 470. TDD (Test Driven Development) 생명주기 - 실패하는 테스트 작성(Red) -> 통과하는 최소 코드 작성(Green)
+  -> 리팩토링(Refactor)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,9 @@
-+++
-title = "블록·파일·오브젝트 스토리지 (Block / File / Object Storage)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-cloud"
-+++
+---
+title: 블록·파일·오브젝트 스토리지 (Block / File / Object Storage)
+date: '2026-03-03'
+tags:
+- studynote-cloud
+---
 
 > **핵심 인사이트 3줄**
 > 1. 블록·[[501_file_definition_logical_record|파일]]·[[494_object_storage|오브젝트 스토리지]]는 저장 단위·접근 방식·확장 방식이 근본적으로 다르며, 워크로드 특성에 맞는 선택이 성능과 비용을 결정한다.

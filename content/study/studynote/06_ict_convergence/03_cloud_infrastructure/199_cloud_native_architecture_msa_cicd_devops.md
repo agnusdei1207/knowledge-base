@@ -1,10 +1,9 @@
-+++
-weight = 199
-title = "199. 클라우드 네이티브 아키텍처 (Cloud Native)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 199. 클라우드 네이티브 아키텍처 (Cloud Native)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

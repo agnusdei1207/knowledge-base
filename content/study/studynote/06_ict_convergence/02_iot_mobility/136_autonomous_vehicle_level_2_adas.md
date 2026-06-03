@@ -1,10 +1,9 @@
-+++
-weight = 136
-title = "136. 자율주행 Level 2 ADAS - 운전 보조의 현재와 한계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 136. 자율주행 Level 2 ADAS - 운전 보조의 현재와 한계
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ADAS(Advanced Driver Assistance System)는 **카메라·레이더·초음파 센서로 운전자를 보조**하는 SAE Level 1~2 시스템이며, ACC(적응형 크루즈)·LKA(차선 유지)·AEB(자동 긴급제동)가 핵심이다.

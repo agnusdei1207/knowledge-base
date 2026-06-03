@@ -1,7 +1,8 @@
-+++
-title = "19. 합병 정렬 (Merge Sort) — O(n log n), 안정, O(n) 공간"
-weight = 44
-+++
+---
+title: 19. 합병 정렬 (Merge Sort) — O(n log n), 안정, O(n) 공간
+tags:
+- algorithm_stats
+---
 
 # 19. 합병 정렬 (Merge Sort)
 

@@ -1,10 +1,9 @@
-+++
-weight = 744
-title = "744. 엣지 컴퓨팅 데이터 로컬 최적화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 744. 엣지 컴퓨팅 데이터 로컬 최적화
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

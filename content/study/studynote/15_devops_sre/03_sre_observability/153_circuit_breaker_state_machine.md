@@ -1,10 +1,9 @@
-+++
-weight = 153
-title = "153. 서킷 브레이커 (Circuit Breaker) - 마이크로서비스 연쇄 타살 붕괴를 끊는 절대 차단기"
-date = "2026-05-03"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 153. 서킷 브레이커 (Circuit Breaker) - 마이크로서비스 연쇄 타살 붕괴를 끊는 절대 차단기
+date: '2026-05-03'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[307_circuit_breaker_pattern|서킷 브레이커]]([[304_circuit_breaker|Circuit Breaker]])는 [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]]) 핑퐁 환경에서 내가 찌른 타 부서 서버(Downstream)가 랙 [[573_timeout_retry_backoff_strategy|타임아웃]] 뻗어버려 에러를 뿜을 때 ➔ 내 쓰레드([[092_thread_lwp|Thread]])까지 대기 타다 동반 타죽는 멸망을 막기 위해 **"에러율 50% 넘으면 즉시 중간 다리 핏줄(회로) [[238_switch_operation_principles|스위치]]를 쾅 내려(OPEN 차단) 연결을 [[369_logic_bomb|논리]]적으로 100% 완전 절단 절연 치는 오토 방폭문 패턴"**이다.

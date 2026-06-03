@@ -1,10 +1,9 @@
-+++
-weight = 62
-title = "스파크 엠엘립 (Spark MLlib) - 분산 머신러닝 라이브러리"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 스파크 엠엘립 (Spark MLlib) - 분산 머신러닝 라이브러리
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **스파크 MLlib (Machine [[240_switch_learning_forwarding_flooding|Learning]] [[336_library_vs_framework|Library]])**는 대규모 [[136_variance|분산]] 환경에서 동작하는 고성능 [[241_machine_learning_basics|머신러닝]] [[001_algorithm_definition|알고리즘]] 및 유틸리티를 제공하는 스파크의 핵심 [[603_component_independent_deployment_unit|컴포넌트]]이다.

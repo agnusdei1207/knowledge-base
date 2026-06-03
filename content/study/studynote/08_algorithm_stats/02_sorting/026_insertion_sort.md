@@ -1,7 +1,8 @@
-+++
-title = "17. 삽입 정렬 (Insertion Sort) — O(n²)/O(n) 최선, 안정, 소규모 효율"
-weight = 26
-+++
+---
+title: 17. 삽입 정렬 (Insertion Sort) — O(n²)/O(n) 최선, 안정, 소규모 효율
+tags:
+- algorithm_stats
+---
 
 # 17. [[052_insertion_sort_algorithm|삽입 정렬]] ([[052_insertion_sort_algorithm|Insertion Sort]])
 

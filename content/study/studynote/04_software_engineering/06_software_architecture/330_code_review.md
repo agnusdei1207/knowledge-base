@@ -1,10 +1,9 @@
-+++
-weight = 330
-title = "330. 코드 리뷰 (Code Review) - 동료 검토 (Peer Review), 풀 리퀘스트 (PR) 기반 검토"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 330. 코드 리뷰 (Code Review) - 동료 검토 (Peer Review), 풀 리퀘스트 (PR) 기반 검토
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

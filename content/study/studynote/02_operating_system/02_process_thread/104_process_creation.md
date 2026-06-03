@@ -1,10 +1,9 @@
-+++
-weight = 104
-title = "104. 프로세스 생성 (Process Creation) - fork(), exec() 시스템 콜"
-date = "2026-03-22"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 104. 프로세스 생성 (Process Creation) - fork(), exec() 시스템 콜
+date: '2026-03-22'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프로세스 [[087_process_state_transition|생성]] ([[300_process|Process]] Creation)은 [[001_operating_system_purpose|운영체제]]가 실행 중인 프로그램을 [[016_replication_factor|복제]]하고 새로운 작업을 지시하는 메커니즘으로, 유닉스(Unix) 계열에서는 `fork()`와 `exec()` 시스템 콜의 조합으로 이루어진다.

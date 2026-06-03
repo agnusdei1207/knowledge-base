@@ -1,10 +1,9 @@
-+++
-weight = 254
-title = "254. MLOps 데이터·컨셉 드리프트 피처 스토어 모니터링 종합"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 254. MLOps 데이터·컨셉 드리프트 피처 스토어 모니터링 종합
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[348_mlops|MLOps]]([[220_mlops_machine_learning_operations|Machine Learning Operations]])는 ML 모델을 실험 단계에서 프로덕션(Production)까지 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있게 운영하는 [[652_devops_calms_culture|DevOps]] 확장 패러다임이다.

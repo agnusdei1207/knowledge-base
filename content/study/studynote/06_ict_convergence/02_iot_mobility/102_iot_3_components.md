@@ -1,10 +1,9 @@
-+++
-weight = 102
-title = "IoT 3대 구성 요소"
-date = "2024-03-21"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: IoT 3대 구성 요소
+date: '2024-03-21'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

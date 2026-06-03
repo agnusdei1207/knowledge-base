@@ -1,10 +1,9 @@
-+++
-weight = 84
-title = "09. 이벤트 시간 vs 처리 시간 (Event Time vs Processing Time)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 09. 이벤트 시간 vs 처리 시간 (Event Time vs Processing Time)
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

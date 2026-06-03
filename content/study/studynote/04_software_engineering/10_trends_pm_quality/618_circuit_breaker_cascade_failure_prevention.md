@@ -1,10 +1,9 @@
-+++
-weight = 618
-title = "618. 서킷 브레이커 장애 연쇄 차단 메커니즘"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 618. 서킷 브레이커 장애 연쇄 차단 메커니즘
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "043. 다크 런칭 & 섀도우 트래픽"
-weight = 43
-date = "2026-04-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 043. 다크 런칭 & 섀도우 트래픽
+date: '2026-04-05'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > 1. 다크 런칭([[197_dark_launching_traffic_shadow|Dark Launching]])과 섀도우 트래픽(Shadow Traffic)은 실제 사용자에게 영향 없이 프로덕션 환경에서 새 기능/[[090_service_kubernetes_network_load_balancing|서비스]]를 테스트하는 배포 기법으로 — 스테이징 환경과 프로덕션의 트래픽 패턴 차이에서 오는 테스트 한계를 극복한다.

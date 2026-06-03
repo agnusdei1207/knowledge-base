@@ -1,10 +1,9 @@
-+++
-weight = 267
-title = "267. 클라우드 인프라 CSAP 감리 (Cloud Infrastructure CSAP Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 267. 클라우드 인프라 CSAP 감리 (Cloud Infrastructure CSAP Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

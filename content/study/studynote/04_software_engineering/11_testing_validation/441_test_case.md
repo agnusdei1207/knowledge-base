@@ -1,10 +1,9 @@
-+++
-weight = 441
-title = "441. 테스트 케이스 (Test Case)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 441. 테스트 케이스 (Test Case)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

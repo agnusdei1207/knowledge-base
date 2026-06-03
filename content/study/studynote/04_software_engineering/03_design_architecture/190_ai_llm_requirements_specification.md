@@ -1,10 +1,9 @@
-+++
-weight = 190
-title = "190. AI(LLM) 기반 요구사항 명세서 초안 자동 생성 지원"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 190. AI(LLM) 기반 요구사항 명세서 초안 자동 생성 지원
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

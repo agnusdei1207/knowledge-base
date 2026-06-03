@@ -1,10 +1,9 @@
-+++
-title = "045. 클럭 — Clock Signal"
-weight = 45
-date = "2026-04-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 045. 클럭 — Clock Signal
+date: '2026-04-05'
+tags:
+- studynote-computer-architecture
+---
 
 > **핵심 인사이트**
 > 1. 클럭(Clock)은 디지털 시스템의 심장박동 — 모든 순차 회로([[051_flip_flop|플립플롭]], [[057_register|레지스터]], CPU)가 클럭 에지(Rising/Falling Edge)에 동기화되어 동작하며, 클럭 없이는 연산의 순서와 타이밍을 보장할 수 없다.

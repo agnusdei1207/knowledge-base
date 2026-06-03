@@ -1,10 +1,9 @@
-+++
-weight = 34
-title = "34. SW 개발보안 진단 (Secure Coding Diagnosis)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 34. SW 개발보안 진단 (Secure Coding Diagnosis)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

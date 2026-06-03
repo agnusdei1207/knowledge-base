@@ -1,10 +1,9 @@
-+++
-weight = 292
-title = "292. 교착 상태 예방 (Deadlock Prevention) - 4조건 중 하나를 원천적 부정 (효율성 매우 낮음)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 292. 교착 상태 예방 (Deadlock Prevention) - 4조건 중 하나를 원천적 부정 (효율성 매우 낮음)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

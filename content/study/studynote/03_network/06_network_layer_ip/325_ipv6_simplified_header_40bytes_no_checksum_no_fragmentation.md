@@ -1,10 +1,9 @@
-+++
-weight = 325
-title = "325. IPv6 단순화된 헤더"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 325. IPv6 단순화된 헤더
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

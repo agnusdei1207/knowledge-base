@@ -1,5 +1,5 @@
-+++
-weight = 10
-title = "10. Security"
-sort_by = "weight"
-+++
+---
+title: 10. Security
+tags:
+- operating_system
+---

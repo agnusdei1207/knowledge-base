@@ -1,10 +1,9 @@
-+++
-weight = 629
-title = "629. 오류 부재의 궤변 요구사항 미달"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 629. 오류 부재의 궤변 요구사항 미달
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 13
-title = "013. 확인 감리 (Follow-up Audit)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 013. 확인 감리 (Follow-up Audit)
+date: '2026-05-05'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[396_validation|확인]] 감리(Follow-up [[363_audit|Audit]])는 본 감리(수석 감리원이 문제점을 지적한 단계)가 끝난 후, 발주처와 수행사가 감리 결과 조치 내역을 **실제로 제대로 고쳤는지(시정 조치) 물리적으로 재검증하는 최종 확정 단계**다.

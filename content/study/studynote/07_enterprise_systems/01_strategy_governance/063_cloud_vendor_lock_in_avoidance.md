@@ -1,10 +1,9 @@
-+++
-weight = 63
-title = "63. 클라우드 벤더 락인 (Cloud Vendor Lock-in) 회피 전략"
-date = "2026-04-07"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 63. 클라우드 벤더 락인 (Cloud Vendor Lock-in) 회피 전략
+date: '2026-04-07'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

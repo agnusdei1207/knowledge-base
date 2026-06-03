@@ -1,10 +1,9 @@
-+++
-weight = 195
-title = "195. 다항식(Polynomial) 연산 / 생성 다항식 (Generator Polynomial)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 195. 다항식(Polynomial) 연산 / 생성 다항식 (Generator Polynomial)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

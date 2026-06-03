@@ -1,10 +1,9 @@
-+++
-title = "045. 하향식 비용 산정 — Top-Down Estimation"
-weight = 45
-date = "2026-04-05"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 045. 하향식 비용 산정 — Top-Down Estimation
+date: '2026-04-05'
+tags:
+- studynote-software-engineering
+---
 
 > **핵심 인사이트**
 > 1. 하향식([[402_top_down_integration|Top-Down]]) 비용 산정은 시스템 전체를 먼저 추정한 후 세부 요소로 분해하는 방식 — 전문가 경험이나 유추 비교(Analogous Estimation)를 기반으로 빠르게 [[459_quic_fec_forward_error_correction|초기]] 예산을 잡을 수 있으나, 세부 설계가 없는 [[459_quic_fec_forward_error_correction|초기]] 단계에서 정확도가 낮다.

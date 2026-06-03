@@ -1,10 +1,9 @@
-+++
-weight = 69
-title = "17. 체인법 (Chaining) — 연결 리스트 충돌 처리"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 17. 체인법 (Chaining) — 연결 리스트 충돌 처리
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 509
-title = "509. 인가 (Authorization) 모델 - RBAC, ABAC"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 509. 인가 (Authorization) 모델 - RBAC, ABAC
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,9 @@
-+++
-title = "038. PERT — 프로그램 평가 검토 기법 (Program Evaluation Review Technique)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 038. PERT — 프로그램 평가 검토 기법 (Program Evaluation Review Technique)
+date: '2026-03-03'
+tags:
+- studynote-software-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[151_pert_three_point_estimation|PERT]](Program Evaluation and [[153_requirements_review_inspection_walkthrough|Review]] Technique)는 3점 추정(낙관·비관·최빈)을 베타 분포로 모델링해 불확실한 프로젝트의 기간 기대치와 표준편차를 계산하고, 완료 [[130_probability|확률]]을 정량적으로 추정하는 [[130_probability|확률]]적 일정 관리 기법이다.

@@ -1,10 +1,9 @@
-+++
-weight = 100
-title = "기술 통계 (Descriptive Statistics)"
-date = "2025-05-22"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 기술 통계 (Descriptive Statistics)
+date: '2025-05-22'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **기술 통계 (Descriptive [[168_clustering_factor_index_physical_alignment|Statistics]])**: 수집된 [[001_dikw_pyramid|데이터]]의 전체적인 특징을 요약하고 설명하기 위해 평균, [[136_variance|분산]], 분포 등을 산출하는 기초 통계 방법론.

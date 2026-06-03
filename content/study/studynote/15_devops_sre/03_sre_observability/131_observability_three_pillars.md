@@ -1,10 +1,9 @@
-+++
-weight = 131
-title = "131. 관측 가능성 Three Pillars - Metrics·Logs·Traces 심층 분석"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 131. 관측 가능성 Three Pillars - Metrics·Logs·Traces 심층 분석
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[567_metrics_time_series_prometheus_grafana|Metrics]](수치 시계열)·[[568_logs_distributed_logging_elk_fluentd|Logs]](텍스트 이벤트)·Traces([[136_variance|분산]] 요청 추적)는 [[111_observability_metrics_logs_traces|관측 가능성]]의 **3대 필러(Three Pillars)**이며, 세 가지를 **[[325_correlation_analysis_pearson_spearman|상관 분석]](Correlation)**해야 장애 근본 원인을 파악할 수 있다.

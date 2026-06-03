@@ -1,10 +1,9 @@
-+++
-weight = 508
-title = "508. 프로시저 vs 함수 컴파일 재사용 구조 (Concurrency Control)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 508. 프로시저 vs 함수 컴파일 재사용 구조 (Concurrency Control)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

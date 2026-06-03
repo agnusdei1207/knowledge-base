@@ -1,10 +1,9 @@
-+++
-weight = 112
-title = "112. 협업 CRM (Collaborative CRM) - 옴니채널 통합과 고객 접점 일관성"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 112. 협업 CRM (Collaborative CRM) - 옴니채널 통합과 고객 접점 일관성
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 협업 [[107_crm_customer_relationship_management|CRM]](Collaborative [[107_crm_customer_relationship_management|CRM]])은 전화·이메일·카카오톡·챗봇·매장 방문 등 **모든 고객 접점 채널을 단일 플랫폼으로 통합([[073_omni_channel_o2o_evolution|옴니채널]])**하여, 어떤 채널로 문의해도 **동일한 상담 이력과 [[033_context|컨텍스트]]가 이어지는** 끊김 없는 고객 경험을 제공하는 시스템이다.

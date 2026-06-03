@@ -1,10 +1,9 @@
-+++
-weight = 245
-title = "245. 임시 필드 안티패턴 (Temporary Field Anti-pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 245. 임시 필드 안티패턴 (Temporary Field Anti-pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

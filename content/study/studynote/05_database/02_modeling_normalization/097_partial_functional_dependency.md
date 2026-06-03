@@ -1,7 +1,8 @@
-+++
-title = "97. 부분 함수적 종속 (Partial Functional Dependency) - 복합키의 일부 속성에만 종속"
-weight = 97
-+++
+---
+title: 97. 부분 함수적 종속 (Partial Functional Dependency) - 복합키의 일부 속성에만 종속
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

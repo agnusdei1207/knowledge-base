@@ -1,8 +1,8 @@
-+++
-weight = 2
-title = "02. 암호학 (Cryptography)"
-sort_by = "weight"
-+++
+---
+title: 02. 암호학 (Cryptography)
+tags:
+- security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

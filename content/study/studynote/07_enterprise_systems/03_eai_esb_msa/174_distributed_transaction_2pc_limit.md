@@ -1,10 +1,9 @@
-+++
-title = "174. 분산 트랜잭션 한계 및 2PC (Two-Phase Commit) 배제 이유 - 블로킹 오버헤드"
-date = "2026-05-06"
-weight = 174
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 174. 분산 트랜잭션 한계 및 2PC (Two-Phase Commit) 배제 이유 - 블로킹 오버헤드
+date: '2026-05-06'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

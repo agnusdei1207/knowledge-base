@@ -1,10 +1,9 @@
-+++
-weight = 188
-title = "188. 보장 스케줄링 (Guaranteed Scheduling)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 188. 보장 스케줄링 (Guaranteed Scheduling)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

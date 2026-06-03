@@ -1,12 +1,10 @@
-+++
-weight = 19
-title = "19. 소프트웨어 제품 라인 (SPL, Software Product Line) - 도메인/어플리케이션 공학"
-description = "도메인 공학과 애플리케이션 공학을 통해 소프트웨어 핵심 자산의 재사용을 극대화하는 SPL 아키텍처를 심층 분석합니다."
-date = "2026-03-04"
-[taxonomies]
-tags = ["SPL", "소프트웨어 제품 라인", "재사용", "도메인 공학", "애플리케이션 공학"]
-categories = ["studynote-se"]
-+++
+---
+title: 19. 소프트웨어 제품 라인 (SPL, Software Product Line) - 도메인/어플리케이션 공학
+date: '2026-03-04'
+description: 도메인 공학과 애플리케이션 공학을 통해 소프트웨어 핵심 자산의 재사용을 극대화하는 SPL 아키텍처를 심층 분석합니다.
+tags:
+- software_engineering
+---
 
 # 19. 소프트웨어 제품 라인 ([[187_spl_software_product_line_variability|SPL]], Software Product Line) - [[064_relation_domain|도메인]]/어플리케이션 공학
 

@@ -1,10 +1,9 @@
-+++
-weight = 415
-title = "415. 지역성 모델 (Locality Model) - 시간적, 공간적 지역성"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 415. 지역성 모델 (Locality Model) - 시간적, 공간적 지역성
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

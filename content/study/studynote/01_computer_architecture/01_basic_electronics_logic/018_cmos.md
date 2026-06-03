@@ -1,10 +1,9 @@
-+++
-weight = 18
-title = "18. CMOS (Complementary MOS)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 18. CMOS (Complementary MOS)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CMOS (Complementary Metal-Oxide-Semiconductor)는 입력 신호에 대해 정반대로 동작하는 P채널 MOSFET과 N채널 MOSFET을 직렬로 결합한 대칭형 [[369_logic_bomb|논리]] 스위칭 아키텍처다.

@@ -1,7 +1,8 @@
-+++
-title = "104. 클리크 문제 (Clique Problem) — NP-완전"
-weight = 104
-+++
+---
+title: 104. 클리크 문제 (Clique Problem) — NP-완전
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[070_graph_datastructure|그래프]] (Graph)는 개체들을 나타내는 정점(Vertex)과 그들 간의 [[083_relationship_in_er_model|관계]]를 나타내는 간선(Edge)의 집합으로 이루어진 가장 범용적인 비선형 자료구조다.

@@ -1,10 +1,9 @@
-+++
-weight = 145
-title = "145. PEFT & LoRA (Low-Rank Adaptation) - 효율적 파라미터 미세 조정"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 145. PEFT & LoRA (Low-Rank Adaptation) - 효율적 파라미터 미세 조정
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LoRA는 **사전 학습된 [[267_weight_bias_activation|가중치]] 행렬 W에 저랭크 분해 행렬(A·B)을 추가**하여, 전체 파라미터의 **0.1~1%만 학습**하면서도 Full Fine-tuning과 유사한 성능을 달성하는 [[306_peft_lora|PEFT]]([[306_peft_lora|Parameter-Efficient Fine-Tuning]]) 기법이다.

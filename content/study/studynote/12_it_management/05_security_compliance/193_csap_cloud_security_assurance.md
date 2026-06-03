@@ -1,10 +1,9 @@
-+++
-weight = 193
-title = "193. 퍼블릭 클라우드 보안 인증 (CSAP)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 193. 퍼블릭 클라우드 보안 인증 (CSAP)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[007_public_cloud|퍼블릭 클라우드]] 보안 [[303_authentication_authorization_patterns|인증]] (CSAP)의 본질은 공공기관의 민간 클라우드 활용을 위한 보안 등급제 (상, 중, 하 등급 논리적/물리적 분리 규정)를 [[090_service_kubernetes_network_load_balancing|서비스]] 모델, 자동화, 책임 분담 기준으로 실현하는 데 있다.

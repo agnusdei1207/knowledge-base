@@ -1,10 +1,9 @@
-+++
-weight = 401
-title = "401. 전드라이브 암호화 (FDE, Full Drive Encryption)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 401. 전드라이브 암호화 (FDE, Full Drive Encryption)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 73
-title = "73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법"
-date = "2026-04-10"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법
+date: '2026-04-10'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 240
-title = "240. 클라우드 재해 복구 아키텍처 (파일럿 라이트 Pilot Light, 웜 스탠바이 Warm Standby 비교)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 240. 클라우드 재해 복구 아키텍처 (파일럿 라이트 Pilot Light, 웜 스탠바이 Warm Standby 비교)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

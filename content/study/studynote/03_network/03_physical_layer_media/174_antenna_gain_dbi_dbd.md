@@ -1,7 +1,8 @@
-+++
-title = "174. 안테나 이득 (Antenna Gain, dBi, dBd)"
-weight = 174
-+++
+---
+title: 174. 안테나 이득 (Antenna Gain, dBi, dBd)
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

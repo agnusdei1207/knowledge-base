@@ -1,10 +1,9 @@
-+++
-weight = 126
-title = "126. 정보 기술 투자 평가 (IT ROI)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 126. 정보 기술 투자 평가 (IT ROI)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보 기술 투자 평가 ([[126_it_roi_pre_progress_post_evaluation_evm|IT ROI]])의 본질은 사전 평가, [[216_progress_in_synchronization|진행]] 평가, 사후 평가 체계를 의미와 해석 기준을 분명히 해 실제 의사결정에 쓰이게 만드는 데 있다.

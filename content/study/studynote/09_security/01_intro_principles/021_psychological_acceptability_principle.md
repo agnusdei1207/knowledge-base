@@ -1,10 +1,9 @@
-+++
-weight = 21
-title = "21. 심리적 사용성 원칙 (Psychological Acceptability) — 보안이 사용성을 해치면 안 됨"
-date = "2026-04-02"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 21. 심리적 사용성 원칙 (Psychological Acceptability) — 보안이 사용성을 해치면 안 됨
+date: '2026-04-02'
+tags:
+- studynote-security
+---
 
 # 심리적 [[286_usability_tactics|사용성]] 원칙 (Psychological Acceptability)
 

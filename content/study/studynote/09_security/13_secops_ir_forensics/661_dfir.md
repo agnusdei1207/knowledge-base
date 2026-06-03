@@ -1,10 +1,9 @@
-+++
-weight = 661
-title = "661. DFIR (Digital Forensics and Incident Response)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 661. DFIR (Digital Forensics and Incident Response)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

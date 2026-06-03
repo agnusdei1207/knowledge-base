@@ -1,10 +1,9 @@
-+++
-weight = 141
-title = "141. 인라인 뷰 (Inline View) - FROM 절 서브쿼리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 141. 인라인 뷰 (Inline View) - FROM 절 서브쿼리
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인라인 뷰는 **FROM 절에 서브쿼리를 작성하여 가상 테이블(파생 테이블)처럼 사용**하는 SQL 기법이며, 복잡한 집계·필터 결과를 임시 테이블 없이 [[298_qkv_attention|쿼리]] 내에서 활용한다.

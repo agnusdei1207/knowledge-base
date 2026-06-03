@@ -1,10 +1,9 @@
-+++
-weight = 258
-title = "258. 애자일 레트로스펙티브 액션 아이템 도출 (Agile Retrospective Action Items)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 258. 애자일 레트로스펙티브 액션 아이템 도출 (Agile Retrospective Action Items)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

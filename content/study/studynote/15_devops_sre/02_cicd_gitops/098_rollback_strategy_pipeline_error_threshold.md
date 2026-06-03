@@ -1,10 +1,10 @@
-+++
-title = "98. 롤백 (Rollback) 전략 - 파이프라인 에러율 기반 자동 복구"
-date = "2026-03-04"
-weight = 98
-[extra]
-categories = ["studynote-devops-sre", "cicd-gitops"]
-+++
+---
+title: 98. 롤백 (Rollback) 전략 - 파이프라인 에러율 기반 자동 복구
+date: '2026-03-04'
+tags:
+- cicd-gitops
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

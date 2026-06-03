@@ -1,10 +1,9 @@
-+++
-weight = 541
-title = "541. 클라이언트 사이드 디스커버리 vs 서버 사이드 디스커버리"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 541. 클라이언트 사이드 디스커버리 vs 서버 사이드 디스커버리
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,9 @@
-+++
-title = "037. 문서 저장소 (Document Store)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 037. 문서 저장소 (Document Store)
+date: '2026-03-03'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. 문서 저장소(Document Store)는 [[343_json|JSON]]·BSON·XML 형태의 반정형 문서를 고유 ID와 함께 저장하는 [[035_nosql|NoSQL]] 데이터베이스로, 스키마를 사전에 정의하지 않아도 다양한 구조의 문서를 유연하게 저장할 수 있다.

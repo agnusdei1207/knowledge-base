@@ -1,7 +1,8 @@
-+++
-title = "12. 근사 알고리즘 (Approximation Algorithm) — NP 문제"
-weight = 12
-+++
+---
+title: 12. 근사 알고리즘 (Approximation Algorithm) — NP 문제
+tags:
+- algorithm_stats
+---
 
 # 12. 근사 [[001_algorithm_definition|알고리즘]] (Approximation [[001_algorithm_definition|Algorithm]])
 

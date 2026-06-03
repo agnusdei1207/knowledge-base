@@ -1,10 +1,9 @@
-+++
-weight = 549
-title = "549. AI 파운데이션 모델 RAG 패턴 융합 벡터 DB 핵심 아키텍처"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 549. AI 파운데이션 모델 RAG 패턴 융합 벡터 DB 핵심 아키텍처
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

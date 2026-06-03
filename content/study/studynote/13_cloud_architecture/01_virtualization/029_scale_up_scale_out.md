@@ -1,10 +1,9 @@
-+++
-weight = 29
-title = "29. 스케일 업 vs 스케일 아웃 (Scale Up vs Scale Out)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 29. 스케일 업 vs 스케일 아웃 (Scale Up vs Scale Out)
+date: '2026-04-29'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[621_scale_up_system_bus|스케일 업]](Scale Up, 수직 확장)은 단일 서버의 CPU·RAM·스토리지를 강화하는 방식이고, [[202_scale_out_distributed_horizontal_expansion|스케일 아웃]](Scale Out, 수평 확장)은 동일 서버를 여러 대 추가하여 부하를 [[136_variance|분산]]하는 방식이다.

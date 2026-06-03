@@ -1,10 +1,9 @@
-+++
-weight = 413
-title = "413. 다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 413. 다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

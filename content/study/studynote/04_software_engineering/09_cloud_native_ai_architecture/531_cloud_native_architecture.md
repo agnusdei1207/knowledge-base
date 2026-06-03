@@ -1,10 +1,9 @@
-+++
-weight = 531
-title = "531. 클라우드 네이티브 아키텍처 (Cloud Native Architecture) 철학"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 531. 클라우드 네이티브 아키텍처 (Cloud Native Architecture) 철학
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 323
-title = "323. 오버로딩 (Overloading) vs 오버라이딩 (Overriding)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 323. 오버로딩 (Overloading) vs 오버라이딩 (Overriding)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

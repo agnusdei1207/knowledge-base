@@ -1,10 +1,9 @@
-+++
-weight = 22
-title = "22. 아파치 카프카 (Apache Kafka) - 분산 이벤트 스트리밍 플랫폼"
-date = "2026-04-02"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 22. 아파치 카프카 (Apache Kafka) - 분산 이벤트 스트리밍 플랫폼
+date: '2026-04-02'
+tags:
+- studynote-data-engineering
+---
 
 # [[214_kafka_pubsub_topic_partition_offset_broker|아파치 카프카]] ([[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]]) - [[136_variance|분산]] 이벤트 스트리밍 플랫폼
 

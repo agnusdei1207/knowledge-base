@@ -1,10 +1,9 @@
-+++
-weight = 99
-title = "99. 챗봇 및 AI옵스(AIOps) 결합 ITSM - 지능형 IT 서비스 자동화"
-date = "2026-04-10"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 99. 챗봇 및 AI옵스(AIOps) 결합 ITSM - 지능형 IT 서비스 자동화
+date: '2026-04-10'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

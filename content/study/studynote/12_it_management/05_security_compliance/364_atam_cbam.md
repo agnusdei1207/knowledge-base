@@ -1,10 +1,9 @@
-+++
-weight = 364
-title = "364. 아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 364. 아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 아키텍처 평가 [[229_atam_architecture_trade_off_analysis_method|ATAM]] [[230_cbam_cost_benefit_analysis_method|CBAM]] [[095_tradeoff_point_architecture_evaluation_atam_conflict|상충점]] 민감도 도출 로직의 본질은 자산, 위협, [[571_protection_vs_security|보호]] 통제, 운영 증적이 한 체계로 연결되어야 보안과 규제 대응이 일회성 캠페인으로 끝나지 않는다.

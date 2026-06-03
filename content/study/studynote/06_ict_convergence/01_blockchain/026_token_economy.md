@@ -1,10 +1,9 @@
-+++
-weight = 26
-title = "26. 토큰 이코노미 (Token Economy) — 블록체인 기반 경제 인센티브 시스템"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 26. 토큰 이코노미 (Token Economy) — 블록체인 기반 경제 인센티브 시스템
+date: '2026-04-29'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 토큰 이코노미(Token Economy)는 [[004_blockchain|블록체인]] 네트워크에서 토큰(Token)을 매개로 참여자들의 행동을 경제적 인센티브로 유도하는 설계 체계다. [[004_blockchain|블록체인]]의 [[010_decentralization|탈중앙화]] 특성과 [[022_smart_contract|스마트 컨트랙트]]의 자동화를 결합하여, 중앙 기관 없이 신뢰할 수 있는 경제 시스템을 구성한다.

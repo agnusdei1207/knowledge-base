@@ -1,10 +1,9 @@
-+++
-weight = 227
-title = "227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 로지스틱 회귀(Logistic Regression)는 선형 회귀의 출력을 [[268_sigmoid_vanishing_gradient|시그모이드]]([[268_sigmoid_vanishing_gradient|Sigmoid]]) 함수로 압축해 0~1 [[130_probability|확률]]을 예측하는 [[104_classification_analysis|분류]] 모델이며, 우도 최대화([[143_mle|MLE]], Maximum Likelihood Estimation)로 계수를 추정한다.

@@ -1,10 +1,9 @@
-+++
-title = "3. 조건부 확률 (Conditional Probability) — P(A|B)"
-weight = 132
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 3. 조건부 확률 (Conditional Probability) — P(A|B)
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트
 

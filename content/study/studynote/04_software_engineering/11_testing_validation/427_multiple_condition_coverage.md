@@ -1,10 +1,9 @@
-+++
-weight = 427
-title = "427. 다중 조건 커버리지 (Multiple Condition Coverage)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 427. 다중 조건 커버리지 (Multiple Condition Coverage)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

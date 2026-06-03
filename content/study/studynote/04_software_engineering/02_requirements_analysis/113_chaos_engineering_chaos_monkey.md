@@ -1,10 +1,9 @@
-+++
-weight = 113
-title = "113. 카오스 엔지니어링 (Chaos Engineering) - Chaos Monkey·정상 상태 가설·실험 설계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 113. 카오스 엔지니어링 (Chaos Engineering) - Chaos Monkey·정상 상태 가설·실험 설계
+date: '2026-04-19'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[751_chaos_engineering|카오스 엔지니어링]]은 프로덕션 환경에 **의도적으로 장애(서버 종료·[[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]]·디스크 고장)를 주입**하여, 시스템의 복원력(Resilience)을 사전 [[395_verification_process_review|검증]]하는 실험 기반 규율이다.

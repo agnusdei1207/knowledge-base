@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. 데이터베이스 설계자 (Database Designer) — DB 설계 역할과 책임"
-date = "2026-04-29"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 27. 데이터베이스 설계자 (Database Designer) — DB 설계 역할과 책임
+date: '2026-04-29'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[002_database_definition|데이터베이스]] 설계자([[501_database|Database]] Designer)는 업무 요구사항을 분석하여 개념적 [[014_data_model_components|데이터 모델]](E-R 다이어그램) → [[369_logic_bomb|논리]]적 [[014_data_model_components|데이터 모델]]([[093_normalization|정규화]]된 테이블 구조) → 물리적 [[014_data_model_components|데이터 모델]]([[154_database_index_b_tree_search_optimization|인덱스]], [[514_partition_slice_volume|파티션]], 스토리지 설계)로 단계적으로 변환하는 [[001_dikw_pyramid|데이터]] 아키텍트 역할을 담당한다.

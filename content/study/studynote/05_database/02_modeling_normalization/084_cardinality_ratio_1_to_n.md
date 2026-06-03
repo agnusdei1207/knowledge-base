@@ -1,7 +1,8 @@
-+++
-title = "84. 카디널리티 비율 (Cardinality Ratio) - 1:1, 1:N, M:N"
-weight = 84
-+++
+---
+title: 84. 카디널리티 비율 (Cardinality Ratio) - 1:1, 1:N, M:N
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

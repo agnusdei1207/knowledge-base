@@ -1,10 +1,9 @@
-+++
-weight = 129
-title = "129. 활성화 함수 (Activation Function) - 신경망의 비선형 변환 핵심"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 129. 활성화 함수 (Activation Function) - 신경망의 비선형 변환 핵심
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 활성화 함수는 **신경망의 각 뉴런 출력에 적용되는 비선형 변환**이며, 이것이 없으면 아무리 깊은 신경망도 **단일 선형 변환과 동일**(표현력 없음)하다.

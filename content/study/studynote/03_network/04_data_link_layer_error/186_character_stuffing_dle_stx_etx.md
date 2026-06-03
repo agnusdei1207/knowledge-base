@@ -1,10 +1,9 @@
-+++
-weight = 186
-title = "186. 플래그(Flag) 방식 - 문자 삽입 (Character/Byte Stuffing) - DLE, STX, ETX"
-date = "2026-05-06"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 186. 플래그(Flag) 방식 - 문자 삽입 (Character/Byte Stuffing) - DLE, STX, ETX
+date: '2026-05-06'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

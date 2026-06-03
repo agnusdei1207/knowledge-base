@@ -1,10 +1,9 @@
-+++
-weight = 259
-title = "259. 래프트 (Raft) / 팍소스 (Paxos) 알고리즘"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 259. 래프트 (Raft) / 팍소스 (Paxos) 알고리즘
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

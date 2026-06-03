@@ -1,10 +1,9 @@
-+++
-weight = 92
-title = "92. 스레드 (Thread) - 경량 프로세스 (LWP)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 92. 스레드 (Thread) - 경량 프로세스 (LWP)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스레드 (Thread)는 프로세스라는 거대한 자원 [[561_container_based_deployment|컨테이너]] 안에서 독립적인 제어 흐름만 분리해 낸 최소 CPU 할당 단위이며, LWP (Lightweight [[300_process|Process]])는 이를 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]이 인식하도록 매핑한 가상 CPU다.

@@ -1,10 +1,9 @@
-+++
-weight = 266
-title = "266. 계약 테스트 (Contract Testing / Pact)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 266. 계약 테스트 (Contract Testing / Pact)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

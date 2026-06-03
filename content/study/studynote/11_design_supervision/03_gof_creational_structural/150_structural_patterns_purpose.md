@@ -1,10 +1,9 @@
-+++
-weight = 150
-title = "150. 구조 패턴의 목적 (Structural Patterns Purpose) - 7대 클래스 조립 융합 아키텍처"
-date = "2026-05-03"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 150. 구조 패턴의 목적 (Structural Patterns Purpose) - 7대 클래스 조립 융합 아키텍처
+date: '2026-05-03'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[258_structural_patterns_overview|구조 패턴]]([[258_structural_patterns_overview|Structural Patterns]])은 따로 놀던 쇳덩이 클래스와 객체들을 레고 블록처럼 엮어 더 거대하고 유연한 뼈대 생태계를 구축하는 7가지([[259_adapter_pattern_interface_wrapper|어댑터]], [[260_bridge_pattern_abstraction_implementation|브리지]], [[262_decorator_pattern_dynamic_wrapper|데코레이터]], [[264_proxy_pattern_surrogate_access_control|프록시]], [[261_composite_pattern_tree_structure|컴포지트]], [[263_facade_pattern_simplified_interface|퍼사드]], [[265_flyweight_pattern_instance_sharing|플라이웨이트]]) 설계 마스터피스다.

@@ -1,10 +1,9 @@
-+++
-weight = 74
-title = "74. 데이터 리터러시 (Data Literacy) 민주화"
-date = "2026-04-07"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 74. 데이터 리터러시 (Data Literacy) 민주화
+date: '2026-04-07'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

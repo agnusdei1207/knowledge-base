@@ -1,10 +1,9 @@
-+++
-weight = 1027
-title = "1027. 사이버 보험 (Cyber Insurance)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 1027. 사이버 보험 (Cyber Insurance)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

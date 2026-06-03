@@ -1,10 +1,9 @@
-+++
-weight = 1092
-title = "1092. DMVPN 동적 라우팅 결합형 지점"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1092. DMVPN 동적 라우팅 결합형 지점
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

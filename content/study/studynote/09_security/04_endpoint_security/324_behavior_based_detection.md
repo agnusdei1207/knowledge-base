@@ -1,10 +1,9 @@
-+++
-weight = 324
-title = "324. 행위 기반 탐지 (Behavior-Based Detection)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 324. 행위 기반 탐지 (Behavior-Based Detection)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

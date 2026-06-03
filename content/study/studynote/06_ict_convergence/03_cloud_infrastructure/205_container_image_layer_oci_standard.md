@@ -1,10 +1,9 @@
-+++
-weight = 205
-title = "205. 컨테이너 이미지 레이어 및 OCI (Open Container Initiative) 표준 규격 (Image Layer)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 205. 컨테이너 이미지 레이어 및 OCI (Open Container Initiative) 표준 규격 (Image Layer)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

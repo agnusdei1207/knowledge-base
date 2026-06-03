@@ -1,10 +1,9 @@
-+++
-weight = 411
-title = "411. 테스트 주도 개발 (Test-Driven Development)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 411. 테스트 주도 개발 (Test-Driven Development)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [[077_tdd_test_driven_development|테스트 주도 개발]] (Test-Driven Development, [[164_tdd_test_driven_development|TDD]])은 테스트를 먼저 작성해 요구사항을 실행 가능한 명세로 고정한 뒤 구현을 진행하는 개발 방식이다.

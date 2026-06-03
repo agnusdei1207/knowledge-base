@@ -1,9 +1,9 @@
-+++
-title = "035. XGBoost & LightGBM"
-date = "2026-03-03"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 035. XGBoost & LightGBM
+date: '2026-03-03'
+tags:
+- studynote-ai
+---
 
 > **핵심 인사이트**
 > 1. XGBoost (Extreme [[034_gradient_boosting|Gradient Boosting]])와 LightGBM은 모두 [[034_gradient_boosting|Gradient Boosting]] 계열의 [[257_ensemble_learning|앙상블]] [[001_algorithm_definition|알고리즘]]으로, 테이블 형식 [[001_dikw_pyramid|데이터]]([[002_structured_data|정형 데이터]])에서 최고 수준의 [[282_performance_tactics|성능]]을 보이는 ML 표준 도구다.

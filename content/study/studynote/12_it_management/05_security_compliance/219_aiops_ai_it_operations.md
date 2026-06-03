@@ -1,10 +1,9 @@
-+++
-weight = 219
-title = "219. AI옵스 (AIOps, AI for IT Operations)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 219. AI옵스 (AIOps, AI for IT Operations)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: AI옵스 ([[099_aiops_chatbot_itsm_automation|AIOps]], [[190_ai_llm_requirements_specification|AI]] for IT Operations)의 본질은 머신러닝을 이용해 IT 인프라/[[568_logs_distributed_logging_elk_fluentd|로그]] 모니터링 경고 피로(Alert Fatigue)를 줄이고, 장애 근본 원인을 자동 탐지/치유하는 지능형 운영 체계를 [[001_dikw_pyramid|데이터]], 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 354
-title = "354. 데이지 체인 (Daisy Chain)"
-date = "2026-03-27"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 354. 데이지 체인 (Daisy Chain)
+date: '2026-03-27'
+tags:
+- studynote-computer-architecture
+---
 
 # 354. 데이지 체인 (Daisy Chain)
 

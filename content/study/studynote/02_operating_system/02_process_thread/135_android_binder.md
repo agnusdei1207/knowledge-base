@@ -1,10 +1,9 @@
-+++
-weight = 135
-title = "135. 안드로이드 바인더 (Android Binder) - 객체 지향적 경량 IPC"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 135. 안드로이드 바인더 (Android Binder) - 객체 지향적 경량 IPC
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

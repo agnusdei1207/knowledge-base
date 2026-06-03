@@ -1,10 +1,9 @@
-+++
-weight = 503
-title = "503. HS256 vs RS256 (JWT 서명 방식 비교)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 503. HS256 vs RS256 (JWT 서명 방식 비교)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 233
-title = "233. 정밀도(Precision) 재현율(Recall) F1 스코어 ROC AUC 임계 곡선"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 233. 정밀도(Precision) 재현율(Recall) F1 스코어 ROC AUC 임계 곡선
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정밀도(Precision)와 [[092_recall_sensitivity_hit_rate|재현율]]([[254_recall_sensitivity|Recall]])은 서로 반비례하는 트레이드오프 [[083_relationship_in_er_model|관계]]이며, F1은 이 둘의 조화 평균으로 균형을 잡는다.

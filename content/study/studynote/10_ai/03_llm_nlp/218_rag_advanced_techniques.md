@@ -1,10 +1,9 @@
-+++
-weight = 218
-title = "218. RAG 고도화 기법 (Advanced RAG)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 218. RAG 고도화 기법 (Advanced RAG)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

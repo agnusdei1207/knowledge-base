@@ -1,7 +1,8 @@
-+++
-title = "107. 초연결 사회 (Hyper-connected Society)"
-weight = 107
-+++
+---
+title: 107. 초연결 사회 (Hyper-connected Society)
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

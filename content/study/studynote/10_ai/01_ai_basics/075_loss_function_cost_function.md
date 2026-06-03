@@ -1,10 +1,9 @@
-+++
-weight = 75
-title = "75. 손실 함수 (Loss Function) - 예측 오차 계산"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 75. 손실 함수 (Loss Function) - 예측 오차 계산
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

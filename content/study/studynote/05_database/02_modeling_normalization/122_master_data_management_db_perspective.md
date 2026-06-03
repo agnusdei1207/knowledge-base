@@ -1,10 +1,9 @@
-+++
-weight = 122
-title = "122. 마스터 데이터 관리 (MDM, Master Data Management) - 데이터 품질·일관성의 근간"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 122. 마스터 데이터 관리 (MDM, Master Data Management) - 데이터 품질·일관성의 근간
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: MDM은 고객·상품·조직·자산 등 **핵심 마스터 [[001_dikw_pyramid|데이터]]의 단일 골든 레코드(Golden Record)를 [[087_process_state_transition|생성]]·유지**하여, 전사 시스템([[081_erp_enterprise_resource_planning|ERP]]·[[107_crm_customer_relationship_management|CRM]]·[[209_data_warehouse_schema_on_write|DW]]) 간 [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]]과 품질을 보장하는 관리 체계다.

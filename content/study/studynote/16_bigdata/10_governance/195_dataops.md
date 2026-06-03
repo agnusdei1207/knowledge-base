@@ -1,10 +1,9 @@
-+++
-weight = 195
-title = "05. 데이터옵스 (DataOps) - 데이터 파이프라인의 데브옵스화"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 05. 데이터옵스 (DataOps) - 데이터 파이프라인의 데브옵스화
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # [[196_dataops_dbt_ci_cd_data_testing|데이터옵스]] ([[324_dataops|DataOps]]) - [[645_data_pipeline_acceleration|데이터 파이프라인]]의 [[652_devops_calms_culture|데브옵스]]화
 

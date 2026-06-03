@@ -1,10 +1,9 @@
-+++
-weight = 299
-title = "299. 페이지 폴트 처리 과정 (Page Fault Handling)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 299. 페이지 폴트 처리 과정 (Page Fault Handling)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

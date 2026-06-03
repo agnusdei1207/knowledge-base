@@ -1,10 +1,9 @@
-+++
-weight = 330
-title = "330. 롱테일 법칙 vs 파레토 80:20 비교 (Long Tail vs Pareto 80:20)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 330. 롱테일 법칙 vs 파레토 80:20 비교 (Long Tail vs Pareto 80:20)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

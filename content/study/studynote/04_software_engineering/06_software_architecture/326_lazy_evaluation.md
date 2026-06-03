@@ -1,10 +1,9 @@
-+++
-weight = 326
-title = "326. 지연 평가 (Lazy Evaluation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 326. 지연 평가 (Lazy Evaluation)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

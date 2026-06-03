@@ -1,10 +1,9 @@
-+++
-weight = 79
-title = "079. NULL 무결성과 NOT NULL 제약조건"
-date = "2026-05-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 079. NULL 무결성과 NOT NULL 제약조건
+date: '2026-05-05'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[002_database_definition|데이터베이스]]에서 `NULL`은 0이나 공백(Space)이 아니라 **"아직 값이 할당되지 않았음(Unknown)" 또는 "해당 사항 없음(Inapplicable)"**을 뜻하는 관계형 [[002_database_definition|데이터베이스]] 특유의 미지의 [[369_logic_bomb|논리]] 상태다.

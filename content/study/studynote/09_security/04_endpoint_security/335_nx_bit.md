@@ -1,10 +1,9 @@
-+++
-weight = 335
-title = "335. NX 비트 (No-Execute Bit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 335. NX 비트 (No-Execute Bit)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

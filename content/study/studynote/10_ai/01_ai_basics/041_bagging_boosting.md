@@ -1,10 +1,9 @@
-+++
-title = "041. 하이퍼파라미터 튜닝 (Hyperparameter Tuning)"
-weight = 41
-date = "2026-04-05"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 041. 하이퍼파라미터 튜닝 (Hyperparameter Tuning)
+date: '2026-04-05'
+tags:
+- studynote-ai
+---
 
 > **핵심 인사이트**
 > 1. 하이퍼파라미터(Hyperparameter)는 모델 학습 전 인간이 [[009_config|설정]]하는 메타 수준 [[009_config|설정]]값으로([[080_gradient_descent_learning_rate|학습률]]·트리 깊이·[[280_dropout|드롭아웃]]율 등), 모델 파라미터([[267_weight_bias_activation|가중치]])가 [[001_dikw_pyramid|데이터]]에서 학습되는 것과 달리 [[001_algorithm_definition|알고리즘]] 자체의 동작 방식을 결정한다.

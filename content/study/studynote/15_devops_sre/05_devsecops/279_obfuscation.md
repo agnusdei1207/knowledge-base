@@ -1,10 +1,9 @@
-+++
-weight = 279
-title = "279. 난독화 (Obfuscation) 안티 디버깅 모바일 빌드 파이프라인 주입"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 279. 난독화 (Obfuscation) 안티 디버깅 모바일 빌드 파이프라인 주입
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

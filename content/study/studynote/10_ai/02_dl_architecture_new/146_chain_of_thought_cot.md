@@ -1,10 +1,9 @@
-+++
-weight = 146
-title = "146. CoT (Chain-of-Thought) 프롬프팅 - 단계별 추론"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 146. CoT (Chain-of-Thought) 프롬프팅 - 단계별 추론
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CoT는 **"단계별로 생각해 봐(Let's think step by step)"를 프롬프트에 추가**하여 LLM이 중간 추론 과정을 명시적으로 [[087_process_state_transition|생성]]하게 하는 기법이며, 산술·[[369_logic_bomb|논리]]·상식 추론 정확도를 크게 향상시킨다.

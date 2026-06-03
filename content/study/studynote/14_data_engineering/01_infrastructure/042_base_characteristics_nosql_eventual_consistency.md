@@ -1,10 +1,9 @@
-+++
-title = "042. BASE 특성 — NoSQL 일관성 모델"
-weight = 42
-date = "2026-04-05"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 042. BASE 특성 — NoSQL 일관성 모델
+date: '2026-04-05'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. BASE(Basically Available, Soft-state, [[650_eventual_consistency|Eventual Consistency]])는 ACID의 엄격한 [[194_consistency_database_integrity|일관성]]을 포기하고 [[452_availability|가용성]]과 분산성을 극대화한 NoSQL의 설계 철학으로, [[341_process|CAP]] 정리에서 [[514_partition_slice_volume|Partition]] Tolerance를 선택한 시스템이 필연적으로 채택하는 [[194_consistency_database_integrity|일관성]] 모델이다.

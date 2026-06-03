@@ -1,10 +1,9 @@
-+++
-weight = 257
-title = "257. 옵저버빌리티 도구 연동 (OpenTelemetry 오픈 표준) (Observability)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 257. 옵저버빌리티 도구 연동 (OpenTelemetry 오픈 표준) (Observability)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

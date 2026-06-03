@@ -1,10 +1,9 @@
-+++
-weight = 302
-title = "302. 옵저버빌리티 관측성 로그 메트릭 분산 추적 (Cloud Architecture Concept)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 302. 옵저버빌리티 관측성 로그 메트릭 분산 추적 (Cloud Architecture Concept)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[642_observability_telemetry|옵저버빌리티]] 관측성 [[568_logs_distributed_logging_elk_fluentd|로그]] [[342_routing_metric_hop_bandwidth_delay|메트릭]] [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]]는 클라우드 시스템에서 관측성과 추적성를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

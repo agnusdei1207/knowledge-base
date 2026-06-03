@@ -1,10 +1,9 @@
-+++
-weight = 326
-title = "326. PMO와 감리 주관 차이 (PMO vs Audit Oversight)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 326. PMO와 감리 주관 차이 (PMO vs Audit Oversight)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

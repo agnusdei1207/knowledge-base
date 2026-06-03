@@ -1,12 +1,10 @@
-+++
-weight = 9
-title = "9. 전문가 시스템 (Expert System) - 특정 분야 전문가의 지식을 룰 기반으로 구현 (MYCIN, DENDRAL)"
-description = "특정 도메인의 인간 전문가 지식을 룰 기반으로 구현한 인공지능의 1세대 성공 모델"
-date = "2024-05-20"
-[taxonomies]
-tags = ["AI", "ExpertSystem", "전문가시스템", "MYCIN", "지식획득"]
-categories = ["10_ai"]
-+++
+---
+title: 9. 전문가 시스템 (Expert System) - 특정 분야 전문가의 지식을 룰 기반으로 구현 (MYCIN, DENDRAL)
+date: '2024-05-20'
+description: 특정 도메인의 인간 전문가 지식을 룰 기반으로 구현한 인공지능의 1세대 성공 모델
+tags:
+- ai
+---
 
 # 9. [[233_expert_system|전문가 시스템]] ([[233_expert_system|Expert System]])
 

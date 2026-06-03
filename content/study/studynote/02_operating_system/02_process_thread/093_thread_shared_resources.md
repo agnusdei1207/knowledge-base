@@ -1,10 +1,9 @@
-+++
-weight = 93
-title = "93. 스레드의 자원 공유 - Code, Data, Heap, 열린 파일"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 93. 스레드의 자원 공유 - Code, Data, Heap, 열린 파일
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[092_thread_lwp|스레드]] ([[092_thread_lwp|Thread]])의 자원 공유는 단일 프로세스 ([[300_process|Process]]) 내에서 동작하는 여러 실행 흐름이 주소 공간 중 코드 ([[082_process_memory_structure|Code]]), [[001_dikw_pyramid|데이터]] ([[001_dikw_pyramid|Data]]), 힙 ([[078_heap_datastructure|Heap]]) 영역과 열린 [[501_file_definition_logical_record|파일]] (Open Files)을 공동으로 소유하고 직접 접근하는 메커니즘이다.

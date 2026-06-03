@@ -1,10 +1,9 @@
-+++
-weight = 1093
-title = "1093. MPLS VPN L3 경로 격리 라벨 스위치"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1093. MPLS VPN L3 경로 격리 라벨 스위치
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

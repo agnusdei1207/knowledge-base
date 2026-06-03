@@ -1,10 +1,9 @@
-+++
-weight = 276
-title = "276. IPsec AH/ESP 프로토콜 (Ipsec Ah Esp)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 276. IPsec AH/ESP 프로토콜 (Ipsec Ah Esp)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

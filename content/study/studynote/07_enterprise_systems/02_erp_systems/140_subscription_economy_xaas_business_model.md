@@ -1,10 +1,9 @@
-+++
-weight = 140
-title = "140. 구독 경제 & XaaS 비즈니스 모델 - 소유에서 구독으로"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 140. 구독 경제 & XaaS 비즈니스 모델 - 소유에서 구독으로
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[057_subscription_economy_xaas|구독 경제]]([[057_subscription_economy_xaas|Subscription Economy]])는 **제품을 소유하는 대신 정기적으로 비용을 지불하고 [[090_service_kubernetes_network_load_balancing|서비스]]를 이용**하는 비즈니스 모델이며, [[309_saas|SaaS]]·XaaS(Everything [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]])가 기술 기반이다.

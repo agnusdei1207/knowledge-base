@@ -1,12 +1,11 @@
-+++
-weight = 16
-title = "16. 데이터 및 개인정보 보호 (Data & Privacy Protection)"
-description = "개인정보보호법, GDPR, 비식별화(k-익명성, l-다양성), DLP 및 토큰화 등 데이터 보호 핵심 기술 및 컴플라이언스 통합 가이드"
-date = "2025-02-24"
-[taxonomies]
-tags = ["Data Security", "Privacy", "GDPR", "DLP", "Anonymization"]
-categories = ["studynote-security"]
-+++
+---
+title: 16. 데이터 및 개인정보 보호 (Data & Privacy Protection)
+date: '2025-02-24'
+description: 개인정보보호법, GDPR, 비식별화(k-익명성, l-다양성), DLP 및 토큰화 등 데이터 보호 핵심 기술 및 컴플라이언스
+  통합 가이드
+tags:
+- security
+---
 
 # [[001_dikw_pyramid|데이터]] 및 [[781_personal_information|개인정보]] [[571_protection_vs_security|보호]] ([[001_dikw_pyramid|Data]] & Privacy [[571_protection_vs_security|Protection]])
 

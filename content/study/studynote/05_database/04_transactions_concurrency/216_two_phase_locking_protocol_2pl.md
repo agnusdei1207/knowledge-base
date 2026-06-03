@@ -1,10 +1,9 @@
-+++
-weight = 216
-title = "216. 2단계 락킹 프로토콜 (2PL, Two-Phase Locking)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 216. 2단계 락킹 프로토콜 (2PL, Two-Phase Locking)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

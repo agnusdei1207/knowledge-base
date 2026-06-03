@@ -1,10 +1,9 @@
-+++
-weight = 96
-title = "96. 합성곱 층 (Convolution Layer) - 필터 스캐닝 특징 추출"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 96. 합성곱 층 (Convolution Layer) - 필터 스캐닝 특징 추출
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

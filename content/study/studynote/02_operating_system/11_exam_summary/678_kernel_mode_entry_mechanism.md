@@ -1,10 +1,9 @@
-+++
-weight = 678
-title = "678. 커널 모드 진입 메커니즘 (Kernel Mode Entry Mechanism)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 678. 커널 모드 진입 메커니즘 (Kernel Mode Entry Mechanism)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

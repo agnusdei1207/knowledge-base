@@ -1,9 +1,9 @@
-+++
-title = "DevOps 토폴로지 (DevOps Topology)"
-date = "2026-03-04"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: DevOps 토폴로지 (DevOps Topology)
+date: '2026-03-04'
+tags:
+- studynote-devops
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[652_devops_calms_culture|DevOps]] 토폴로지([[652_devops_calms_culture|DevOps]] Topology)는 조직이 DevOps를 구현하는 다양한 팀 [[258_structural_patterns_overview|구조 패턴]]을 [[104_classification_analysis|분류]]한 프레임워크로, "Anti-Type A(Dev와 Ops 완전 분리)"부터 "Type 5(NoOps·[[206_serverless_cold_start|서버리스]])"까지 조직 성숙도별 모델을 제시한다.

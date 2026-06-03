@@ -1,10 +1,9 @@
-+++
-weight = 697
-title = "697. UTM (Unified Threat Management 패키징 통합형 장비)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 697. UTM (Unified Threat Management 패키징 통합형 장비)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

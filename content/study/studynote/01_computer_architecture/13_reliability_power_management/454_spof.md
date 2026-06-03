@@ -1,10 +1,9 @@
-+++
-weight = 454
-title = "454. 단일 장애점 (SPOF, Single Point of Failure)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 454. 단일 장애점 (SPOF, Single Point of Failure)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

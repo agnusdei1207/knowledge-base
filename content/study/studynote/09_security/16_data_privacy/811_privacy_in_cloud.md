@@ -1,10 +1,9 @@
-+++
-weight = 811
-title = "811. 클라우드 개인정보보호 (Privacy in Cloud)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 811. 클라우드 개인정보보호 (Privacy in Cloud)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

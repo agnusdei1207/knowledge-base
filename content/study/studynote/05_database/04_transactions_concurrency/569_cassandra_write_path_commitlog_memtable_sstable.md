@@ -1,10 +1,9 @@
-+++
-weight = 569
-title = "569. 카산드라 쓰기 경로(Commit Log -> Memtable -> SSTable) 병목 배제 모델"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 569. 카산드라 쓰기 경로(Commit Log -> Memtable -> SSTable) 병목 배제 모델
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

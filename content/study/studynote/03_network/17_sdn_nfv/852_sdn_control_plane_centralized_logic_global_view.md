@@ -1,10 +1,9 @@
-+++
-weight = 852
-title = "852. SDN 제어 평면"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 852. SDN 제어 평면
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

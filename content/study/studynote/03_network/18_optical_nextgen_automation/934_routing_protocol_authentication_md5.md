@@ -1,10 +1,9 @@
-+++
-weight = 934
-title = "934. 라우팅 프로토콜 인증 방어망 (BGP 세션 탈취 방지, RST 스푸핑 우회)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 934. 라우팅 프로토콜 인증 방어망 (BGP 세션 탈취 방지, RST 스푸핑 우회)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

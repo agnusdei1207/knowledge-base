@@ -1,10 +1,9 @@
-+++
-weight = 103
-title = "회귀 분석 (Regression Analysis)"
-date = "2024-03-20"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 회귀 분석 (Regression Analysis)
+date: '2024-03-20'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **[[083_relationship_in_er_model|관계]] 모델링:** 하나 이상의 독립변수($X$)와 종속변수($Y$) 사이의 상관관계를 함수로 공식화하여 미래의 수치 값을 예측함.

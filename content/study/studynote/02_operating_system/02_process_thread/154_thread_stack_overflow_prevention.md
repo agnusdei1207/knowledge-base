@@ -1,10 +1,9 @@
-+++
-weight = 154
-title = "154. 스레드 스택 오버플로우 방지 (Guard Page) - 보이지 않는 메모리 자살 방폭문"
-date = "2026-05-03"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 154. 스레드 스택 오버플로우 방지 (Guard Page) - 보이지 않는 메모리 자살 방폭문
+date: '2026-05-03'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 가드 [[286_page_frame|페이지]](Guard [[286_page_frame|Page]])는 [[092_thread_lwp|스레드]]([[092_thread_lwp|Thread]])에게 할당된 [[057_stack|스택]]([[057_stack|Stack]]) 메모리 낭떠러지 맨 끝단에 ➔ [[022_kernel_role|커널]]이 고의로 매핑하지 않은(Unmapped) **'투명 지뢰밭(빈 [[286_page_frame|페이지]] 쇳덩이)'을 깔아두어, [[057_stack|스택]]이 선을 넘고 침범하는 0.001초 찰나에 하드웨어 예외(`SIGSEGV`)를 쾅 터뜨려 프로세스 전체를 강제 셧다운 척살시키는 0순위 자살 방폭문**이다.

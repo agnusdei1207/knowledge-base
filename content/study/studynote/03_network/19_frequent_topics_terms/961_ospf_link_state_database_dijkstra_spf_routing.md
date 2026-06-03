@@ -1,10 +1,9 @@
-+++
-weight = 961
-title = "961. OSPF 링크 상태 데이터베이스 (LSDB)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 961. OSPF 링크 상태 데이터베이스 (LSDB)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

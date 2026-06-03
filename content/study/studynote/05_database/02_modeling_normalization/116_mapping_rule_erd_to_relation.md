@@ -1,10 +1,9 @@
-+++
-weight = 116
-title = "116. 매핑 규칙 (ERD→릴레이션 매핑) - 엔터티·관계·속성의 체계적 변환"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 116. 매핑 규칙 (ERD→릴레이션 매핑) - 엔터티·관계·속성의 체계적 변환
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 매핑 규칙은 개념 설계의 ERD(엔터티·[[083_relationship_in_er_model|관계]]·[[082_attribute_types_er_model|속성]])를 [[369_logic_bomb|논리]] 설계의 **[[391_relation_schema_intension|릴레이션 스키마]](테이블·PK·FK·컬럼)**로 변환하는 **체계적 규칙 집합**이다.

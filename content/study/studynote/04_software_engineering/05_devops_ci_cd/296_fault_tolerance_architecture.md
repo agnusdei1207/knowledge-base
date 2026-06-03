@@ -1,10 +1,9 @@
-+++
-weight = 296
-title = "296. 결함 허용 (Fault Tolerance) 시스템 설계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 296. 결함 허용 (Fault Tolerance) 시스템 설계
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

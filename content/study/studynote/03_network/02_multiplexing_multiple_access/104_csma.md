@@ -1,12 +1,11 @@
-+++
-weight = 104
-title = "104. CSMA (Carrier Sense Multiple Access) 반송파 감지"
-description = "네트워크 다중 접속의 근간이 되는 CSMA 프로토콜의 'Listen Before Talk' 철학과 한계, 그리고 이를 극복하기 위한 발전 과정을 심층 분석합니다."
-date = "2026-03-04"
-[taxonomies]
-tags = ["CSMA", "MAC", "네트워크 기초", "데이터링크"]
-categories = ["studynote-network"]
-+++
+---
+title: 104. CSMA (Carrier Sense Multiple Access) 반송파 감지
+date: '2026-03-04'
+description: 네트워크 다중 접속의 근간이 되는 CSMA 프로토콜의 'Listen Before Talk' 철학과 한계, 그리고 이를 극복하기
+  위한 발전 과정을 심층 분석합니다.
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CSMA (Carrier Sense [[087_다중접속_Multiple_Access|Multiple Access]], [[054_반송파_Carrier_Wave|반송파]] 감지 [[087_다중접속_Multiple_Access|다중 접속]])는 공유 [[121_transmission_media_guided_unguided|매체]]에 [[001_dikw_pyramid|데이터]]를 전송하기 전에 다른 노드가 송신 중인지 [[396_validation|확인]]하는 'Listen Before Talk' 기반의 [[183_mac_media_access_control|매체 접근 제어]] 방식이다.

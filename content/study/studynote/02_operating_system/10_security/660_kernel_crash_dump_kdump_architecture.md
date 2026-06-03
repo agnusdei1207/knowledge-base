@@ -1,10 +1,9 @@
-+++
-weight = 660
-title = "660. 커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 660. 커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

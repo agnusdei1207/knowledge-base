@@ -1,10 +1,9 @@
-+++
-weight = 439
-title = "439. 힌트 구문 적용 (/*+ INDEX() */)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 439. 힌트 구문 적용 (/*+ INDEX() */)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

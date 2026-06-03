@@ -1,10 +1,9 @@
-+++
-weight = 603
-title = "603. 소프트웨어 정의 엑셀러레이터 (Software-Defined Accelerator)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 603. 소프트웨어 정의 엑셀러레이터 (Software-Defined Accelerator)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 659
-title = "659. 스프린트 백로그 / 프로덕트 백로그"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 659. 스프린트 백로그 / 프로덕트 백로그
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

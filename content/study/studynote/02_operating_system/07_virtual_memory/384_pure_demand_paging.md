@@ -1,10 +1,9 @@
-+++
-weight = 384
-title = "384. 순수 요구 페이징 (Pure Demand Paging) - 시작할 때 아무것도 안 올림"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 384. 순수 요구 페이징 (Pure Demand Paging) - 시작할 때 아무것도 안 올림
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

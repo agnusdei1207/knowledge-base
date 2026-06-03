@@ -1,10 +1,9 @@
-+++
-weight = 567
-title = "567. 레디스 만료 데이터 키 삭제 정책(LRU, LFU, Random) 캐시 스토리지 운영"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 567. 레디스 만료 데이터 키 삭제 정책(LRU, LFU, Random) 캐시 스토리지 운영
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

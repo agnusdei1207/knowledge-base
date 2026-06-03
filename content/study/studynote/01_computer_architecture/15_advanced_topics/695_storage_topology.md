@@ -1,10 +1,9 @@
-+++
-weight = 695
-title = "695. 스토리지 네트워크 토폴로지 (FC-AL, FC-SW)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 695. 스토리지 네트워크 토폴로지 (FC-AL, FC-SW)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

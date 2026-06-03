@@ -1,10 +1,9 @@
-+++
-weight = 164
-title = "164. 어댑터 vs 퍼사드 (Adapter vs Facade)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 164. 어댑터 vs 퍼사드 (Adapter vs Facade)
+date: '2026-04-21'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

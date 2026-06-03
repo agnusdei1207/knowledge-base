@@ -1,10 +1,9 @@
-+++
-weight = 212
-title = "212. ETL vs ELT (Extract-Transform-Load vs Extract-Load-Transform) 클라우드 전이"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 212. ETL vs ELT (Extract-Transform-Load vs Extract-Load-Transform) 클라우드 전이
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[215_etl_vs_elt_pipeline|ETL]](Extract, Transform, Load)은 중간 변환 서버에서 먼저 정제 후 DW에 적재하지만, [[034_elt|ELT]](Extract, Load, Transform)는 원본 [[001_dikw_pyramid|데이터]]를 클라우드 DW에 먼저 적재 후 [[209_data_warehouse_schema_on_write|DW]] 내부의 막대한 컴퓨팅 파워로 변환한다.

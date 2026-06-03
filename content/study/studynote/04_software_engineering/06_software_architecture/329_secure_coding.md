@@ -1,10 +1,9 @@
-+++
-weight = 329
-title = "329. 시큐어 코딩 (Secure Coding) 원칙"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 329. 시큐어 코딩 (Secure Coding) 원칙
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

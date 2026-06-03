@@ -1,10 +1,9 @@
-+++
-weight = 598
-title = "598. VM (Virtual Machine) 마이그레이션 NIC (Network Interface Card)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 598. VM (Virtual Machine) 마이그레이션 NIC (Network Interface Card)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

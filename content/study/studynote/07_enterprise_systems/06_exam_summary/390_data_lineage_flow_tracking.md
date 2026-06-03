@@ -1,10 +1,9 @@
-+++
-weight = 390
-title = "390. 데이터 리니지 흐름 변환 추적 계보 (Data Lineage)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 390. 데이터 리니지 흐름 변환 추적 계보 (Data Lineage)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

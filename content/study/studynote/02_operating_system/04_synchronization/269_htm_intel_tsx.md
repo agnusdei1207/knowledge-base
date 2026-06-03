@@ -1,10 +1,9 @@
-+++
-weight = 269
-title = "269. 하드웨어 트랜잭셔널 메모리 (HTM - Intel TSX)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 269. 하드웨어 트랜잭셔널 메모리 (HTM - Intel TSX)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

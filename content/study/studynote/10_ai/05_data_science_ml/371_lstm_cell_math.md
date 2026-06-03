@@ -1,10 +1,9 @@
-+++
-weight = 371
-title = "371. LSTM 셀 게이트 수식 (LSTM CELL MATH)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 371. LSTM 셀 게이트 수식 (LSTM CELL MATH)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

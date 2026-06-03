@@ -1,12 +1,10 @@
-+++
-weight = 10
-title = "10. 최소 권한 원칙 (Principle of Least Privilege) — 필요 알 권리"
-description = "보안 위협 최소화 및 횡적 이동 차단을 위한 접근 제어의 근본 철학"
-date = "2026-03-25"
-[taxonomies]
-tags = ["정보보안", "접근통제", "최소권한", "PoLP", "제로트러스트", "IAM"]
-categories = ["studynote-security"]
-+++
+---
+title: 10. 최소 권한 원칙 (Principle of Least Privilege) — 필요 알 권리
+date: '2026-03-25'
+description: 보안 위협 최소화 및 횡적 이동 차단을 위한 접근 제어의 근본 철학
+tags:
+- security
+---
 
 # 최소 권한 원칙 (Principle of Least Privilege, PoLP)
 

@@ -1,12 +1,10 @@
-+++
-weight = 16
-title = "16. CMMI 5단계 - 초기, 관리, 정의, 정량적 관리, 최적화"
-description = "소프트웨어 프로세스 성숙도를 평가하고 개선하는 CMMI 5단계 프레임워크의 심층 분석과 실무 적용 전략"
-date = "2026-03-04"
-[taxonomies]
-tags = ["CMMI", "소프트웨어 공학", "프로세스 성숙도", "품질 관리", "정량적 관리"]
-categories = ["studynote-se"]
-+++
+---
+title: 16. CMMI 5단계 - 초기, 관리, 정의, 정량적 관리, 최적화
+date: '2026-03-04'
+description: 소프트웨어 프로세스 성숙도를 평가하고 개선하는 CMMI 5단계 프레임워크의 심층 분석과 실무 적용 전략
+tags:
+- software_engineering
+---
 
 # 16. [[133_cmmi_capability_maturity_model_integration_levels|CMMI]] 5단계 - [[459_quic_fec_forward_error_correction|초기]], 관리, 정의, 정량적 관리, 최적화
 

@@ -1,10 +1,9 @@
-+++
-weight = 66
-title = "66. 스피어만 순위 상관 계수 (Spearman Rank Correlation)"
-date = "2026-04-10"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 66. 스피어만 순위 상관 계수 (Spearman Rank Correlation)
+date: '2026-04-10'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 204
-title = "204. 클라우드 네이티브 아키텍처 (Cloud Native Architecture) 구성 요소"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 204. 클라우드 네이티브 아키텍처 (Cloud Native Architecture) 구성 요소
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[531_cloud_native_architecture|클라우드 네이티브]] 아키텍처 ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] [[319_architecture|Architecture]]) 구성 요소의 본질은 [[532_microservices_decomposition_patterns|마이크로서비스]], [[561_container_based_deployment|컨테이너]]([[063_docker_architecture|Docker]]/K8s), [[090_configuration_item|CI]]/CD, [[652_devops_calms_culture|DevOps]] 체계를 [[090_service_kubernetes_network_load_balancing|서비스]] 모델, 자동화, 책임 분담 기준으로 실현하는 데 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 203
-title = "203. SIMD 명령어 확장 (AVX, NEON)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 203. SIMD 명령어 확장 (AVX, NEON)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

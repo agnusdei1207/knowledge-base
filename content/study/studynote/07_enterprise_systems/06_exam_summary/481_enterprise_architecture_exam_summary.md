@@ -1,10 +1,9 @@
-+++
-weight = 481
-title = "481. 엔터프라이즈 아키텍처 기술사 기출 종합 (Enterprise Architecture Exam Summary)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 481. 엔터프라이즈 아키텍처 기술사 기출 종합 (Enterprise Architecture Exam Summary)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

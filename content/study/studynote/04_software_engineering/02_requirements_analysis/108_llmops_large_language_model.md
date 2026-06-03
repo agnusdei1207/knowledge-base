@@ -1,10 +1,9 @@
-+++
-weight = 108
-title = "108. LLMOps (대규모 언어 모델 운영)"
-date = "2026-04-10"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 108. LLMOps (대규모 언어 모델 운영)
+date: '2026-04-10'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[221_llmops_large_language_model_ops|LLMOps]]([[263_llm_large_language_model|Large Language Model]] Operations)는 수백억 파라미터를 가진 초거대 [[190_ai_llm_requirements_specification|AI]] 언어 모델을 비즈니스 시스템에 안정적으로 통합하고, [[087_process_state_transition|생성]]형 [[190_ai_llm_requirements_specification|AI]] 특유의 [[275_react_framework|환각]]([[345_llm_foundation_model_hallucination|Hallucination]]) 현상과 막대한 [[014_api_posix|API]] 비용을 통제하기 위해 구축하는 거대 모델 전용 운영 파이프라인이다.

@@ -1,10 +1,9 @@
-+++
-weight = 797
-title = "797. XP 실천 방법 TDD 페어 지속 통합 코드 공동 소유"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 797. XP 실천 방법 TDD 페어 지속 통합 코드 공동 소유
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

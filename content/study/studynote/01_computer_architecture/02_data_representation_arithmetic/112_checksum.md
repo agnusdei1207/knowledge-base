@@ -1,10 +1,9 @@
-+++
-weight = 112
-title = "112. 체크섬 (Checksum)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 112. 체크섬 (Checksum)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 체크섬(Checksum)은 전송할 [[001_dikw_pyramid|데이터]] 덩어리(Block) 안의 숫자들을 모조리 더한 후 1의 보수(반전)를 취해 [[001_dikw_pyramid|데이터]] 꼬리에 붙여 보내는 **총합 기반의 [[003_integrity|무결성]] [[395_verification_process_review|검증]] 값**이다.

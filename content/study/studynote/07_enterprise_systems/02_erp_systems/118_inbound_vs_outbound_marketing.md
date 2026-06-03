@@ -1,10 +1,9 @@
-+++
-weight = 118
-title = "118. 인바운드 vs 아웃바운드 마케팅 - Pull vs Push 마케팅 전략 비교"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 118. 인바운드 vs 아웃바운드 마케팅 - Pull vs Push 마케팅 전략 비교
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 아웃바운드 마케팅은 기업이 고객에게 **먼저 [[389_mesh_topology|메시]]지를 보내는(Push)** 전통 방식(TV 광고·콜드콜·배너)이고, 인바운드 마케팅은 **고객이 자발적으로 찾아오게(Pull)** 만드는 콘텐츠 중심 [[268_strategy_pattern|전략]](블로그·SEO·웨비나)이다.

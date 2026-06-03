@@ -1,10 +1,9 @@
-+++
-weight = 156
-title = "156. 전력-성능 트레이드오프 (Power-Performance Trade-off)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 156. 전력-성능 트레이드오프 (Power-Performance Trade-off)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,9 @@
-+++
-title = "038. 와이드 컬럼 저장소 (Wide Column Store)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 038. 와이드 컬럼 저장소 (Wide Column Store)
+date: '2026-03-03'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. 와이드 컬럼 저장소(Wide Column Store)는 행 키(Row [[067_db_key_uniqueness_minimality|Key]])로 [[001_dikw_pyramid|데이터]]를 [[136_variance|분산]] 저장하되, 각 행이 서로 다른 컬럼 집합을 가질 수 있는 스파스 매트릭스 구조로, 스키마가 행마다 다를 수 있는 반정형 대용량 [[001_dikw_pyramid|데이터]]에 최적화되어 있다.

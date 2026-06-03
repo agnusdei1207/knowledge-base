@@ -1,10 +1,9 @@
-+++
-weight = 184
-title = "184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos Engineering)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos Engineering)
+date: '2026-04-21'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

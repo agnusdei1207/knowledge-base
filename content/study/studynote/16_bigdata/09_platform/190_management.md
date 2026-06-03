@@ -1,10 +1,9 @@
-+++
-weight = 190
-title = "190. 하이브리드 분석 (온프레미스 + 클라우드 버스팅)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 190. 하이브리드 분석 (온프레미스 + 클라우드 버스팅)
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

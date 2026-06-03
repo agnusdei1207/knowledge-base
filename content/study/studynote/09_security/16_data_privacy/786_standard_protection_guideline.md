@@ -1,10 +1,9 @@
-+++
-weight = 786
-title = "786. 개인정보 파일 표준 protection 지침 (Standard Protection Guideline)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 786. 개인정보 파일 표준 protection 지침 (Standard Protection Guideline)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

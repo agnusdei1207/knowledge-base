@@ -1,10 +1,9 @@
-+++
-weight = 139
-title = "139. O2O (Online to Offline) 플랫폼 - 온·오프라인 연결 비즈니스"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 139. O2O (Online to Offline) 플랫폼 - 온·오프라인 연결 비즈니스
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: O2O는 **온라인 플랫폼에서 고객을 유치하여 오프라인 매장·[[090_service_kubernetes_network_load_balancing|서비스]]로 연결**하는 비즈니스 모델이며, 배달앱(배달의민족)·차량호출(카카오T)·숙박(에어비앤비)이 대표이다.

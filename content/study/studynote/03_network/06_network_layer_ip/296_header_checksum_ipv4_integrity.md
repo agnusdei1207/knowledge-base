@@ -1,10 +1,9 @@
-+++
-weight = 296
-title = "296. 헤더 체크섬 (Header Checksum)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 296. 헤더 체크섬 (Header Checksum)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

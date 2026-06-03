@@ -1,10 +1,9 @@
-+++
-weight = 382
-title = "382. 뉴모픽(Neuromorphic) 인프라 연동형 AI 데이터베이스 기술 동향"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 382. 뉴모픽(Neuromorphic) 인프라 연동형 AI 데이터베이스 기술 동향
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

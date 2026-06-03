@@ -1,10 +1,9 @@
-+++
-weight = 147
-title = "147. DDD (Domain-Driven Design) - 도메인 주도 설계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 147. DDD (Domain-Driven Design) - 도메인 주도 설계
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[310_architecture|DDD]]([[127_ddd_domain_driven_design|Domain-Driven Design]], [[310_architecture|도메인 주도 설계]])는 에릭 에반스(Eric Evans)가 2003년 제안한 소프트웨어 설계 방법론으로, **비즈니스 [[064_relation_domain|도메인]]([[064_relation_domain|Domain]])의 핵심 개념과 규칙을 코드 모델에 직접 반영**함으로써 복잡한 비즈니스 로직을 다루는 소프트웨어의 복잡도를 관리하는 접근법이다.

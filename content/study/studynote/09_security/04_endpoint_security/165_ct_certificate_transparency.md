@@ -1,10 +1,9 @@
-+++
-weight = 165
-title = "165. CT (Certificate Transparency) — 인증서 발급 공개 로그"
-date = "2026-05-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 165. CT (Certificate Transparency) — 인증서 발급 공개 로그
+date: '2026-05-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트
 

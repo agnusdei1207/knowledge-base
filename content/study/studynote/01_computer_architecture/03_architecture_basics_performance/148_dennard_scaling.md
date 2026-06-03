@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. 데나드 스케일링 (Dennard Scaling)"
-date = "2026-05-03"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 148. 데나드 스케일링 (Dennard Scaling)
+date: '2026-05-03'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 데나드 [[249_scaling_normalization_standardization|스케일링]] (Dennard Scaling)은 [[014_transistor|트랜지스터]] 크기를 줄이면 구동 [[001_voltage|전압]]과 [[002_current|전류]]도 비례하여 줄어들어, 칩 면적당 [[466_power_consumption|전력 소모]]밀도가 일정하게 유지된다는 물리 법칙이다.

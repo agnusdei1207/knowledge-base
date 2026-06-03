@@ -1,7 +1,8 @@
-+++
-title = "89. CA (Contract Account) - 코드에 의해 통제되는 컨트랙트 계정"
-weight = 89
-+++
+---
+title: 89. CA (Contract Account) - 코드에 의해 통제되는 컨트랙트 계정
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 이더리움 [[004_blockchain|블록체인]]에서 CA (Contract Account, 컨트랙트 계정)는 사람이 개인키로 직접 열고 닫는 지갑이 아니라, 네트워크에 영구적으로 배포된 **[[022_smart_contract|스마트 컨트랙트]] 코드([[022_smart_contract|Smart Contract]] [[082_process_memory_structure|Code]])에 의해 자율적으로 통제되는 로봇 계정**이다.

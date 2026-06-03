@@ -1,10 +1,9 @@
-+++
-title = "041. PACELC 정리 (PACELC Theorem)"
-weight = 41
-date = "2026-04-05"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 041. PACELC 정리 (PACELC Theorem)
+date: '2026-04-05'
+tags:
+- studynote-data-engineering
+---
 
 > **핵심 인사이트**
 > 1. [[342_pacelc|PACELC]](파셀크) 정리는 Daniel Abadi(2012)가 [[341_process|CAP]] 정리의 한계를 극복하기 위해 제안한 확장 모델로, [[514_partition_slice_volume|파티션]] 발생 시(P) [[452_availability|가용성]](A)/[[194_consistency_database_integrity|일관성]](C) 트레이드오프 외에 정상 상태에서도 [[015_지연_데이터_관점|지연]](L, [[141_latency|Latency]])/[[194_consistency_database_integrity|일관성]](C, [[194_consistency_database_integrity|Consistency]]) 트레이드오프가 존재함을 명시한다.

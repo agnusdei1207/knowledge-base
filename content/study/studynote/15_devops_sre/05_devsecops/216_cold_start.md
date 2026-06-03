@@ -1,10 +1,9 @@
-+++
-weight = 216
-title = "216. 콜드 스타트 (Cold Start)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 216. 콜드 스타트 (Cold Start)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 221
-title = "221. LLMOps"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 221. LLMOps
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: LLMOps의 본질은 초거대 언어모델([[263_llm_large_language_model|LLM]])의 파인튜닝, 프롬프트 템플릿 관리, [[276_fine_tuning|RAG]]([[222_rag_retrieval_augmented_generation|검색 증강 생성]]) 파이프라인 관리 및 [[275_react_framework|환각]] 모니터링 기능이 추가된 차세대 MLOps를 [[001_dikw_pyramid|데이터]], 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.

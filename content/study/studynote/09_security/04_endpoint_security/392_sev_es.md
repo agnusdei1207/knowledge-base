@@ -1,10 +1,9 @@
-+++
-weight = 392
-title = "392. Linux 게스트에서 SEV-ES 지원 확인 (Sev Es)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 392. Linux 게스트에서 SEV-ES 지원 확인 (Sev Es)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

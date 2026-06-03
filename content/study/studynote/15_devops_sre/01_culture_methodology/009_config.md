@@ -1,11 +1,9 @@
-+++
-weight = 9
-title = "9. 설정 (Config) - 환경 변수(Env Vars)에 설정을 저장하여 코드와 분리"
-date = "2026-04-05"
-[taxonomies]
-tags = ["Config", "설정", "환경 변수", "12팩터", "구성 관리"]
-categories = ["15_devops_sre"]
-+++
+---
+title: 9. 설정 (Config) - 환경 변수(Env Vars)에 설정을 저장하여 코드와 분리
+date: '2026-04-05'
+tags:
+- devops_sre
+---
 
 # 설정
 

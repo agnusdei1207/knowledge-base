@@ -1,10 +1,9 @@
-+++
-weight = 115
-title = "115. Thread 프로토콜 (Thread Protocol) - IPv6 기반 저전력 메시·Matter 핵심 전송 계층"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 115. Thread 프로토콜 (Thread Protocol) - IPv6 기반 저전력 메시·Matter 핵심 전송 계층
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Thread는 IEEE 802.15.4 PHY/[[673_mac_message_authentication_code|MAC]] 위에 **[[324_ipv6_128bit_next_generation_address|IPv6]] + [[117_6lowpan_iot_ipv6|6LoWPAN]]**을 구현한 저전력 [[389_mesh_topology|메시]] 네트워크 [[295_protocol_field_tcp_udp_icmp|프로토콜]]로, 각 디바이스가 **IP 주소를 가져 인터넷과 [[120_direct_communication|직접 통신]]** 가능하다.

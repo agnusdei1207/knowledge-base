@@ -1,12 +1,11 @@
-+++
-weight = 15
-title = "15. 휴리스틱 탐색 (Heuristic Search / Informed Search) - 직관이나 경험 기반 정보(휴리스틱 함수)를 활용한 최적 탐색"
-description = "경험적 지식과 거리 추정 함수를 이용해 유망한 노드를 우선적으로 탐색하여 연산 효율을 극대화하는 정보 기반 탐색"
-date = "2024-05-24"
-[taxonomies]
-tags = ["AI", "휴리스틱", "A* 알고리즘", "최적화", "정보 기반 탐색"]
-categories = ["studynote-ai"]
-+++
+---
+title: 15. 휴리스틱 탐색 (Heuristic Search / Informed Search) - 직관이나 경험 기반 정보(휴리스틱 함수)를
+  활용한 최적 탐색
+date: '2024-05-24'
+description: 경험적 지식과 거리 추정 함수를 이용해 유망한 노드를 우선적으로 탐색하여 연산 효율을 극대화하는 정보 기반 탐색
+tags:
+- ai
+---
 # 15. [[210_heuristics_scheduling|휴리스틱]] 탐색 ([[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]] Search)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 목적지까지 남아있는 거리를 어림짐작하는 평가 함수, 즉 [[210_heuristics_scheduling|휴리스틱]] 함수([[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]] Function, $h(n)$)를 도입하여 탐색 공간을 극적으로 축소시키는 정보 기반(Informed) 탐색 기법.

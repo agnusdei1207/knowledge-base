@@ -1,10 +1,9 @@
-+++
-weight = 184
-title = "184. 제로 트러스트 아키텍처 (Zero Trust Architecture)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 184. 제로 트러스트 아키텍처 (Zero Trust Architecture)
+date: '2026-05-06'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

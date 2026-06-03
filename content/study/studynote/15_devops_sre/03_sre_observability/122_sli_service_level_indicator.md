@@ -1,10 +1,9 @@
-+++
-weight = 122
-title = "122. SLI (Service Level Indicator) - 서비스 수준 측정 지표"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 122. SLI (Service Level Indicator) - 서비스 수준 측정 지표
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[102_sli_slo_service_level_indicator_objective|SLI]]([[102_sli_slo_service_level_indicator_objective|Service Level Indicator]])는 **사용자 경험 관점에서 [[090_service_kubernetes_network_load_balancing|서비스]] 품질을 정량적으로 측정**하는 지표이며, "좋은 이벤트 수 / 전체 이벤트 수"의 **비율(0~100%)**로 표현된다.

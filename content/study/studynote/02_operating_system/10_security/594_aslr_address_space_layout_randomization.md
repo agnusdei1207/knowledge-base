@@ -1,10 +1,9 @@
-+++
-weight = 594
-title = "594. 가상 주소 공간 구조 무작위화 (ASLR) - 버퍼/스택 라이브러리 주소 랜덤 배치 방어망"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 594. 가상 주소 공간 구조 무작위화 (ASLR) - 버퍼/스택 라이브러리 주소 랜덤 배치 방어망
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

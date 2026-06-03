@@ -1,12 +1,10 @@
-+++
-weight = 175
-title = "175. 요구사항 명세 언어 (Z, VDM 등 정형 언어)"
-description = "비정형·반정형·정형 요구사항 명세 언어의 차이와 Z, VDM의 적용 기준을 정리한다."
-date = "2026-04-03"
-[taxonomies]
-tags = ["요구사항 명세", "정형 명세 언어", "비정형 명세", "Z 언어", "VDM", "소프트웨어 공학", "Formal Methods"]
-categories = ["Software Engineering"]
-+++
+---
+title: 175. 요구사항 명세 언어 (Z, VDM 등 정형 언어)
+date: '2026-04-03'
+description: 비정형·반정형·정형 요구사항 명세 언어의 차이와 Z, VDM의 적용 기준을 정리한다.
+tags:
+- software_engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

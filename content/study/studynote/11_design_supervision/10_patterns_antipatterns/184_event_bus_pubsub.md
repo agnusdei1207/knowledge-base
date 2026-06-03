@@ -1,10 +1,9 @@
-+++
-weight = 184
-title = "184. 이벤트 버스와 퍼블리시-서브스크라이브 패턴 (Event Bus / Publish-Subscribe Pattern)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 184. 이벤트 버스와 퍼블리시-서브스크라이브 패턴 (Event Bus / Publish-Subscribe Pattern)
+date: '2026-05-06'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 107
-title = "107. 프로세스 종료 (Process Termination) - exit(), wait()"
-date = "2026-03-22"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 107. 프로세스 종료 (Process Termination) - exit(), wait()
+date: '2026-03-22'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프로세스 종료 ([[300_process|Process]] Termination)는 실행 중인 프로세스가 OS에 자원 반환을 요청하여 생명주기를 마감하는 과정으로, `exit()` 시스템 콜이나 `Signal`(시그널)을 통해 수행된다.

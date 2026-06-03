@@ -1,10 +1,9 @@
-+++
-weight = 200
-title = "200. 로우코드 / 노코드 (LC/NC) 기반 엔터프라이즈 워크플로우 자동화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 200. 로우코드 / 노코드 (LC/NC) 기반 엔터프라이즈 워크플로우 자동화
+date: '2026-05-08'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

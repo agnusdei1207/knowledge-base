@@ -1,10 +1,9 @@
-+++
-weight = 1060
-title = "1060. 양자 암호 키 분배 (QKD 인프라 기반망)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1060. 양자 암호 키 분배 (QKD 인프라 기반망)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

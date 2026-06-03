@@ -1,10 +1,9 @@
-+++
-weight = 456
-title = "456. WAL 프로토콜 (먼저 로그 기록)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 456. WAL 프로토콜 (먼저 로그 기록)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

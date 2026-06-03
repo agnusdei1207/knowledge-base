@@ -1,11 +1,11 @@
-+++
-weight = 152
-title = "152. WSDL (Web Services Description Language) - B2B 통신망의 100% 무결점 강철 계약서 쇳덩이"
-date = "2026-05-03"
-description = "네트워크 상에 분산된 웹 서비스의 제공 위치, 통신 프로토콜, 호출 가능한 인터페이스 메서드 등을 표준 구조로 명세하는 XML 기반 언어"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 152. WSDL (Web Services Description Language) - B2B 통신망의 100% 무결점 강철 계약서 쇳덩이
+date: '2026-05-03'
+description: 네트워크 상에 분산된 웹 서비스의 제공 위치, 통신 프로토콜, 호출 가능한 인터페이스 메서드 등을 표준 구조로 명세하는 XML
+  기반 언어
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: WSDL(Web Services Description Language)은 [[618_soa_hardware|SOA]]([[212_soa_service_oriented_architecture_esb|서비스 지향 아키텍처]]) 거대 쇳덩이 생태계에서 ➔ 이기종 플랫폼(Java, .NET, C++) 간에 "우리 서버가 무슨 함수를 가졌고(What), 어떤 파라미터 타입을 보내야 하며(How), 어느 IP로 쏴야 하는지(Where)"를 한 치의 오차 1바이트 빵꾸도 없이 **엄격한 XML 텍스트 규격으로 강제 시멘트 떡칠 록온([[510_lock|Lock]]-on) 명세하는 절대 기계 가독형 계약서(Contract) 헌법**이다.

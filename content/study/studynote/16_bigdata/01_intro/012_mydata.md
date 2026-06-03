@@ -1,12 +1,10 @@
-+++
-weight = 12
-title = "12. 마이데이터 (MyData) — 개인정보 자기결정권, 금융 마이데이터"
-description = "개인정보 자기결정권을 실현하는 마이데이터 아키텍처 및 금융/비금융 실무 연계 방안"
-date = "2024-05-23"
-[taxonomies]
-tags = ["빅데이터", "마이데이터", "개인정보 자기결정권", "오픈 API", "데이터 이동권"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 12. 마이데이터 (MyData) — 개인정보 자기결정권, 금융 마이데이터
+date: '2024-05-23'
+description: 개인정보 자기결정권을 실현하는 마이데이터 아키텍처 및 금융/비금융 실무 연계 방안
+tags:
+- bigdata
+---
 
 # 마이데이터 ([[266_mydata_open_api_token_security|MyData]])
 

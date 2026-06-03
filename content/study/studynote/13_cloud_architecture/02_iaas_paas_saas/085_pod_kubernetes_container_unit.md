@@ -1,10 +1,9 @@
-+++
-weight = 85
-title = "85. Pod (파드) - K8s의 최소 배포 및 스케일링 단위"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 85. Pod (파드) - K8s의 최소 배포 및 스케일링 단위
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

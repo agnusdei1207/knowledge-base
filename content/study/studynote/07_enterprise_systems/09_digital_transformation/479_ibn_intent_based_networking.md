@@ -1,10 +1,9 @@
-+++
-weight = 479
-title = "479. IBN AI SDN 융합 통제 (IBN, Intent-Based Networking)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 479. IBN AI SDN 융합 통제 (IBN, Intent-Based Networking)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

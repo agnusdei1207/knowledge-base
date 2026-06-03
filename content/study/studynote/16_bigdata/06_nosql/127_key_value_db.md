@@ -1,10 +1,9 @@
-+++
-weight = 127
-title = "127. 키-값 데이터베이스 (Key-Value DB) — Redis/DynamoDB/Riak"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 127. 키-값 데이터베이스 (Key-Value DB) — Redis/DynamoDB/Riak
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 키-값 DB는 [[067_hash_table|해시 테이블]] 구조를 [[136_variance|분산]] 환경으로 확장한 가장 단순하면서 가장 빠른 [[035_nosql|NoSQL]] 모델로, O(1) 조회 [[282_performance_tactics|성능]]이 본질적 강점이다.

@@ -1,10 +1,9 @@
-+++
-weight = 868
-title = "868. CMMC (Cybersecurity Maturity Model Certification)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 868. CMMC (Cybersecurity Maturity Model Certification)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

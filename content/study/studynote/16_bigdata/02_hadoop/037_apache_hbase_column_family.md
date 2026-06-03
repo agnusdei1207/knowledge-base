@@ -1,10 +1,9 @@
-+++
-weight = 37
-title = "Apache HBase: 하둡 기반의 고성능 분산 NoSQL 데이터베이스"
-date = "2026-03-04"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 'Apache HBase: 하둡 기반의 고성능 분산 NoSQL 데이터베이스'
+date: '2026-03-04'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - 구글의 빅테이블(Bigtable)을 [[219_benchmarking_best_practice|벤치마킹]]하여 개발된, [[013_hdfs|HDFS]] 위에서 동작하는 열 지향(Column-Oriented) [[035_nosql|NoSQL]] [[002_database_definition|데이터베이스]]임.

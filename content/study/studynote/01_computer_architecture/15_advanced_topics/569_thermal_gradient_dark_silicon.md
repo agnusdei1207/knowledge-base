@@ -1,10 +1,9 @@
-+++
-weight = 569
-title = "569. 멀티코어 칩 온도 불균형 (Thermal Gradient)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 569. 멀티코어 칩 온도 불균형 (Thermal Gradient)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

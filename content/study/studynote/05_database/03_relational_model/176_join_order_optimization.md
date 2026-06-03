@@ -1,10 +1,9 @@
-+++
-weight = 176
-title = "176. 조인 순서 (Join Order) 최적화 - 동적 계획법 (Dynamic Programming), 탐욕 알고리즘"
-date = "2026-05-06"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 176. 조인 순서 (Join Order) 최적화 - 동적 계획법 (Dynamic Programming), 탐욕 알고리즘
+date: '2026-05-06'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 158
-title = "158. 멀티모달 (Multimodal) 비전/오디오 동시 인코딩 CLIP"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 158. 멀티모달 (Multimodal) 비전/오디오 동시 인코딩 CLIP
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 멀티모달(Multimodal) AI는 텍스트·이미지·오디오·비디오 등 여러 모달리티(Modality)를 동일한 잠재 공간(Latent Space)에 매핑해, 모달 간 의미적 [[083_relationship_in_er_model|관계]]를 학습한다.

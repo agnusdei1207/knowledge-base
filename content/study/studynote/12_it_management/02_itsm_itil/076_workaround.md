@@ -1,10 +1,9 @@
-+++
-weight = 76
-title = "76. 워크어라운드 (Workaround)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 76. 워크어라운드 (Workaround)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[076_workaround_temporary_fix_incident|워크어라운드]] ([[076_workaround_temporary_fix_incident|Workaround]])의 본질은 근본 원인은 모르더라도 일단 [[090_service_kubernetes_network_load_balancing|서비스]]를 재개하기 위한 임시 우회 조치 (재부팅, 예비 서버 전환 등)를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

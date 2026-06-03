@@ -1,10 +1,9 @@
-+++
-weight = 537
-title = "537. 시계열 DB 롤업 다운샘플링 쿼리 효율화"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 537. 시계열 DB 롤업 다운샘플링 쿼리 효율화
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

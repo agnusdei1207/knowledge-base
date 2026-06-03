@@ -1,10 +1,9 @@
-+++
-weight = 152
-title = "3. 상호 정보량 (Mutual Information) — 공유 정보 측정"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 3. 상호 정보량 (Mutual Information) — 공유 정보 측정
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

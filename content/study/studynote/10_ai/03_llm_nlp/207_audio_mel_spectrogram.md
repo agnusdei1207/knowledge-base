@@ -1,10 +1,9 @@
-+++
-weight = 207
-title = "207. 오디오 딥러닝과 멜 스펙트로그램 (Audio MEL Spectrogram)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 207. 오디오 딥러닝과 멜 스펙트로그램 (Audio MEL Spectrogram)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

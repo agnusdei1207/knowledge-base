@@ -1,10 +1,9 @@
-+++
-weight = 16
-title = "16. 인터럽트 (Interrupt) 메커니즘"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 16. 인터럽트 (Interrupt) 메커니즘
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 # 인터럽트 메커니즘 (Interrupt Mechanism)
 

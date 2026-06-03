@@ -1,10 +1,9 @@
-+++
-weight = 544
-title = "544. AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 544. AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

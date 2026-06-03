@@ -1,8 +1,8 @@
-+++
-weight = 9
-title = "09. 객체지향 설계 원칙 및 심화 설계"
-sort_by = "weight"
-+++
+---
+title: 09. 객체지향 설계 원칙 및 심화 설계
+tags:
+- design_supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

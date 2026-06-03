@@ -1,10 +1,9 @@
-+++
-weight = 252
-title = "252. 보안·프라이버시 내재화 (Security by Design / Privacy by Design)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 252. 보안·프라이버시 내재화 (Security by Design / Privacy by Design)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

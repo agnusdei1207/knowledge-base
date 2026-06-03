@@ -1,10 +1,9 @@
-+++
-weight = 787
-title = "787. 안드로이드 LMK (Low Memory Killer) 작동"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 787. 안드로이드 LMK (Low Memory Killer) 작동
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

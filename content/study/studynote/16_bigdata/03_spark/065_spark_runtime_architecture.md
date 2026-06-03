@@ -1,10 +1,9 @@
-+++
-weight = 65
-title = "스파크 런타임 아키텍처 (Executor / Driver / Cluster Manager)"
-date = "2024-03-23"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 스파크 런타임 아키텍처 (Executor / Driver / Cluster Manager)
+date: '2024-03-23'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - 스파크 런타임 아키텍처는 작업을 총괄하는 드라이버(Driver), 실제 연산을 수행하는 실행기(Executor), 그리고 자원을 중계하는 클러스터 매니저(Cluster Manager)로 구성된다.

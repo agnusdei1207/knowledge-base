@@ -1,10 +1,9 @@
-+++
-weight = 138
-title = "138. 로그 (Logs) - 구조화 로깅과 중앙 집중 관리"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 138. 로그 (Logs) - 구조화 로깅과 중앙 집중 관리
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[568_logs_distributed_logging_elk_fluentd|로그]]는 **시스템·애플리케이션이 발생시킨 이벤트의 시간순 텍스트 기록**이며, [[642_observability_telemetry|Observability]] 3대 축([[567_metrics_time_series_prometheus_grafana|Metrics]]·[[568_logs_distributed_logging_elk_fluentd|Logs]]·Traces) 중 가장 상세한 정보를 제공한다.

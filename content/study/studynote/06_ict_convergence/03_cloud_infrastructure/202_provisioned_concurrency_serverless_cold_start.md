@@ -1,10 +1,9 @@
-+++
-weight = 202
-title = "202. 프로비저닝된 동시성 (Provisioned Concurrency)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 202. 프로비저닝된 동시성 (Provisioned Concurrency)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

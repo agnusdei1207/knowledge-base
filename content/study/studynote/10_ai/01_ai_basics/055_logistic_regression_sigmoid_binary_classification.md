@@ -1,10 +1,9 @@
-+++
-weight = 55
-title = "55. 로지스틱 회귀와 시그모이드 이진 분류 (Logistic Regression / Sigmoid Binary Classification)"
-date = "2026-05-01"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 55. 로지스틱 회귀와 시그모이드 이진 분류 (Logistic Regression / Sigmoid Binary Classification)
+date: '2026-05-01'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

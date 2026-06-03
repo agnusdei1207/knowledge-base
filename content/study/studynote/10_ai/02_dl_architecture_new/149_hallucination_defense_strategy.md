@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "149. 할루시네이션 방어 전략 (Hallucination Defense Strategy)"
-date = "2026-05-03"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 149. 할루시네이션 방어 전략 (Hallucination Defense Strategy)
+date: '2026-05-03'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[251_hallucination_rag_augmented_retrieval_vector_db|할루시네이션]]([[275_react_framework|환각]]) 방어 [[268_strategy_pattern|전략]]은 거대 언어 모델([[263_llm_large_language_model|LLM]])이 [[001_dikw_pyramid|데이터]]의 빈칸을 그럴싸한 허위 정보로 창작해 내는 통계적 본능을 물리치고, 출력의 사실 기반성(Factuality)과 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]([[345_reliability_security|Reliability]])을 강제로 록온([[510_lock|Lock]]-on)하는 기술적 통제 체계다.

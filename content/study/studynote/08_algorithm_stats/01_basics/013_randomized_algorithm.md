@@ -1,7 +1,8 @@
-+++
-title = "13. 랜덤화 알고리즘 (Randomized Algorithm) — Las Vegas / Monte Carlo"
-weight = 13
-+++
+---
+title: 13. 랜덤화 알고리즘 (Randomized Algorithm) — Las Vegas / Monte Carlo
+tags:
+- algorithm_stats
+---
 
 # 13. 랜덤화 [[001_algorithm_definition|알고리즘]] (Randomized [[001_algorithm_definition|Algorithm]])
 

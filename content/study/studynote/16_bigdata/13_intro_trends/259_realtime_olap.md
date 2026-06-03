@@ -1,10 +1,9 @@
-+++
-title = "047. 실시간 OLAP — ClickHouse·Druid·Pinot·StarRocks"
-weight = 259
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 047. 실시간 OLAP — ClickHouse·Druid·Pinot·StarRocks
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 > **핵심 인사이트**
 > 1. 실시간 [[316_olap|OLAP]]([[099_realtime_olap|Real-Time OLAP]])은 초 단위 이하 [[141_latency|지연 시간]]으로 대용량 이벤트 [[001_dikw_pyramid|데이터]]를 분석하는 시스템 — [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]]/[[544_hive|Hive]] 기반 배치 분석(시간 단위 [[015_지연_데이터_관점|지연]])의 한계를 극복하고, "지금 이 순간" 수십억 행을 집계·필터링하는 능력이 핵심이다.

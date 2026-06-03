@@ -1,10 +1,9 @@
-+++
-weight = 15
-title = "퀵 정렬 최적화 (Quick Sort Optimization)"
-date = "2026-03-25"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 퀵 정렬 최적화 (Quick Sort Optimization)
+date: '2026-03-25'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - [[047_quick_sort|퀵 정렬]]의 최악의 [[002_time_complexity|시간 복잡도]] O(n²)를 방지하기 위해 [[037_pivot|피벗]] 선택 [[268_strategy_pattern|전략]]과 [[179_table_partitioning_concept|파티셔닝]] 기법을 고도화함

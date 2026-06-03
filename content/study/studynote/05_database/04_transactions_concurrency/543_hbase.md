@@ -1,10 +1,9 @@
-+++
-weight = 543
-title = "543. DB 방화벽 프록시 스니핑 방식 모니터링 감사 통제"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 543. DB 방화벽 프록시 스니핑 방식 모니터링 감사 통제
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

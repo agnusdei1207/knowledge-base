@@ -1,10 +1,9 @@
-+++
-weight = 193
-title = "193. 다중 처리기 스케줄링 (Multiprocessor Scheduling)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 193. 다중 처리기 스케줄링 (Multiprocessor Scheduling)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

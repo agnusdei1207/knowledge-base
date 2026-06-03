@@ -1,10 +1,9 @@
-+++
-weight = 29
-title = "29. IT 포트폴리오 관리 (IT Portfolio Management)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 29. IT 포트폴리오 관리 (IT Portfolio Management)
+date: '2026-04-29'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: IT 포트폴리오 관리(IT Portfolio [[372_management|Management]])는 기업의 IT 투자(프로젝트, [[090_service_kubernetes_network_load_balancing|서비스]], 자산)를 하나의 포트폴리오로 통합 관리하여 비즈니스 가치 최대화와 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 최소화를 실현하는 IT 거버넌스 활동이다.

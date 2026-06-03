@@ -1,10 +1,9 @@
-+++
-weight = 84
-title = "84. 모멘텀 (Momentum) 옵티마이저 - 관성 활용 최적화"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 84. 모멘텀 (Momentum) 옵티마이저 - 관성 활용 최적화
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

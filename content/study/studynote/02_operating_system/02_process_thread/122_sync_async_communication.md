@@ -1,10 +1,9 @@
-+++
-weight = 122
-title = "122. 동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 122. 동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 302
-title = "302. 감리 결과 공시와 책임조치 이행보증 (Audit Result Disclosure and Accountability Assurance)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 302. 감리 결과 공시와 책임조치 이행보증 (Audit Result Disclosure and Accountability Assurance)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

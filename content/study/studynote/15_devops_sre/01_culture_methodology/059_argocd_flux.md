@@ -1,10 +1,9 @@
-+++
-weight = 59
-title = "59. Argo CD / Flux - GitOps 지속적 배포"
-date = "2026-04-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 59. Argo CD / Flux - GitOps 지속적 배포
+date: '2026-04-05'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

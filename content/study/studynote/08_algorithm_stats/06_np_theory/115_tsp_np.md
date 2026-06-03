@@ -1,10 +1,9 @@
-+++
-title = "010. TSP NP — 외판원 문제"
-weight = 115
-date = "2026-04-05"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 010. TSP NP — 외판원 문제
+date: '2026-04-05'
+tags:
+- studynote-algorithm-stats
+---
 
 > **핵심 인사이트**
 > 1. [[106_fenwick_tree|TSP]](Traveling Salesman Problem)는 모든 도시를 [[083_cross_validation|정확히 한 번]] 방문하고 출발점으로 돌아오는 최단 경로를 찾는 문제로 — 결정 [[288_version_ihl_tos_total_length|버전]](경로 길이 k 이하의 해밀톤 순환 존재하는가?)은 NP-완전이고, 최적화 [[288_version_ihl_tos_total_length|버전]]은 NP-하드이다.

@@ -1,10 +1,9 @@
-+++
-weight = 163
-title = "163. OCSP (Online Certificate Status Protocol) — 실시간 인증서 상태 질의"
-date = "2026-05-05"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 163. OCSP (Online Certificate Status Protocol) — 실시간 인증서 상태 질의
+date: '2026-05-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트
 

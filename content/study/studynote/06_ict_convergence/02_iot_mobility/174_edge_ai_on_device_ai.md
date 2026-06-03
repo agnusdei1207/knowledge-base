@@ -1,10 +1,9 @@
-+++
-title = "174. 엣지 AI (Edge AI) 및 온디바이스 AI 아키텍처"
-date = "2026-05-06"
-weight = 174
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 174. 엣지 AI (Edge AI) 및 온디바이스 AI 아키텍처
+date: '2026-05-06'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 105
-title = "군집화 (Clustering) 분석"
-date = "2024-03-20"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 군집화 (Clustering) 분석
+date: '2024-03-20'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **[[122_unsupervised_learning|비지도 학습]](Unsupervised):** 정답(Label)이 없는 상태에서 [[001_dikw_pyramid|데이터]] 간의 유사성(Similarity/Distance)만을 기준으로 그룹을 나누는 탐색적 기법.

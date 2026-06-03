@@ -1,10 +1,9 @@
-+++
-weight = 539
-title = "539. 이벤트 버스 및 스트림 프로세싱"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 539. 이벤트 버스 및 스트림 프로세싱
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

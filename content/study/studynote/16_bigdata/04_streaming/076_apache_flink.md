@@ -1,10 +1,9 @@
-+++
-weight = 76
-title = "01. Apache Flink - 상태 기반 스트리밍処理의 完成形"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 01. Apache Flink - 상태 기반 스트리밍処理의 完成形
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # [[215_flink_native_stream_watermark_window_time|Apache Flink]] - 상태 기반 스트리밍処理의 完成形
 

@@ -1,10 +1,9 @@
-+++
-weight = 58
-title = "58. 데이터 리터러시 (Data Literacy) - 전 임직원의 데이터 해석 및 활용 역량"
-date = "2024-03-20"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 58. 데이터 리터러시 (Data Literacy) - 전 임직원의 데이터 해석 및 활용 역량
+date: '2024-03-20'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

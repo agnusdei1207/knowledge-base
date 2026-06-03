@@ -1,10 +1,9 @@
-+++
-weight = 446
-title = "446. 다중 클러스터 OOM 킬링 정책 스케줄 (Kubernetes OOM Killer & Multi-Cluster Scheduling)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 446. 다중 클러스터 OOM 킬링 정책 스케줄 (Kubernetes OOM Killer & Multi-Cluster Scheduling)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

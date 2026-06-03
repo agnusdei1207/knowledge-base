@@ -1,10 +1,9 @@
-+++
-weight = 372
-title = "372. 데이터 옵스 (DataOps)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 372. 데이터 옵스 (DataOps)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

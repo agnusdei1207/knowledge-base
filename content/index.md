@@ -1,5 +1,7 @@
 ---
-title: "🌌 종합 지식 포털 (Unified Hub)"
+title: 🌌 종합 지식 포털 (Unified Hub)
+tags:
+- general
 ---
 
 이곳은 **업무(Work)**, **개인(Personal)**, **학습(Study)**, **연구개발(R&D)** 영역을 모두 아우르는 통합 지식 허브입니다.

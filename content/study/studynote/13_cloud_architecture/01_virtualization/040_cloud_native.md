@@ -1,10 +1,9 @@
-+++
-title = "040. 클라우드 네이티브 (Cloud Native)"
-weight = 40
-date = "2026-04-05"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 040. 클라우드 네이티브 (Cloud Native)
+date: '2026-04-05'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. [[531_cloud_native_architecture|클라우드 네이티브]]([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]])는 단순히 클라우드에서 실행되는 것이 아니라, 클라우드의 [[571_resiliency_fault_tolerance_patterns|탄력성]]·자동화·분산성을 최대한 활용하도록 **설계부터** 클라우드를 위해 만들어진 애플리케이션/아키텍처 방식이다.

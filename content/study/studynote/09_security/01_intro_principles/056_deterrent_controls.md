@@ -1,10 +1,9 @@
-+++
-title = "56. 억제 통제 (Deterrent Controls) - 위협 행동 억제"
-date = "2026-04-05"
-weight = 56
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 56. 억제 통제 (Deterrent Controls) - 위협 행동 억제
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

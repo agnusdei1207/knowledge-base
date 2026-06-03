@@ -1,10 +1,9 @@
-+++
-weight = 181
-title = "181. 데이터 파이프라인 전처리 (Apache Airflow)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 181. 데이터 파이프라인 전처리 (Apache Airflow)
+date: '2026-05-06'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

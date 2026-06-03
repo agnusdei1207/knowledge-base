@@ -1,10 +1,9 @@
-+++
-weight = 1017
-title = "1017. Commitment Scheme (약속 기법)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 1017. Commitment Scheme (약속 기법)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

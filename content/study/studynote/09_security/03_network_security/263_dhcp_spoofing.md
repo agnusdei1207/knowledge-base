@@ -1,10 +1,9 @@
-+++
-weight = 263
-title = "263. DHCP Spoofing (DHCP Spoofing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 263. DHCP Spoofing (DHCP Spoofing)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

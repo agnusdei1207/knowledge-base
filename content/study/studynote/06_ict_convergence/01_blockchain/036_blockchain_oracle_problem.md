@@ -1,9 +1,9 @@
-+++
-title = "036. 블록체인 오라클 문제 (Blockchain Oracle Problem)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 036. 블록체인 오라클 문제 (Blockchain Oracle Problem)
+date: '2026-03-03'
+tags:
+- studynote-ict-convergence
+---
 
 > **핵심 인사이트**
 > 1. [[004_blockchain|블록체인]] 오라클 문제([[188_pl_sql_t_sql_procedural|Oracle]] Problem)는 스마트 컨트랙트가 [[004_blockchain|블록체인]] 외부(실세계) [[001_dikw_pyramid|데이터]]를 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있게 가져올 수 없다는 구조적 한계로, [[004_blockchain|블록체인]]의 결정론적 실행 환경과 비결정론적 외부 세계 사이의 간극이다.

@@ -1,10 +1,9 @@
-+++
-weight = 210
-title = "210. 팩트 테이블 (Fact Table)·차원 테이블 (Dimension Table)·스노우플레이크 스키마 (Snowflake Schema)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 210. 팩트 테이블 (Fact Table)·차원 테이블 (Dimension Table)·스노우플레이크 스키마 (Snowflake Schema)
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 팩트 테이블(Fact Table)은 측정 가능한 비즈니스 이벤트를 기록하고, [[273_dimension_table_analysis_perspective|차원 테이블]]([[273_dimension_table_analysis_perspective|Dimension Table]])은 그 이벤트의 맥락(누가·언제·어디서·무엇을)을 제공하며, 둘의 [[083_relationship_in_er_model|관계]] 설계 방식이 스타 vs [[335_snowflake_schema|스노우플레이크 스키마]]를 결정한다.

@@ -1,10 +1,9 @@
-+++
-weight = 24
-title = "24. 위험 기반 감리 (Risk-based Audit)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 24. 위험 기반 감리 (Risk-based Audit)
+date: '2026-04-29'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 위험 기반 감리([[096_risk_non_risk_architecture_evaluation_flaws|Risk]]-based [[363_audit|Audit]])는 감리 자원을 프로젝트 전체에 균등 배분하지 않고, 위험도([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] = 발생 가능성 × 영향도)가 높은 영역에 집중 배분하여 감리 효율성과 효과성을 동시에 높이는 감리 전략이다.

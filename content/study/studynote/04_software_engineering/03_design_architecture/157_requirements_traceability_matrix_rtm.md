@@ -1,10 +1,9 @@
-+++
-weight = 157
-title = "157. 요구사항 추적 매트릭스 (RTM, Requirements Traceability Matrix)"
-date = "2026-04-03"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 157. 요구사항 추적 매트릭스 (RTM, Requirements Traceability Matrix)
+date: '2026-04-03'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 239
-title = "239. MAC 주소 테이블 (MAC Address Table, CAM Table)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 239. MAC 주소 테이블 (MAC Address Table, CAM Table)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

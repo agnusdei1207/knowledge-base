@@ -1,10 +1,9 @@
-+++
-weight = 169
-title = "169. 인프라스트럭처 애즈 코드 (IaC, Infrastructure as Code)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 169. 인프라스트럭처 애즈 코드 (IaC, Infrastructure as Code)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[793_iac_idempotency_template|IaC]]([[062_infrastructure_as_code|Infrastructure as Code]])는 [[598_vm_migration_nic|VM]], 네트워크, [[002_database_definition|데이터베이스]] 같은 인프라를 손으로 콘솔에서 클릭하는 대신 코드 [[501_file_definition_logical_record|파일]]로 정의하고 [[288_version_ihl_tos_total_length|버전]] 관리하는 방식이다.

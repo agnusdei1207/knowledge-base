@@ -1,10 +1,9 @@
-+++
-weight = 159
-title = "159. 프록시 패턴 유형 (Proxy Pattern Types)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 159. 프록시 패턴 유형 (Proxy Pattern Types)
+date: '2026-04-21'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트
 

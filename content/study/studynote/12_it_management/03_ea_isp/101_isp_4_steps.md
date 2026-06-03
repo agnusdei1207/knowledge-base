@@ -1,10 +1,9 @@
-+++
-weight = 101
-title = "101. 정보화 전략 계획 (ISP) 수행 4단계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 101. 정보화 전략 계획 (ISP) 수행 4단계
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[101_isp_information_strategy_planning_4_steps|정보화 전략 계획]] ([[101_isp_information_strategy_planning_4_steps|ISP]]) 수행 4단계의 본질은 [[102_environmental_analysis_pest_5forces_value_chain|환경 분석]] -> [[178_as_is_to_be_analysis|AS-IS]] (현황) 분석 -> TO-BE (목표) 모델 수립 -> 이행 계획([[166_execution_plan_optimizer_navigation_tree|실행 계획]]) 수립을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

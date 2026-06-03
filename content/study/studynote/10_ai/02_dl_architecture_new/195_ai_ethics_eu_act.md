@@ -1,10 +1,9 @@
-+++
-weight = 195
-title = "195. AI 윤리, 거버넌스와 EU AI Act (Ethics EU ACT)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 195. AI 윤리, 거버넌스와 EU AI Act (Ethics EU ACT)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 170
-title = "170. 스케줄링 기준 (Scheduling Criteria) - CPU 이용률, 처리량, 반환시간, 대기시간, 응답시간"
-date = "2026-03-22"
-[extra]
-categories = ["studynote-operating-system"]
-+++
+---
+title: 170. 스케줄링 기준 (Scheduling Criteria) - CPU 이용률, 처리량, 반환시간, 대기시간, 응답시간
+date: '2026-03-22'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

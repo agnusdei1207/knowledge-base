@@ -1,10 +1,9 @@
-+++
-weight = 303
-title = "303. 설명 가능한 AI (XAI, eXplainable AI)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 303. 설명 가능한 AI (XAI, eXplainable AI)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 358
-title = "358. OSPF 인접성(Adjacency), Hello 패킷, LSA (Link State Advertisement), LSDB 교환"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 358. OSPF 인접성(Adjacency), Hello 패킷, LSA (Link State Advertisement), LSDB 교환
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

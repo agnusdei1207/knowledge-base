@@ -1,10 +1,9 @@
-+++
-weight = 100
-title = "7. 허프만 코딩 (Huffman Coding) — 가변길이 최적 코드"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 7. 허프만 코딩 (Huffman Coding) — 가변길이 최적 코드
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

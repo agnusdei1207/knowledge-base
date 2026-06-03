@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "149. 카오스 몽키 (Chaos Monkey) & 카오스 메시 (Chaos Mesh)"
-date = "2026-05-03"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 149. 카오스 몽키 (Chaos Monkey) & 카오스 메시 (Chaos Mesh)
+date: '2026-05-03'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 카오스 몽키(Chaos Monkey)가 AWS 가상 서버([[598_vm_migration_nic|VM]]) 전원을 무작위로 뽑고 튀며 넷플릭스의 강인함을 입증한 1세대 폭탄 테러 봇이라면, 카오스 [[389_mesh_topology|메시]](Chaos [[389_mesh_topology|Mesh]])는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](K8s) 클라우드 환경에서 네트워크 랙, [[085_pod_kubernetes_container_unit|파드]] 척살 등을 핀셋으로 정교하게 찌르는 2세대 선언적(YAML) 카오스 실험 융합 플랫폼이다.

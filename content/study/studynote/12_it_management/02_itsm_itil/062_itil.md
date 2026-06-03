@@ -1,10 +1,9 @@
-+++
-weight = 62
-title = "62. ITIL (IT Infrastructure Library)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 62. ITIL (IT Infrastructure Library)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ITIL (IT Infrastructure [[336_library_vs_framework|Library]])의 본질은 [[096_iso_iec_20000_itsm_certification|ITSM]] 구축을 위한 영국(OGC) 제정 글로벌 베스트 프랙티스 라이브러리를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

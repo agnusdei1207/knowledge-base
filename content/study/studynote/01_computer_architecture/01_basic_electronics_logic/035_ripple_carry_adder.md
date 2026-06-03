@@ -1,9 +1,9 @@
-+++
-title = "035. 리플 캐리 가산기 (Ripple Carry Adder)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 035. 리플 캐리 가산기 (Ripple Carry Adder)
+date: '2026-03-03'
+tags:
+- studynote-computer-architecture
+---
 
 > **핵심 인사이트**
 > 1. RCA (Ripple Carry Adder)는 [[034_full_adder|전가산기]](FA)를 [[149_serial_communication_rs232_rs485|직렬]] 연결해 하위 [[073_bit|비트]] 캐리가 상위 [[073_bit|비트]]로 전파(ripple)되는 구조로, 구현이 단순하지만 캐리 [[016_전파_지연|전파 지연]](Carry [[016_전파_지연|Propagation Delay]])이 [[282_performance_tactics|성능]] 병목이다.

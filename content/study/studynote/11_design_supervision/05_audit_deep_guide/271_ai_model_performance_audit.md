@@ -1,10 +1,9 @@
-+++
-weight = 271
-title = "271. AI 모델 성능 감리 (AI Model Performance Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 271. AI 모델 성능 감리 (AI Model Performance Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

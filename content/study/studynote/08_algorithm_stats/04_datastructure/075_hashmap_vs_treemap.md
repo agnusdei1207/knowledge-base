@@ -1,10 +1,9 @@
-+++
-weight = 75
-title = "23. HashMap vs TreeMap — 해시맵과 트리맵 비교"
-date = "2026-04-29"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 23. HashMap vs TreeMap — 해시맵과 트리맵 비교
+date: '2026-04-29'
+tags:
+- studynote-algorithm-stats
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: HashMap은 [[667_hash_function_integrity_one_way|해시 함수]]([[667_hash_function_integrity_one_way|Hash Function]])로 키를 [[055_array|배열]] [[154_database_index_b_tree_search_optimization|인덱스]]에 직접 매핑하여 평균 O(1) 접근을 달성하는 반면, TreeMap은 [[063_red_black_tree|레드-블랙 트리]]([[204_red_black_tree_cfs|Red-Black Tree]])를 기반으로 키를 정렬된 순서로 유지하면서 O(log n) 연산을 보장한다.

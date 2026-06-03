@@ -1,10 +1,9 @@
-+++
-weight = 290
-title = "290. 오토레그레시브 생성 (트랜스포머 디코더 토큰 생성 메커니즘) (Autoregressive)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 290. 오토레그레시브 생성 (트랜스포머 디코더 토큰 생성 메커니즘) (Autoregressive)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

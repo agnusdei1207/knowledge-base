@@ -1,10 +1,9 @@
-+++
-weight = 240
-title = "235. Databricks vs Snowflake (레이크하우스 vs DW 진영 경쟁)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 235. Databricks vs Snowflake (레이크하우스 vs DW 진영 경쟁)
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

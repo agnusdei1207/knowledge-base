@@ -1,10 +1,19 @@
-+++
-title = "스트리밍 데이터 품질 관리 (Streaming Data Quality Management)"
-date = 2025-01-01
-description = "실시간 스트리밍 데이터의 품질 이슈, 스키마 레지스트리, Great Expectations 기반 인라인 검증, 이상 탐지를 다룬다."
-categories = "studynote-bigdata"
-tags = ["streaming data quality", "schema registry", "Great Expectations", "Kafka", "data validation", "anomaly detection", "data quality", "real-time"]
-+++
+---
+title: 스트리밍 데이터 품질 관리 (Streaming Data Quality Management)
+date: '2025-01-01'
+description: 실시간 스트리밍 데이터의 품질 이슈, 스키마 레지스트리, Great Expectations 기반 인라인 검증, 이상 탐지를
+  다룬다.
+tags:
+- Great Expectations
+- Kafka
+- anomaly detection
+- data quality
+- data validation
+- real-time
+- schema registry
+- streaming data quality
+- studynote-bigdata
+---
 
 > **핵심 인사이트 3줄**
 > 1. 스트리밍 [[001_dikw_pyramid|데이터]] 품질 관리는 배치와 달리 실시간으로 유입되는 [[001_dikw_pyramid|데이터]]의 오류를 즉시 탐지·처리해야 하며, [[015_지연_데이터_관점|지연]] [[001_dikw_pyramid|데이터]](late [[001_dikw_pyramid|data]])와 [[005_schema|스키마]] 변화가 핵심 과제다.

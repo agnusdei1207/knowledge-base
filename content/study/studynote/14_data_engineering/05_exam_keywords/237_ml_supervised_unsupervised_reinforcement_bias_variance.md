@@ -1,10 +1,9 @@
-+++
-weight = 237
-title = "237. 머신러닝 지도·비지도·강화학습 편향-분산 오류 종합"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 237. 머신러닝 지도·비지도·강화학습 편향-분산 오류 종합
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[241_machine_learning_basics|머신러닝]]의 세 패러다임—[[121_supervised_learning|지도 학습]]([[121_supervised_learning|Supervised Learning]]), [[122_unsupervised_learning|비지도 학습]]([[122_unsupervised_learning|Unsupervised Learning]]), [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]([[094_reinforcement_learning|Reinforcement Learning]])—은 "레이블(Label) 유무"와 "보상 [[130_signal|신호]](Reward [[130_signal|Signal]]) 유무"로 구분된다.

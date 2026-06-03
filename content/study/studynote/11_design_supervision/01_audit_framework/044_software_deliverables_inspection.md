@@ -1,10 +1,9 @@
-+++
-title = "044. 소프트웨어 산출물 검사"
-weight = 44
-date = "2026-04-05"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 044. 소프트웨어 산출물 검사
+date: '2026-04-05'
+tags:
+- studynote-design-supervision
+---
 
 > **핵심 인사이트**
 > 1. 소프트웨어 산출물 검사(Software Deliverables Inspection)는 개발 생명주기의 각 단계에서 작성되는 문서·코드·테스트 결과물을 체계적으로 검토하여 [[352_defect_definition|결함]]을 조기 발견하는 품질 보증 활동으로 — Fagan이 증명한 바와 같이 [[352_defect_definition|결함]]을 개발 단계에서 발견하면 운영 단계보다 100배 저렴하다.

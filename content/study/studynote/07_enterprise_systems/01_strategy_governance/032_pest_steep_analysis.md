@@ -1,9 +1,9 @@
-+++
-title = "PEST / STEEP 분석"
-date = "2026-03-03"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: PEST / STEEP 분석
+date: '2026-03-03'
+tags:
+- studynote-enterprise
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[102_isp_environmental_analysis_pest_5forces|PEST]](Political·Economic·Social·Technological) 분석은 기업 외부 거시 환경을 체계적으로 스캔해 [[268_strategy_pattern|전략]] 수립의 맥락을 제공하는 프레임워크다.

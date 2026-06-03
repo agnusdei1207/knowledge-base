@@ -1,12 +1,8 @@
-+++
-weight = 6
-title = "06: ICT 융합 기술 (ICT Convergence)"
-render = true
-sort_by = "weight"
-insert_anchor_links = "right"
-[extra]
-category = "studynote-ict-convergence"
-+++
+---
+title: '06: ICT 융합 기술 (ICT Convergence)'
+tags:
+- studynote-ict-convergence
+---
 # 도메인 06: ICT 융합 기술 (ICT Convergence)
 
 ## 핵심 인사이트 (3줄 요약)

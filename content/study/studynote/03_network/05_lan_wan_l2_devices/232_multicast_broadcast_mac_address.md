@@ -1,10 +1,9 @@
-+++
-weight = 232
-title = "232. 멀티캐스트 MAC 주소 / 브로드캐스트 MAC 주소 (FF:FF:FF:FF:FF:FF)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 232. 멀티캐스트 MAC 주소 / 브로드캐스트 MAC 주소 (FF:FF:FF:FF:FF:FF)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

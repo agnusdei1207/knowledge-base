@@ -1,10 +1,9 @@
-+++
-weight = 445
-title = "445. 뉴로모픽 컴퓨팅 (Neuromorphic Computing)"
-date = "2026-03-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 445. 뉴로모픽 컴퓨팅 (Neuromorphic Computing)
+date: '2026-03-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 뉴로모픽 컴퓨팅 ([[382_neuromorphic_ai_database_trends|Neuromorphic]] Computing)
 

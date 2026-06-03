@@ -1,7 +1,8 @@
-+++
-title = "67. 스킵 리스트 (Skip List)"
-weight = 67
-+++
+---
+title: 67. 스킵 리스트 (Skip List)
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

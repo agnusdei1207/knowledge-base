@@ -1,10 +1,9 @@
-+++
-weight = 593
-title = "593. 버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 593. 버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

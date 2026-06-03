@@ -1,10 +1,9 @@
-+++
-weight = 152
-title = "152. 지식 증류 (Knowledge Distillation) - 깡통 모델에 100억 파라미터 뇌파 강제 이식 수술"
-date = "2026-05-03"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 152. 지식 증류 (Knowledge Distillation) - 깡통 모델에 100억 파라미터 뇌파 강제 이식 수술
+date: '2026-05-03'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]([[252_knowledge_distillation_quantization_edge_slm_diffusion|Knowledge Distillation]])는 100억 개 파라미터를 가진 초거대 천재 스승 모델(Teacher)의 뇌파([[389_knowledge_distillation_soft_target|Soft Target]] [[130_probability|확률]] 분포)를 뽑아내어, 1억 개짜리 쥐똥만 한 멍청한 제자 모델(Student)의 뇌 속에 **도끼로 쑤셔 박아 [[347_compaction|압축]] 복사 세뇌시키는 궁극의 [[231_ai_turing_test|인공지능]] 다이어트 흑마법**이다.

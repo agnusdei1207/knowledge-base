@@ -1,12 +1,11 @@
-+++
-weight = 16
-title = "16. 복제 (Replication) 계수 3 - 하드웨어 장애(고장)에 대비해 동일 블록을 서로 다른 랙(Rack) 서버에 3벌 복사하여 결함 허용(Fault Tolerance) 달성"
-description = "하둡 분산 파일 시스템(HDFS)에서 하드웨어 장애를 대비해 데이터 블록을 다중 서버에 분산 저장하는 결함 허용 메커니즘"
-date = "2025-01-01"
-[taxonomies]
-tags = ["HDFS", "Hadoop", "Replication", "Fault Tolerance", "Big Data"]
-categories = ["14_data_engineering"]
-+++
+---
+title: 16. 복제 (Replication) 계수 3 - 하드웨어 장애(고장)에 대비해 동일 블록을 서로 다른 랙(Rack) 서버에 3벌 복사하여
+  결함 허용(Fault Tolerance) 달성
+date: '2025-01-01'
+description: 하둡 분산 파일 시스템(HDFS)에서 하드웨어 장애를 대비해 데이터 블록을 다중 서버에 분산 저장하는 결함 허용 메커니즘
+tags:
+- data_engineering
+---
 
 # 복제 계수 3 (Replication Factor 3)
 

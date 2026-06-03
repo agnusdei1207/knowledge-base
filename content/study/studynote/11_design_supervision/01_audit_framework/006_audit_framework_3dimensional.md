@@ -1,12 +1,10 @@
-+++
-weight = 6
-title = "6. 감리 프레임워크 (Audit Framework) 3차원 구조 - 감리 영역, 감리 관점, 감리 단계"
-description = "감리 영역, 감리 관점, 감리 단계의 3차원 구조로 구성된 정보시스템 감리 프레임워크의 체계와 적용"
-date = "2026-04-05"
-[taxonomies]
-tags = ["감리프레임워크", "3차원구조", "감리영역", "감리관점", "감리단계"]
-categories = ["11_design_supervision"]
-+++
+---
+title: 6. 감리 프레임워크 (Audit Framework) 3차원 구조 - 감리 영역, 감리 관점, 감리 단계
+date: '2026-04-05'
+description: 감리 영역, 감리 관점, 감리 단계의 3차원 구조로 구성된 정보시스템 감리 프레임워크의 체계와 적용
+tags:
+- design_supervision
+---
 
 # 06. 감리 프레임워크 3차원 구조
 

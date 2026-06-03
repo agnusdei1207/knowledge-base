@@ -1,10 +1,9 @@
-+++
-weight = 721
-title = "721. 유효/무효 비트 (Valid/Invalid)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 721. 유효/무효 비트 (Valid/Invalid)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

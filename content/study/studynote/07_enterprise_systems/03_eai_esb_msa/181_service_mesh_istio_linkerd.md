@@ -1,10 +1,9 @@
-+++
-weight = 181
-title = "181. 서비스 메시 (Service Mesh) - Istio와 Linkerd 기반 서비스 간 트래픽 제어"
-date = "2026-04-10"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 181. 서비스 메시 (Service Mesh) - Istio와 Linkerd 기반 서비스 간 트래픽 제어
+date: '2026-04-10'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

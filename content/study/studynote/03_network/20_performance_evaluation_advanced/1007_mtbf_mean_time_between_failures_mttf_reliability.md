@@ -1,10 +1,9 @@
-+++
-weight = 1007
-title = "1007. MTBF (평균 무고장 시간) 통신망 생존성"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1007. MTBF (평균 무고장 시간) 통신망 생존성
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

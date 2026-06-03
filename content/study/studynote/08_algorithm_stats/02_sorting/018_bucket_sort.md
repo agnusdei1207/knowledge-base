@@ -1,10 +1,9 @@
-+++
-weight = 18
-title = "11. 버킷 정렬 (Bucket Sort) — O(n) 평균, 균등 분포"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 11. 버킷 정렬 (Bucket Sort) — O(n) 평균, 균등 분포
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 버킷 정렬은 입력 [[001_dikw_pyramid|데이터]]를 여러 구간(버킷)으로 분산시킨 후 각 버킷을 개별 정렬하고 합치는 방식으로, 균등 분포 조건에서 O(n) 평균 시간을 달성한다.

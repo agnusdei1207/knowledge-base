@@ -1,10 +1,9 @@
-+++
-weight = 353
-title = "353. ADR 아키텍처 결정 기록 (Architecture Decision Record)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 353. ADR 아키텍처 결정 기록 (Architecture Decision Record)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

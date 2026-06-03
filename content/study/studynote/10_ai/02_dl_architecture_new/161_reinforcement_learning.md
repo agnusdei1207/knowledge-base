@@ -1,10 +1,9 @@
-+++
-weight = 161
-title = "161. 강화 학습 (Reinforcement Learning)"
-date = "2026-04-17"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 161. 강화 학습 (Reinforcement Learning)
+date: '2026-04-17'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트
 

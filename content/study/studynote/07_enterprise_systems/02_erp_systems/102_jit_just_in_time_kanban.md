@@ -1,7 +1,8 @@
-+++
-title = "102. JIT (Just In Time) - 적기 생산 방식 (도요타 칸반 방식), 재고 제로화 목표"
-weight = 102
-+++
+---
+title: 102. JIT (Just In Time) - 적기 생산 방식 (도요타 칸반 방식), 재고 제로화 목표
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

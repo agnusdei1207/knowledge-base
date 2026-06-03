@@ -1,10 +1,9 @@
-+++
-weight = 137
-title = "137. 다중 모델 데이터베이스 (Multi-Model DB) — ArangoDB/SurrealDB"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 137. 다중 모델 데이터베이스 (Multi-Model DB) — ArangoDB/SurrealDB
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 다중 모델 DB는 문서·[[070_graph_datastructure|그래프]]·키-값을 단일 스토리지 엔진에서 통합 지원하여 Polyglot Persistence의 운영 복잡성 없이 여러 [[014_data_model_components|데이터 모델]]을 한 플랫폼에서 처리한다.

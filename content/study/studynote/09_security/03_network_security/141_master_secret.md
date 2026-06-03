@@ -1,10 +1,9 @@
-+++
-weight = 141
-title = "141. 마스터 시크릿 (Master Secret)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 141. 마스터 시크릿 (Master Secret)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

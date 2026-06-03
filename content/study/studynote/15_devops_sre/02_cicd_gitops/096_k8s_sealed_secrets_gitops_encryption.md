@@ -1,10 +1,10 @@
-+++
-title = "96. K8s Sealed Secrets - GitOps 시크릿 암호화 관리"
-date = "2026-03-04"
-weight = 96
-[extra]
-categories = ["studynote-devops-sre", "cicd-gitops"]
-+++
+---
+title: 96. K8s Sealed Secrets - GitOps 시크릿 암호화 관리
+date: '2026-03-04'
+tags:
+- cicd-gitops
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 798
-title = "798. 형상 통제 베이스라인 변경 심의 이력 추적"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 798. 형상 통제 베이스라인 변경 심의 이력 추적
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

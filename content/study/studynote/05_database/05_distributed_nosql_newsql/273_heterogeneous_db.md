@@ -1,10 +1,9 @@
-+++
-weight = 273
-title = "273. 동종 분산 DB vs 이종 분산 DB 통합 (Heterogeneous)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 273. 동종 분산 DB vs 이종 분산 DB 통합 (Heterogeneous)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

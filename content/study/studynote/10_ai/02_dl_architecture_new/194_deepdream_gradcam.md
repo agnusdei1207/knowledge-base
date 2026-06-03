@@ -1,10 +1,9 @@
-+++
-weight = 194
-title = "194. 딥 드림 (DeepDream)과 Grad-CAM"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 194. 딥 드림 (DeepDream)과 Grad-CAM
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

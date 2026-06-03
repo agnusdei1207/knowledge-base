@@ -1,10 +1,9 @@
-+++
-weight = 780
-title = "780. CP-OFDM (5G 표준 데이터 채널 다중 변조 다운 무선통신 파형 방식 적용 분석망 통신망 채택 사양 모델 파형)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 780. CP-OFDM (5G 표준 데이터 채널 다중 변조 다운 무선통신 파형 방식 적용 분석망 통신망 채택 사양 모델 파형)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

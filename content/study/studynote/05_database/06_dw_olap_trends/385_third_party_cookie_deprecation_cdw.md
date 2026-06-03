@@ -1,10 +1,9 @@
-+++
-weight = 385
-title = "385. 서드파티 (3rd Party) 쿠키 소멸에 대비한 퍼스트파티 고객 데이터 저장소(CDW) 아키텍처"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 385. 서드파티 (3rd Party) 쿠키 소멸에 대비한 퍼스트파티 고객 데이터 저장소(CDW) 아키텍처
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

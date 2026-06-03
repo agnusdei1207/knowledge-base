@@ -1,10 +1,9 @@
-+++
-weight = 482
-title = "482. frame-ancestors (CSP frame-ancestors 지시어)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 482. frame-ancestors (CSP frame-ancestors 지시어)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

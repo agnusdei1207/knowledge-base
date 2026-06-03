@@ -1,10 +1,9 @@
-+++
-weight = 158
-title = "158. 가시광 통신 (VLC, Visible Light Communication) / Li-Fi"
-date = "2026-04-05"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 158. 가시광 통신 (VLC, Visible Light Communication) / Li-Fi
+date: '2026-04-05'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

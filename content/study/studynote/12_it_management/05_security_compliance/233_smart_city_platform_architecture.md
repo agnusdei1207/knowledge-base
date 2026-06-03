@@ -1,10 +1,9 @@
-+++
-weight = 233
-title = "233. 스마트 시티 통합 플랫폼 아키텍처"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 233. 스마트 시티 통합 플랫폼 아키텍처
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[171_smart_city_platform_architecture|스마트 시티]] 통합 플랫폼 아키텍처의 본질은 [[180_data_hub|데이터 허브]] 센터 및 교통(MaaS/[[173_c_its_cooperative_intelligent_transport_systems|C-ITS]]) 융합망을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

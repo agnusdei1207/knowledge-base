@@ -1,10 +1,9 @@
-+++
-weight = 135
-title = "135. Choreography Saga - 이벤트 기반 분산 트랜잭션"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 135. Choreography Saga - 이벤트 기반 분산 트랜잭션
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Choreography Saga는 **중앙 오케스트레이터 없이 각 [[090_service_kubernetes_network_load_balancing|서비스]]가 이벤트를 발행·구독하여 자율적으로 [[191_transaction_concept_states|트랜잭션]]을 [[216_progress_in_synchronization|진행]]**하는 [[248_distributed_transaction_multiple_nodes|분산 트랜잭션]] 패턴이다.

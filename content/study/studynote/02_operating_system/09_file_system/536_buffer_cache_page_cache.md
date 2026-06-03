@@ -1,10 +1,9 @@
-+++
-weight = 536
-title = "536. 버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 536. 버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

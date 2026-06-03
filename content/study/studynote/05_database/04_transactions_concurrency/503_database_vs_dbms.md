@@ -1,10 +1,9 @@
-+++
-weight = 503
-title = "503. 데이터 거버넌스 품질 메타 카탈로그 통제 관리 (Database Vs DBMS)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 503. 데이터 거버넌스 품질 메타 카탈로그 통제 관리 (Database Vs DBMS)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

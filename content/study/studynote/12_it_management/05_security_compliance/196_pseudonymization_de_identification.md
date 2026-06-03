@@ -1,10 +1,9 @@
-+++
-weight = 196
-title = "196. 개인정보 가명 처리 (Pseudonymization) 및 비식별화 (De-identification)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 196. 개인정보 가명 처리 (Pseudonymization) 및 비식별화 (De-identification)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[781_personal_information|개인정보]] 가명 처리 (Pseudonymization) 및 비식별화 (De-identification)의 본질은 [[001_dikw_pyramid|데이터]] 결합 및 분석(빅데이터)을 위한 안전 조치를 예방·탐지·대응 통제와 증적으로 운영하는 데 있다.

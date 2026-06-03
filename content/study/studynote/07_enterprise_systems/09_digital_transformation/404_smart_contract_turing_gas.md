@@ -1,10 +1,9 @@
-+++
-weight = 404
-title = "404. 스마트 컨트랙트 튜링 완전성 가스비 (Smart Contract)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 404. 스마트 컨트랙트 튜링 완전성 가스비 (Smart Contract)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 237
-title = "237. 언덕 오르기 탐색 (Hill Climbing)과 지역 최적"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 237. 언덕 오르기 탐색 (Hill Climbing)과 지역 최적
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

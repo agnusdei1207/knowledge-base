@@ -1,9 +1,10 @@
-+++
-weight = 445
-title = "445. 레거시 현대화 스트랭글러 피그 변환 감리 (Strangler Fig Pattern for Legacy Modernization Audit)"
-date = "2026-05-10"
-categories = "studynote-design-supervision"
-+++
+---
+title: 445. 레거시 현대화 스트랭글러 피그 변환 감리 (Strangler Fig Pattern for Legacy Modernization
+  Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 191
-title = "191. 행위 패턴 개요 (Behavioral Patterns Overview)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 191. 행위 패턴 개요 (Behavioral Patterns Overview)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

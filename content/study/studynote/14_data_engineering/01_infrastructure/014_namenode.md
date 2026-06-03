@@ -1,12 +1,10 @@
-+++
-weight = 14
-title = "14. 네임노드 (NameNode) - 파일 디렉터리, 블록 맵핑 메타데이터 관리 마스터 노드 (SPOF 존재)"
-description = "HDFS의 파일 디렉터리 트리와 블록 매핑 장부를 메모리에서 중앙 관리하는 마스터 노드 구조 및 SPOF 한계 돌파 기술"
-date = "2023-10-24"
-[taxonomies]
-tags = ["NameNode", "HDFS", "Hadoop", "Master Node", "High Availability", "Data Engineering"]
-categories = ["14_data_engineering"]
-+++
+---
+title: 14. 네임노드 (NameNode) - 파일 디렉터리, 블록 맵핑 메타데이터 관리 마스터 노드 (SPOF 존재)
+date: '2023-10-24'
+description: HDFS의 파일 디렉터리 트리와 블록 매핑 장부를 메모리에서 중앙 관리하는 마스터 노드 구조 및 SPOF 한계 돌파 기술
+tags:
+- data_engineering
+---
 
 # 네임노드 (NameNode)
 

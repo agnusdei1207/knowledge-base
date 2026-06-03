@@ -1,10 +1,9 @@
-+++
-weight = 80
-title = "80. 다중 공선성 (Multicollinearity) 및 VIF 지수"
-date = "2026-04-11"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 80. 다중 공선성 (Multicollinearity) 및 VIF 지수
+date: '2026-04-11'
+tags:
+- studynote-data-engineering
+---
 
 # 80. 다중 공선성 (Multicollinearity) 및 VIF 지수 ([[149_regression_analysis|회귀 분석]]의 함정)
 

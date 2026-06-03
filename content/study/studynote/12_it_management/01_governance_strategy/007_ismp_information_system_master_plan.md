@@ -1,10 +1,9 @@
-+++
-weight = 7
-title = "007. 정보시스템 마스터플랜 (ISMP, Information System Master Plan)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 007. 정보시스템 마스터플랜 (ISMP, Information System Master Plan)
+date: '2026-05-05'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[109_ismp_rfp_fp|ISMP]]([[109_ismp_rfp_fp|정보시스템 마스터플랜]])는 경영 [[268_strategy_pattern|전략]] 위주의 뜬구름 잡는 [[101_isp_information_strategy_planning_4_steps|ISP]]([[101_isp_information_strategy_planning_4_steps|정보화 전략 계획]])의 한계를 부수고, 실제 개발자(SI 업체)에게 던져줄 수 있을 만큼 **구체적인 화면(UI) 수준의 요구사항과 IT 인프라(서버, DB) 견적을 쇳덩어리처럼 도출해 내는 실무형 최상위 설계도**다.

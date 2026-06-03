@@ -1,10 +1,9 @@
-+++
-weight = 61
-title = "스파크 구조적 스트리밍 (Spark Structured Streaming)"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 스파크 구조적 스트리밍 (Spark Structured Streaming)
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **구조적 스트리밍 (Structured Streaming)**은 [[056_spark_sql|Spark SQL]] 엔진 위에서 동작하는 확장 가능하고 [[296_fault_tolerance_architecture|결함 허용]](Fault-tolerant)이 가능한 [[229_stream_processing_kafka_flink|스트림 처리]] 엔진이다.

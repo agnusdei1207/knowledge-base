@@ -1,9 +1,9 @@
-+++
-title = "039. 간트 차트 (Gantt Chart) — 프로젝트 일정 시각화"
-date = "2026-03-04"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 039. 간트 차트 (Gantt Chart) — 프로젝트 일정 시각화
+date: '2026-03-04'
+tags:
+- studynote-software-engineering
+---
 
 > **핵심 인사이트**
 > 1. 간트 차트(Gantt Chart)는 프로젝트 작업([[150_task|Task]])을 가로 막대로 표현하여 시작일·종료일·진행률·선후관계를 한눈에 보여주는 일정 관리 도구로, 1910년대 Henry L. Gantt가 고안한 이후 현재까지 가장 널리 사용되는 프로젝트 [[208_schedule_history_transaction_execution_order|스케줄]] 도구다.

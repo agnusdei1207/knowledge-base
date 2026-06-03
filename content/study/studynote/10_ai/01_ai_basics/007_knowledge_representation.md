@@ -1,12 +1,10 @@
-+++
-weight = 7
-title = "7. 지식 표현 (Knowledge Representation) - 규칙 기반, 의미망, 프레임, 스크립트 등"
-description = "인간의 지식을 컴퓨터가 이해하고 추론할 수 있도록 정형화하는 AI의 핵심 설계 기법"
-date = "2024-05-20"
-[taxonomies]
-tags = ["AI", "KnowledgeRepresentation", "의미망", "온톨로지", "규칙기반"]
-categories = ["10_ai"]
-+++
+---
+title: 7. 지식 표현 (Knowledge Representation) - 규칙 기반, 의미망, 프레임, 스크립트 등
+date: '2024-05-20'
+description: 인간의 지식을 컴퓨터가 이해하고 추론할 수 있도록 정형화하는 AI의 핵심 설계 기법
+tags:
+- ai
+---
 
 # 7. 지식 표현 (Knowledge Representation)
 

@@ -1,10 +1,9 @@
-+++
-weight = 504
-title = "504. 데이터베이스 백업 핫 덤프 콜드 덤프 (Data Independence)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 504. 데이터베이스 백업 핫 덤프 콜드 덤프 (Data Independence)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

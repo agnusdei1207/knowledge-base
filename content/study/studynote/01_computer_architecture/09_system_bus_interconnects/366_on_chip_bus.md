@@ -1,10 +1,9 @@
-+++
-weight = 366
-title = "366. 온칩 버스 (AMBA, AXI, AHB, APB)"
-date = "2026-03-27"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 366. 온칩 버스 (AMBA, AXI, AHB, APB)
+date: '2026-03-27'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

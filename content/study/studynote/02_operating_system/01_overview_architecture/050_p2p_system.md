@@ -1,10 +1,18 @@
-+++
-title = "P2P 시스템 (Peer-to-Peer System)"
-date = 2025-01-01
-description = "P2P 시스템의 구조, 순수/혼합 P2P, DHT 기반 분산 해시 테이블, BitTorrent·IPFS 사례를 다룬다."
-categories = "studynote-os"
-tags = ["P2P", "peer to peer", "DHT", "BitTorrent", "IPFS", "distributed hash table", "Napster", "Gnutella"]
-+++
+---
+title: P2P 시스템 (Peer-to-Peer System)
+date: '2025-01-01'
+description: P2P 시스템의 구조, 순수/혼합 P2P, DHT 기반 분산 해시 테이블, BitTorrent·IPFS 사례를 다룬다.
+tags:
+- BitTorrent
+- DHT
+- Gnutella
+- IPFS
+- Napster
+- P2P
+- distributed hash table
+- peer to peer
+- studynote-os
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]]([[916_p2p_peer_to_peer_networking_super_node_gnutella|Peer-to-Peer]]) 시스템은 중앙 서버 없이 노드([[060_hyperledger_architecture_peer_orderer_msp|peer]])들이 클라이언트와 서버 역할을 동시에 수행하는 [[136_variance|분산]] 아키텍처다.

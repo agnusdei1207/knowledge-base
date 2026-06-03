@@ -1,12 +1,10 @@
-+++
-weight = 9
-title = "9. 사고 대응 (Incident Response)"
-description = "보안 사고 발생 시 체계적인 대응 절차와 방법론"
-date = 2026-03-26
-
-[extra]
-categories = ["studynote-software-engineering"]
-+++
+---
+title: 9. 사고 대응 (Incident Response)
+date: '2026-03-26'
+description: 보안 사고 발생 시 체계적인 대응 절차와 방법론
+tags:
+- studynote-software-engineering
+---
 
 # 사고 대응 ([[806_incident_response|Incident Response]])
 

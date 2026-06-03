@@ -1,10 +1,9 @@
-+++
-weight = 342
-title = "342. NVMe (Non-Volatile Memory Express)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 342. NVMe (Non-Volatile Memory Express)
+date: '2026-05-06'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

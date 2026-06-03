@@ -1,10 +1,9 @@
-+++
-weight = 667
-title = "667. 페이지 파일 분석 (Pagefile Hiberfil Analysis)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 667. 페이지 파일 분석 (Pagefile Hiberfil Analysis)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

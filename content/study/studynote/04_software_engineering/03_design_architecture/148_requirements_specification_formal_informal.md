@@ -1,10 +1,9 @@
-+++
-weight = 148
-title = "148. 요구사항 명세 (Specification) - 정형 명세 vs 비정형 명세"
-date = "2026-05-03"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 148. 요구사항 명세 (Specification) - 정형 명세 vs 비정형 명세
+date: '2026-05-03'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구사항 명세(Specification)는 도출된 요구사항을 개발자와 테스터가 오해 없이 구현할 수 있도록 문서화하는 작업이며, 수학적/논리적 엄밀성에 따라 **비정형 명세 (자연어 중심)**와 **정형 명세 (수학/기호 중심)**로 나뉜다.

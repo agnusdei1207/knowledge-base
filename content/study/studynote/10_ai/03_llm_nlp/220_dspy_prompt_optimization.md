@@ -1,10 +1,9 @@
-+++
-weight = 220
-title = "220. DSPy 자동 프롬프트 컴파일 및 최적화 (DSPY Prompt Optimization)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 220. DSPy 자동 프롬프트 컴파일 및 최적화 (DSPY Prompt Optimization)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

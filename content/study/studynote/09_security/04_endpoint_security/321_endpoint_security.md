@@ -1,10 +1,9 @@
-+++
-weight = 321
-title = "321. 엔드포인트 보안 (Endpoint Security)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 321. 엔드포인트 보안 (Endpoint Security)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

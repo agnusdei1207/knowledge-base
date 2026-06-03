@@ -1,10 +1,9 @@
-+++
-weight = 277
-title = "277. OSS 라이선스 준수 감리 (OSS License Compliance Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 277. OSS 라이선스 준수 감리 (OSS License Compliance Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

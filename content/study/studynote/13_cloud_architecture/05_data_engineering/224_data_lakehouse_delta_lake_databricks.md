@@ -1,10 +1,9 @@
-+++
-weight = 224
-title = "224. 데이터 레이크하우스 (Data Lakehouse)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 224. 데이터 레이크하우스 (Data Lakehouse)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[210_data_lakehouse_delta_lake|데이터 레이크하우스]]([[210_data_lakehouse_delta_lake|Data Lakehouse]])는 [[208_data_lake_schema_on_read|데이터 레이크]]의 **저비용·유연성**과 [[001_dikw_pyramid|데이터]] 웨어하우스의 **ACID [[191_transaction_concept_states|트랜잭션]]·고성능 [[298_qkv_attention|쿼리]]**를 [[494_object_storage|오브젝트 스토리지]](S3) 위에서 통합한 차세대 아키텍처다.

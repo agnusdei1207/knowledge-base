@@ -1,12 +1,10 @@
-+++
-weight = 6
-title = "6. 보안 거버넌스 (Security Governance)"
-description = "조직 전체의信息安全을 체계적으로管理하는 프레임워크"
-date = 2026-03-26
-
-[extra]
-categories = ["studynote-software-engineering"]
-+++
+---
+title: 6. 보안 거버넌스 (Security Governance)
+date: '2026-03-26'
+description: 조직 전체의信息安全을 체계적으로管理하는 프레임워크
+tags:
+- studynote-software-engineering
+---
 
 # 보안 거버넌스 ([[283_security_tactics|Security]] Governance)
 

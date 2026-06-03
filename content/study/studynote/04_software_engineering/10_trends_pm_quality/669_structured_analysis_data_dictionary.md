@@ -1,10 +1,9 @@
-+++
-weight = 669
-title = "669. DFD 자료 흐름도 4요소"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 669. DFD 자료 흐름도 4요소
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

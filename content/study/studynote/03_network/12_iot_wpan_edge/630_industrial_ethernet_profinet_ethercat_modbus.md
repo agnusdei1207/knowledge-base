@@ -1,10 +1,9 @@
-+++
-weight = 630
-title = "630. 산업용 이더넷 표준 (Industrial Ethernet)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 630. 산업용 이더넷 표준 (Industrial Ethernet)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

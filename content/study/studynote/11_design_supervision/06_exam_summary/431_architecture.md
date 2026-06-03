@@ -1,10 +1,9 @@
-+++
-weight = 431
-title = "431. 마이크로 커널 플러그인 확장 구조망 (Microkernel Architecture)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 431. 마이크로 커널 플러그인 확장 구조망 (Microkernel Architecture)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [[024_microkernel|마이크로커널]] 아키텍처([[024_microkernel|Microkernel]] [[319_architecture|Architecture]])는 최소 핵심 [[090_service_kubernetes_network_load_balancing|서비스]]만 [[022_kernel_role|커널]]에 두고 나머지 기능을 플러그인으로 분리해 확장성과 안정성을 함께 확보하는 구조다.

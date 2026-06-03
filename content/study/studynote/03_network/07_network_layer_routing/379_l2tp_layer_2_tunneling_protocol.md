@@ -1,10 +1,9 @@
-+++
-weight = 379
-title = "379. L2TP (Layer 2 Tunneling Protocol)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 379. L2TP (Layer 2 Tunneling Protocol)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

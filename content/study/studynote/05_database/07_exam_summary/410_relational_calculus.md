@@ -1,10 +1,9 @@
-+++
-weight = 410
-title = "410. 관계 해석 (비절차적 연산, 술어)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 410. 관계 해석 (비절차적 연산, 술어)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

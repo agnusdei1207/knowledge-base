@@ -1,10 +1,9 @@
-+++
-weight = 307
-title = "307. 페이지 크기 (Page Size)의 트레이드오프"
-date = "2026-05-06"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 307. 페이지 크기 (Page Size)의 트레이드오프
+date: '2026-05-06'
+tags:
+- studynote-computer-architecture
+---
 
 # 307. [[352_page_size|페이지 크기]] ([[352_page_size|Page Size]])의 트레이드오프
 

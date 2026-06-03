@@ -1,10 +1,9 @@
-+++
-weight = 137
-title = "137. 이더넷 물리 계층 표준 (IEEE 802.3 PHY)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 137. 이더넷 물리 계층 표준 (IEEE 802.3 PHY)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,12 +1,10 @@
-+++
-weight = 12
-title = "12. 메타데이터 (Metadata) - 데이터에 대한 데이터"
-description = "데이터베이스의 구조와 의미를 정의하는 핵심 요소, 메타데이터의 아키텍처와 데이터 거버넌스에서의 역할"
-date = "2024-05-18"
-[taxonomies]
-tags = ["Database", "Metadata", "Data Catalog", "Data Governance"]
-categories = ["studynote", "5_database"]
-+++
+---
+title: 12. 메타데이터 (Metadata) - 데이터에 대한 데이터
+date: '2024-05-18'
+description: 데이터베이스의 구조와 의미를 정의하는 핵심 요소, 메타데이터의 아키텍처와 데이터 거버넌스에서의 역할
+tags:
+- database
+---
 
 # 12. 메타데이터 (Metadata)
 

@@ -1,10 +1,9 @@
-+++
-weight = 298
-title = "298. UAT 고객 서명 인수인계 감리 (UAT Customer Signoff Acceptance Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 298. UAT 고객 서명 인수인계 감리 (UAT Customer Signoff Acceptance Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

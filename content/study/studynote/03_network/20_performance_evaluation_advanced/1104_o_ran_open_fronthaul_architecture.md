@@ -1,10 +1,9 @@
-+++
-weight = 1104
-title = "1104. O-RAN 프론트홀 개방 사양"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1104. O-RAN 프론트홀 개방 사양
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 303
-title = "303. 서비스 디스커버리 동적 IP 라우팅"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 303. 서비스 디스커버리 동적 IP 라우팅
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[306_service_discovery_pattern|서비스 디스커버리]] 동적 IP 라우팅의 본질은 [[090_service_kubernetes_network_load_balancing|서비스]] 정의, 운영 절차, 품질 측정, 개선 루프가 연결되어야 사용자가 체감하는 [[090_service_kubernetes_network_load_balancing|서비스]] 수준을 안정적으로 유지할 수 있다.

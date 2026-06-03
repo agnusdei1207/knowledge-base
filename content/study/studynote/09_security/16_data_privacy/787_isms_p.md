@@ -1,10 +1,9 @@
-+++
-weight = 787
-title = "787. 정보보호 管理체계 (ISMS-P)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 787. 정보보호 管理체계 (ISMS-P)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-title = "047. 컬럼 기반 스토리지 — Columnar Store & OLAP"
-weight = 47
-date = "2026-04-05"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 047. 컬럼 기반 스토리지 — Columnar Store & OLAP
+date: '2026-04-05'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트**
 > 1. 컬럼 기반 스토리지(Columnar Store)는 동일 컬럼의 값을 연속으로 저장하여 [[316_olap|OLAP]] 분석 [[298_qkv_attention|쿼리]]에서 극적인 I/O 절감을 달성 — "[[520_select|SELECT]] AVG(price) FROM orders"처럼 특정 컬럼만 읽는 분석 [[298_qkv_attention|쿼리]]는 행 기반 저장보다 100배 이상 빠를 수 있다.

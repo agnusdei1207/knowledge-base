@@ -1,10 +1,9 @@
-+++
-weight = 221
-title = "221. 데이터 웨어하우스 (Data Warehouse / DW)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 221. 데이터 웨어하우스 (Data Warehouse / DW)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[209_data_warehouse_schema_on_write|데이터 웨어하우스]]([[209_data_warehouse_schema_on_write|DW]])는 경영 의사결정을 위한 **정제·통합 정형 [[001_dikw_pyramid|데이터]]의 중앙 저장소**로, BI 리포트와 [[316_olap|OLAP]] 분석에 최적화된 고비용 고성능 플랫폼이다.

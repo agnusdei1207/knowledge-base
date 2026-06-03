@@ -1,10 +1,9 @@
-+++
-weight = 235
-title = "235. 시그니처 기반 탐지 (Signature-based Detection)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 235. 시그니처 기반 탐지 (Signature-based Detection)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

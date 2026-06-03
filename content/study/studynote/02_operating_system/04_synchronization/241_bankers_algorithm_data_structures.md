@@ -1,10 +1,9 @@
-+++
-weight = 241
-title = "241. 은행원 알고리즘의 4대 자료구조 (Max, Allocation, Need, Available)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 241. 은행원 알고리즘의 4대 자료구조 (Max, Allocation, Need, Available)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

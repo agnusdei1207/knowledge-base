@@ -1,10 +1,9 @@
-+++
-weight = 394
-title = "394. 상태 패턴 (State Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 394. 상태 패턴 (State Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

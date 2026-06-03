@@ -1,10 +1,9 @@
-+++
-weight = 887
-title = "887. SD-LAN (소프트웨어 정의 랜)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 887. SD-LAN (소프트웨어 정의 랜)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

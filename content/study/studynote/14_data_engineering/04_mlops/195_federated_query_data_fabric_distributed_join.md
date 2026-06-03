@@ -1,10 +1,9 @@
-+++
-weight = 195
-title = "195. 연방 쿼리 (Federated Query) 데이터 패브릭 분산 메타 통계망 조인"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 195. 연방 쿼리 (Federated Query) 데이터 패브릭 분산 메타 통계망 조인
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 연방 [[298_qkv_attention|쿼리]](Federated Query)는 [[001_dikw_pyramid|데이터]]를 물리적으로 이동하지 않고, [[136_variance|분산]]된 이기종 [[001_dikw_pyramid|데이터]] 소스에 단일 [[298_qkv_attention|쿼리]]로 접근하는 패턴이다.

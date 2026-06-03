@@ -1,10 +1,9 @@
-+++
-weight = 166
-title = "7. 라그랑주 승수법 (Lagrange Multiplier) — 제약 최적화"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 7. 라그랑주 승수법 (Lagrange Multiplier) — 제약 최적화
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

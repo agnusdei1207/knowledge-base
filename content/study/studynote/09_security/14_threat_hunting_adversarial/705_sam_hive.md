@@ -1,10 +1,9 @@
-+++
-weight = 705
-title = "705. SAM Hive 추출 (reg save)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 705. SAM Hive 추출 (reg save)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

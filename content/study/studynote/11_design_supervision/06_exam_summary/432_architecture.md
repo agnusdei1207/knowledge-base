@@ -1,10 +1,9 @@
-+++
-weight = 432
-title = "432. 블랙보드 패턴 전문가 모듈 AI 초기 구조망 (Blackboard Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 432. 블랙보드 패턴 전문가 모듈 AI 초기 구조망 (Blackboard Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. **본질**: [[209_blackboard_pattern_ai_heuristic|블랙보드 패턴]]([[209_blackboard_pattern_ai_heuristic|Blackboard Pattern]])은 중앙 공유 문제 공간에 부분 해답을 기록하고 여러 전문 지식 [[192_module_independence|모듈]]이 이를 보며 점진적으로 완성도를 높여 가는 협업형 문제 해결 구조다.

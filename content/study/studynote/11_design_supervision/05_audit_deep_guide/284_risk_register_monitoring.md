@@ -1,10 +1,9 @@
-+++
-weight = 284
-title = "284. 위험등록부 모니터링 감리 (Risk Register Monitoring Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 284. 위험등록부 모니터링 감리 (Risk Register Monitoring Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

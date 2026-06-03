@@ -1,10 +1,9 @@
-+++
-weight = 343
-title = "343. 데이터 메시 도메인 프로덕트 분산 (Data Mesh)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 343. 데이터 메시 도메인 프로덕트 분산 (Data Mesh)
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

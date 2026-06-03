@@ -1,10 +1,9 @@
-+++
-weight = 382
-title = "382. 싱글톤 패턴 (Singleton Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 382. 싱글톤 패턴 (Singleton Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

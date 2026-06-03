@@ -1,10 +1,9 @@
-+++
-weight = 101
-title = "나이브 베이즈 분류와 라플라스 스무딩 (Naive Bayes Classifier & Laplace Smoothing)"
-date = "2025-05-22"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 나이브 베이즈 분류와 라플라스 스무딩 (Naive Bayes Classifier & Laplace Smoothing)
+date: '2025-05-22'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

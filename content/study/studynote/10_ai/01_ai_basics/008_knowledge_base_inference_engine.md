@@ -1,12 +1,10 @@
-+++
-weight = 8
-title = "8. 지식 베이스 (Knowledge Base) / 추론 엔진 (Inference Engine)"
-description = "전문가 시스템과 논리형 AI를 구동하는 양대 핵심 아키텍처의 구조와 동작 원리"
-date = "2024-05-20"
-[taxonomies]
-tags = ["AI", "KnowledgeBase", "InferenceEngine", "추론엔진", "전문가시스템"]
-categories = ["10_ai"]
-+++
+---
+title: 8. 지식 베이스 (Knowledge Base) / 추론 엔진 (Inference Engine)
+date: '2024-05-20'
+description: 전문가 시스템과 논리형 AI를 구동하는 양대 핵심 아키텍처의 구조와 동작 원리
+tags:
+- ai
+---
 
 # 8. 지식 베이스 (Knowledge Base) 및 추론 엔진 (Inference Engine)
 

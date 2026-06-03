@@ -1,10 +1,9 @@
-+++
-weight = 309
-title = "309. 포드·레플리카셋·디플로이먼트 (Pod, ReplicaSet, Deployment)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 309. 포드·레플리카셋·디플로이먼트 (Pod, ReplicaSet, Deployment)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

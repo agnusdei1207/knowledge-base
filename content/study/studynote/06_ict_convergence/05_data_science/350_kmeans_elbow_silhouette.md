@@ -1,10 +1,9 @@
-+++
-weight = 350
-title = "350. K-Means 클러스터링의 엘보우 기법 / 실루엣 계수 (Silhouette Score) 최적 K값 탐색 (Elbow Method)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 350. K-Means 클러스터링의 엘보우 기법 / 실루엣 계수 (Silhouette Score) 최적 K값 탐색 (Elbow Method)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

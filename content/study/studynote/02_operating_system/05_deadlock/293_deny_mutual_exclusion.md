@@ -1,10 +1,9 @@
-+++
-weight = 293
-title = "293. 상호 배제 부정 (Deny Mutual Exclusion)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 293. 상호 배제 부정 (Deny Mutual Exclusion)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

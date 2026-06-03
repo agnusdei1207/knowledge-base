@@ -1,10 +1,9 @@
-+++
-weight = 270
-title = "270. IoT DTLS 프로토콜 감리 (IoT DTLS Protocol Audit)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 270. IoT DTLS 프로토콜 감리 (IoT DTLS Protocol Audit)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

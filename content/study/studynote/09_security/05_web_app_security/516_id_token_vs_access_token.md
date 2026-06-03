@@ -1,10 +1,9 @@
-+++
-weight = 516
-title = "516. ID Token vs Access Token (용도 및 보안 경계 구분)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 516. ID Token vs Access Token (용도 및 보안 경계 구분)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

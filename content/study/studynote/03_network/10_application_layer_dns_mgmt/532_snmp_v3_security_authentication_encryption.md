@@ -1,10 +1,9 @@
-+++
-weight = 532
-title = "532. SNMPv3 (사용자 기반 인증, 메시지 암호화 지원 DES/AES)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 532. SNMPv3 (사용자 기반 인증, 메시지 암호화 지원 DES/AES)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

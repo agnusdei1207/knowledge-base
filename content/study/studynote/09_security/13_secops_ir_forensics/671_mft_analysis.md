@@ -1,10 +1,9 @@
-+++
-weight = 671
-title = "671. MFT 분석 (Mft Analysis)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 671. MFT 분석 (Mft Analysis)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

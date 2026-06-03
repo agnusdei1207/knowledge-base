@@ -1,10 +1,9 @@
-+++
-weight = 262
-title = "262. 데이터 마트 (Data Mart) 개념 및 설계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 262. 데이터 마트 (Data Mart) 개념 및 설계
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

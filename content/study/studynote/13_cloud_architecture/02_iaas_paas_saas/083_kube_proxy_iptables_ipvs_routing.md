@@ -1,7 +1,8 @@
-+++
-title = "83. Kube-proxy - 노드 내부의 네트워크 라우팅 및 서비스 로드밸런싱 통신 규칙(iptables/IPVS) 설정"
-weight = 83
-+++
+---
+title: 83. Kube-proxy - 노드 내부의 네트워크 라우팅 및 서비스 로드밸런싱 통신 규칙(iptables/IPVS) 설정
+tags:
+- cloud_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: Kube-proxy는 각 노드에 배포되어 [[090_service_kubernetes_network_load_balancing|Service]] VIP (Virtual IP) 트래픽을 살아 있는 [[198_pod_kubernetes_minimum_deployment_unit|Pod]] endpoint로 바꿔 주는 노드 로컬 네트워크 규칙 관리자다.

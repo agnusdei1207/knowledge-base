@@ -1,10 +1,10 @@
-+++
-weight = 186
-title = "186. Stapling of OCSP (Online Certificate Status Protocol) Response — TLS (Transport Layer Security) 핸드셰이크 최적화"
-date = "2026-05-06"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 186. Stapling of OCSP (Online Certificate Status Protocol) Response — TLS (Transport
+  Layer Security) 핸드셰이크 최적화
+date: '2026-05-06'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

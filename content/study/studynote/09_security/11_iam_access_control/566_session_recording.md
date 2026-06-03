@@ -1,10 +1,9 @@
-+++
-weight = 566
-title = "566. 세션 레코딩 (Session Recording)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 566. 세션 레코딩 (Session Recording)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

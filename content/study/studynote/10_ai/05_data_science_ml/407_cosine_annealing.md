@@ -1,10 +1,9 @@
-+++
-weight = 407
-title = "407. 코사인 어닐링 (Cosine Annealing Scheduler)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 407. 코사인 어닐링 (Cosine Annealing Scheduler)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 290
-title = "290. SD-WAN 보안 개요 (Software-Defined WAN)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 290. SD-WAN 보안 개요 (Software-Defined WAN)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 27
-title = "27. 베어메탈 클라우드 (Bare Metal Cloud) — 하이퍼바이저 없는 클라우드 서버"
-date = "2026-04-29"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 27. 베어메탈 클라우드 (Bare Metal Cloud) — 하이퍼바이저 없는 클라우드 서버
+date: '2026-04-29'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[629_bare_metal_cloud|베어메탈 클라우드]]([[629_bare_metal_cloud|Bare Metal Cloud]])는 [[054_hypervisor|하이퍼바이저]]([[054_hypervisor|Hypervisor]]) 없이 물리 서버 하드웨어를 클라우드 방식으로 온디맨드(On-Demand) [[528_provisioning|프로비저닝]]하는 [[090_service_kubernetes_network_load_balancing|서비스]]로, [[015_virtualization|가상화]] 오버헤드 없이 물리 서버 수준의 [[282_performance_tactics|성능]]과 클라우드의 탄력성을 동시에 제공한다.

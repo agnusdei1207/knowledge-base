@@ -1,10 +1,9 @@
-+++
-weight = 57
-title = "57. 구독 경제 (Subscription Economy) 및 XaaS - 소유에서 사용으로"
-date = "2024-03-20"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 57. 구독 경제 (Subscription Economy) 및 XaaS - 소유에서 사용으로
+date: '2024-03-20'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

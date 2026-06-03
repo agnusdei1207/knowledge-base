@@ -1,10 +1,9 @@
-+++
-weight = 109
-title = "109. 좀비 프로세스 (Zombie Process) - 종료되었으나 부모가 wait()하지 않은 상태"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 109. 좀비 프로세스 (Zombie Process) - 종료되었으나 부모가 wait()하지 않은 상태
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

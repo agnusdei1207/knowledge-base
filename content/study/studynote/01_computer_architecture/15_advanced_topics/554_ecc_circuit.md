@@ -1,10 +1,9 @@
-+++
-weight = 554
-title = "554. 오류 정정 부호 (ECC) 회로"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 554. 오류 정정 부호 (ECC) 회로
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

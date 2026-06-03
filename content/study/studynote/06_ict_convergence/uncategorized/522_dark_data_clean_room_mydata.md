@@ -1,10 +1,9 @@
-+++
-weight = 522
-title = "522. 다크 데이터, 클린 룸, 마이데이터 (Dark Data Clean Room MyData)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 522. 다크 데이터, 클린 룸, 마이데이터 (Dark Data Clean Room MyData)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

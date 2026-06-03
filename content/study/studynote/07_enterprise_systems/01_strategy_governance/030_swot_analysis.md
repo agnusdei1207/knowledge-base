@@ -1,10 +1,9 @@
-+++
-weight = 30
-title = "30. SWOT 분석 — 전략 수립의 4분면 프레임워크"
-date = "2026-04-29"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 30. SWOT 분석 — 전략 수립의 4분면 프레임워크
+date: '2026-04-29'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SWOT 분석은 내부 요인(Strengths 강점, Weaknesses 약점)과 외부 요인(Opportunities 기회, Threats 위협)을 체계적으로 파악하여 [[268_strategy_pattern|전략]] 방향을 도출하는 [[268_strategy_pattern|전략]] 기획 프레임워크다.

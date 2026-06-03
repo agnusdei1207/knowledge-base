@@ -1,10 +1,9 @@
-+++
-weight = 111
-title = "111. 분석 CRM (Analytical CRM) - 데이터 마이닝·고객 세분화·이탈 예측"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 111. 분석 CRM (Analytical CRM) - 데이터 마이닝·고객 세분화·이탈 예측
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 분석 [[107_crm_customer_relationship_management|CRM]](Analytical [[107_crm_customer_relationship_management|CRM]])은 운영 CRM이 수집한 대규모 고객 [[001_dikw_pyramid|데이터]]를 **[[209_data_warehouse_schema_on_write|데이터 웨어하우스]]([[209_data_warehouse_schema_on_write|DW]])에 적재하고 [[190_ai_llm_requirements_specification|AI]]/[[284_data_mining_association_classification_clustering_crisp_dm|데이터 마이닝]]으로 분석**하여, "누가 이탈할 것인가?", "어떤 상품을 추천할 것인가?"라는 **예측적 통찰(Predictive Insight)**을 추출하는 두뇌 시스템이다.

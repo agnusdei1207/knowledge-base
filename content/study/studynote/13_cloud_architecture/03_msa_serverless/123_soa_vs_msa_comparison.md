@@ -1,10 +1,9 @@
-+++
-weight = 123
-title = "123. SOA vs MSA 비교 - 서비스 지향 아키텍처의 진화"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 123. SOA vs MSA 비교 - 서비스 지향 아키텍처의 진화
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[618_soa_hardware|SOA]]([[618_soa_hardware|Service Oriented Architecture]])는 **[[146_esb_enterprise_service_bus_architecture|ESB]]([[146_esb_enterprise_service_bus_architecture|Enterprise Service Bus]]) 중심의 [[090_service_kubernetes_network_load_balancing|서비스]] 통합**이고, MSA는 **[[146_esb_enterprise_service_bus_architecture|ESB]] 없이 [[090_service_kubernetes_network_load_balancing|서비스]]가 직접 경량 통신([[156_rest_representational_state_transfer|REST]]/[[479_grpc_protobuf_http2|gRPC]]/이벤트)**하는 경량 [[136_variance|분산]] 아키텍처이다.

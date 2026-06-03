@@ -1,10 +1,9 @@
-+++
-weight = 775
-title = "775. 파티션 MBR GPT 크기 제한 (Partition MBR GPT Size Limit)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 775. 파티션 MBR GPT 크기 제한 (Partition MBR GPT Size Limit)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 55
-title = "04. Spark SQL & DataFrame — 정형 데이터 처리 및 최적화"
-date = "2026-04-14"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 04. Spark SQL & DataFrame — 정형 데이터 처리 및 최적화
+date: '2026-04-14'
+tags:
+- studynote-bigdata
+---
 
 # [[056_spark_sql|Spark SQL]] & DataFrame - [[002_structured_data|정형 데이터]] 처리 및 Catalyst 최적화
 

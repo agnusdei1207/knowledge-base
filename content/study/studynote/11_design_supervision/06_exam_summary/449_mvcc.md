@@ -1,9 +1,10 @@
-+++
-weight = 449
-title = "449. 동시성 제어 MVCC 낙관 비관 락킹 패턴 (MVCC Concurrency Control with Optimistic and Pessimistic Locking)"
-date = "2026-05-10"
-categories = "studynote-design-supervision"
-+++
+---
+title: 449. 동시성 제어 MVCC 낙관 비관 락킹 패턴 (MVCC Concurrency Control with Optimistic and
+  Pessimistic Locking)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

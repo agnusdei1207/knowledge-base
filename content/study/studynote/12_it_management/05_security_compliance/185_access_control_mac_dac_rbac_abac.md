@@ -1,10 +1,9 @@
-+++
-weight = 185
-title = "185. 접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: '185. 접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)'
+date: '2026-05-06'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

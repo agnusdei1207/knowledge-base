@@ -1,10 +1,9 @@
-+++
-weight = 441
-title = "441. MLOps 드리프트 파이프라인 모니터링 (MLOps Drift Pipeline Monitoring)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 441. MLOps 드리프트 파이프라인 모니터링 (MLOps Drift Pipeline Monitoring)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

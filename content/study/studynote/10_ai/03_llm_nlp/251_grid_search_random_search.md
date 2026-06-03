@@ -1,10 +1,9 @@
-+++
-weight = 251
-title = "251. 그리드 서치 (Grid Search) / 랜덤 서치 (Random Search)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 251. 그리드 서치 (Grid Search) / 랜덤 서치 (Random Search)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

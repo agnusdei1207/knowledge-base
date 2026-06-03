@@ -1,10 +1,9 @@
-+++
-weight = 725
-title = "725. 선언적 인프라 상태 일치 루프"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 725. 선언적 인프라 상태 일치 루프
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

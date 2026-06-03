@@ -1,10 +1,9 @@
-+++
-weight = 186
-title = "186. 가치 제안 캔버스 (Value Proposition Canvas)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 186. 가치 제안 캔버스 (Value Proposition Canvas)
+date: '2026-05-06'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

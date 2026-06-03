@@ -1,10 +1,9 @@
-+++
-weight = 107
-title = "나이트 빌드: 예약된 크론(Cron) 기반의 정적/동적 정기 점검"
-date = "2026-03-04"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: '나이트 빌드: 예약된 크론(Cron) 기반의 정적/동적 정기 점검'
+date: '2026-03-04'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

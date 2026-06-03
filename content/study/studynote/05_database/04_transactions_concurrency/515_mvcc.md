@@ -1,10 +1,9 @@
-+++
-weight = 515
-title = "515. 시계열 DB 보존 정책 데이터 라이프사이클 (Retention)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 515. 시계열 DB 보존 정책 데이터 라이프사이클 (Retention)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

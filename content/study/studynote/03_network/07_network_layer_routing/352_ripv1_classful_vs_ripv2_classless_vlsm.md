@@ -1,10 +1,9 @@
-+++
-weight = 352
-title = "352. RIPv1 (클래스풀, 브로드캐스트) vs RIPv2 (클래스리스/VLSM, 멀티캐스트: 224.0.0.9)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: '352. RIPv1 (클래스풀, 브로드캐스트) vs RIPv2 (클래스리스/VLSM, 멀티캐스트: 224.0.0.9)'
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

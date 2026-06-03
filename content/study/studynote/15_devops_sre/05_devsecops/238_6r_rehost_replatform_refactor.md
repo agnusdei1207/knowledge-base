@@ -1,10 +1,9 @@
-+++
-weight = 238
-title = "238. 클라우드 마이그레이션 6R (Rehost, Replatform, Refactor 등) 전환 전략망"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 238. 클라우드 마이그레이션 6R (Rehost, Replatform, Refactor 등) 전환 전략망
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

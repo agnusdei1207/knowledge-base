@@ -1,10 +1,9 @@
-+++
-weight = 494
-title = "494. 오브젝트 스토리지 (Object Storage) - 플랫 네임스페이스, REST API 기반 클라우드 (Amazon S3)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 494. 오브젝트 스토리지 (Object Storage) - 플랫 네임스페이스, REST API 기반 클라우드 (Amazon S3)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 215
-title = "215. 서버리스 (Serverless / FaaS) 아키텍처"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 215. 서버리스 (Serverless / FaaS) 아키텍처
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

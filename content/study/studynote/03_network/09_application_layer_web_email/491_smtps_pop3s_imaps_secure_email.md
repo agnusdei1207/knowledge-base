@@ -1,10 +1,9 @@
-+++
-weight = 491
-title = "491. SMTPS, POP3S, IMAPS (보안 캡슐화)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 491. SMTPS, POP3S, IMAPS (보안 캡슐화)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

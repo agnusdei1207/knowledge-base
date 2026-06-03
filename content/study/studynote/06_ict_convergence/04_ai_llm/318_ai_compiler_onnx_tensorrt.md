@@ -1,10 +1,9 @@
-+++
-weight = 318
-title = "318. AI 컴파일러 모델 최적화 및 타겟 하드웨어 런타임 변환 엔진 (TensorRT, ONNX)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 318. AI 컴파일러 모델 최적화 및 타겟 하드웨어 런타임 변환 엔진 (TensorRT, ONNX)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

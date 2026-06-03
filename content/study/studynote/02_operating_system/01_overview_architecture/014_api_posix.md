@@ -1,10 +1,9 @@
-+++
-weight = 14
-title = "14. API (Application Programming Interface), POSIX 표준"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 14. API (Application Programming Interface), POSIX 표준
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: API (Application Programming Interface)는 소프트웨어 구성 요소 간의 상호작용을 정의하는 규약이며, POSIX (Portable [[001_operating_system_purpose|Operating System]] Interface) 표준은 유닉스 계열 [[001_operating_system_purpose|운영체제]] 간의 애플리케이션 이식성 (Portability)을 보장하기 위한 시스템 인터페이스 규격이다.

@@ -1,10 +1,9 @@
-+++
-weight = 187
-title = "187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

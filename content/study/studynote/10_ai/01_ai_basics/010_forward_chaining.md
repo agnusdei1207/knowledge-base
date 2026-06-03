@@ -1,12 +1,10 @@
-+++
-weight = 10
-title = "10. 전향 추론 (Forward Chaining) - 데이터에서 시작하여 결론 도출 (데이터 주도)"
-description = "주어진 데이터(Fact)에서 출발해 규칙(Rule)을 연쇄적으로 적용하여 결론을 도출하는 데이터 주도형 추론 방식"
-date = "2024-05-20"
-[taxonomies]
-tags = ["AI", "ForwardChaining", "전향추론", "추론엔진", "룰엔진"]
-categories = ["10_ai"]
-+++
+---
+title: 10. 전향 추론 (Forward Chaining) - 데이터에서 시작하여 결론 도출 (데이터 주도)
+date: '2024-05-20'
+description: 주어진 데이터(Fact)에서 출발해 규칙(Rule)을 연쇄적으로 적용하여 결론을 도출하는 데이터 주도형 추론 방식
+tags:
+- ai
+---
 
 # [[489_raid_10_hybrid|10]]. [[235_forward_backward_chaining|전향 추론]] ([[235_forward_backward_chaining|Forward]] [[103_chaining|Chaining]])
 

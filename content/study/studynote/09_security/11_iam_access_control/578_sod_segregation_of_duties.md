@@ -1,10 +1,9 @@
-+++
-weight = 578
-title = "578. 직무 분리 (SoD: Segregation of Duties)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: '578. 직무 분리 (SoD: Segregation of Duties)'
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

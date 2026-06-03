@@ -1,10 +1,9 @@
-+++
-weight = 26
-title = "26. 응용 시스템 영역 감리 (Applications System Area Audit)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 26. 응용 시스템 영역 감리 (Applications System Area Audit)
+date: '2026-04-29'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 응용 시스템 영역 감리는 정보시스템 감리에서 업무 처리를 위한 응용 소프트웨어(Application Software)의 개발·운영 품질을 검토하는 영역으로, 요구사항 충족도·기능 [[002_bigdata_5v|정확성]]·인터페이스 표준 준수·[[286_usability_tactics|사용성]]·[[282_performance_tactics|성능]]을 종합 평가한다.

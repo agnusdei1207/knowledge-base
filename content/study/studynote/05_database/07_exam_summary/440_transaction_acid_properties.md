@@ -1,10 +1,9 @@
-+++
-weight = 440
-title = "440. 트랜잭션 ACID 특성"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 440. 트랜잭션 ACID 특성
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

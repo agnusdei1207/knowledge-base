@@ -1,10 +1,9 @@
-+++
-weight = 347
-title = "347. CISA IT 통제 프로세스 (CISA IT Control Process)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 347. CISA IT 통제 프로세스 (CISA IT Control Process)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

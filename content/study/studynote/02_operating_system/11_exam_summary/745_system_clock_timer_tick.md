@@ -1,10 +1,9 @@
-+++
-weight = 745
-title = "745. 시스템 클럭 타이머 틱 (System Clock Timer Tick)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 745. 시스템 클럭 타이머 틱 (System Clock Timer Tick)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

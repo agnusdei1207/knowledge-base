@@ -1,10 +1,9 @@
-+++
-weight = 186
-title = "186. MLFQ 파라미터 - 큐의 개수, 알고리즘, 승급/강등 기준"
-date = "2026-05-06"
-[extra]
-categories = ["studynote-operating-system"]
-+++
+---
+title: 186. MLFQ 파라미터 - 큐의 개수, 알고리즘, 승급/강등 기준
+date: '2026-05-06'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

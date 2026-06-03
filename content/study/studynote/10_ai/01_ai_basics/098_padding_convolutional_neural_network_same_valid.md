@@ -1,10 +1,9 @@
-+++
-weight = 98
-title = "98. 패딩 (Padding) - 이미지 크기 축소 방지와 가장자리 보존"
-date = "2026-04-10"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 98. 패딩 (Padding) - 이미지 크기 축소 방지와 가장자리 보존
+date: '2026-04-10'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,9 +1,8 @@
-+++
-weight = 2
-title = "02. 사물인터넷, 모빌리티 및 무선 신기술"
-[extra]
-sort_by = "weight"
-+++
+---
+title: 02. 사물인터넷, 모빌리티 및 무선 신기술
+tags:
+- ict_convergence
+---
 
 # 사물인터넷, 모빌리티 및 무선 신기술
 

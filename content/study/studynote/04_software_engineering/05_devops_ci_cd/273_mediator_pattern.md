@@ -1,10 +1,9 @@
-+++
-weight = 273
-title = "273. 중재자 (Mediator) - 객체 간의 복잡한 상호작용을 캡슐화하여 결합도 저하"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 273. 중재자 (Mediator) - 객체 간의 복잡한 상호작용을 캡슐화하여 결합도 저하
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

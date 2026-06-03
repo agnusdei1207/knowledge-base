@@ -1,10 +1,9 @@
-+++
-weight = 782
-title = "782. LFS (Log-structured File System) 랜덤 쓰기 순차화"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 782. LFS (Log-structured File System) 랜덤 쓰기 순차화
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

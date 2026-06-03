@@ -1,10 +1,9 @@
-+++
-weight = 90
-title = "분류 평가 지표: 정확도, 정밀도, 재현율, F1-Score"
-date = "2026-03-04"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: '분류 평가 지표: 정확도, 정밀도, 재현율, F1-Score'
+date: '2026-03-04'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[104_classification_analysis|분류]] 모델의 [[282_performance_tactics|성능]] 평가 지표는 단순한 맞춤 비율(정확도)을 넘어, "양성이라고 예측한 것 중 진짜 양성([[233_precision_recall_f1_roc_auc_threshold|정밀도]])"과 "진짜 양성 중 찾아낸 비율([[092_recall_sensitivity_hit_rate|재현율]])"로 다각화하여 오판의 성격을 분석하는 척도다.

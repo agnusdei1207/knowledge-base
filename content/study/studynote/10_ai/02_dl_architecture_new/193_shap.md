@@ -1,10 +1,9 @@
-+++
-weight = 193
-title = "193. SHAP (게임 이론 기반 XAI)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 193. SHAP (게임 이론 기반 XAI)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

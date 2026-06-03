@@ -1,10 +1,9 @@
-+++
-weight = 132
-title = "132. 클럭 주파수 (Clock Frequency)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 132. 클럭 주파수 (Clock Frequency)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 758
-title = "758. 번인 (Burn-in) 테스트"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 758. 번인 (Burn-in) 테스트
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

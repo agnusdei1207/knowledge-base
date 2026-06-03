@@ -1,12 +1,11 @@
-+++
-weight = 5
-title = "5. V-모델 (V-Model) - 검증(Verification)과 확인(Validation)의 대응"
-description = "폭포수 모델의 검증 한계를 극복한 V-모델의 구조, 검증(Verification)과 확인(Validation)의 매핑 관계, 실무 테스트 전략 분석"
-date = "2024-05-20"
-[taxonomies]
-categories = ["Software Engineering"]
-tags = ["V-모델", "검증", "확인", "소프트웨어 테스트", "SDLC"]
-+++
+---
+title: 5. V-모델 (V-Model) - 검증(Verification)과 확인(Validation)의 대응
+date: '2024-05-20'
+description: 폭포수 모델의 검증 한계를 극복한 V-모델의 구조, 검증(Verification)과 확인(Validation)의 매핑 관계,
+  실무 테스트 전략 분석
+tags:
+- software_engineering
+---
 
 # V-모델 ([[132_v_model_sdlc_verification_validation_testing|V-Model]])
 #### 핵심 인사이트 (3줄 요약)

@@ -1,10 +1,9 @@
-+++
-weight = 720
-title = "720. Memcached 증폭 서버 공격 방어 미흡 (5만배 반사)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 720. Memcached 증폭 서버 공격 방어 미흡 (5만배 반사)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

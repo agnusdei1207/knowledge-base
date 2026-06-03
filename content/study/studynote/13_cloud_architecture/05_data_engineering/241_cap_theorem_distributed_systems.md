@@ -1,10 +1,9 @@
-+++
-weight = 241
-title = "241. CAP 정리 (CAP Theorem in Distributed Systems)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 241. CAP 정리 (CAP Theorem in Distributed Systems)
+date: '2026-05-05'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[341_process|CAP]] 정리는 수천 대의 서버로 구성된 [[136_variance|분산]] [[002_database_definition|데이터베이스]] 시스템이 **C([[194_consistency_database_integrity|일관성]]), A([[452_availability|가용성]]), P(네트워크 분할 허용성)**의 3가지 절대 가치 중, 물리적 한계로 인해 **동시에 최대 2가지만 가질 수 있다는 컴퓨터 공학의 불가능성(Impossibility) 증명**이다.

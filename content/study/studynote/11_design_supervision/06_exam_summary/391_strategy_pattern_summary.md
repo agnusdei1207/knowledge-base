@@ -1,10 +1,9 @@
-+++
-weight = 391
-title = "391. 전략 패턴 (Strategy Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 391. 전략 패턴 (Strategy Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

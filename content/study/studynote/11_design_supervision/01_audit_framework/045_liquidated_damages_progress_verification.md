@@ -1,10 +1,9 @@
-+++
-weight = 45
-title = "45. 사업자 지체상금 분쟁 예방을 위한 진척도 및 지연 사유 증빙 점검 (Liquidated Damages Progress Verification)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 45. 사업자 지체상금 분쟁 예방을 위한 진척도 및 지연 사유 증빙 점검 (Liquidated Damages Progress Verification)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

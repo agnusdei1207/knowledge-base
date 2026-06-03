@@ -1,10 +1,10 @@
-+++
-weight = 262
-title = "262. BDD (Behavior-Driven Development) 비즈니스 언어 포맷 (Given-When-Then) 기반 인수 테스트 (Cucumber 연동망)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 262. BDD (Behavior-Driven Development) 비즈니스 언어 포맷 (Given-When-Then) 기반 인수 테스트
+  (Cucumber 연동망)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

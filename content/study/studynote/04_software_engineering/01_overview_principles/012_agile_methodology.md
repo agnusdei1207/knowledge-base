@@ -1,12 +1,10 @@
-+++
-weight = 12
-title = "12. 애자일 방법론 (Agile Methodology) 개요"
-description = "변화하는 비즈니스 요구에 신속하게 대응하기 위해 가치 중심적, 점진적으로 소프트웨어를 개발하는 최신 실무 철학과 프레임워크"
-date = "2024-05-01"
-[taxonomies]
-tags = ["Agile", "Scrum", "XP", "Software Engineering", "Project Management"]
-categories = ["studynote-se"]
-+++
+---
+title: 12. 애자일 방법론 (Agile Methodology) 개요
+date: '2024-05-01'
+description: 변화하는 비즈니스 요구에 신속하게 대응하기 위해 가치 중심적, 점진적으로 소프트웨어를 개발하는 최신 실무 철학과 프레임워크
+tags:
+- software_engineering
+---
 
 # [[004_agile_relation|애자일]] 방법론 ([[004_agile_relation|Agile]] Methodology) 개요
 

@@ -1,10 +1,9 @@
-+++
-weight = 42
-title = "42. 객관적 증거 수집 원칙 (Objective Evidence Collection)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 42. 객관적 증거 수집 원칙 (Objective Evidence Collection)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 102
-title = "102. 환경 분석 (Environmental Analysis)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 102. 환경 분석 (Environmental Analysis)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 환경 분석 (Environmental Analysis)의 본질은 거시 환경([[102_isp_environmental_analysis_pest_5forces|PEST]]), 산업 환경(5 Forces), 내부 역량([[249_value_chain_competitive_analysis|Value Chain]]) 분석을 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

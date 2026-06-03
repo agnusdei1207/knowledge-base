@@ -1,8 +1,8 @@
-+++
-weight = 3
-title = "03. GoF 디자인 패턴: 생성 및 구조 패턴"
-sort_by = "weight"
-+++
+---
+title: '03. GoF 디자인 패턴: 생성 및 구조 패턴'
+tags:
+- design_supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

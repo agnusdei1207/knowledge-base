@@ -1,10 +1,9 @@
-+++
-weight = 298
-title = "298. 쿼리(Q) / 키(K) / 밸류(V)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 298. 쿼리(Q) / 키(K) / 밸류(V)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

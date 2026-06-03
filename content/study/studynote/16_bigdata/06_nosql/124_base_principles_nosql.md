@@ -1,10 +1,9 @@
-+++
-weight = 124
-title = "BASE 원칙 (Basically Available, Soft State, Eventual Consistency)"
-date = "2024-05-22"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: BASE 원칙 (Basically Available, Soft State, Eventual Consistency)
+date: '2024-05-22'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **[[452_availability|가용성]] 우선([[452_availability|Availability]] First):** [[001_dikw_pyramid|데이터]]의 엄격한 [[194_consistency_database_integrity|일관성]](ACID)을 희생하더라도, 대규모 [[136_variance|분산]] 환경에서 중단 없는 [[090_service_kubernetes_network_load_balancing|서비스]]를 제공하는 NoSQL의 핵심 철학임.

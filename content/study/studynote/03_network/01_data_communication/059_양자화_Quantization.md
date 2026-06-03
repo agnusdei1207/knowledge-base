@@ -1,10 +1,9 @@
-+++
-weight = 59
-title = "59. 양자화 (Quantization) - 선형/비선형"
-date = "2026-03-30"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 59. 양자화 (Quantization) - 선형/비선형
+date: '2026-03-30'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

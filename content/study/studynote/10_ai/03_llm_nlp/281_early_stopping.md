@@ -1,10 +1,9 @@
-+++
-weight = 281
-title = "281. 조기 종료 (Early Stopping)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 281. 조기 종료 (Early Stopping)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

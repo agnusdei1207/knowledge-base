@@ -1,10 +1,9 @@
-+++
-weight = 147
-title = "147. 데이터·애플리케이션·프로세스 통합 (ETL / API / BPM)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 147. 데이터·애플리케이션·프로세스 통합 (ETL / API / BPM)
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 엔터프라이즈 통합은 [[136_variance|분산]]된 시스템 사이의 [[001_dikw_pyramid|데이터]]·기능·프로세스를 하나의 흐름으로 연결하는 것으로, **[[215_etl_vs_elt_pipeline|ETL]](Extract-Transform-Load)은 [[001_dikw_pyramid|데이터]] 통합**, **[[014_api_posix|API]]([[014_api_posix|Application Programming Interface]])와 [[389_mesh_topology|메시]]지는 애플리케이션 통합**, **[[199_bpm_business_process_management_orchestrator|BPM]]([[199_bpm_business_process_management_orchestrator|Business Process Management]])은 비즈니스 프로세스 통합**을 각각 담당한다.

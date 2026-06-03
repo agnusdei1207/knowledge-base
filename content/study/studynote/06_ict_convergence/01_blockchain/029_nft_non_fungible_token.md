@@ -1,10 +1,9 @@
-+++
-weight = 29
-title = "29. NFT — 대체 불가 토큰 (Non-Fungible Token)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 29. NFT — 대체 불가 토큰 (Non-Fungible Token)
+date: '2026-04-29'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NFT(Non-Fungible Token)는 [[004_blockchain|블록체인]]에서 고유성·소유권·이전 이력이 보장되는 디지털 자산 표준이다. FT(Fungible Token, 동질)와 달리 각 NFT는 고유 ID와 메타데이터를 가져 대체 불가능하다. 이더리움 ERC-721이 표준이다.

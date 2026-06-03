@@ -1,10 +1,9 @@
-+++
-weight = 511
-title = "511. 디렉터리 캐시 (Directory Cache)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 511. 디렉터리 캐시 (Directory Cache)
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

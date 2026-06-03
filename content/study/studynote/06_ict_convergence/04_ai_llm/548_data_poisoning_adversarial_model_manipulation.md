@@ -1,10 +1,9 @@
-+++
-weight = 548
-title = "548. 데이터 포이즈닝과 적대적 예제 모델 오판 (Data Poisoning Adversarial Model Manipulation)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 548. 데이터 포이즈닝과 적대적 예제 모델 오판 (Data Poisoning Adversarial Model Manipulation)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

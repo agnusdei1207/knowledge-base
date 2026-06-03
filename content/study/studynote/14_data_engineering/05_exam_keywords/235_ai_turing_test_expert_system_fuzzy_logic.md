@@ -1,10 +1,9 @@
-+++
-weight = 235
-title = "235. AI 튜링 테스트 (Turing Test) 전문가 시스템 (Expert System) 퍼지 논리 (Fuzzy Logic)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 235. AI 튜링 테스트 (Turing Test) 전문가 시스템 (Expert System) 퍼지 논리 (Fuzzy Logic)
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: AI의 역사는 "규칙 기반(Rule-Based) → 통계 학습 → 딥러닝"의 패러다임 변화로 요약되며, 각 단계는 이전 방법의 한계를 극복하는 과정이었다.

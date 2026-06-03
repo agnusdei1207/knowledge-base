@@ -1,8 +1,8 @@
-+++
-weight = 6
-title = "04. 트랜잭션, 동시성 제어 및 회복"
-sort_by = "weight"
-+++
+---
+title: 04. 트랜잭션, 동시성 제어 및 회복
+tags:
+- database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

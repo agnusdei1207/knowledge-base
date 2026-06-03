@@ -1,10 +1,9 @@
-+++
-weight = 244
-title = "244. 애자일 사용자 스토리 INVEST 원칙 (Agile User Story INVEST Principle)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 244. 애자일 사용자 스토리 INVEST 원칙 (Agile User Story INVEST Principle)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

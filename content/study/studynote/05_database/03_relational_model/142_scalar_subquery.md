@@ -1,10 +1,9 @@
-+++
-weight = 142
-title = "142. 스칼라 서브쿼리 (Scalar Subquery) - SELECT 절 단일값 반환"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 142. 스칼라 서브쿼리 (Scalar Subquery) - SELECT 절 단일값 반환
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 스칼라 서브쿼리는 **[[520_select|SELECT]] 절에서 단일 행·단일 열(스칼라 값)을 반환**하는 서브쿼리이며, 각 행마다 서브쿼리가 실행되어 결과를 하나의 컬럼으로 표시한다.

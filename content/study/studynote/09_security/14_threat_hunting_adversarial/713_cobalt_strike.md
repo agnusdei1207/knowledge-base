@@ -1,10 +1,9 @@
-+++
-weight = 713
-title = "713. Cobalt Strike (Cobalt Strike)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 713. Cobalt Strike (Cobalt Strike)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

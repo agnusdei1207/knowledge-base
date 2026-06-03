@@ -1,10 +1,9 @@
-+++
-weight = 98
-title = "결정 계수 (Coefficient of Determination) - R-Squared"
-date = "2026-03-04"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 결정 계수 (Coefficient of Determination) - R-Squared
+date: '2026-03-04'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

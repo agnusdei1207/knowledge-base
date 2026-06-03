@@ -1,10 +1,9 @@
-+++
-weight = 299
-title = "299. 데브섹옵스 시프트 레프트 초기 보안 (DevSecOps)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 299. 데브섹옵스 시프트 레프트 초기 보안 (DevSecOps)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[653_devsecops_shift_left|데브섹옵스]] [[242_shift_left_sdlc|시프트 레프트]] [[459_quic_fec_forward_error_correction|초기]] 보안는 변경 관리와 운영 자동화에서 보안과 통제를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

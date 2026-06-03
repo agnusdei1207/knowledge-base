@@ -1,10 +1,9 @@
-+++
-weight = 188
-title = "188. OOM (Out of Memory) 메모리 보호 GC (Garbage Collection) 스파크 스왑 방어"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 188. OOM (Out of Memory) 메모리 보호 GC (Garbage Collection) 스파크 스왑 방어
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

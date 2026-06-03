@@ -1,10 +1,9 @@
-+++
-weight = 741
-title = "741. CASB (Cloud Access Security Broker 클라우드 망 접속 보안 모니터/가시성 유지 시스템)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 741. CASB (Cloud Access Security Broker 클라우드 망 접속 보안 모니터/가시성 유지 시스템)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

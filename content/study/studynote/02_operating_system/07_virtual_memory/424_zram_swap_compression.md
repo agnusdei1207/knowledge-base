@@ -1,10 +1,9 @@
-+++
-weight = 424
-title = "424. ZRAM / 커널 스왑 압축 기술 (Zram Swap Compression)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 424. ZRAM / 커널 스왑 압축 기술 (Zram Swap Compression)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 397
-title = "397. 정보 이론 쿨백-라이블러 발산 (KL Divergence)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 397. 정보 이론 쿨백-라이블러 발산 (KL Divergence)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

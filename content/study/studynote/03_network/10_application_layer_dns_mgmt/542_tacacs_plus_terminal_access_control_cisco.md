@@ -1,10 +1,9 @@
-+++
-weight = 542
-title = "542. TACACS+ (Terminal Access Controller Access Control System Plus)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 542. TACACS+ (Terminal Access Controller Access Control System Plus)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

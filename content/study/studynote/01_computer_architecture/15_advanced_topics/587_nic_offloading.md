@@ -1,10 +1,9 @@
-+++
-weight = 587
-title = "587. 네트워크 인터페이스 카드 (NIC) 오프로딩"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 587. 네트워크 인터페이스 카드 (NIC) 오프로딩
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

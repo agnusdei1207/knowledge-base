@@ -1,7 +1,9 @@
-+++
-title = "95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement), 데이터 가용성(DA) 계층을 분리하여 확장성 극대화"
-weight = 95
-+++
+---
+title: 95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement),
+  데이터 가용성(DA) 계층을 분리하여 확장성 극대화
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[192_module_independence|모듈]]러 [[004_blockchain|블록체인]] (Modular [[004_blockchain|Blockchain]])은 연산, 합의, 정산, [[001_dikw_pyramid|데이터]] 저장 등 [[004_blockchain|블록체인]]의 모든 기능을 한 노드가 처리하던 모놀리식 (Monolithic) 구조를 깨고, 역할별로 계층(Layer)을 분리한 차세대 아키텍처다.

@@ -1,10 +1,9 @@
-+++
-weight = 103
-title = "103. 스레드 풀 (Thread Pool)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 103. 스레드 풀 (Thread Pool)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[092_thread_lwp|스레드]] 풀 ([[092_thread_lwp|Thread]] Pool)은 일정한 수의 워커 [[092_thread_lwp|스레드]] (Worker [[092_thread_lwp|Thread]])를 미리 생성하여 큐([[058_queue|Queue]])에 대기 중인 작업을 순차적으로 꺼내 실행하게 하는 [[014_concurrency|동시성]] 자원 관리 패턴이다.

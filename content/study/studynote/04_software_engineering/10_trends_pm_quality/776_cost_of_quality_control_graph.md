@@ -1,10 +1,9 @@
-+++
-weight = 776
-title = "776. 소프트웨어 품질 비용 통제 그래프 최적점"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 776. 소프트웨어 품질 비용 통제 그래프 최적점
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

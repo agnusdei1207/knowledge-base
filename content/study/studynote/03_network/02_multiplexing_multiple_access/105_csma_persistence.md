@@ -1,12 +1,11 @@
-+++
-weight = 105
-title = "105. 1-Persistent, Non-Persistent, p-Persistent CSMA"
-description = "CSMA에서 채널이 사용 중일 때 노드가 대기하는 세 가지 전략적 접근 방식(지속 방식)의 동작 원리, 장단점 및 트레이드오프를 심층 분석합니다."
-date = "2026-03-04"
-[taxonomies]
-tags = ["CSMA", "지속방식", "MAC", "네트워크 통신"]
-categories = ["studynote-network"]
-+++
+---
+title: 105. 1-Persistent, Non-Persistent, p-Persistent CSMA
+date: '2026-03-04'
+description: CSMA에서 채널이 사용 중일 때 노드가 대기하는 세 가지 전략적 접근 방식(지속 방식)의 동작 원리, 장단점 및 트레이드오프를
+  심층 분석합니다.
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[104_csma|CSMA]] (Carrier Sense [[087_다중접속_Multiple_Access|Multiple Access]]) 환경에서 통신 [[121_transmission_media_guided_unguided|매체]]가 이미 사용 중일 때, 데이터를 전송하려는 노드가 충돌을 최소화하고 [[121_transmission_media_guided_unguided|매체]] 접근 기회를 획득하기 위해 대기 및 재시도하는 세 가지 [[130_probability|확률]]적 [[268_strategy_pattern|전략]](지속 방식)이다.

@@ -1,10 +1,9 @@
-+++
-weight = 356
-title = "356. 페이징에서의 공유 페이지 (Shared Pages) - 읽기 전용 코드(Reentrant code) 공유"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 356. 페이징에서의 공유 페이지 (Shared Pages) - 읽기 전용 코드(Reentrant code) 공유
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

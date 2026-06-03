@@ -1,11 +1,10 @@
-+++
-weight = 12
-title = "12. 무상태 프로세스 (Stateless Processes) - 애플리케이션은 상태를 공유하지 않고 무상태로 실행되며, 상태는 DB 등에 저장"
-date = "2026-04-05"
-[taxonomies]
-tags = ["Stateless Processes", "무상태", "프로세스", "12팩터", "세션"]
-categories = ["15_devops_sre"]
-+++
+---
+title: 12. 무상태 프로세스 (Stateless Processes) - 애플리케이션은 상태를 공유하지 않고 무상태로 실행되며, 상태는 DB
+  등에 저장
+date: '2026-04-05'
+tags:
+- devops_sre
+---
 
 # 무상태 프로세스
 

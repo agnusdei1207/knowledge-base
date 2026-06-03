@@ -1,10 +1,9 @@
-+++
-weight = 474
-title = "474. ETag / Last-Modified 검증 (304 Not Modified)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 474. ETag / Last-Modified 검증 (304 Not Modified)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

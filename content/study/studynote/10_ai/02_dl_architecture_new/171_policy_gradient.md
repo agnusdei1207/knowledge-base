@@ -1,10 +1,9 @@
-+++
-weight = 171
-title = "171. 정책 경사법 (Policy Gradient)"
-date = "2026-04-17"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 171. 정책 경사법 (Policy Gradient)
+date: '2026-04-17'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

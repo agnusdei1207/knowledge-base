@@ -1,10 +1,9 @@
-+++
-weight = 460
-title = "460. 머신러닝 과적합 앙상블 배깅 부스팅 모델 비교 (ML Overfitting, Ensemble, Bagging, Boosting)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 460. 머신러닝 과적합 앙상블 배깅 부스팅 모델 비교 (ML Overfitting, Ensemble, Bagging, Boosting)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

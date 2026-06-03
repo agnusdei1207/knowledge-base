@@ -1,10 +1,9 @@
-+++
-weight = 103
-title = "103. ASCII 코드"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 103. ASCII 코드
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ASCII (American Standard [[082_process_memory_structure|Code]] for Information Interchange)는 1960년대 서로 다른 제조사의 장비들이 문자(Alphabet)와 제어 [[130_signal|신호]](Control [[082_process_memory_structure|Code]])를 동일하게 인식하도록 제정된 **최초의 7비트 범용 문자 인코딩 표준 규약**이다.

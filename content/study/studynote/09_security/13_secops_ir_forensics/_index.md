@@ -1,9 +1,8 @@
-+++
-weight = 13
-title = "13. 보안 운영 (SecOps) / 침해 사고 대응 / 포렌식 (SecOps / IR / Forensics)"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 13. 보안 운영 (SecOps) / 침해 사고 대응 / 포렌식 (SecOps / IR / Forensics)
+tags:
+- studynote-security
+---
 
 # 13. 보안 운영 (SecOps) / 침해 사고 대응 / 포렌식
 

@@ -1,11 +1,9 @@
-+++
-weight = 219
-title = "219. 데이터 레이크 (Data Lake) - 원시 데이터 중심의 전사적 통합 저장소"
-date = "2026-03-04"
-[taxonomies]
-tags = ["Data Lake", "S3", "Schema-on-Read", "Big Data", "Data Warehouse"]
-categories = ["13_cloud_architecture"]
-+++
+---
+title: 219. 데이터 레이크 (Data Lake) - 원시 데이터 중심의 전사적 통합 저장소
+date: '2026-03-04'
+tags:
+- cloud_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **무제한 원시 [[001_dikw_pyramid|데이터]] 저장:** 정형(DB), 반정형([[343_json|JSON]], Log), 비정형(이미지, 영상) [[001_dikw_pyramid|데이터]]를 가공 없이 원본 그대로 대량 저장할 수 있는 중앙 저장소이다.

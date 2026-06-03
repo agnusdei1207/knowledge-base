@@ -1,7 +1,8 @@
-+++
-title = "58. 하이퍼레저 패브릭 (Hyperledger Fabric) - 허가형 기업용 블록체인"
-weight = 58
-+++
+---
+title: 58. 하이퍼레저 패브릭 (Hyperledger Fabric) - 허가형 기업용 블록체인
+tags:
+- ict_convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

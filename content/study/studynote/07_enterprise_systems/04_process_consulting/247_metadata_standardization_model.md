@@ -1,10 +1,9 @@
-+++
-weight = 247
-title = "247. 메타데이터 표준화 모델 도출 (Metadata Standardization Model)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-enterprise"
-+++
+---
+title: 247. 메타데이터 표준화 모델 도출 (Metadata Standardization Model)
+date: '2026-05-09'
+tags:
+- studynote-enterprise
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

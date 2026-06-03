@@ -1,10 +1,9 @@
-+++
-weight = 106
-title = "103. 연관 규칙 (Association Rules) — Apriori/FP-Growth 장바구니 분석"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 103. 연관 규칙 (Association Rules) — Apriori/FP-Growth 장바구니 분석
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 연관 규칙 (Association Rules)은 대규모 거래 [[001_dikw_pyramid|데이터]]에서 "A를 사면 B도 산다"처럼 항목 간의 공동 출현 패턴을 자동으로 발굴하는 [[122_unsupervised_learning|비지도 학습]] 기법이다.

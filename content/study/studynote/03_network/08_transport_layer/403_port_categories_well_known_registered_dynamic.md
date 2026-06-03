@@ -1,10 +1,9 @@
-+++
-weight = 403
-title = "403. Well-Known 포트 (0~1023), Registered 포트 (1024~49151), Dynamic 포트 (49152~65535)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 403. Well-Known 포트 (0~1023), Registered 포트 (1024~49151), Dynamic 포트 (49152~65535)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

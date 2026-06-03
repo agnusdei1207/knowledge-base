@@ -1,10 +1,9 @@
-+++
-weight = 82
-title = "82. IEEE 1471 (ISO/IEC 42010)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 82. IEEE 1471 (ISO/IEC 42010)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

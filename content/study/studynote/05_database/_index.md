@@ -1,12 +1,8 @@
-+++
-weight = 5
-title = "05: 데이터베이스 (Database)"
-render = true
-sort_by = "weight"
-insert_anchor_links = "right"
-[extra]
-category = "studynote-database"
-+++
+---
+title: '05: 데이터베이스 (Database)'
+tags:
+- studynote-database
+---
 # 도메인 05: 데이터베이스 (Database)
 
 ## 핵심 인사이트 (3줄 요약)

@@ -1,10 +1,9 @@
-+++
-weight = 117
-title = "117. BRM (Business Reference Model, 업무 참조 모델)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 117. BRM (Business Reference Model, 업무 참조 모델)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[117_brm_business_reference_model|BRM]] (Business [[116_reference_model|Reference Model]], 업무 [[116_reference_model|참조 모델]])의 본질은 기관의 업무 기능을 중복 없이 분류를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.

@@ -1,10 +1,9 @@
-+++
-weight = 74
-title = "74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)"
-date = "2026-04-07"
-[extra]
-categories = "studynote-blockchain"
-+++
+---
+title: 74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)
+date: '2026-04-07'
+tags:
+- studynote-blockchain
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

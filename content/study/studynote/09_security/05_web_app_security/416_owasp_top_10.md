@@ -1,10 +1,9 @@
-+++
-weight = 416
-title = "416. OWASP Top 10 (OWASP Top 10)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 416. OWASP Top 10 (OWASP Top 10)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

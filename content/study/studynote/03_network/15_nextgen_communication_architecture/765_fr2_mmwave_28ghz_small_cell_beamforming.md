@@ -1,10 +1,9 @@
-+++
-weight = 765
-title = "765. FR2 주파수 (mmWave 24Ghz~ 밀리미터파 직진성 극한, 장애물 회절 약화 대형 스몰셀 조밀 구성 기술 체계 대역)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 765. FR2 주파수 (mmWave 24Ghz~ 밀리미터파 직진성 극한, 장애물 회절 약화 대형 스몰셀 조밀 구성 기술 체계 대역)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

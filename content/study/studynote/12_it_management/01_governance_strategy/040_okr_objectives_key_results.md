@@ -1,10 +1,9 @@
-+++
-title = "040. OKR (Objectives and Key Results) — 목표와 핵심 결과"
-weight = 40
-date = "2026-04-21"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 040. OKR (Objectives and Key Results) — 목표와 핵심 결과
+date: '2026-04-21'
+tags:
+- studynote-it-management
+---
 
 > **핵심 인사이트**
 > 1. [[039_okr_objectives_key_results|OKR]](Objectives and [[067_db_key_uniqueness_minimality|Key]] Results)은 Intel에서 시작해 Google이 확산시킨 목표 관리 프레임워크로, O(Objective, 도전적 질적 목표)와 KR([[067_db_key_uniqueness_minimality|Key]] Results, 측정 가능한 결과)의 조합으로 "무엇을 달성할 것인가(Why)"와 "어떻게 측정할 것인가(How much)"를 분리한다.

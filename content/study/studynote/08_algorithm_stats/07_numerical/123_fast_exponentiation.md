@@ -1,10 +1,9 @@
-+++
-title = "004. 빠른 거듭제곱 — Fast Exponentiation"
-weight = 123
-date = "2026-04-05"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 004. 빠른 거듭제곱 — Fast Exponentiation
+date: '2026-04-05'
+tags:
+- studynote-algorithm-stats
+---
 
 > **핵심 인사이트**
 > 1. 빠른 거듭제곱(Fast Exponentiation)은 a^b를 O(log b) 번의 곱셈으로 계산 — a^b를 나이브하게 계산하면 O(b) 번 곱셈이 필요하지만, 반복 제곱법(Repeated Squaring)을 사용하면 지수를 이진수로 표현하여 O(log b)로 줄인다.

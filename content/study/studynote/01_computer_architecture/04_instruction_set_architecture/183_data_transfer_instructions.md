@@ -1,10 +1,9 @@
-+++
-weight = 183
-title = "183. 데이터 전송 명령어 (Data Transfer Instructions)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 183. 데이터 전송 명령어 (Data Transfer Instructions)
+date: '2026-05-06'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

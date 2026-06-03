@@ -1,5 +1,7 @@
 ---
-title: "📓 Daily Journal"
+title: 📓 Daily Journal
+tags:
+- personal
 ---
 
 # 📓 Daily Journal

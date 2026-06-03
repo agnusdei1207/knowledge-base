@@ -1,10 +1,9 @@
-+++
-weight = 194
-title = "04. 데이터 리니지 (Data Lineage) - 데이터 계보 추적 시스템"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 04. 데이터 리니지 (Data Lineage) - 데이터 계보 추적 시스템
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # [[214_data_lineage_tracking|데이터 리니지]] ([[214_data_lineage_tracking|Data Lineage]]) - [[001_dikw_pyramid|데이터]] 계보 추적 시스템
 

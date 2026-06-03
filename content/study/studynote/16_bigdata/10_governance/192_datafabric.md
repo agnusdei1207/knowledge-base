@@ -1,10 +1,9 @@
-+++
-weight = 192
-title = "02. 데이터 패브릭 (Data Fabric) - 지능형 데이터 통합 아키텍처"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 02. 데이터 패브릭 (Data Fabric) - 지능형 데이터 통합 아키텍처
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # [[212_data_fabric_virtualization|데이터 패브릭]] ([[212_data_fabric_virtualization|Data Fabric]]) - 지능형 [[001_dikw_pyramid|데이터]] 통합 아키텍처
 

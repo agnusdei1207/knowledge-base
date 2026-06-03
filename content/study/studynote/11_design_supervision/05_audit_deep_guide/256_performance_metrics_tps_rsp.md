@@ -1,10 +1,9 @@
-+++
-weight = 256
-title = "256. 성능 진단 지표 TPS/응답시간 (Performance Metrics TPS/Response Time)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 256. 성능 진단 지표 TPS/응답시간 (Performance Metrics TPS/Response Time)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

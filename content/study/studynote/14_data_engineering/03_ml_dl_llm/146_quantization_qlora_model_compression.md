@@ -1,10 +1,9 @@
-+++
-weight = 146
-title = "146. 양자화 & QLoRA - 모델 압축과 효율적 학습"
-date = "2026-04-19"
-[extra]
-categories = "studynote-dataengineering"
-+++
+---
+title: 146. 양자화 & QLoRA - 모델 압축과 효율적 학습
+date: '2026-04-19'
+tags:
+- studynote-dataengineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[434_quantization|양자화]]([[434_quantization|Quantization]])는 **FP32/FP16 가중치를 INT8/INT4로 축소**하여 메모리·연산을 줄이는 모델 [[347_compaction|압축]] 기법이며, QLoRA는 **4비트 [[434_quantization|양자화]]된 모델에 LoRA를 적용**하여 단일 소비자 [[418_gpu|GPU]](24GB)에서 [[263_llm_large_language_model|LLM]] Fine-tuning을 가능하게 했다.

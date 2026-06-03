@@ -1,10 +1,9 @@
-+++
-weight = 223
-title = "223. 양자 우위 (Quantum Supremacy)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 223. 양자 우위 (Quantum Supremacy)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

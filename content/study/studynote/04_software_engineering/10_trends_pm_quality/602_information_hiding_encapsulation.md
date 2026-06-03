@@ -1,10 +1,9 @@
-+++
-weight = 602
-title = "602. 정보 은닉(Information Hiding) 캡슐화 연계"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 602. 정보 은닉(Information Hiding) 캡슐화 연계
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

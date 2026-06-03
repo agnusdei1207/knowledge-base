@@ -1,10 +1,9 @@
-+++
-weight = 172
-title = "172. 이분 매칭 (Bipartite Matching)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 172. 이분 매칭 (Bipartite Matching)
+date: '2026-05-06'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

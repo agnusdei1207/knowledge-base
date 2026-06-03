@@ -1,10 +1,9 @@
-+++
-weight = 195
-title = "195. 정보보호 공시 제도"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 195. 정보보호 공시 제도
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보보호 공시 제도의 본질은 기업의 정보보호 투자액, 전담 인력, [[303_authentication_authorization_patterns|인증]] 획득 현황을 주주/소비자에게 투명하게 공시하는 제도를 예방·탐지·대응 통제와 증적으로 운영하는 데 있다.

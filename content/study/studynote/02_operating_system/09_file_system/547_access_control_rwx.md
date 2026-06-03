@@ -1,10 +1,10 @@
-+++
-weight = 547
-title = "547. 파일 시스템 접근 제어 (Access Control) - 소유자, 그룹, 기타(Other)의 rwx 권한 (r=4, w=2, x=1)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 547. 파일 시스템 접근 제어 (Access Control) - 소유자, 그룹, 기타(Other)의 rwx 권한 (r=4, w=2,
+  x=1)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

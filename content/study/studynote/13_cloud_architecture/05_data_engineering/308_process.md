@@ -1,10 +1,9 @@
-+++
-weight = 308
-title = "308. 플랫폼 엔지니어링 IDP 인지 부하 감소 골든 패스 (IDP)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 308. 플랫폼 엔지니어링 IDP 인지 부하 감소 골든 패스 (IDP)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] [[536_idp_identity_provider|IDP]] [[686_cognitive_load_team_topologies|인지 부하]] 감소 골든 패스는 클라우드 시스템에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

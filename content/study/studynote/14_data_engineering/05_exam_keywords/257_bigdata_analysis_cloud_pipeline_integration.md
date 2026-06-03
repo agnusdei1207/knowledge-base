@@ -1,10 +1,9 @@
-+++
-weight = 257
-title = "257. 빅데이터 분석 클라우드 파이프라인 통합 아키텍처 종합"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 257. 빅데이터 분석 클라우드 파이프라인 통합 아키텍처 종합
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 현대 클라우드 [[001_dikw_pyramid|데이터]] 플랫폼은 수집→저장→처리→분석→서빙의 5단계 [[123_pipe|파이프]]라인을 자동화·탄력화하여 페타바이트(PB) 규모 [[001_dikw_pyramid|데이터]]를 비즈니스 인사이트로 전환한다.

@@ -1,10 +1,9 @@
-+++
-weight = 869
-title = "869. CMMC 2.0 Levels (Level 1-3)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 869. CMMC 2.0 Levels (Level 1-3)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

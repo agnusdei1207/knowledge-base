@@ -1,10 +1,9 @@
-+++
-weight = 146
-title = "146. mTLS (Mutual TLS) - 서비스 간 상호 인증·암호화"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 146. mTLS (Mutual TLS) - 서비스 간 상호 인증·암호화
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: mTLS는 **클라이언트와 서버가 양쪽 모두 [[303_authentication_authorization_patterns|인증]]서를 [[395_verification_process_review|검증]](상호 [[303_authentication_authorization_patterns|인증]])**하는 [[694_thread_local_storage_tls|TLS]] 확장이며, [[302_service_mesh_istio|서비스 메시]]([[302_service_mesh_istio|Istio]])에서 **[[090_service_kubernetes_network_load_balancing|서비스]] 간 통신의 암호화·[[303_authentication_authorization_patterns|인증]]·[[003_integrity|무결성]]**을 보장하는 핵심 메커니즘이다.

@@ -1,10 +1,10 @@
-+++
-title = "01. 아파치 하둡 (Apache Hadoop) - 분산 스토리지 및 처리"
-date = "2026-03-04"
-weight = 23
-[extra]
-categories = ["studynote-bigdata", "hadoop"]
-+++
+---
+title: 01. 아파치 하둡 (Apache Hadoop) - 분산 스토리지 및 처리
+date: '2026-03-04'
+tags:
+- hadoop
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **빅데이터의 시초**: [[012_apache_hadoop|아파치 하둡]]([[012_apache_hadoop|Apache Hadoop]])은 방대한 [[004_unstructured_data|비정형 데이터]]를 저가형 상용 서버(Commodity Hardware) 수백 대에 [[136_variance|분산]] 저장하고 [[430_index_fast_full_scan|병렬]] 처리하는 [[191_oss_license_compliance|오픈소스]] 자바 프레임워크입니다.

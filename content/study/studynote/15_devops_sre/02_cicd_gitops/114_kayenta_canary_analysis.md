@@ -1,10 +1,9 @@
-+++
-weight = 114
-title = "114. Kayenta 카나리 분석 (Kayenta Canary Analysis) - 자동 배포 판단·ACA"
-date = "2026-04-19"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 114. Kayenta 카나리 분석 (Kayenta Canary Analysis) - 자동 배포 판단·ACA
+date: '2026-04-19'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Kayenta는 Netflix/Google이 개발한 **자동화된 [[595_canary_stack_smashing_protector|카나리]] 분석(Automated [[268_canary_analysis_cpu_spinnaker_kayenta|Canary Analysis]], ACA)** 도구로, [[595_canary_stack_smashing_protector|카나리]] [[288_version_ihl_tos_total_length|버전]]과 [[159_baseline_requirements_configuration_management|베이스라인]]의 **[[342_routing_metric_hop_bandwidth_delay|메트릭]](레이턴시·에러율·CPU)을 통계적으로 비교**하여 배포 [[216_progress_in_synchronization|진행]]/[[098_rollback_strategy_pipeline_error_threshold|롤백]]을 **자동 판단**한다.

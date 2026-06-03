@@ -1,10 +1,9 @@
-+++
-weight = 507
-title = "507. 트리거 (Trigger 이벤트 연동 프로시저 콜)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 507. 트리거 (Trigger 이벤트 연동 프로시저 콜)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

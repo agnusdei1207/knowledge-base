@@ -1,10 +1,9 @@
-+++
-weight = 126
-title = "126. 데이터 표준화 (단어·도메인·용어) - 전사 데이터 용어 통일 체계"
-date = "2026-04-19"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 126. 데이터 표준화 (단어·도메인·용어) - 전사 데이터 용어 통일 체계
+date: '2026-04-19'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]] 표준화는 **단어([[075_word|Word]])→[[064_relation_domain|도메인]]([[064_relation_domain|Domain]])→용어(Term)→컬럼명의 체계적 정의**를 통해 전사 [[001_dikw_pyramid|데이터]]의 명칭·형식·의미를 통일하는 활동이다.

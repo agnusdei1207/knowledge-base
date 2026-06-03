@@ -1,10 +1,9 @@
-+++
-weight = 207
-title = "207. 명령어 사이클 (Instruction Cycle)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 207. 명령어 사이클 (Instruction Cycle)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 # 207. [[158_instruction|명령어]] 사이클 ([[158_instruction|Instruction]] Cycle)
 

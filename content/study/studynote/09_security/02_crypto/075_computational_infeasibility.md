@@ -1,12 +1,10 @@
-+++
-weight = 75
-title = "75. 현대 암호학 기본 가정 — computationally infeasible"
-description = "현대 암호算法的安全性的数学基础：计算上不可能"
-date = 2026-03-26
-
-[extra]
-categories = ["studynote-software-engineering"]
-+++
+---
+title: 75. 현대 암호학 기본 가정 — computationally infeasible
+date: '2026-03-26'
+description: 현대 암호算法的安全性的数学基础：计算上不可能
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

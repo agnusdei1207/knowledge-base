@@ -1,11 +1,10 @@
-+++
-weight = 4
-title = "4. 애자일 (Agile)과의 관계 - 애자일이 개발(기획~코딩)의 속도를 높인다면, DevOps는 애자일의 속도를 운영(배포~모니터링)까지 확장한 체계"
-date = "2026-04-05"
-[taxonomies]
-tags = ["Agile", "애자일", "데브옵스", "스크럼", "瀑布수"]
-categories = ["15_devops_sre"]
-+++
+---
+title: 4. 애자일 (Agile)과의 관계 - 애자일이 개발(기획~코딩)의 속도를 높인다면, DevOps는 애자일의 속도를 운영(배포~모니터링)까지
+  확장한 체계
+date: '2026-04-05'
+tags:
+- devops_sre
+---
 
 # 애자일과의 [[083_relationship_in_er_model|관계]]
 

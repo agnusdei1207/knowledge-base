@@ -1,10 +1,9 @@
-+++
-weight = 784
-title = "784. 개인정보 3대 원칙 (Privacy 3 Principles)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 784. 개인정보 3대 원칙 (Privacy 3 Principles)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

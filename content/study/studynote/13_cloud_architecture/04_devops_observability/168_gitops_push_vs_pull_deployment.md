@@ -1,10 +1,9 @@
-+++
-weight = 168
-title = "168. 푸시 vs 풀 기반 배포 (GitOps Push vs Pull Deployment)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 168. 푸시 vs 풀 기반 배포 (GitOps Push vs Pull Deployment)
+date: '2026-04-21'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: GitOps에서 Push 방식은 [[090_configuration_item|CI]]/CD 파이프라인이 클러스터에 직접 명령을 밀어 넣고, Pull 방식은 클러스터 내 에이전트가 Git을 감시하다가 스스로 당겨온다.

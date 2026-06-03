@@ -1,10 +1,9 @@
-+++
-weight = 426
-title = "426. 비트맵 인덱스 분포도 낮음 특화"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 426. 비트맵 인덱스 분포도 낮음 특화
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

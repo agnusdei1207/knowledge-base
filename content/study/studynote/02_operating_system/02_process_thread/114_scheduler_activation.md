@@ -1,10 +1,9 @@
-+++
-weight = 114
-title = "114. 스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 114. 스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

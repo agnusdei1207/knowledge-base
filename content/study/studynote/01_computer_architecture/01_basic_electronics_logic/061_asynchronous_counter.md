@@ -1,10 +1,9 @@
-+++
-weight = 61
-title = "61. 비동기식 카운터 (리플 카운터)"
-date = "2026-03-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 61. 비동기식 카운터 (리플 카운터)
+date: '2026-03-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

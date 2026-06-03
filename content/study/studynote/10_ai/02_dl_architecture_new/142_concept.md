@@ -1,10 +1,9 @@
-+++
-weight = 142
-title = "142. LLM 스케일링 법칙 & Emergence - 규모의 법칙과 창발"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 142. LLM 스케일링 법칙 & Emergence - 규모의 법칙과 창발
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[249_scaling_normalization_standardization|스케일링]] 법칙(Scaling Laws)은 **모델 크기(N)·[[001_dikw_pyramid|데이터]]양(D)·컴퓨팅(C)이 멱법칙([[069_type_1_2_error_statistical_power|Power]] Law)에 따라 Loss를 예측 가능하게 감소**시킨다는 OpenAI/DeepMind의 실증적 발견이며, Emergence는 **일정 규모 이상에서 예측 불가능한 새 능력**이 갑자기 나타나는 현상이다.

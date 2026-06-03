@@ -1,10 +1,9 @@
-+++
-weight = 550
-title = "550. Azure AD Connect (Azure AD Connect)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 550. Azure AD Connect (Azure AD Connect)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

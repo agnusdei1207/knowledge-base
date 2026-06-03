@@ -1,10 +1,9 @@
-+++
-weight = 464
-title = "464. Q-Learning과 오프 폴리시 (Off-Policy)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 464. Q-Learning과 오프 폴리시 (Off-Policy)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

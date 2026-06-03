@@ -1,10 +1,9 @@
-+++
-weight = 108
-title = "108. CSMA/CA (무선 LAN 충돌 회피)"
-date = "2026-04-01"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 108. CSMA/CA (무선 LAN 충돌 회피)
+date: '2026-04-01'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[104_csma|CSMA]]/[[089_contract_account_smart_contract|CA]](Carrier Sense [[087_다중접속_Multiple_Access|Multiple Access]] with [[563_hash_collision_chaining_linear_probing|Collision]] Avoidance)는 '충돌 감지'가 물리적으로 불가능한 무선 환경의 태생적 한계를 극복하기 위해, 전송 전에 무작위 대기 시간을 가져 충돌을 선제적으로 '회피'하는 IEEE 802.11의 핵심 [[183_mac_media_access_control|매체 접근 제어]] 방식이다.

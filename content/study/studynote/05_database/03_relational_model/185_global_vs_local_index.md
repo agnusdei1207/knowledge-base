@@ -1,10 +1,9 @@
-+++
-weight = 185
-title = "185. 전역 인덱스 (Global Index) vs 지역 인덱스 (Local Index, 파티션별 독립 인덱스)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 185. 전역 인덱스 (Global Index) vs 지역 인덱스 (Local Index, 파티션별 독립 인덱스)
+date: '2026-05-06'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

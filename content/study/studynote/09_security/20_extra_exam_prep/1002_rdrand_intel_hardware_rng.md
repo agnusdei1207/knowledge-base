@@ -1,10 +1,9 @@
-+++
-weight = 1002
-title = "1002. RDRAND (Intel Hardware RNG)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 1002. RDRAND (Intel Hardware RNG)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

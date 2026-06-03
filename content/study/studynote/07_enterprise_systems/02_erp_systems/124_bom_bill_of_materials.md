@@ -1,10 +1,9 @@
-+++
-weight = 124
-title = "124. BOM (Bill of Materials) - 부품 구성 목록·제조업 데이터 핵심"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 124. BOM (Bill of Materials) - 부품 구성 목록·제조업 데이터 핵심
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: BOM은 **제품을 구성하는 모든 부품·원자재·반조립품의 계층적 목록**이며, 각 부품의 수량·사양·대체품을 정의하여 설계→조달→제조→[[090_service_kubernetes_network_load_balancing|서비스]]의 기준 [[001_dikw_pyramid|데이터]] 역할을 한다.

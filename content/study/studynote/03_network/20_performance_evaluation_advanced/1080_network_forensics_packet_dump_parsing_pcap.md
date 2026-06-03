@@ -1,10 +1,9 @@
-+++
-weight = 1080
-title = "1080. 네트워크 포렌식 패킷 덤프 파싱"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1080. 네트워크 포렌식 패킷 덤프 파싱
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

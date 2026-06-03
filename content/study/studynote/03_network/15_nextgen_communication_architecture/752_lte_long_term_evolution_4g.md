@@ -1,10 +1,9 @@
-+++
-weight = 752
-title = "752. LTE (Long Term Evolution 4세대 망 진화) All-IP 패킷 교환 완전 전환, OFDMA"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 752. LTE (Long Term Evolution 4세대 망 진화) All-IP 패킷 교환 완전 전환, OFDMA
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

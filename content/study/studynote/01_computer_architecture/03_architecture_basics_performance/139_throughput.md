@@ -1,10 +1,9 @@
-+++
-weight = 139
-title = "139. 처리량 (Throughput)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 139. 처리량 (Throughput)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

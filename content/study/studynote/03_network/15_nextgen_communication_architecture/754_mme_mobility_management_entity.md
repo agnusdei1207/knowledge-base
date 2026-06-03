@@ -1,10 +1,9 @@
-+++
-weight = 754
-title = "754. MME (Mobility Management Entity 제어 데이터 평면 구조적 통제 핸드오버)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 754. MME (Mobility Management Entity 제어 데이터 평면 구조적 통제 핸드오버)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

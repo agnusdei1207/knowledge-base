@@ -1,10 +1,9 @@
-+++
-weight = 417
-title = "417. DCL (GRANT, REVOKE 권한 통제)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 417. DCL (GRANT, REVOKE 권한 통제)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

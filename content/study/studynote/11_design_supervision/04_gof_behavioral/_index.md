@@ -1,8 +1,8 @@
-+++
-weight = 4
-title = "04. GoF 디자인 패턴: 행위 패턴"
-sort_by = "weight"
-+++
+---
+title: '04. GoF 디자인 패턴: 행위 패턴'
+tags:
+- design_supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

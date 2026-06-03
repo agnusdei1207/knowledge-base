@@ -1,10 +1,9 @@
-+++
-weight = 560
-title = "560. 다중 스트림 (Multi-stream) 파일 / 포크 (Forks) - 데이터 스트림과 리소스 스트림 분리"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 560. 다중 스트림 (Multi-stream) 파일 / 포크 (Forks) - 데이터 스트림과 리소스 스트림 분리
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

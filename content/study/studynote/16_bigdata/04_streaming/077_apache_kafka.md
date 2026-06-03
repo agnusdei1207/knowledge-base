@@ -1,10 +1,9 @@
-+++
-weight = 77
-title = "02. Apache Kafka - 메시징에서 데이터 허브로의 진화"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 02. Apache Kafka - 메시징에서 데이터 허브로의 진화
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # [[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]] - [[389_mesh_topology|메시]]징에서 [[180_data_hub|데이터 허브]]로의 진화
 

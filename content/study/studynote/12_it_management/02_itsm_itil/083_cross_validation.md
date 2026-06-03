@@ -1,12 +1,11 @@
-+++
-weight = 83
-title = "83. 정확히 한 번 (Exactly-Once Semantics) — 2PC + Idempotent Sink"
-description = "교차 검증의 개념, K-Fold, Stratified K-Fold, Leave-One-Out 등 다양한 검증 기법과 장단점 비교"
-date = "2026-04-05"
-[taxonomies]
-tags = ["교차검증", "CrossValidation", "K-Fold", "Stratified", "LOOCV", "검증", "모델평가"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 83. 정확히 한 번 (Exactly-Once Semantics) — 2PC + Idempotent Sink
+date: '2026-04-05'
+description: 교차 검증의 개념, K-Fold, Stratified K-Fold, Leave-One-Out 등 다양한 검증 기법과 장단점
+  비교
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

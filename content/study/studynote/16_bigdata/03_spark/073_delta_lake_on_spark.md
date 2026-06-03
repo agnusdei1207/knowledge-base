@@ -1,10 +1,9 @@
-+++
-weight = 73
-title = "22. Delta Lake on Spark — ACID 트랜잭션 지원 레이크하우스"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 22. Delta Lake on Spark — ACID 트랜잭션 지원 레이크하우스
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

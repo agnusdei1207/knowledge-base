@@ -1,9 +1,9 @@
-+++
-title = "KEDB (Known Error Database, 기지 오류 데이터베이스)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: KEDB (Known Error Database, 기지 오류 데이터베이스)
+date: '2026-03-03'
+tags:
+- studynote-it-management
+---
 
 > **핵심 인사이트 3줄**
 > 1. [[078_kedb|KEDB]]([[078_kedb|Known Error Database]])는 IT [[067_service_operation|서비스 운영]] 중 발생한 근본 원인이 확인된 오류와 임시 조치([[076_workaround_temporary_fix_incident|Workaround]])를 저장한 [[062_itil|ITIL]] [[077_problem_management|문제 관리]] [[002_database_definition|데이터베이스]]다.

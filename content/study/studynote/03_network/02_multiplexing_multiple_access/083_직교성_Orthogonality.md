@@ -1,12 +1,10 @@
-+++
-weight = 83
-title = "83. 직교성 (Orthogonality) 원리"
-description = "겹쳐진 파동이나 코드가 서로에게 단 1%의 간섭도 주지 않고 완벽히 분리될 수 있도록 만드는 통신 공학의 핵심 수학적 성질"
-date = "2026-03-30"
-[taxonomies]
-tags = ["Network", "Orthogonality", "OFDM", "CDM", "Mathematics"]
-categories = ["studynote"]
-+++
+---
+title: 83. 직교성 (Orthogonality) 원리
+date: '2026-03-30'
+description: 겹쳐진 파동이나 코드가 서로에게 단 1%의 간섭도 주지 않고 완벽히 분리될 수 있도록 만드는 통신 공학의 핵심 수학적 성질
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: 직교성 (Orthogonality)은 두 [[130_signal|신호]]·코드·공간 벡터의 내적이 0이 되는 성질로, 서로 겹쳐도 수학적으로 분리되는 기초다.

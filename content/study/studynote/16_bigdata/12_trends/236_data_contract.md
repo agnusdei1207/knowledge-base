@@ -1,10 +1,9 @@
-+++
-weight = 236
-title = "231. 데이터 계약 (Data Contract) 스키마 안정성 보장 생산자-소비자 합의"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 231. 데이터 계약 (Data Contract) 스키마 안정성 보장 생산자-소비자 합의
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 120
-title = "120. 논리 시프트 (Logical Shift)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 120. 논리 시프트 (Logical Shift)
+date: '2026-05-05'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[369_logic_bomb|논리]] 시프트(Logical Shift)는 [[073_bit|비트]] 열을 좌우로 이동시킨 후, 밀려나서 생긴 **모든 빈자리를 부호에 상관없이 무조건 '0'으로 때려 박는** 순수한 물리적 이동 연산이다.

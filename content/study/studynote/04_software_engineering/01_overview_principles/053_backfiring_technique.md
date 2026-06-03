@@ -1,10 +1,9 @@
-+++
-weight = 53
-title = "053. 백파이어링 기법 (Backfiring Technique)"
-date = "2026-05-05"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 053. 백파이어링 기법 (Backfiring Technique)
+date: '2026-05-05'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 백파이어링(Backfiring) 기법은 이미 짜여 있는 기존 프로그램의 **소스 코드 라인 수(LOC)**를 기반으로, 프로그래밍 언어별 환산 계수를 곱해 역으로 소프트웨어의 **[[140_function_point|기능 점수]]([[293_fp_function_point|FP]], [[140_function_point|Function Point]])**를 추정하는 [[389_reverse_engineering|리버스 엔지니어링]] 척도다.

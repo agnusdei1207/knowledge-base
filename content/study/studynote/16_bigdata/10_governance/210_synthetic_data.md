@@ -1,10 +1,9 @@
-+++
-weight = 210
-title = "204. 합성 데이터 (Synthetic Data) — 통계적 특성 보존 개인정보 대체"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 204. 합성 데이터 (Synthetic Data) — 통계적 특성 보존 개인정보 대체
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

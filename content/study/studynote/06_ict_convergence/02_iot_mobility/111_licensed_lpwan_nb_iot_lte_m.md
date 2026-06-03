@@ -1,10 +1,9 @@
-+++
-weight = 111
-title = "111. 면허 대역 LPWAN - NB-IoT vs LTE-M 3GPP 표준 IoT 통신"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 111. 면허 대역 LPWAN - NB-IoT vs LTE-M 3GPP 표준 IoT 통신
+date: '2026-04-19'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 면허 대역 LPWAN은 통신사가 보유한 **[[752_lte_long_term_evolution_4g|LTE]] 면허 주파수 대역**을 활용하여 [[620_nbiot_narrowband_iot_lte_guardband|NB-IoT]](200kHz 협대역)와 [[621_ltem_emtc_iot_mobility_voice|LTE-M]](1.4MHz 광대역)으로 [[101_iot_concept|IoT]] 디바이스에 **통신사급 [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]](품질 보장)**를 제공하는 [[751_3gpp_3rd_generation_partnership_project|3GPP]] 국제 표준 기술이다.

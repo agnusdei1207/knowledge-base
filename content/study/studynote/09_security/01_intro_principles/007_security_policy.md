@@ -1,12 +1,10 @@
-+++
-weight = 7
-title = "7. 보안 정책 (Security Policy)"
-description = "조직의 정보보안을 규율하는 정책과 표준"
-date = 2026-03-26
-
-[extra]
-categories = ["studynote-software-engineering"]
-+++
+---
+title: 7. 보안 정책 (Security Policy)
+date: '2026-03-26'
+description: 조직의 정보보안을 규율하는 정책과 표준
+tags:
+- studynote-software-engineering
+---
 
 # 보안 [[164_policy|정책]] ([[283_security_tactics|Security]] [[164_policy|Policy]])
 

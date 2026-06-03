@@ -1,12 +1,11 @@
-+++
-weight = 12
-title = "12. 엣지 컴퓨팅 (Edge Computing) - 클라우드 중앙 서버로 보내지 않고 단말 주변(Edge)에서 데이터 실시간 처리 (저지연, 대역폭 절약)"
-description = "네트워크 병목 해소와 초저지연 실시간 반응을 위한 엣지 컴퓨팅의 구조와 데이터 분산 처리 전략"
-date = "2026-03-04"
-[taxonomies]
-categories = ["13_cloud_architecture"]
-tags = ["Cloud", "Edge Computing", "IoT", "5G", "AI"]
-+++
+---
+title: 12. 엣지 컴퓨팅 (Edge Computing) - 클라우드 중앙 서버로 보내지 않고 단말 주변(Edge)에서 데이터 실시간 처리 (저지연,
+  대역폭 절약)
+date: '2026-03-04'
+description: 네트워크 병목 해소와 초저지연 실시간 반응을 위한 엣지 컴퓨팅의 구조와 데이터 분산 처리 전략
+tags:
+- cloud_architecture
+---
 
 # [[235_edge_computing_smart_factory|엣지 컴퓨팅]] ([[235_edge_computing_smart_factory|Edge Computing]])
 

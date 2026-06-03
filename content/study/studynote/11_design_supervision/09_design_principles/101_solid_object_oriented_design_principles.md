@@ -1,10 +1,9 @@
-+++
-weight = 101
-title = "객체 지향 설계 원칙 (SOLID)"
-date = "2026-03-04"
-[extra]
-categories = ["studynote-design-supervision"]
-+++
+---
+title: 객체 지향 설계 원칙 (SOLID)
+date: '2026-03-04'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

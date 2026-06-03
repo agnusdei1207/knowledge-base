@@ -1,10 +1,9 @@
-+++
-weight = 422
-title = "422. 인덱스 B+Tree 리프 노드 순차 연결"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 422. 인덱스 B+Tree 리프 노드 순차 연결
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

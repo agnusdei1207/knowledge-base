@@ -1,12 +1,10 @@
-+++
-weight = 15
-title = "15. 예비 조사 (Preliminary Survey) - 피감리인 인터뷰, 과업내용서/제안서 분석을 통해 감리 주안점 도출"
-description = "피감리인 인터뷰와 문서 분석을 통해 프로젝트의 잠복 리스크를 식별하고 감리의 주안점을 도출하는 예비 조사의 핵심 아키텍처"
-date = "2024-05-20"
-[taxonomies]
-tags = ["정보시스템감리", "예비조사", "감리주안점", "이해관계자면담", "자료검토"]
-categories = ["11_design_supervision"]
-+++
+---
+title: 15. 예비 조사 (Preliminary Survey) - 피감리인 인터뷰, 과업내용서/제안서 분석을 통해 감리 주안점 도출
+date: '2024-05-20'
+description: 피감리인 인터뷰와 문서 분석을 통해 프로젝트의 잠복 리스크를 식별하고 감리의 주안점을 도출하는 예비 조사의 핵심 아키텍처
+tags:
+- design_supervision
+---
 
 # 15. 예비 조사 (Preliminary Survey)
 

@@ -1,10 +1,9 @@
-+++
-weight = 515
-title = "515. ID Token (OIDC의 사용자 신원 증명)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 515. ID Token (OIDC의 사용자 신원 증명)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

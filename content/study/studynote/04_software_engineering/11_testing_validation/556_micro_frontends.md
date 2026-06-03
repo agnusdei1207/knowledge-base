@@ -1,10 +1,9 @@
-+++
-weight = 556
-title = "556. 마이크로 프론트엔드 (Micro Frontends) - 모놀리식 프론트엔드를 독립적 팀 단위 컴포넌트로 분할"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 556. 마이크로 프론트엔드 (Micro Frontends) - 모놀리식 프론트엔드를 독립적 팀 단위 컴포넌트로 분할
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

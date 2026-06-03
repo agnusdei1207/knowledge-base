@@ -1,12 +1,10 @@
-+++
-weight = 4
-title = "4. 약인공지능 (Weak AI / Narrow AI) - 특정 작업(바둑, 번역, 인식)에만 특화된 지능"
-description = "특정 도메인과 제한된 작업에 특화되어 현대 산업을 주도하는 실용적 인공지능 패러다임"
-date = "2026-03-04"
-[taxonomies]
-tags = ["AI", "Weak AI", "Narrow AI", "머신러닝"]
-categories = ["studynote-ai"]
-+++
+---
+title: 4. 약인공지능 (Weak AI / Narrow AI) - 특정 작업(바둑, 번역, 인식)에만 특화된 지능
+date: '2026-03-04'
+description: 특정 도메인과 제한된 작업에 특화되어 현대 산업을 주도하는 실용적 인공지능 패러다임
+tags:
+- ai
+---
 
 # 4. 약인공지능 (Weak [[190_ai_llm_requirements_specification|AI]] / Narrow [[190_ai_llm_requirements_specification|AI]])
 

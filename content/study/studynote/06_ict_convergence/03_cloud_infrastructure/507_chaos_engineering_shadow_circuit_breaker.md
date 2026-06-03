@@ -1,10 +1,10 @@
-+++
-weight = 507
-title = "507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos Engineering Shadow Deployment Circuit Breaker)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos Engineering Shadow Deployment Circuit
+  Breaker)
+date: '2026-05-09'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

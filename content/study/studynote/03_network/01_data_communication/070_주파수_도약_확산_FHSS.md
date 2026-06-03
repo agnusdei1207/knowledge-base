@@ -1,12 +1,10 @@
-+++
-weight = 70
-title = "70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)"
-description = "FHSS의 본질과 원리, 아키텍처, DSSS와의 비교 및 실무 적용 가이드"
-date = "2024-05-20"
-[taxonomies]
-tags = ["FHSS", "Spread Spectrum", "Bluetooth", "Wireless", "Network"]
-categories = ["Network", "Physical Layer"]
-+++
+---
+title: 70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)
+date: '2024-05-20'
+description: FHSS의 본질과 원리, 아키텍처, DSSS와의 비교 및 실무 적용 가이드
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

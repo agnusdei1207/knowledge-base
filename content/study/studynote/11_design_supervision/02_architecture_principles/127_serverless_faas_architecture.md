@@ -1,10 +1,9 @@
-+++
-weight = 127
-title = "127. 서버리스·FaaS 아키텍처 (Serverless / FaaS Architecture)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 127. 서버리스·FaaS 아키텍처 (Serverless / FaaS Architecture)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

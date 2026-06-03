@@ -1,10 +1,9 @@
-+++
-weight = 690
-title = "690. 방화벽 (Firewall) 필터링 1,2,3 세대 진화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 690. 방화벽 (Firewall) 필터링 1,2,3 세대 진화
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

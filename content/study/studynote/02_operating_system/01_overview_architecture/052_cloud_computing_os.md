@@ -1,10 +1,9 @@
-+++
-weight = 52
-title = "52. 클라우드 컴퓨팅 (Cloud Computing) - OS 관점"
-date = "2026-05-01"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 52. 클라우드 컴퓨팅 (Cloud Computing) - OS 관점
+date: '2026-05-01'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

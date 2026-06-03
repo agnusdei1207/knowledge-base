@@ -1,10 +1,9 @@
-+++
-weight = 975
-title = "975. 웹소켓 (WebSocket)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 975. 웹소켓 (WebSocket)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

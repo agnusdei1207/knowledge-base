@@ -1,10 +1,9 @@
-+++
-weight = 529
-title = "529. Deprovisioning (디프로비저닝)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 529. Deprovisioning (디프로비저닝)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

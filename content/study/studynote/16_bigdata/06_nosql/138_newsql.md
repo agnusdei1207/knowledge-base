@@ -1,10 +1,9 @@
-+++
-weight = 138
-title = "138. NewSQL — CockroachDB/TiDB/YugabyteDB SQL+수평확장+ACID"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 138. NewSQL — CockroachDB/TiDB/YugabyteDB SQL+수평확장+ACID
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: NewSQL은 전통 RDBMS의 ACID([[193_atomicity_all_or_nothing|Atomicity]], [[194_consistency_database_integrity|Consistency]], [[195_isolation_concurrency_control|Isolation]], [[196_durability_permanent_storage|Durability]]) 보장과 SQL 인터페이스를 유지하면서 [[035_nosql|NoSQL]] 수준의 수평 확장([[202_scale_out_distributed_horizontal_expansion|Scale-Out]])을 동시에 달성하는 차세대 [[136_variance|분산]] [[083_relationship_in_er_model|관계]]형 [[002_database_definition|데이터베이스]]다.

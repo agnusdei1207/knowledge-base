@@ -1,10 +1,9 @@
-+++
-weight = 177
-title = "177. MLOps 파이프라인 구성 요소 (MLOps Pipeline Components)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 177. MLOps 파이프라인 구성 요소 (MLOps Pipeline Components)
+date: '2026-05-06'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

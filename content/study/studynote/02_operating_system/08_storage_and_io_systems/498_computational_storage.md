@@ -1,10 +1,9 @@
-+++
-weight = 498
-title = "498. 컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD) - I/O 노드 연산 오프로딩"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 498. 컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD) - I/O 노드 연산 오프로딩
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

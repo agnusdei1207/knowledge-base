@@ -1,10 +1,9 @@
-+++
-weight = 288
-title = "288. WBS 100% Rule 작업 패키지"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 288. WBS 100% Rule 작업 패키지
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[149_wbs_work_breakdown_structure|WBS]] 100% Rule 작업 패키지의 본질은 요구사항, 산출물, 품질 게이트, 일정·원가 지표가 한 흐름으로 연결되어야 프로젝트 통제가 가능하다.

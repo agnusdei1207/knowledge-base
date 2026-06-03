@@ -1,10 +1,9 @@
-+++
-weight = 309
-title = "309. 백엔드 포 프론트엔드 (BFF, Backend For Frontend) 패턴"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 309. 백엔드 포 프론트엔드 (BFF, Backend For Frontend) 패턴
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

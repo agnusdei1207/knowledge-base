@@ -1,10 +1,10 @@
-+++
-weight = 520
-title = "520. 메모리 내의 구조 - 마운트 테이블, 시스템 전체 열린 파일 테이블 (System-wide Open File Table), 프로세스별 열린 파일 테이블"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 520. 메모리 내의 구조 - 마운트 테이블, 시스템 전체 열린 파일 테이블 (System-wide Open File Table), 프로세스별
+  열린 파일 테이블
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

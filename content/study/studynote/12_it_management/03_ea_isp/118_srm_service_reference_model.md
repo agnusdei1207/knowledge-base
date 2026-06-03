@@ -1,10 +1,9 @@
-+++
-weight = 118
-title = "118. SRM (Service Reference Model, 서비스 참조 모델)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 118. SRM (Service Reference Model, 서비스 참조 모델)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SRM ([[090_service_kubernetes_network_load_balancing|Service]] [[116_reference_model|Reference Model]], [[090_service_kubernetes_network_load_balancing|서비스]] [[116_reference_model|참조 모델]])의 본질은 애플리케이션 [[603_component_independent_deployment_unit|컴포넌트]] 기능 표준화를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

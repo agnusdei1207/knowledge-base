@@ -1,10 +1,9 @@
-+++
-weight = 651
-title = "651. 정보보안 3대 요소 (CIA 트라이어드: 기밀성, 무결성, 가용성) + 인증, 부인방지 요구"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: '651. 정보보안 3대 요소 (CIA 트라이어드: 기밀성, 무결성, 가용성) + 인증, 부인방지 요구'
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

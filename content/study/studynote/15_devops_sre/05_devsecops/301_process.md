@@ -1,10 +1,9 @@
-+++
-weight = 301
-title = "301. 서킷 브레이커 장애 연쇄 확산 차단 폴백 (Process)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 301. 서킷 브레이커 장애 연쇄 확산 차단 폴백 (Process)
+date: '2026-05-08'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

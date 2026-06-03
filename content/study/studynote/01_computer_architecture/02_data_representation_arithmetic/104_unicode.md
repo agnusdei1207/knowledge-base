@@ -1,10 +1,9 @@
-+++
-weight = 104
-title = "104. 유니코드 (Unicode)"
-date = "2026-04-19"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 104. 유니코드 (Unicode)
+date: '2026-04-19'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 유니코드 (Unicode)는 전 세계 모든 문자에 기종이나 플랫폼과 무관하게 단 하나의 고유한 논리적 숫자 번호([[082_process_memory_structure|Code]] Point)를 부여하는 범용 문자 셋(Character Set)이다.

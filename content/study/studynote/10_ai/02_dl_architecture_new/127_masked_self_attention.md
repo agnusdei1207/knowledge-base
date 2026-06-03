@@ -1,10 +1,9 @@
-+++
-weight = 127
-title = "127. Masked Self-Attention - 자기 회귀 디코더의 미래 토큰 차단"
-date = "2026-04-19"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 127. Masked Self-Attention - 자기 회귀 디코더의 미래 토큰 차단
+date: '2026-04-19'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Masked Self-Attention은 **[[039_decoder|디코더]]에서 현재 위치 이후의 미래 토큰을 [[316_reference_pattern_nosql|참조]]하지 못하도록 [[172_maas_mobility_as_a_service|마스]]킹(-∞)하는 [[124_self_attention|Self-Attention]]**이며, [[302_gpt_autoregressive|GPT]] 등 자기 회귀([[248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison|Autoregressive]]) 모델의 핵심 메커니즘이다.

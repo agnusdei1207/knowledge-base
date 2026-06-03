@@ -1,8 +1,8 @@
-+++
-weight = 5
-title = "05. 교착 상태 (Deadlock)"
-sort_by = "weight"
-+++
+---
+title: 05. 교착 상태 (Deadlock)
+tags:
+- operating_system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

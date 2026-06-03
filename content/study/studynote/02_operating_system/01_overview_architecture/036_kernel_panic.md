@@ -1,9 +1,9 @@
-+++
-title = "036. 커널 패닉 (Kernel Panic)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 036. 커널 패닉 (Kernel Panic)
+date: '2026-03-03'
+tags:
+- studynote-operating-system
+---
 
 > **핵심 인사이트**
 > 1. [[022_kernel_role|Kernel]] Panic은 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]이 [[658_ir_recovery|복구]] 불가능한 오류를 탐지했을 때 시스템을 안전하게 중단시키는 최후의 방어 메커니즘으로, Linux의 [[022_kernel_role|커널]] 패닉과 Windows의 BSOD (Blue Screen of Death)가 대표적이다.

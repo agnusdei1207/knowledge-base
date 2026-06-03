@@ -1,10 +1,9 @@
-+++
-weight = 176
-title = "176. AutoML (Automated Machine Learning) 하이퍼파라미터 최적화 베이지안 탐색"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 176. AutoML (Automated Machine Learning) 하이퍼파라미터 최적화 베이지안 탐색
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

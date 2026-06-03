@@ -1,10 +1,9 @@
-+++
-weight = 25
-title = "25. CFR (Change Failure Rate) — 변경 실패율"
-date = "2026-04-29"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 25. CFR (Change Failure Rate) — 변경 실패율
+date: '2026-04-29'
+tags:
+- studynote-devops-sre
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: CFR (Change Failure Rate, 변경 실패율)은 [[523_dhcp_dora_process|DORA]] ([[652_devops_calms_culture|DevOps]] Research and Assessment, [[652_devops_calms_culture|데브옵스]] 연구·평가) 4대 핵심 [[342_routing_metric_hop_bandwidth_delay|메트릭]] 중 하나로, "전체 배포 건수 대비 [[090_service_kubernetes_network_load_balancing|서비스]] 장애·[[098_rollback_strategy_pipeline_error_threshold|롤백]]·핫픽스를 유발한 배포의 비율"을 측정하여 배포 프로세스의 안정성을 정량화한다.

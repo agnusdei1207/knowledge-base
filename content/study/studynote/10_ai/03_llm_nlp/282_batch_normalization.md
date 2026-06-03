@@ -1,10 +1,9 @@
-+++
-weight = 282
-title = "282. 배치 정규화 (Batch Normalization)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 282. 배치 정규화 (Batch Normalization)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

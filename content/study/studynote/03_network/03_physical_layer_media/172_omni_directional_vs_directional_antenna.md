@@ -1,7 +1,8 @@
-+++
-title = "172. 무지향성 안테나 (Omni-Directional Antenna) vs 지향성 안테나 (Directional Antenna)"
-weight = 172
-+++
+---
+title: 172. 무지향성 안테나 (Omni-Directional Antenna) vs 지향성 안테나 (Directional Antenna)
+tags:
+- network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

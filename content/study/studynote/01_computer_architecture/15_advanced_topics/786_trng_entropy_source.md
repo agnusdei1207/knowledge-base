@@ -1,10 +1,9 @@
-+++
-weight = 786
-title = "786. TRNG (True Random Number Generator) 엔트로피 소스"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 786. TRNG (True Random Number Generator) 엔트로피 소스
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

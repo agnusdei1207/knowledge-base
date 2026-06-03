@@ -1,10 +1,9 @@
-+++
-weight = 345
-title = "345. 최적 적합 (Best-Fit) - 가장 크기가 비슷한 공간 (자투리 최소화, 검색 시간 소요)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 345. 최적 적합 (Best-Fit) - 가장 크기가 비슷한 공간 (자투리 최소화, 검색 시간 소요)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

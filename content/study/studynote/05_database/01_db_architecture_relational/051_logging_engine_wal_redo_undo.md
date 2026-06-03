@@ -1,10 +1,9 @@
-+++
-weight = 51
-title = "51. 로깅 엔진 (Logging Engine)"
-date = "2026-04-30"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 51. 로깅 엔진 (Logging Engine)
+date: '2026-04-30'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

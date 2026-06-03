@@ -1,10 +1,9 @@
-+++
-weight = 1105
-title = "1105. vCPE NFV 고객 구내 망 통합 전환"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 1105. vCPE NFV 고객 구내 망 통합 전환
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

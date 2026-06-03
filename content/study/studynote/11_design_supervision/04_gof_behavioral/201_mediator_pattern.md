@@ -1,10 +1,9 @@
-+++
-weight = 201
-title = "201. 미디에이터 패턴 (Mediator Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 201. 미디에이터 패턴 (Mediator Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

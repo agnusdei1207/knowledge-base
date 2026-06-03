@@ -1,10 +1,9 @@
-+++
-weight = 1028
-title = "1028. 체내 통신 (WBAN MAC 및 주파수 대역)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 1028. 체내 통신 (WBAN MAC 및 주파수 대역)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

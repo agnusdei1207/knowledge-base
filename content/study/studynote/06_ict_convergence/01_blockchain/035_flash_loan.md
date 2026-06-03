@@ -1,9 +1,9 @@
-+++
-title = "035. 플래시 론 (Flash Loan)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 035. 플래시 론 (Flash Loan)
+date: '2026-03-03'
+tags:
+- studynote-ict-convergence
+---
 
 > **핵심 인사이트**
 > 1. Flash Loan은 블록체인의 [[193_atomicity_all_or_nothing|원자성]]([[193_atomicity_all_or_nothing|Atomicity]])을 이용해 담보 없이 대규모 자금을 빌리고, 하나의 [[191_transaction_concept_states|트랜잭션]] 내에서 사용 후 즉시 상환하는 [[033_defi_decentralized_finance|DeFi]] 혁신 금융 도구다.

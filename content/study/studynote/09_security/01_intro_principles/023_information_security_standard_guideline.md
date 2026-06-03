@@ -1,10 +1,9 @@
-+++
-weight = 23
-title = "23. 정보보안 표준 및 지침 (Information Security Standard & Guideline)"
-date = "2026-04-29"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 23. 정보보안 표준 및 지침 (Information Security Standard & Guideline)
+date: '2026-04-29'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 정보보안 표준(Standard)은 [[164_policy|정책]]([[164_policy|Policy]])의 추상적 의지를 "[[656_aes_advanced_encryption_standard_rijndael|AES]] ([[656_aes_advanced_encryption_standard_rijndael|Advanced Encryption Standard]])-256 이상, [[694_thread_local_storage_tls|TLS]] (Transport Layer [[283_security_tactics|Security]]) 1.3 이상"처럼 **전사에서 반드시 지켜야 하는 정량화된 강제 규격(Mandatory [[148_requirements_specification_formal_informal|Specification]])**으로 구체화하고, 지침(Guideline)은 환경에 따라 유연하게 적용하도록 돕는 **권고형 가이드(Recommended Practice)**이다.

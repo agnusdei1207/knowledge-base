@@ -1,10 +1,9 @@
-+++
-weight = 533
-title = "533. 이벤트 소싱 상태 변경 스트림 영속 저장망 구성"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 533. 이벤트 소싱 상태 변경 스트림 영속 저장망 구성
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 551
-title = "551. 비디오 코덱 하드웨어 가속 (H.265/AV1)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 551. 비디오 코덱 하드웨어 가속 (H.265/AV1)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

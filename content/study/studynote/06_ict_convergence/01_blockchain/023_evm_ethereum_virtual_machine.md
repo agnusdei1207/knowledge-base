@@ -1,10 +1,9 @@
-+++
-weight = 23
-title = "23. EVM (Ethereum Virtual Machine) — 이더리움 가상 머신"
-date = "2026-04-29"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 23. EVM (Ethereum Virtual Machine) — 이더리움 가상 머신
+date: '2026-04-29'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[152_evm_earned_value_management|EVM]] (Ethereum [[598_vm_migration_nic|Virtual Machine]], 이더리움 가상 머신)은 이더리움 [[004_blockchain|블록체인]] 위에서 [[022_smart_contract|스마트 컨트랙트]]([[022_smart_contract|Smart Contract]])를 결정론적(Deterministic)으로 실행하는 [[010_decentralization|탈중앙화]] 세계 컴퓨터의 실행 환경으로, 전 세계 수천 개의 노드가 동일한 코드를 완전히 동일한 결과로 실행하는 것을 보장한다.

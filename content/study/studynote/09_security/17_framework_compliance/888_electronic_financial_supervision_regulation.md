@@ -1,10 +1,9 @@
-+++
-weight = 888
-title = "888. 전자금융감독규정 (Electronic Financial Supervision Regulation)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 888. 전자금융감독규정 (Electronic Financial Supervision Regulation)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

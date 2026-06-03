@@ -1,7 +1,9 @@
-+++
-title = "71. ReLU (Rectified Linear Unit) 함수 - x>0이면 x, x<0 이면 0 (기울기 소실 해결, 연산 빠름, 현재 가장 대중적)"
-weight = 71
-+++
+---
+title: 71. ReLU (Rectified Linear Unit) 함수 - x>0이면 x, x<0 이면 0 (기울기 소실 해결, 연산 빠름,
+  현재 가장 대중적)
+tags:
+- ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

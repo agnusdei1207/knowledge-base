@@ -1,10 +1,9 @@
-+++
-weight = 939
-title = "939. 포니팟 (Honeypot) 허니넷(Honeynet) 유인 분리망 분석 시스템 / 사이버 기만 기술 (Deception Technology)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 939. 포니팟 (Honeypot) 허니넷(Honeynet) 유인 분리망 분석 시스템 / 사이버 기만 기술 (Deception Technology)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

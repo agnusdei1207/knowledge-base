@@ -1,10 +1,9 @@
-+++
-title = "046. ChatOps — 봇 기반 협업 운영"
-weight = 46
-date = "2026-04-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: 046. ChatOps — 봇 기반 협업 운영
+date: '2026-04-05'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > 1. ChatOps는 운영 작업을 채팅 플랫폼에 통합하는 협업 모델 — "대화 주도 개발 운영(Conversation-Driven [[652_devops_calms_culture|DevOps]])"으로, 슬랙/팀즈 채널에서 [[158_instruction|명령어]]로 배포·[[229_monitor|모니터]]링·[[652_incident_response_nist_800_61|인시던트 대응]]을 수행하며 팀 전체가 맥락을 실시간 공유한다.

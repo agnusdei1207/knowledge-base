@@ -1,10 +1,9 @@
-+++
-weight = 296
-title = "296. CRIME (CRIME)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 296. CRIME (CRIME)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

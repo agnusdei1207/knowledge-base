@@ -1,10 +1,9 @@
-+++
-weight = 295
-title = "295. CI/CD 지속 통합 배포 파이프라인 (CI/CD)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 295. CI/CD 지속 통합 배포 파이프라인 (CI/CD)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[090_configuration_item|CI]]/CD 지속 통합 배포 파이프라인는 변경 관리와 운영 자동화에서 안전한 배포를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

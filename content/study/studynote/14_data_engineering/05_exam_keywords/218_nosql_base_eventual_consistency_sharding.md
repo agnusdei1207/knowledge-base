@@ -1,10 +1,10 @@
-+++
-weight = 218
-title = "218. NoSQL BASE (Basically Available, Soft-state, Eventually Consistent) 결과적 일관성 샤딩"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 218. NoSQL BASE (Basically Available, Soft-state, Eventually Consistent) 결과적
+  일관성 샤딩
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: NoSQL의 BASE(Basically Available, Soft-state, Eventually Consistent) [[082_attribute_types_er_model|속성]]은 RDBMS의 ACID([[193_atomicity_all_or_nothing|Atomicity]]·[[194_consistency_database_integrity|Consistency]]·[[195_isolation_concurrency_control|Isolation]]·[[196_durability_permanent_storage|Durability]])와 정반대로, [[136_variance|분산]] 환경에서 강한 [[194_consistency_database_integrity|일관성]] 대신 [[452_availability|가용성]]과 [[282_performance_tactics|성능]]을 택하는 설계 철학이다.

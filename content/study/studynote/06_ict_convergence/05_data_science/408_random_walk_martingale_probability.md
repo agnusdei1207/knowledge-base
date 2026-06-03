@@ -1,10 +1,9 @@
-+++
-weight = 408
-title = "408. 랜덤 워크 마팅게일 공리 확률론 (Random WALK Martingale Probability)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 408. 랜덤 워크 마팅게일 공리 확률론 (Random WALK Martingale Probability)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

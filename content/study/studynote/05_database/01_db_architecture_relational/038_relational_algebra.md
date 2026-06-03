@@ -1,9 +1,9 @@
-+++
-title = "038. 관계 대수 (Relational Algebra)"
-date = "2026-03-03"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 038. 관계 대수 (Relational Algebra)
+date: '2026-03-03'
+tags:
+- studynote-database
+---
 
 > **핵심 인사이트**
 > 1. [[083_relationship_in_er_model|관계]] 대수(Relational Algebra)는 Edgar F. Codd가 정의한 [[083_relationship_in_er_model|관계]]형 [[002_database_definition|데이터베이스]]의 이론적 기반으로, 테이블([[061_relation_schema_instance|릴레이션]])에 적용하는 8개 연산자의 집합이며, SQL의 [[520_select|SELECT]]·FROM·WHERE·[[521_join|JOIN]]·GROUP BY가 모두 [[083_relationship_in_er_model|관계]] 대수 연산의 직접 구현이다.

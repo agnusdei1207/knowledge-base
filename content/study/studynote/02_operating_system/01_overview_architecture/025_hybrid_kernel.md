@@ -1,10 +1,9 @@
-+++
-weight = 25
-title = "25. 하이브리드 커널 (Hybrid Kernel) — 성능과 안정성의 절충"
-date = "2026-04-29"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 25. 하이브리드 커널 (Hybrid Kernel) — 성능과 안정성의 절충
+date: '2026-04-29'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 하이브리드 [[022_kernel_role|커널]](Hybrid [[022_kernel_role|Kernel]])은 [[023_monolithic_kernel|모놀리식 커널]]([[023_monolithic_kernel|Monolithic Kernel]])의 [[282_performance_tactics|성능]]과 [[024_microkernel|마이크로커널]]([[024_microkernel|Microkernel]])의 모듈성·안정성을 절충한 OS 설계로, 핵심 [[090_service_kubernetes_network_load_balancing|서비스]]는 [[022_kernel_role|커널]] 공간([[022_kernel_role|Kernel]] Space)에 두되 일부 드라이버·[[090_service_kubernetes_network_load_balancing|서비스]]를 사용자 공간으로 분리할 수 있는 유연한 구조다.

@@ -1,10 +1,9 @@
-+++
-weight = 443
-title = "443. 풀링 해상도 불변 차원 (Pooling Resolution Invariance)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 443. 풀링 해상도 불변 차원 (Pooling Resolution Invariance)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

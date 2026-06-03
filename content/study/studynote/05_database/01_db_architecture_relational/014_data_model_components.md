@@ -1,12 +1,10 @@
-+++
-weight = 14
-title = "14. 데이터 모델 (Data Model) 구성 요소 - 구조(Structure), 연산(Operation), 제약조건(Constraint)"
-description = "현실 세계를 데이터베이스로 추상화하기 위한 필수 3요소인 정적 구조, 동적 연산, 무결성 제약조건"
-date = "2024-05-18"
-[taxonomies]
-tags = ["Database", "Data Model", "Structure", "Operation", "Constraint"]
-categories = ["studynote", "5_database"]
-+++
+---
+title: 14. 데이터 모델 (Data Model) 구성 요소 - 구조(Structure), 연산(Operation), 제약조건(Constraint)
+date: '2024-05-18'
+description: 현실 세계를 데이터베이스로 추상화하기 위한 필수 3요소인 정적 구조, 동적 연산, 무결성 제약조건
+tags:
+- database
+---
 
 # 14. [[001_dikw_pyramid|데이터]] 모델 ([[001_dikw_pyramid|Data]] Model) 구성 요소 - 구조, 연산, 제약조건
 

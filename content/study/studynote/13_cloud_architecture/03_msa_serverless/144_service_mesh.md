@@ -1,10 +1,9 @@
-+++
-weight = 144
-title = "144. 서비스 메시 (Service Mesh) - 사이드카 기반 통신 인프라"
-date = "2026-04-19"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 144. 서비스 메시 (Service Mesh) - 사이드카 기반 통신 인프라
+date: '2026-04-19'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[302_service_mesh_istio|서비스 메시]]는 **각 마이크로서비스에 [[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]] [[264_proxy_pattern_surrogate_access_control|프록시]](Envoy)를 배치**하여, [[090_service_kubernetes_network_load_balancing|서비스]] 간 통신의 **로드밸런싱·[[307_circuit_breaker_pattern|서킷 브레이커]]·[[831_mtls_mutual_tls_microservices_zero_trust|mTLS]]·트레이싱·트래픽 제어**를 애플리케이션 코드 변경 없이 인프라 레벨에서 처리하는 패턴이다.

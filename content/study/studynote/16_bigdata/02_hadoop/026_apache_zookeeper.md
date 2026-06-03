@@ -1,10 +1,9 @@
-+++
-weight = 26
-title = "04. Apache ZooKeeper - 분산 코디네이션의 간호사"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 04. Apache ZooKeeper - 분산 코디네이션의 간호사
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # [[029_apache_zookeeper|Apache ZooKeeper]] - [[136_variance|분산]] 코디네이션의 간호사
 

@@ -1,10 +1,9 @@
-+++
-title = "088. 블록 암호 모드 — ECB/CBC/CFB/OFB/CTR"
-date = "2026-04-05"
-weight = 88
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 088. 블록 암호 모드 — ECB/CBC/CFB/OFB/CTR
+date: '2026-04-05'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

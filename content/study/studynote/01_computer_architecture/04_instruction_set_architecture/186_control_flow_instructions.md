@@ -1,10 +1,9 @@
-+++
-weight = 186
-title = "186. 제어 흐름 명령어 (Control Flow)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 186. 제어 흐름 명령어 (Control Flow)
+date: '2026-05-06'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 442
-title = "442. 안전하지 않은 기본값 (Insecure Defaults)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 442. 안전하지 않은 기본값 (Insecure Defaults)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

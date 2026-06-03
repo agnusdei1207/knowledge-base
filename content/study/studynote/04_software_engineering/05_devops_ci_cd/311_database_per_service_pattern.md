@@ -1,10 +1,9 @@
-+++
-weight = 311
-title = "311. 데이터베이스 퍼 서비스 (Database per Service) 패턴"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 311. 데이터베이스 퍼 서비스 (Database per Service) 패턴
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

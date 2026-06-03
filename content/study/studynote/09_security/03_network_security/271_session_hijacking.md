@@ -1,10 +1,9 @@
-+++
-weight = 271
-title = "271. 세션 하이재킹 (Session Hijacking)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 271. 세션 하이재킹 (Session Hijacking)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

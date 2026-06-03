@@ -1,10 +1,9 @@
-+++
-weight = 588
-title = "588. MLOps 파이프라인 - 데이터 수집, 모델 학습(Training), 서빙(Serving), 모니터링 자동화"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 588. MLOps 파이프라인 - 데이터 수집, 모델 학습(Training), 서빙(Serving), 모니터링 자동화
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,7 +1,9 @@
-+++
-title = "107. CRM (Customer Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도 극대화를 위한 마케팅, 세일즈, 서비스 통합 전략"
-weight = 107
-+++
+---
+title: 107. CRM (Customer Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도
+  극대화를 위한 마케팅, 세일즈, 서비스 통합 전략
+tags:
+- enterprise_systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

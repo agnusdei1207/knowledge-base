@@ -1,8 +1,9 @@
-+++
-title = "Prometheus Grafana Monitoring"
-date = "2026-05-09"
-categories = ["studynote-devops-sre"]
-+++
+---
+title: Prometheus Grafana Monitoring
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > - [[136_prometheus|Prometheus]] (프로메테우스)는 Pull 방식의 시계열 [[342_routing_metric_hop_bandwidth_delay|메트릭]] 수집 시스템으로, PromQL로 강력한 [[298_qkv_attention|쿼리]]가 가능하다.

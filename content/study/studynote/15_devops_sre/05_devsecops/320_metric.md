@@ -1,8 +1,9 @@
-+++
-title = "Observability Metrics Logs Traces"
-date = "2026-05-09"
-categories = ["studynote-devops-sre"]
-+++
+---
+title: Observability Metrics Logs Traces
+date: '2026-05-09'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > - [[642_observability_telemetry|Observability]] ([[111_observability_metrics_logs_traces|관측 가능성]])는 [[567_metrics_time_series_prometheus_grafana|Metrics]]·[[568_logs_distributed_logging_elk_fluentd|Logs]]·Traces 세 기둥(Three Pillars)으로 시스템 내부 상태를 외부에서 추론하는 능력이다.

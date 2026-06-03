@@ -1,10 +1,9 @@
-+++
-weight = 368
-title = "368. K-UAM 자율 교통 메타버스 디지털 트윈 데이터 패브릭 관제 (K-UAM)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 368. K-UAM 자율 교통 메타버스 디지털 트윈 데이터 패브릭 관제 (K-UAM)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: K-[[145_uam_urban_air_mobility_evtol|UAM]] 자율 교통 [[594_metaverse_realtime_sync_rendering_offloading|메타버스]] [[126_digital_twin_concept|디지털 트윈]] [[212_data_fabric_virtualization|데이터 패브릭]] 관제는 클라우드 시스템에서 [[001_dikw_pyramid|데이터]] 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

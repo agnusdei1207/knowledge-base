@@ -1,10 +1,9 @@
-+++
-weight = 207
-title = "207. EDF (Earliest Deadline First) 스케줄링 - 마감시간이 빠를수록 높은 우선순위 (동적 우선순위)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 207. EDF (Earliest Deadline First) 스케줄링 - 마감시간이 빠를수록 높은 우선순위 (동적 우선순위)
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

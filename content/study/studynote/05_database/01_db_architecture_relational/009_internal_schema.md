@@ -1,12 +1,10 @@
-+++
-weight = 9
-title = "9. 내부 스키마 (Internal Schema) - 물리적 저장 장치 관점"
-description = "물리적 저장 장치 관점의 데이터베이스 스키마와 최적화 원리"
-date = "2024-05-20"
-[taxonomies]
-tags = ["Database", "Schema", "Internal Schema", "ANSI-SPARC", "Storage", "Index"]
-categories = ["studynote-database"]
-+++
+---
+title: 9. 내부 스키마 (Internal Schema) - 물리적 저장 장치 관점
+date: '2024-05-20'
+description: 물리적 저장 장치 관점의 데이터베이스 스키마와 최적화 원리
+tags:
+- database
+---
 
 # 내부 [[005_schema|스키마]] (Internal [[505_schema|Schema]])
 #### 핵심 인사이트 (3줄 요약)

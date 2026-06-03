@@ -1,10 +1,9 @@
-+++
-weight = 126
-title = "126. 하버드 아키텍처 (Harvard Architecture)"
-date = "2026-04-25"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 126. 하버드 아키텍처 (Harvard Architecture)
+date: '2026-04-25'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

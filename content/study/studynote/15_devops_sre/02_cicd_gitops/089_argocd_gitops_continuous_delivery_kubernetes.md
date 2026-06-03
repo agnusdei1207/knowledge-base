@@ -1,10 +1,9 @@
-+++
-weight = 89
-title = "89. ArgoCD - 쿠버네티스를 위한 GitOps 선언적 배포 도구"
-date = "2026-04-10"
-[extra]
-categories = "studynote-devops"
-+++
+---
+title: 89. ArgoCD - 쿠버네티스를 위한 GitOps 선언적 배포 도구
+date: '2026-04-10'
+tags:
+- studynote-devops
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 아고씨디 (ArgoCD)는 Git 저장소를 유일한 진실의 원천 ([[119_gitops_single_source_of_truth|Single Source of Truth]])으로 삼아, [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] ([[205_kubernetes_container_orchestration|Kubernetes]]) 클러스터의 상태를 Git의 선언적 명세와 100% 동일하게 지속적으로 맞추는 [[119_gitops_single_source_of_truth|GitOps]] 배포 컨트롤러다.

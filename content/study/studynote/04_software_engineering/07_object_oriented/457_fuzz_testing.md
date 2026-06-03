@@ -1,10 +1,10 @@
-+++
-weight = 457
-title = "457. 퍼즈 테스팅 (Fuzz Testing / Fuzzing) - 무작위 또는 기형적인 데이터를 입력하여 크래시(Crash)나 예외 상황 유발"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 457. 퍼즈 테스팅 (Fuzz Testing / Fuzzing) - 무작위 또는 기형적인 데이터를 입력하여 크래시(Crash)나 예외
+  상황 유발
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

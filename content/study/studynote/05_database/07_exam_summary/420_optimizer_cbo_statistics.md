@@ -1,10 +1,9 @@
-+++
-weight = 420
-title = "420. 옵티마이저 CBO 시스템 통계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 420. 옵티마이저 CBO 시스템 통계
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,11 +1,9 @@
-+++
-weight = 7
-title = "7. 코드베이스 (Codebase) - 버전 관리되는 하나의 코드베이스와 다양한 배포(Dev, Staging, Prod) 연계"
-date = "2026-04-05"
-[taxonomies]
-tags = ["Codebase", "코드베이스", "버전 관리", "Git", "12팩터"]
-categories = ["15_devops_sre"]
-+++
+---
+title: 7. 코드베이스 (Codebase) - 버전 관리되는 하나의 코드베이스와 다양한 배포(Dev, Staging, Prod) 연계
+date: '2026-04-05'
+tags:
+- devops_sre
+---
 
 # 코드베이스
 

@@ -1,12 +1,10 @@
-+++
-weight = 94
-title = "94. 스트리밍 SQL — ksqlDB (Confluent) / Flink SQL / Spark Structured Streaming"
-description = "강화학습의 기본 개념, 에이전트-환경 상호작용, MDP, Q-Learning, DQN, Policy Gradient"
-date = "2026-04-05"
-[taxonomies]
-tags = ["강화학습", "ReinforcementLearning", "MDP", "Q-Learning", "DQN", "PolicyGradient", "에이전트"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 94. 스트리밍 SQL — ksqlDB (Confluent) / Flink SQL / Spark Structured Streaming
+date: '2026-04-05'
+description: 강화학습의 기본 개념, 에이전트-환경 상호작용, MDP, Q-Learning, DQN, Policy Gradient
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

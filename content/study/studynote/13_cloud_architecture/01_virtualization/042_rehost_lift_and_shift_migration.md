@@ -1,10 +1,9 @@
-+++
-title = "042. Rehost — Lift & Shift 마이그레이션"
-weight = 42
-date = "2026-04-05"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 042. Rehost — Lift & Shift 마이그레이션
+date: '2026-04-05'
+tags:
+- studynote-cloud-architecture
+---
 
 > **핵심 인사이트**
 > 1. Rehost([[086_lift_association_rule_marketing|Lift]] & Shift)는 클라우드 6R [[268_strategy_pattern|전략]] 중 가장 빠르고 위험이 낮은 방법으로, [[061_on_premise_legacy_infrastructure|온프레미스]] 워크로드를 코드 수정 없이 클라우드 VM으로 이전하지만 [[531_cloud_native_architecture|클라우드 네이티브]] 최적화([[184_paas_platform_as_a_service|PaaS]], [[206_serverless_cold_start|서버리스]], 오토스케일링)를 활용하지 못해 비용 절감 효과가 제한적이다.

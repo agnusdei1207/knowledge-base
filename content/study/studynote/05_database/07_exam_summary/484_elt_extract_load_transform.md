@@ -1,10 +1,9 @@
-+++
-weight = 484
-title = "484. ELT 클라우드 DW 적재 후 변환 (성능 우수)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 484. ELT 클라우드 DW 적재 후 변환 (성능 우수)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

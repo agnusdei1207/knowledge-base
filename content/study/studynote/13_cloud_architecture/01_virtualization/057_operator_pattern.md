@@ -1,10 +1,8 @@
-+++
-weight = 57
-title = "57. 오퍼레이터 패턴 (Operator Pattern) - 쿠버네티스 상태형 워크로드 자동 운영"
-[taxonomies]
-tags = ["Cloud", "Kubernetes", "K8s", "Operator", "CRD", "Custom Controller"]
-categories = ["13_cloud_architecture"]
-+++
+---
+title: 57. 오퍼레이터 패턴 (Operator Pattern) - 쿠버네티스 상태형 워크로드 자동 운영
+tags:
+- cloud_architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

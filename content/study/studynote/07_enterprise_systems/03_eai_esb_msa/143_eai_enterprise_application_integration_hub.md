@@ -1,10 +1,9 @@
-+++
-weight = 143
-title = "143. EAI (Enterprise Application Integration) - Hub-and-Spoke"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 143. EAI (Enterprise Application Integration) - Hub-and-Spoke
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EAI [[152_hub_dummy_switching_intelligent|Hub]]-and-Spoke는 **중앙 Hub가 모든 애플리케이션 간 [[389_mesh_topology|메시]]지 [[339_routing_overview_best_path_selection|라우팅]]·변환·[[073_container_orchestration_tools|오케스트레이션]]**을 수행하여 [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] 스파게티를 해소하는 통합 아키텍처이다.

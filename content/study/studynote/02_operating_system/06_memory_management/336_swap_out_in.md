@@ -1,10 +1,9 @@
-+++
-weight = 336
-title = "336. 스왑 아웃 (Swap out) / 스왑 인 (Swap in)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 336. 스왑 아웃 (Swap out) / 스왑 인 (Swap in)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

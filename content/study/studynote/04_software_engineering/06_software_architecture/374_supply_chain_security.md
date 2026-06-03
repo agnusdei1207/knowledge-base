@@ -1,10 +1,9 @@
-+++
-weight = 374
-title = "374. 공급망 보안 (Supply Chain Security) - 오픈소스 취약점 관리"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 374. 공급망 보안 (Supply Chain Security) - 오픈소스 취약점 관리
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 390
-title = "390. 가우시안 혼합 모델 연성 군집 (확률 분할 매핑 통계) (GMM)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 390. 가우시안 혼합 모델 연성 군집 (확률 분할 매핑 통계) (GMM)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 70
-title = "19. 파티션 최적화 (Partition Optimization) — Repartition vs Coalesce"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 19. 파티션 최적화 (Partition Optimization) — Repartition vs Coalesce
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

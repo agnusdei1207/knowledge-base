@@ -1,10 +1,9 @@
-+++
-weight = 271
-title = "271. 프롬프트 엔지니어링 (Prompt Engineering)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 271. 프롬프트 엔지니어링 (Prompt Engineering)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

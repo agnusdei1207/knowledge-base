@@ -1,10 +1,9 @@
-+++
-weight = 452
-title = "452. 타임스탬프 순서 (Timestamp Ordering)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 452. 타임스탬프 순서 (Timestamp Ordering)
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

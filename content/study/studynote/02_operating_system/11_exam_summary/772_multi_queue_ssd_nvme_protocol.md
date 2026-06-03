@@ -1,10 +1,9 @@
-+++
-weight = 772
-title = "772. 다중 큐 SSD NVMe 프로토콜 장점 (Multi Queue SSD NVMe Protocol)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 772. 다중 큐 SSD NVMe 프로토콜 장점 (Multi Queue SSD NVMe Protocol)
+date: '2026-05-09'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

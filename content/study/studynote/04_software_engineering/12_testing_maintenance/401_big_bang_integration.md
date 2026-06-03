@@ -1,10 +1,9 @@
-+++
-weight = 401
-title = "401. 빅뱅 통합 (Big Bang Integration) - 한 번에 모두 결합"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 401. 빅뱅 통합 (Big Bang Integration) - 한 번에 모두 결합
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

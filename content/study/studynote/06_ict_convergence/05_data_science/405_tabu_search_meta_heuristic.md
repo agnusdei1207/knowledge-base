@@ -1,10 +1,9 @@
-+++
-weight = 405
-title = "405. 최적화 휴리스틱 탐색 Tabu Search 금기 목록 로컬 미니마 탈출 (TABU Search META Heuristic)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 405. 최적화 휴리스틱 탐색 Tabu Search 금기 목록 로컬 미니마 탈출 (TABU Search META Heuristic)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,12 +1,10 @@
-+++
-weight = 84
-title = "84. Apache Kafka — 내구성 있는 메시지 큐, 스트리밍 기반"
-description = "모델 선택의 개념, 다양한 모델 유형 비교, 평가 지표 기반 선택 방법, Bias-Variance 트레이드오프"
-date = "2026-04-05"
-[taxonomies]
-tags = ["모델선택", "ModelSelection", "평가지표", "BiasVariance", "트레이드오프", "일반화"]
-categories = ["studynote-bigdata"]
-+++
+---
+title: 84. Apache Kafka — 내구성 있는 메시지 큐, 스트리밍 기반
+date: '2026-04-05'
+description: 모델 선택의 개념, 다양한 모델 유형 비교, 평가 지표 기반 선택 방법, Bias-Variance 트레이드오프
+tags:
+- it_management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

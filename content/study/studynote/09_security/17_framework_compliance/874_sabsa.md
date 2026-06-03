@@ -1,10 +1,9 @@
-+++
-weight = 874
-title = "874. SABSA (Sherwood Applied Business Security Architecture)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 874. SABSA (Sherwood Applied Business Security Architecture)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

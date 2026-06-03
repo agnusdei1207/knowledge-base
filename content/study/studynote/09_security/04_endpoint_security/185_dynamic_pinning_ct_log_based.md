@@ -1,10 +1,9 @@
-+++
-weight = 185
-title = "185. 동적 핀닝과 CT 로그 기반 방어 (Dynamic Pinning and CT Log-Based Defense)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 185. 동적 핀닝과 CT 로그 기반 방어 (Dynamic Pinning and CT Log-Based Defense)
+date: '2026-05-06'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 726
-title = "726. 플랫폼 엔지니어링 IDP 포털 개발자 경험(DX)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 726. 플랫폼 엔지니어링 IDP 포털 개발자 경험(DX)
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

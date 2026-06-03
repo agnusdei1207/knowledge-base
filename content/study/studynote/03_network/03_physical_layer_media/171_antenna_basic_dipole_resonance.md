@@ -1,10 +1,9 @@
-+++
-weight = 171
-title = "171. 안테나 (Antenna) 기본 원리 (공진/다이폴)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 171. 안테나 (Antenna) 기본 원리 (공진/다이폴)
+date: '2026-05-06'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

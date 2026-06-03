@@ -1,10 +1,9 @@
-+++
-weight = 151
-title = "151. 서버리스 컴퓨팅 (Serverless Computing / FaaS) - 인프라 짬처리의 궁극적 진화"
-date = "2026-05-03"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 151. 서버리스 컴퓨팅 (Serverless Computing / FaaS) - 인프라 짬처리의 궁극적 진화
+date: '2026-05-03'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[206_serverless_cold_start|서버리스]]([[206_serverless_cold_start|Serverless]])는 서버가 물리적으로 없다는 뜻이 아니라, 개발자가 서버의 [[528_provisioning|프로비저닝]], OS 패치, 오토스케일링 같은 인프라 노가다를 클라우드 벤더(AWS/GCP/Azure)에게 100% 짬처리(Off-loading)하고 오직 **비즈니스 로직(함수 코드 Function)에만 집중하는 [[531_cloud_native_architecture|클라우드 네이티브]]의 최종 진화 모델**이다.

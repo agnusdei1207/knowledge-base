@@ -1,12 +1,11 @@
-+++
-weight = 14
-title = "14. 단순 보안 원칙 (Simplicity) — 불필요한 복잡성 제거"
-description = "보안 메커니즘과 시스템 아키텍처를 최대한 단순하고 이해하기 쉽게 설계하여 오류와 취약점의 발생 표면적을 줄이는 경제적 설계 원칙"
-date = "2026-03-25"
-[taxonomies]
-tags = ["보안원칙", "단순성", "Simplicity", "KISS원칙", "보안설계"]
-categories = ["Security"]
-+++
+---
+title: 14. 단순 보안 원칙 (Simplicity) — 불필요한 복잡성 제거
+date: '2026-03-25'
+description: 보안 메커니즘과 시스템 아키텍처를 최대한 단순하고 이해하기 쉽게 설계하여 오류와 취약점의 발생 표면적을 줄이는 경제적 설계
+  원칙
+tags:
+- security
+---
 
 # 14. 단순 보안 원칙 (Simplicity)
 

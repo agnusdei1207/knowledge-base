@@ -1,10 +1,9 @@
-+++
-weight = 77
-title = "77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간"
-date = "2026-04-10"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간
+date: '2026-04-10'
+tags:
+- studynote-data-engineering
+---
 
 # 결측치 처리 - MICE 다중 대치법과 [[262_knn|KNN]] 대치 보간
 

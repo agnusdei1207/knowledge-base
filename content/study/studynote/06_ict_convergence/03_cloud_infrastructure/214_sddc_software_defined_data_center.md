@@ -1,10 +1,9 @@
-+++
-weight = 214
-title = "214. SDDC (Software Defined Data Center)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 214. SDDC (Software Defined Data Center)
+date: '2026-05-08'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

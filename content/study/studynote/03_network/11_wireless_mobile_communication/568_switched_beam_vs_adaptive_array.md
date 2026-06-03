@@ -1,10 +1,9 @@
-+++
-weight = 568
-title = "568. 스위칭 빔 (Switched Beam) vs 적응형 어레이 (Adaptive Array 안테나)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 568. 스위칭 빔 (Switched Beam) vs 적응형 어레이 (Adaptive Array 안테나)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

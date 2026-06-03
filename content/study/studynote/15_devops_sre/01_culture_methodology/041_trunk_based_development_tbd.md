@@ -1,10 +1,9 @@
-+++
-title = "041. TBD 심화: CI/CD 통합 및 코드 리뷰 (Trunk-Based Development Advanced)"
-weight = 41
-date = "2026-04-05"
-[extra]
-categories = "studynote-devops-sre"
-+++
+---
+title: '041. TBD 심화: CI/CD 통합 및 코드 리뷰 (Trunk-Based Development Advanced)'
+date: '2026-04-05'
+tags:
+- studynote-devops-sre
+---
 
 > **핵심 인사이트**
 > 1. TBD([[040_trunk_based_development|Trunk-Based Development]]) 고도화 핵심은 [[576_feature_flag_ab_testing_rollout|피처 플래그]]([[576_feature_flag_ab_testing_rollout|Feature Flag]])/[[247_feature_label_variables|피처]] 토글(Feature Toggle)을 활용하여 "미완성 코드도 메인 브랜치에 병합"이 가능한 상태를 유지하는 것으로, 이를 통해 장기 브랜치의 "통합 지옥(Integration Hell)"을 원천 방지한다.

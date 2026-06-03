@@ -1,10 +1,9 @@
-+++
-weight = 446
-title = "446. 부하 테스트 (Load Test) - 시스템의 임계점(목표치)까지 부하를 증가시키며 상태 확인"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 446. 부하 테스트 (Load Test) - 시스템의 임계점(목표치)까지 부하를 증가시키며 상태 확인
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

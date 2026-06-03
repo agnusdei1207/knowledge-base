@@ -1,10 +1,9 @@
-+++
-weight = 97
-title = "97. 커널 수준 스레드 (Kernel-level Thread) - OS가 직접 관리"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 97. 커널 수준 스레드 (Kernel-level Thread) - OS가 직접 관리
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[022_kernel_role|커널]] 수준 [[092_thread_lwp|스레드]] (Kernel-level [[092_thread_lwp|Thread]], KLT)는 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]이 직접 [[087_process_state_transition|생성]], 스케줄링, 소멸을 관리하며 TCB ([[092_thread_lwp|Thread]] Control Block)를 [[022_kernel_role|커널]] 공간에 유지하는 실행 단위이다.

@@ -1,10 +1,9 @@
-+++
-weight = 320
-title = "320. 버스트 모드 (Burst Mode)"
-date = "2026-03-27"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 320. 버스트 모드 (Burst Mode)
+date: '2026-03-27'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

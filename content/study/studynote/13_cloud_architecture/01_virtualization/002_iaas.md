@@ -1,12 +1,11 @@
-+++
-weight = 2
-title = "2. IaaS (Infrastructure as a Service) - 서버(VM), 스토리지, 네트워크 인프라 제공 (AWS EC2, S3)"
-description = "서버, 스토리지, 네트워크 등 클라우드 인프라 자원을 가상화하여 제공하는 IaaS의 핵심 원리와 실무 아키텍처 가이드"
-date = "2024-05-24"
-[taxonomies]
-tags = ["Cloud", "IaaS", "Virtualization", "AWS EC2", "Infrastructure"]
-categories = ["13_cloud_architecture"]
-+++
+---
+title: 2. IaaS (Infrastructure as a Service) - 서버(VM), 스토리지, 네트워크 인프라 제공 (AWS EC2,
+  S3)
+date: '2024-05-24'
+description: 서버, 스토리지, 네트워크 등 클라우드 인프라 자원을 가상화하여 제공하는 IaaS의 핵심 원리와 실무 아키텍처 가이드
+tags:
+- cloud_architecture
+---
 
 # [[183_iaas_infrastructure_as_a_service|IaaS]] (Infrastructure [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]])
 

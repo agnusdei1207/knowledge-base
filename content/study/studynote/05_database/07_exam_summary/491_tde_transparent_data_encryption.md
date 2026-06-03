@@ -1,10 +1,9 @@
-+++
-weight = 491
-title = "491. 데이터 암호화 TDE 디스크 파일 암호망 설계"
-date = "2026-05-09"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 491. 데이터 암호화 TDE 디스크 파일 암호망 설계
+date: '2026-05-09'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

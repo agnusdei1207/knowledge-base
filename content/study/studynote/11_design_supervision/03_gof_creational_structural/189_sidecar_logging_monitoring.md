@@ -1,10 +1,9 @@
-+++
-weight = 189
-title = "189. 사이드카·로깅·모니터링 패턴 (Sidecar, Logging & Monitoring Pattern)"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 189. 사이드카·로깅·모니터링 패턴 (Sidecar, Logging & Monitoring Pattern)
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

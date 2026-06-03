@@ -1,10 +1,9 @@
-+++
-weight = 43
-title = "16. 최대 유량 (Max Flow) — Ford-Fulkerson / Edmonds-Karp"
-date = "2026-04-21"
-[extra]
-categories = "studynote-algorithm"
-+++
+---
+title: 16. 최대 유량 (Max Flow) — Ford-Fulkerson / Edmonds-Karp
+date: '2026-04-21'
+tags:
+- studynote-algorithm
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

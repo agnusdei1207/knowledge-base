@@ -1,10 +1,9 @@
-+++
-weight = 784
-title = "784. 제로화 (Zeroization) 회로"
-date = "2026-05-08"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 784. 제로화 (Zeroization) 회로
+date: '2026-05-08'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

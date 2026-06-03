@@ -1,10 +1,9 @@
-+++
-weight = 258
-title = "258. 하둡 클러스터 랙 인지 (Rack Awareness)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 258. 하둡 클러스터 랙 인지 (Rack Awareness)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 클러스터 [[017_rack_awareness|랙 인지]]는 [[001_dikw_pyramid|데이터]] 플랫폼에서 복잡한 운영의 질서화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

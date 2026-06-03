@@ -1,10 +1,9 @@
-+++
-weight = 88
-title = "88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑"
-date = "2026-04-10"
-[extra]
-categories = "studynote-design"
-+++
+---
+title: 88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑
+date: '2026-04-10'
+tags:
+- studynote-design
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 151
-title = "151. 벡터 데이터베이스 (Vector Database) - AI의 무한한 시맨틱 기억 저장소"
-date = "2026-05-03"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 151. 벡터 데이터베이스 (Vector Database) - AI의 무한한 시맨틱 기억 저장소
+date: '2026-05-03'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[223_vector_database_embedding|벡터 데이터베이스]]([[151_vector_database_embedding_ann_search|Vector DB]])는 텍스트나 이미지 같은 [[004_unstructured_data|비정형 데이터]]를 단순한 글자가 아닌, [[231_ai_turing_test|인공지능]]이 이해할 수 있는 고차원 실수 [[055_array|배열]]인 **'[[278_instruction_tuning|임베딩]]([[278_instruction_tuning|Embedding]]) 벡터 공간의 좌표 점'**으로 변환하여 저장하는 4차원 기하학적 [[001_dikw_pyramid|데이터]] 창고다.

@@ -1,10 +1,9 @@
-+++
-weight = 124
-title = "124. 지명 파이프 (Named Pipe / FIFO) - 양방향 가능, 부모-자식 관계 무관"
-date = "2026-05-08"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 124. 지명 파이프 (Named Pipe / FIFO) - 양방향 가능, 부모-자식 관계 무관
+date: '2026-05-08'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

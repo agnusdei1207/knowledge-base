@@ -1,10 +1,9 @@
-+++
-weight = 951
-title = "951. 반송파 감지 다중 접속 및 충돌 검출 (CSMA/CD)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 951. 반송파 감지 다중 접속 및 충돌 검출 (CSMA/CD)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

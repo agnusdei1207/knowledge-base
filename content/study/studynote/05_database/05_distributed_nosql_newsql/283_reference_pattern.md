@@ -1,10 +1,9 @@
-+++
-weight = 283
-title = "283. 일관된 해싱 (Consistent Hashing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 283. 일관된 해싱 (Consistent Hashing)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

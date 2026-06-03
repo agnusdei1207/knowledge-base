@@ -1,10 +1,9 @@
-+++
-weight = 52
-title = "01. Apache Spark — 인메모리 분산 처리 엔진 (Unified Analytics Engine)"
-date = "2026-04-05"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 01. Apache Spark — 인메모리 분산 처리 엔진 (Unified Analytics Engine)
+date: '2026-04-05'
+tags:
+- studynote-bigdata
+---
 
 # [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] - 인메모리 [[136_variance|분산]]処理의 황량한 변신
 

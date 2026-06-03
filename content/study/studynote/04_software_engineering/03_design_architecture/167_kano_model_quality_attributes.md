@@ -1,10 +1,9 @@
-+++
-weight = 167
-title = "167. 카노 모델 (Kano Model) - 당연적, 일원적, 매력적 품질"
-date = "2026-04-03"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 167. 카노 모델 (Kano Model) - 당연적, 일원적, 매력적 품질
+date: '2026-04-03'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

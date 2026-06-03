@@ -1,10 +1,9 @@
-+++
-weight = 263
-title = "263. K-Means 군집화 (Kmeans EM)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 263. K-Means 군집화 (Kmeans EM)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

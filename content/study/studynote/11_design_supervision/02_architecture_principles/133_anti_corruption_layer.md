@@ -1,10 +1,9 @@
-+++
-weight = 133
-title = "133. 부패 방지 레이어 (Anti-Corruption Layer (ACL))"
-date = "2026-05-10"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 133. 부패 방지 레이어 (Anti-Corruption Layer (ACL))
+date: '2026-05-10'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

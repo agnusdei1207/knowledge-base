@@ -1,10 +1,9 @@
-+++
-weight = 529
-title = "529. 메모리 안전성(Memory Safety) 보장을 위한 Rust, Go 언어 도입 동향"
-date = "2026-05-08"
-[extra]
-categories = "studynote-software-engineering"
-+++
+---
+title: 529. 메모리 안전성(Memory Safety) 보장을 위한 Rust, Go 언어 도입 동향
+date: '2026-05-08'
+tags:
+- studynote-software-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

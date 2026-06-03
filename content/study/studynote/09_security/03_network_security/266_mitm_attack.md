@@ -1,10 +1,9 @@
-+++
-weight = 266
-title = "266. MITM 공격 (Man-in-the-Middle Attack)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-security"
-+++
+---
+title: 266. MITM 공격 (Man-in-the-Middle Attack)
+date: '2026-05-08'
+tags:
+- studynote-security
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

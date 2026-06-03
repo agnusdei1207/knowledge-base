@@ -1,12 +1,12 @@
-+++
-weight = 9
-title = "9. ISMP (Information System Master Plan) - 특정 정보시스템 구축 사업을 위한 상세 마스터플랜 (ISP보다 구체적 실행 지침)"
-description = "특정 정보시스템 구축 사업을 위한 상세 요구사항 분석, 아키텍처 설계, RFP 작성을 아우르는 ISMP의 수립 방법론과 실무 적용 방안"
-date = "2026-03-04"
-[taxonomies]
-tags = ["ISMP", "ISP", "RFP", "IT 컨설팅", "소프트웨어 공학", "프로젝트 관리", "예비타당성조사"]
-categories = ["studynote-enterprise"]
-+++
+---
+title: 9. ISMP (Information System Master Plan) - 특정 정보시스템 구축 사업을 위한 상세 마스터플랜 (ISP보다
+  구체적 실행 지침)
+date: '2026-03-04'
+description: 특정 정보시스템 구축 사업을 위한 상세 요구사항 분석, 아키텍처 설계, RFP 작성을 아우르는 ISMP의 수립 방법론과 실무
+  적용 방안
+tags:
+- enterprise_systems
+---
 
 # 09. [[109_ismp_rfp_fp|정보시스템 마스터플랜]] ([[109_ismp_rfp_fp|ISMP]], [[007_information_system_master_plan|Information System Master Plan]])
 

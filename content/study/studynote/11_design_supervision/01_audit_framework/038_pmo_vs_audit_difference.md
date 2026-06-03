@@ -1,10 +1,9 @@
-+++
-weight = 38
-title = "38. PMO와 감리의 차이 (PMO vs Audit)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-design-supervision"
-+++
+---
+title: 38. PMO와 감리의 차이 (PMO vs Audit)
+date: '2026-05-08'
+tags:
+- studynote-design-supervision
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

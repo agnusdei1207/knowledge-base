@@ -1,10 +1,9 @@
-+++
-weight = 102
-title = "102. 암묵적 스레딩 (Implicit Threading) - 스레드 풀, OpenMP, Grand Central Dispatch(GCD)"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 102. 암묵적 스레딩 (Implicit Threading) - 스레드 풀, OpenMP, Grand Central Dispatch(GCD)
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 암묵적 스레딩 (Implicit Threading)은 개발자가 [[092_thread_lwp|스레드]]의 [[087_process_state_transition|생성]]과 [[212_synchronization_mechanisms|동기화]]를 직접 제어하지 않고, 실행할 작업 ([[150_task|Task]])만 정의하면 런타임 시스템이 관리를 대행하는 설계 패러다임이다.

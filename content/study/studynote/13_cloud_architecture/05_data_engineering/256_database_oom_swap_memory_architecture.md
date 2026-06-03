@@ -1,10 +1,9 @@
-+++
-weight = 256
-title = "256. 데이터베이스 OOM 킬 대비 메모리 아키텍처 (OOM)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 256. 데이터베이스 OOM 킬 대비 메모리 아키텍처 (OOM)
+date: '2026-05-09'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[002_database_definition|데이터베이스]] [[157_oom_killer|OOM]] 킬 대비 메모리 아키텍처는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]([[205_kubernetes_container_orchestration|Kubernetes]]) 클러스터에서 [[001_dikw_pyramid|데이터]] 흐름 표준화를 지속 가능하게 만들기 위해 제어 규칙, [[001_dikw_pyramid|데이터]] 흐름, 운영 절차를 함께 설계하는 개념이다.

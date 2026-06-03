@@ -1,10 +1,9 @@
-+++
-weight = 156
-title = "156. 데이터 패브릭 (Data Fabric) — 위치 무관 지능형 데이터 연결"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 156. 데이터 패브릭 (Data Fabric) — 위치 무관 지능형 데이터 연결
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 1. [[212_data_fabric_virtualization|데이터 패브릭]]([[212_data_fabric_virtualization|Data Fabric]])은 Gartner가 정의한 아키텍처 개념으로, [[061_on_premise_legacy_infrastructure|온프레미스]]·클라우드·엣지 등 이기종 환경에 [[136_variance|분산]]된 [[001_dikw_pyramid|데이터]]를 **위치 무관하게 통합 접근**할 수 있는 지능형 [[001_dikw_pyramid|데이터]] 연결 레이어다.

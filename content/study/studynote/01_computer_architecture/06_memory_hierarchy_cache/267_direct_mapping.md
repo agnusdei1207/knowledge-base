@@ -1,10 +1,9 @@
-+++
-weight = 267
-title = "267. 직접 사상 (Direct Mapping)"
-date = "2026-04-20"
-[extra]
-categories = "studynote-computer-architecture"
-+++
+---
+title: 267. 직접 사상 (Direct Mapping)
+date: '2026-04-20'
+tags:
+- studynote-computer-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

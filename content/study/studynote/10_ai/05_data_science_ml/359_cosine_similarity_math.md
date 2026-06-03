@@ -1,10 +1,9 @@
-+++
-weight = 359
-title = "359. 코사인 유사도 (Cosine Similarity)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-ai"
-+++
+---
+title: 359. 코사인 유사도 (Cosine Similarity)
+date: '2026-05-09'
+tags:
+- studynote-ai
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

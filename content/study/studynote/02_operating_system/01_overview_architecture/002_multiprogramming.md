@@ -1,10 +1,9 @@
-+++
-weight = 2
-title = "2. 다중 프로그래밍 (Multiprogramming) - CPU 활용도 극대화"
-date = "2026-03-21"
-[extra]
-categories = "studynote-operating-system"
-+++
+---
+title: 2. 다중 프로그래밍 (Multiprogramming) - CPU 활용도 극대화
+date: '2026-03-21'
+tags:
+- studynote-operating-system
+---
 
 # [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] ([[673_multiprogramming_bottleneck_resource|Multiprogramming]])
 

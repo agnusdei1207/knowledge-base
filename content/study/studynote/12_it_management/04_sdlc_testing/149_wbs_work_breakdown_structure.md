@@ -1,10 +1,9 @@
-+++
-weight = 149
-title = "149. WBS (Work Breakdown Structure)"
-date = "2026-05-09"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 149. WBS (Work Breakdown Structure)
+date: '2026-05-09'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: WBS (Work Breakdown Structure)의 본질은 프로젝트 인도물을 중심으로 하위 작업 패키지(Work Package)로 쪼갠 계층적 구조도 (100% Rule 준수)를 [[090_service_kubernetes_network_load_balancing|서비스]] 가치와 운영 절차로 연결하는 데 있다.

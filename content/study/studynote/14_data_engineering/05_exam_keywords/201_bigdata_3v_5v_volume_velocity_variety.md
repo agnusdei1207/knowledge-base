@@ -1,10 +1,9 @@
-+++
-weight = 201
-title = "201. 빅데이터 3V·5V 특성 (Big Data 3V·5V Characteristics)"
-date = "2026-04-21"
-[extra]
-categories = "studynote-data-engineering"
-+++
+---
+title: 201. 빅데이터 3V·5V 특성 (Big Data 3V·5V Characteristics)
+date: '2026-04-21'
+tags:
+- studynote-data-engineering
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빅데이터는 단순한 '크기'가 아니라, 규모([[001_bigdata_3v_5v|Volume]])·속도(Velocity)·다양성(Variety)이라는 세 축이 동시에 폭발적으로 증가하면서 기존 RDBMS 패러다임을 붕괴시킨 현상이다.

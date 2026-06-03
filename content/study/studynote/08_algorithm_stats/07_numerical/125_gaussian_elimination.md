@@ -1,10 +1,9 @@
-+++
-title = "006. 가우스 소거법 — Gaussian Elimination"
-weight = 125
-date = "2026-04-05"
-[extra]
-categories = "studynote-algorithm-stats"
-+++
+---
+title: 006. 가우스 소거법 — Gaussian Elimination
+date: '2026-04-05'
+tags:
+- studynote-algorithm-stats
+---
 
 > **핵심 인사이트**
 > 1. 가우스 소거법(Gaussian Elimination)은 선형 연립 방정식 Ax=b를 O(n³) 시간에 풀거나 행렬을 행 사다리꼴로 변환하는 기본 [[001_algorithm_definition|알고리즘]] — 정방행렬 n×n에서 n이 작으면 충분하지만 n이 크면 LU 분해·반복법과 비교해 효율을 따져야 한다.

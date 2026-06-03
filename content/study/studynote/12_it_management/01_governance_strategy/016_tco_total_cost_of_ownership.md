@@ -1,10 +1,9 @@
-+++
-weight = 16
-title = "16. TCO (Total Cost of Ownership, 총소유비용)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 16. TCO (Total Cost of Ownership, 총소유비용)
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

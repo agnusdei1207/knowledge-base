@@ -1,10 +1,9 @@
-+++
-weight = 484
-title = "484. TFTP (Trivial FTP)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-network"
-+++
+---
+title: 484. TFTP (Trivial FTP)
+date: '2026-05-08'
+tags:
+- studynote-network
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,10 +1,9 @@
-+++
-weight = 44
-title = "44. BPO (Business Process Outsourcing)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-it-management"
-+++
+---
+title: 44. BPO (Business Process Outsourcing)
+date: '2026-05-08'
+tags:
+- studynote-it-management
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

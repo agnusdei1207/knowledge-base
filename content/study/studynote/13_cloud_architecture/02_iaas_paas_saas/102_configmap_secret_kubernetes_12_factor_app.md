@@ -1,10 +1,9 @@
-+++
-weight = 102
-title = "102. 컨피그맵 (ConfigMap) / 시크릿 (Secret) - K8s 환경 변수 주입 객체"
-date = "2026-04-10"
-[extra]
-categories = "studynote-cloud-architecture"
-+++
+---
+title: 102. 컨피그맵 (ConfigMap) / 시크릿 (Secret) - K8s 환경 변수 주입 객체
+date: '2026-04-10'
+tags:
+- studynote-cloud-architecture
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 컨피그맵 (ConfigMap)과 [[514_secret_management_vault_kms|시크릿]] ([[514_secret_management_vault_kms|Secret]])은 [[561_container_based_deployment|컨테이너]] 애플리케이션의 소스코드 및 이미지와 [[009_config|설정]] 데이터를 물리적으로 분리하여 주입하는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] ([[205_kubernetes_container_orchestration|Kubernetes]])의 [[009_config|설정]] 관리 객체다.

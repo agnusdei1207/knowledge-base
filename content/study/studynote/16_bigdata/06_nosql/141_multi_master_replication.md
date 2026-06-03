@@ -1,10 +1,9 @@
-+++
-weight = 141
-title = "141. 멀티 마스터 복제 (Multi-Master Replication) — CouchDB/DynamoDB Global Tables"
-date = "2026-04-21"
-[extra]
-categories = "studynote-bigdata"
-+++
+---
+title: 141. 멀티 마스터 복제 (Multi-Master Replication) — CouchDB/DynamoDB Global Tables
+date: '2026-04-21'
+tags:
+- studynote-bigdata
+---
 
 ## 핵심 인사이트 (3줄 요약)
 - **본질**: [[272_multi_master_replication|멀티 마스터 복제]]는 여러 노드 또는 리전에서 동시에 [[289_cqrs_db|쓰기]]를 허용하여 단일 [[289_cqrs_db|쓰기]] [[172_maas_mobility_as_a_service|마스]]터의 지리적 병목과 [[454_spof|단일 장애점]]을 제거하는 [[136_variance|분산]] [[016_replication_factor|복제]] 아키텍처다.

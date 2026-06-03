@@ -1,10 +1,9 @@
-+++
-weight = 145
-title = "145. 메시지 브로커 (Message Broker) - 동기·비동기 통합"
-date = "2026-04-19"
-[extra]
-categories = "studynote-enterprise-systems"
-+++
+---
+title: 145. 메시지 브로커 (Message Broker) - 동기·비동기 통합
+date: '2026-04-19'
+tags:
+- studynote-enterprise-systems
+---
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[389_mesh_topology|메시]]지 브로커는 **생산자와 소비자 사이에서 [[389_mesh_topology|메시]]지를 중계([[339_routing_overview_best_path_selection|라우팅]]·[[454_buffering|버퍼링]]·변환)**하여 비동기·느슨 결합 통신을 가능하게 하는 미들웨어이며, RabbitMQ·ActiveMQ·Kafka가 대표이다.

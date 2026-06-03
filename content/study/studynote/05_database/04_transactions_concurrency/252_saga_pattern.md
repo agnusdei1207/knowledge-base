@@ -1,10 +1,9 @@
-+++
-weight = 252
-title = "252. Saga 패턴 (Saga Pattern)"
-date = "2026-05-08"
-[extra]
-categories = "studynote-database"
-+++
+---
+title: 252. Saga 패턴 (Saga Pattern)
+date: '2026-05-08'
+tags:
+- studynote-database
+---
 
 ## 핵심 인사이트 (3줄 요약)
 

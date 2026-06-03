@@ -1,10 +1,9 @@
-+++
-weight = 173
-title = "173. C-ITS (Cooperative Intelligent Transport Systems, 협력형 지능형 교통 체계)"
-date = "2026-05-06"
-[extra]
-categories = "studynote-ict-convergence"
-+++
+---
+title: 173. C-ITS (Cooperative Intelligent Transport Systems, 협력형 지능형 교통 체계)
+date: '2026-05-06'
+tags:
+- studynote-ict-convergence
+---
 
 ## 핵심 인사이트 (3줄 요약)
 
