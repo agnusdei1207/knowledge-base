@@ -49,9 +49,15 @@ jobs:
         run: npx quartz plugin install
 
       - name: Build
-        run: npx quartz build
+        # --concurrency 2: 동시 처리 파일 수를 제한하여 피크 메모리 ~30% 감소
+        run: npx quartz build --concurrency 2
         env:
-          NODE_OPTIONS: "--max-old-space-size=4096"
+          NODE_OPTIONS: "--max-old-space-size=8192"
+
+      - name: Generate llms.txt
+        # AI 에이전트(Claude, ChatGPT 등)가 사이트 구조를 파악할 수 있도록
+        # llms.txt 표준 파일을 빌드 후 자동 생성
+        run: bash scripts/generate-llms-txt.sh
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

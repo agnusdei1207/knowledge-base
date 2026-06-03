@@ -15,6 +15,7 @@ echo "Installing Quartz plugins..."
 npx quartz plugin install
 
 echo "Building Quartz..."
-NODE_OPTIONS="--max-old-space-size=8192" npx quartz build
+# --concurrency 2: 동시 처리 파일 수를 제한하여 피크 메모리 ~30% 감소 (OOM 방지)
+NODE_OPTIONS="--max-old-space-size=8192" npx quartz build --concurrency 2
 
 echo "✅ Built into $OUTPUT_DIR"

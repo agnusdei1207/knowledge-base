@@ -112,7 +112,13 @@ plugins:
   - source: github:quartz-community/favicon
     enabled: true
   - source: github:quartz-community/og-image
-    enabled: true
+    # ⚠️ 비활성화 사유 (2026-06-03):
+    # 9,600+ 페이지마다 OG(Open Graph) 이미지를 빌드타임에 렌더링하면
+    # 빌드 시간과 힙 메모리를 대폭 소모한다.
+    # 개인 지식베이스 특성상 SNS 공유 썸네일 자동생성은 불필요하므로
+    # 빌드 성능 최적화를 위해 비활성화한다.
+    # 재활성화가 필요하면 enabled: true 로 변경.
+    enabled: false
   - source: github:quartz-community/cname
     enabled: true
   - source: github:quartz-community/canvas-page
