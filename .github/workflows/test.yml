@@ -25,9 +25,6 @@ jobs:
             "package-lock.json"
             "quartz.config.yaml"
             "quartz.lock.json"
-            "docker-compose.yml"
-            "docker/knowledgebase-mcp.Dockerfile"
-            "scripts/serve-quartz.sh"
             "scripts/knowledgebase_mcp_server.py"
             "content/index.md"
           )
@@ -53,7 +50,7 @@ jobs:
           pip install --quiet pyyaml
           python3 -c "
           import yaml, sys, pathlib
-          files = ['quartz.config.yaml', 'docker-compose.yml']
+          files = ['quartz.config.yaml']
           files += [str(p) for p in pathlib.Path('.github/workflows').glob('*.yml')]
           errs = []
           for f in files:
