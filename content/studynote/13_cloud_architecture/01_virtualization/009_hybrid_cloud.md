@@ -7,8 +7,6 @@ tags:
 - cloud_architecture
 ---
 
-# 9. 하이브리드 클라우드 (Hybrid Cloud)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 내부 통제가 가능한 [[061_on_premise_legacy_infrastructure|온프레미스]]([[008_private_cloud|프라이빗 클라우드]])와 무한한 확장성을 지닌 [[007_public_cloud|퍼블릭 클라우드]]를 [[266_leased_line_basics_e1_t1_t3|전용선]]이나 VPN으로 안전하게 연결하여 하나의 논리적 인프라처럼 혼용하는 [[268_strategy_pattern|전략]].
 > 2. **가치**: 민감한 [[001_dikw_pyramid|데이터]](고객 정보, 금융 원장)는 내부 보안망에 두면서도, 갑작스러운 트래픽 폭주 시에는 [[007_public_cloud|퍼블릭 클라우드]]의 컴퓨팅 파워를 빌려 쓰는 '최적의 균형점'을 제공.

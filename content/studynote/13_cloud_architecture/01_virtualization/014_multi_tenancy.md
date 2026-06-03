@@ -7,8 +7,6 @@ tags:
 - cloud_architecture
 ---
 
-# 멀티 테넌시 (Multi-Tenancy)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 멀티 테넌시(Multi-Tenancy)는 단일 소프트웨어 애플리케이션 인스턴스와 [[002_database_definition|데이터베이스]]를 여러 고객사(Tenant)가 마치 자신만의 전용 시스템인 것처럼 논리적으로 철저히 격리하여 공유하는 아키텍처이다.
 > 2. **가치**: 인프라 [[016_replication_factor|복제]] 비용을 획기적으로 제거하고, 모든 고객에게 동일한 버전의 소프트웨어 패치와 신기능을 한 번에 배포([[110_zero_downtime_db_schema_rollout|Zero-downtime]])할 수 있어 진정한 의미의 B2B [[309_saas|SaaS]] 비즈니스 확장을 가능하게 한다.

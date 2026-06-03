@@ -6,8 +6,6 @@ tags:
 - design_supervision
 ---
 
-# 15. 예비 조사 (Preliminary Survey)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 예비 조사는 본격적인 실지 감리(On-site [[363_audit|Audit]])에 투입되기 1~2주 전, 프로젝트의 제안서, 요구사항, 설계 문서 등 사전 자료를 분석하고 핵심 [[173_stakeholder_identification_impact_matrix|이해관계자]]를 면담하여 시스템의 '현 상태([[178_as_is_to_be_analysis|As-Is]])와 취약점'을 입체적으로 스캐닝하는 선행 정찰 활동이다.
 > 2. **가치**: 사업자나 발주처가 숨기고 싶어 하는 프로젝트의 [[015_지연_데이터_관점|지연]] 사유, 기술적 부채, 스펙 변경 등의 내부 갈등([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] 징후)을 조기에 포착하여, 한정된 감리 자원을 타격해야 할 핵심 병목 구간에 집중시킬 수 있는 '감리 주안점(Target)'을 제공한다.

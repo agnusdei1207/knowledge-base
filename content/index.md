@@ -13,13 +13,13 @@ tags:
 
 ```mermaid
 graph TD
-    Hub[🌌 종합 지식 포털<br/>Unified Hub]
+    Hub["<span style='color:#F2ECE4'>🌌 종합 지식 포털</span><br/><span style='color:#D4CEC5;font-size:0.85em'>Unified Hub</span>"]
 
-    Hub --> Work[🏢 기업 업무 허브<br/>Work Workspace]
-    Hub --> Personal[🏠 개인 서재 & 로그<br/>Personal Workspace]
-    Hub --> Study[🎓 일반 학습 허브<br/>Study Workspace]
-    Hub --> StudyNote[🏆 기술사 스터디<br/>Study Note Workspace]
-    Hub --> RD[🔬 연구 개발 허브<br/>R&D Workspace]
+    Hub --> Work["<span style='color:#F2ECE4'>🏢 기업 업무 허브</span><br/><span style='color:#D4CEC5;font-size:0.85em'>Work Workspace</span>"]
+    Hub --> Personal["<span style='color:#F2ECE4'>🏠 개인 서재 & 로그</span><br/><span style='color:#D4CEC5;font-size:0.85em'>Personal Workspace</span>"]
+    Hub --> Study["<span style='color:#F2ECE4'>🎓 일반 학습 허브</span><br/><span style='color:#D4CEC5;font-size:0.85em'>Study Workspace</span>"]
+    Hub --> StudyNote["<span style='color:#F2ECE4'>🏆 기술사 스터디</span><br/><span style='color:#D4CEC5;font-size:0.85em'>Study Note Workspace</span>"]
+    Hub --> RD["<span style='color:#F2ECE4'>🔬 연구 개발 허브</span><br/><span style='color:#A4B3A2;font-size:0.85em'>R&D Workspace</span>"]
 
     Work --> W1[사업 기획 & GTM]
     Work --> W2[프로젝트 & 태스크]

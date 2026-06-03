@@ -5,8 +5,6 @@ tags:
 - studynote-enterprise
 ---
 
-# 엔터프라이즈 포털 (EP, EIP)
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: EP (Enterprise Portal) / EIP (Enterprise Information Portal)은 [[136_variance|분산]]된 기업 정보를 한 화면에서 접근하게 하는 단일 창구다.
 > 2. **가치**: [[531_sso|SSO]] ([[531_sso|Single Sign-On]]), 개인화, 검색, 업무 위젯을 묶으면 사용자는 시스템을 찾아다니지 않아도 된다.

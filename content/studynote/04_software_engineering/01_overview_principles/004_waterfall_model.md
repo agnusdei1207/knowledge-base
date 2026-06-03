@@ -6,7 +6,6 @@ tags:
 - software_engineering
 ---
 
-# 폭포수 모델 (Waterfall Model)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 요구분석부터 유지보수까지, 각 단계가 폭포의 물결처럼 위에서 아래로 한 방향으로만 순차적으로 [[216_progress_in_synchronization|진행]]되는 가장 고전적이고 엄격한 소프트웨어 개발 모델.
 > 2. **가치**: 단계별 산출물(문서)이 명확하고 [[159_baseline_requirements_configuration_management|베이스라인]] 기반의 통제가 가능하여, 관리 및 진척도 파악이 직관적이므로 대규모 공공/국방 프로젝트에 적합함.

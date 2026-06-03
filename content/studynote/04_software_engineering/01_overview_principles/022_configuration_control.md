@@ -6,8 +6,6 @@ tags:
 - software_engineering
 ---
 
-# 형상 통제 (Configuration Control)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 형상 통제는 [[655_ir_detection_analysis|식별]]된 형상 항목([[090_configuration_item|CI]])의 변경 사항을 무분별하게 적용하지 못하도록, [[080_cab|변경 통제 위원회]]([[160_change_control_board_ccb_requirements_review|CCB]])를 통해 검토, 승인, 반려하는 게이트키퍼 프로세스이다.
 > 2. **가치**: 변경으로 인한 부작용(Side-effect)을 사전에 차단하고, 프로젝트의 [[161_scope_creep_requirements_inflation_prevention|범위 크리프]]([[161_scope_creep_requirements_inflation_prevention|Scope Creep]])를 방지하여 시스템의 [[003_integrity|무결성]]과 품질을 유지한다.

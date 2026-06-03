@@ -200,7 +200,7 @@ docker compose logs quartz-server
 # 대부분 원인: npm ci 중 메모리 부족
 # docker-compose.yml에 메모리 제한이 없는지 확인
 # 또는 NODE_OPTIONS를 늘려서 재시작
-NODE_OPTIONS=--max-old-space-size=4096 docker compose up quartz-server
+NODE_OPTIONS=--max-old-space-size=8192 docker compose up quartz-server
 ```
 
 ---

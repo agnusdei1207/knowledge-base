@@ -6,8 +6,6 @@ tags:
 - devops_sre
 ---
 
-# 12 팩터 앱
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 12 팩터 앱( Twelve-Factor App)은 [[531_cloud_native_architecture|클라우드 네이티브]] 및 [[309_saas|SaaS]] 애플리케이션 개발을 위한 12가지 설계 원칙으로, Heroku의 엔지니어링 팀이 2011년에 체계화했다.
 > 2. **가치**: 이 원칙들을 따르면 애플리케이션의 배포 민첩성, 확장성, [[346_maintainability_portability|유지보수성]], [[233_recovery_database_restoration_overview|회복]] [[571_resiliency_fault_tolerance_patterns|탄력성]]이 극대화되어, 현대적 [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인과完美하게 연동된다.

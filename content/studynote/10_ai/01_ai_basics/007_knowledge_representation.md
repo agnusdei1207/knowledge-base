@@ -6,8 +6,6 @@ tags:
 - ai
 ---
 
-# 7. 지식 표현 (Knowledge Representation)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 암묵적인 인간의 지식을 컴퓨터가 연산하고 추론할 수 있도록 [[369_logic_bomb|논리]]적, 구조적, 절차적으로 모델링하는 기법이다.
 > 2. **가치**: 단순한 [[001_dikw_pyramid|데이터]] 저장을 넘어 [[001_dikw_pyramid|데이터]] 간의 의미적 [[083_relationship_in_er_model|관계]](Semantic [[083_relationship_in_er_model|Relationship]])를 부여함으로써, AI가 새로운 결론을 도출하는 지능의 근간을 형성한다.

@@ -15,6 +15,6 @@ echo "Installing Quartz plugins..."
 npx quartz plugin install
 
 echo "Building Quartz..."
-NODE_OPTIONS="--max-old-space-size=4096" npx quartz build
+NODE_OPTIONS="--max-old-space-size=8192" npx quartz build
 
 echo "✅ Built into $OUTPUT_DIR"

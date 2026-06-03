@@ -4,8 +4,6 @@ tags:
 - personal
 ---
 
-# 💰 Finances & Wealth Plan
-
 장기적인 경제적 자유를 이루기 위한 재정 관리 및 투자 일지입니다.
 
 ---

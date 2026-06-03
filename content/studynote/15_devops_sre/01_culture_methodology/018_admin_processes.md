@@ -7,8 +7,6 @@ tags:
 - devops_sre
 ---
 
-# 18. 관리 프로세스 (Admin Processes)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[271_ddl_liquibase|데이터베이스 마이그레이션]], 비정상 [[001_dikw_pyramid|데이터]] 보정 스크립트, REPL 셸 접속 등 일회성 관리(Admin) 프로세스를 일반 장기 실행 애플리케이션과 완전히 동일한 릴리스 환경([[007_codebase|코드베이스]], [[009_config|설정]], [[068_docker_image_immutable_package|도커 이미지]])에서 실행하라는 12 팩터(Twelve-Factor) 원칙이다.
 > 2. **가치**: 관리자가 임의의 환경이나 로컬 PC에서 스크립트를 실행하여 발생하는 예기치 못한 운영망 파괴(장애)를 원천 차단하고, 모든 관리 작업에 대한 [[606_auditing_linux_auditd|감사]]([[363_audit|Audit]])와 재현성을 보장한다.

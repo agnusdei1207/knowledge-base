@@ -7,8 +7,6 @@ tags:
 - security
 ---
 
-# 15. 공개 설계 원칙 (Open Design)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시스템의 동작 방식과 암호화 [[001_algorithm_definition|알고리즘]]이 적(해커)에게 완전히 알려져 있다고 가정하더라도, 시스템의 기밀성과 무결성이 유지되도록 설계해야 한다는 철학이다. (케르크호프스의 원리)
 > 2. **가치**: "숨김을 통한 보안([[283_security_tactics|Security]] through Obscurity)"의 치명적 한계를 극복하고, 전 세계 전문가들의 공개적인 [[163_peer_review|동료 검토]]([[163_peer_review|Peer Review]])를 통해 수학적으로 검증된 견고한 보안 체계를 구축한다.

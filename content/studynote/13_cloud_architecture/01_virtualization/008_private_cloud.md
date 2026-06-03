@@ -7,8 +7,6 @@ tags:
 - cloud_architecture
 ---
 
-# 8. 프라이빗 클라우드 (Private Cloud)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기업이 자체 소유한 [[061_on_premise_legacy_infrastructure|온프레미스]] [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 환경 내에 [[015_virtualization|가상화]] 기술을 적용하여, 오직 단일 기업(Single Tenant)만을 위해 구축·운영되는 클라우드 인프라.
 > 2. **가치**: [[007_public_cloud|퍼블릭 클라우드]]의 유연성([[014_api_posix|API]] 기반 [[528_provisioning|프로비저닝]], 자동화)을 확보하면서도 [[809_data_sovereignty|데이터 주권]], 엄격한 규제 준수, 폐쇄망의 강력한 보안 통제권을 완벽히 유지.

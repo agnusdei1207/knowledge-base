@@ -6,8 +6,6 @@ tags:
 - it_management
 ---
 
-# 자가 진단 및 성숙도 모델 (Maturity Model)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 조직이 목적을 달성하기 위한 프로세스의 표준화, 측정, 통제, 최적화 수준을 정량적으로 평가하고 개선하는 [[316_reference_pattern_nosql|참조]] 프레임워크.
 > 2. **가치**: 소프트웨어 개발 및 IT 운영 조직의 예측 가능성을 높이고, [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 줄이며, 궁극적으로 ROI를 개선하여 지속 가능한 품질 보증 체계를 확립.

@@ -5,8 +5,6 @@ tags:
 - studynote-operating-system
 ---
 
-# 시분할 시스템 (Time-sharing System)
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시분할 시스템 (Time-sharing System)은 CPU 시간을 매우 짧은 시간 단위인 타임 [[331_neuromorphic_ai_db|슬라이스]] (Time [[331_neuromorphic_ai_db|Slice]])로 나누어 여러 사용자나 프로세스에게 번갈아 할당함으로써, 각 사용자가 컴퓨터를 독점하고 있는 듯한 환상 (Illusion)을 제공하는 기술이다.
 > 2. **가치**: 일괄 처리 시스템의 긴 대기 시간을 해결하고 대화형 (Interactive) 인터페이스를 가능하게 하여, 사용자 [[138_response_time|응답 시간]] ([[138_response_time|Response Time]])을 최소화하고 시스템 자원의 민주적 배분을 실현한다.

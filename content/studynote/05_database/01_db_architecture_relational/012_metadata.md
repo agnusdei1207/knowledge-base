@@ -6,8 +6,6 @@ tags:
 - database
 ---
 
-# 12. 메타데이터 (Metadata)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[001_dikw_pyramid|데이터]]에 대한 [[001_dikw_pyramid|데이터]]([[001_dikw_pyramid|Data]] about [[001_dikw_pyramid|Data]])로, [[001_dikw_pyramid|데이터]]의 구조, [[082_attribute_types_er_model|속성]], 제약조건 및 의미적 맥락을 정의하는 정보의 청사진이다.
 > 2. **가치**: [[001_dikw_pyramid|데이터]] 검색 및 이해 시간을 단축하고(비용 절감), [[052_data_governance_framework|데이터 거버넌스]]와 규제 준수를 가능하게 하여 기업 자산으로서의 가치를 극대화한다.

@@ -5,8 +5,6 @@ tags:
 - studynote-operating-system
 ---
 
-# 프로세서 전원 상태 (C-States)
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: C-states (CPU [[611_cpu_idle_wait_optimization|Idle]] States)는 CPU가 놀고 있을 때 전력을 줄이기 위한 유휴 상태다.
 > 2. **가치**: 깊은 C-state로 갈수록 전력과 발열은 줄지만, 깨어나는 [[015_지연_데이터_관점|지연]]([[141_latency|latency]])은 커진다.

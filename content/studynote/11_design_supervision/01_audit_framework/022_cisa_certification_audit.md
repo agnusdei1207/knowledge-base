@@ -5,8 +5,6 @@ tags:
 - studynote-design-supervision
 ---
 
-# CISA (Certified Information Systems Auditor)
-
 > ⚠️ 이 문서는 전 세계 IT [[606_auditing_linux_auditd|감사]], 통제, 보안 및 거버넌스 분야의 사실상 표준(De facto standard) 자격 [[303_authentication_authorization_patterns|인증]]인 ISACA의 'CISA'의 핵심 검정 [[064_relation_domain|도메인]], 감리 실무적 가치, 그리고 엔터프라이즈 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 관리 체계에서의 역할을 심층 분석합니다.
 
 ## 핵심 인사이트 (3줄 요약)

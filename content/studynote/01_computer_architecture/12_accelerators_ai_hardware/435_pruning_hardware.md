@@ -5,8 +5,6 @@ tags:
 - studynote-computer-architecture
 ---
 
-# 가지치기 (Pruning) 지원 하드웨어
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 가지치기 지원 하드웨어는 희소성 (Sparsity) 이 생긴 신경망에서 0 또는 거의 0에 해당하는 [[267_weight_bias_activation|가중치]] 연산을 실제 회로 수준에서 건너뛰어, 같은 클럭 안에 더 많은 유효 연산을 처리하게 만드는 구조다.

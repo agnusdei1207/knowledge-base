@@ -13,6 +13,7 @@ services:
       - WS_PORT=3001
       - BASE_DIR=/
       - WORKSPACE=/workspace
+      - NODE_OPTIONS=--max-old-space-size=8192
     entrypoint: ["/bin/sh", "/workspace/scripts/serve-quartz.sh"]
     restart: unless-stopped
 

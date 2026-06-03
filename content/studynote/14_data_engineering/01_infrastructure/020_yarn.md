@@ -8,8 +8,6 @@ tags:
 - data_engineering
 ---
 
-# YARN (Yet Another Resource Negotiator)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 1.0의 단일 [[018_mapreduce|맵리듀스]]([[018_mapreduce|MapReduce]]) 전용 엔진 한계를 타파하기 위해 등장한 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 2.0의 심장으로, 클러스터 전체의 자원(CPU, 메모리) 할당 기능과 애플리케이션 실행/모니터링 기능을 완전히 분리한 [[136_variance|분산]] [[001_operating_system_purpose|운영체제]]급 리소스 [[079_kube_scheduler_pod_placement|스케줄러]]입니다.
 > 2. **가치**: 하나의 거대한 [[001_dikw_pyramid|데이터]] 클러스터 위에서 [[018_mapreduce|맵리듀스]]뿐만 아니라 [[206_spark_inmemory_rdd_lazy_evaluation_lineage|아파치 스파크]](Spark), 플링크(Flink), 실시간 스트리밍 등 다양한 연산 엔진들이 서로 자원을 뺏기지 않고 평화롭게 공존하며 동시에 구동할 수 있는 [[310_multi_tenant_database_architecture|멀티테넌트]]([[888_multi_tenant_cloud_resource_isolation_noisy_neighbor|Multi-tenant]]) 환경을 구축했습니다.

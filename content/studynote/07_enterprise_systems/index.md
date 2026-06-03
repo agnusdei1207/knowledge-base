@@ -3,8 +3,6 @@ title: '07: 엔터프라이즈 시스템 (Enterprise Systems)'
 tags:
 - studynote-enterprise-systems
 ---
-# 도메인 07: 엔터프라이즈 시스템 (Enterprise Systems)
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기업의 모든 자원(인사, 재무, 물류, 영업)과 비즈니스 프로세스를 하나의 통합된 IT 아키텍처 상에 올려, 전사적 데이터의 무결성과 실시간 가시성(Visibility)을 제공하는 뼈대 시스템.
 > 2. **가치**: 부서 간의 정보 단절(Silo Effect)을 완전히 파단하고 데이터 중심의 의사결정(Data-driven Decision)을 강제하여, 원가 절감과 비즈니스 민첩성(Agility)을 극도로 끌어올림.

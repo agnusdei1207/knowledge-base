@@ -5,8 +5,6 @@ tags:
 - devops_sre
 ---
 
-# 폐기 가능성
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 폐기 가능성 원칙은 애플리케이션 프로세스가 언제든即각적으로 시작되고 종료될 수 있어야 하며, 갑작스러운 종료(강제 종료, Kill)에도 시스템이整合性を失わないという設計要求이다.
 > 2. **가치**: 폐기 가능성을 확보하면 [[082_zero_downtime_deployment_rolling_blue_green_canary|무중단 배포]], 빠른 [[202_scale_out_distributed_horizontal_expansion|스케일 아웃]], 그리고 장애 시即時 [[658_ir_recovery|복구]]가 가능해져 시스템의 Overall [[452_availability|가용성]]과 [[233_recovery_database_restoration_overview|회복]] [[571_resiliency_fault_tolerance_patterns|탄력성]]이 크게 향상된다.

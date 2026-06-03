@@ -6,8 +6,6 @@ tags:
 - data_engineering
 ---
 
-# 네임노드 (NameNode)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [[843_hadoop_rack_awareness_data_replication_topology|하둡]] [[553_distributed_file_system|분산 파일 시스템]]([[013_hdfs|HDFS]])의 지휘관으로, 수천 대의 워커 노드([[015_datanode|DataNode]])에 흩어져 있는 [[001_dikw_pyramid|데이터]] 블록들의 주소와 [[501_file_definition_logical_record|파일]] [[506_directory_structure_symbol_table|디렉터리]] 트리를 주 메모리(RAM)에 올려두고 관리하는 중앙 마스터 장부 시스템이다.
 > 2. **가치**: 클라이언트가 테라바이트급 [[501_file_definition_logical_record|파일]]을 읽거나 쓰려 할 때, 디스크를 뒤지지 않고 메모리 상의 [[061_namespace|네임스페이스]] 트리를 0.01초 만에 검색하여 즉각적인 물리적 [[001_dikw_pyramid|데이터]] 위치(Block [[010_schema_mapping|Mapping]])를 라우팅해 준다.

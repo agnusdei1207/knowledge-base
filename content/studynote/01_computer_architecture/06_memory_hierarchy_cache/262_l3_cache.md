@@ -5,8 +5,6 @@ tags:
 - studynote-computer-architecture
 ---
 
-# 262. L3 캐시 (Level 3 Cache)
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: L3 캐시 (Level 3 Cache)는 각 코어의 L1/L2 캐시 뒤에 놓인 마지막 온칩 공유 캐시로, 메인 메모리로 내려가기 전 마지막으로 [[141_latency|지연 시간]]을 줄여 주는 공용 완충 지대다.

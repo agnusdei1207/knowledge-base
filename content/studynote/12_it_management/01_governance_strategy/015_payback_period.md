@@ -6,8 +6,6 @@ tags:
 - it_management
 ---
 
-# PP (Payback Period, 투자회수기간)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 프로젝트 [[459_quic_fec_forward_error_correction|초기]]에 투입된 총 투자 비용을 미래의 순현금유입액으로 완전히 회수하여 '본전을 뽑는 데' 걸리는 물리적 시간(년/월).
 > 2. **가치**: 시간이 짧을수록 투자 자금의 유동성(Liquidity)이 뛰어나고, 미래의 불확실성에 노출되는 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]([[096_risk_non_risk_architecture_evaluation_flaws|Risk]])가 적음을 직관적으로 보여줌.

@@ -6,8 +6,6 @@ tags:
 - ict_convergence
 ---
 
-# 탈중앙화 (Decentralization)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 탈중앙화 (Decentralization)는 특정 단일 주체나 중앙 서버에 권력과 [[001_dikw_pyramid|데이터]]가 집중되는 것을 막고, [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] 네트워크에 참여하는 다수의 노드에게 권한과 상태 관리를 [[136_variance|분산]]시키는 시스템 아키텍처이자 철학이다.
 > 2. **가치**: 중앙 관리자의 임의 조작, 검열, 그리고 [[454_spof|단일 장애점]]([[454_spof|SPOF]])으로 인한 시스템 전체의 셧다운 위험을 제거하여 [[003_integrity|무결성]], [[196_durability_permanent_storage|영속성]], 투명성을 보장한다.

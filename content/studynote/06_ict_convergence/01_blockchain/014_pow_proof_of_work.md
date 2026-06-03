@@ -6,8 +6,6 @@ tags:
 - ict_convergence
 ---
 
-# 작업 증명 (PoW, Proof of Work)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 컴퓨팅 연산력(CPU/[[418_gpu|GPU]]/[[070_asic|ASIC]])을 소모하여 고난도의 해시 퍼즐을 가장 먼저 푸는 노드에게 블록 [[087_process_state_transition|생성]] 권한을 부여하는 탈중앙 [[011_consensus_algorithm|합의 알고리즘]]입니다.
 > 2. **가치**: 스팸 공격과 [[070_sybil_attack_fake_nodes|시빌 공격]]([[070_sybil_attack_fake_nodes|Sybil Attack]])을 물리적인 에너지 비용 지불로 방어하며, 신뢰할 수 없는 [[136_variance|분산]] 환경에 최초로 100% 개방된 장부(비트코인)를 구현했습니다.

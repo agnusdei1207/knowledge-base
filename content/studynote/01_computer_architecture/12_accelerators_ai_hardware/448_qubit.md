@@ -5,8 +5,6 @@ tags:
 - studynote-computer-architecture
 ---
 
-# 큐비트 (Qubit)
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 큐비트는 [[690_round_robin_time_quantum|Quantum]] Bit의 줄임말로, 0 또는 1 중 하나만 고르는 고전 [[073_bit|비트]]와 달리 **중첩 상태**와 **위상 정보**까지 담는 양자 정보의 최소 단위다.

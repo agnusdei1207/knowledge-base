@@ -24439,7 +24439,7 @@ var init_Head = __esm({
             /* @__PURE__ */ jsx3("meta", { property: "og:url", content: socialUrl }),
             /* @__PURE__ */ jsx3("meta", { property: "twitter:url", content: socialUrl })
           ] }),
-          /* @__PURE__ */ jsx3("link", { rel: "icon", href: iconPath }),
+          /* @__PURE__ */ jsx3("link", { rel: "icon", type: "image/svg+xml", href: "https://api.iconify.design/lucide:brain-circuit.svg?color=%23E2A06E" }),
           /* @__PURE__ */ jsx3("meta", { name: "description", content: description }),
           /* @__PURE__ */ jsx3("meta", { name: "generator", content: "Quartz" }),
           css.map((resource) => CSSResourceToStyleElement(resource, true)),

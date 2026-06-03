@@ -5,8 +5,6 @@ tags:
 - devops_sre
 ---
 
-# 설정
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 설정(Config) 원칙은 애플리케이션의 환경별 구성([[002_database_definition|데이터베이스]] 연결 정보, [[014_api_posix|API]] 키, 환경별 상수 등)을 코드와 분리하여 [[156_environment_variables|환경 변수]]([[156_environment_variables|Environment Variables]])에 저장하고, 코드는 이들 값을 [[316_reference_pattern_nosql|참조]]만 하도록 해야 한다는 12팩터 앱의 제3원칙이다.
 > 2. **가치**: 동일한 [[007_codebase|코드베이스]]가 환경(개발, 스테이징, 프로덕션)마다 다른 설정으로 동작할 수 있게 하여, 코드 배포와 설정 변경을 독립적으로 관리하고 보안을 강화한다.

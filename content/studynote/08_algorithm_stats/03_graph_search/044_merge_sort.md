@@ -4,8 +4,6 @@ tags:
 - algorithm_stats
 ---
 
-# 19. 합병 정렬 (Merge Sort)
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 합병 정렬(Merge Sort)은 [[005_divide_and_conquer|분할 정복]]([[005_divide_and_conquer|Divide and Conquer]]) 패러다임을 따르는 안정 정렬로, [[055_array|배열]]을 반으로 나눈 뒤 각 절반을 재귀적으로 정렬하고, 마지막에 두 정렬된 절반을 합병(Merge)하여 전체를 정렬하는 O(N log N) 알고리즘이다.
 > 2. **가치**: 최악의 경우에도 O(N log N)을 보장하며, 안정 정렬이므로 동일 값 사이의 순서가 보존된다. 그러나 O(N)의 추가 공간이 필요하다는 단점이 있다.

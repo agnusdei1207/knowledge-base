@@ -7,8 +7,6 @@ tags:
 - security
 ---
 
-# 14. 단순 보안 원칙 (Simplicity)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: "복잡성은 보안의 가장 큰 적(Complexity is the worst enemy of [[283_security_tactics|security]])"이라는 명제 하에, 보안 통제 논리와 코드를 최소화하고 직관적으로 설계하는 아키텍처 철학이다.
 > 2. **가치**: 코드 라인 수와 [[009_config|설정]]의 복잡도를 줄임으로써 버그(Bug)가 숨어있을 공간(Attack Surface)을 물리적으로 축소하고, 운영자의 [[009_config|설정]] 실수(Misconfiguration)를 원천 차단한다.

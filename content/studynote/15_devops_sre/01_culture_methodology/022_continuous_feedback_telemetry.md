@@ -5,8 +5,6 @@ tags:
 - studynote-devops-sre
 ---
 
-# 지속적 피드백 (Continuous Feedback)
-
 > ⚠️ 이 문서는 [[652_devops_calms_culture|데브옵스]]([[652_devops_calms_culture|DevOps]]) [[123_pipe|파이프]]라인의 종착역이자 새로운 출발점으로서, 프로덕션 환경에서 발생한 사용자 행동, 시스템 [[282_performance_tactics|성능]], 비즈니스 성과 [[001_dikw_pyramid|데이터]]를 개발 및 기획 단계로 [[148_5g_embb_urllc_mmtc|초고속]] 환류시키는 '지속적 피드백(Continuous Feedback)'의 아키텍처와 측정 [[268_strategy_pattern|전략]]을 심층 분석합니다.
 
 ## 핵심 인사이트 (3줄 요약)

@@ -4,8 +4,6 @@ tags:
 - personal
 ---
 
-# 🧭 Life Goals & Bucket List
-
 내가 가고자 하는 방향과 도달하고 싶은 삶의 이정표들입니다.
 
 ---

@@ -6,8 +6,6 @@ tags:
 - studynote-software-engineering
 ---
 
-# 비대칭키 암호 (Asymmetric Encryption)
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 비대칭키 암호는 공개키로 암호화/[[395_verification_process_review|검증]]하고 개인키로 복호화/서명하는 키 쌍 기반 구조다.
 > 2. **가치**: PKC (Public-[[067_db_key_uniqueness_minimality|Key]] [[652_cryptography_concept_encryption_decryption|Cryptography]])는 키 배포 문제를 해결하고, 디지털 서명까지 함께 제공한다.

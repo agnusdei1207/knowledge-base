@@ -6,8 +6,6 @@ tags:
 - cloud_architecture
 ---
 
-# 7. 퍼블릭 클라우드 (Public Cloud)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 글로벌 하이퍼스케일러(AWS, Azure, GCP)가 구축한 거대한 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 자원을 다수의 테넌트(고객)가 [[015_virtualization|가상화]] 기술을 통해 논리적으로 나누어 쓰는 IT 인프라 온디맨드 제공 모델.
 > 2. **가치**: 막대한 CAPEX(자본 지출)를 사용량 기반의 OPEX(운영 지출)로 전환하여, 비즈니스 아이디어를 즉각적으로 실험하고 글로벌 시장으로 즉시 진출할 수 있는 민첩성(Agility)을 부여.

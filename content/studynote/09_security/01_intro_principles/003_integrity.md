@@ -6,8 +6,6 @@ tags:
 - security
 ---
 
-# 무결성 (Integrity)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 무결성은 [[001_dikw_pyramid|데이터]]가 [[087_process_state_transition|생성]]된 시점부터 전송, 저장, 처리되는 모든 과정에서 인가되지 않은 방식이나 주체에 의해 변경(위조, 변조, 삭제)되지 않았음을 보장하는 특성이다.
 > 2. **가치**: 금융 거래, 전자 계약, 시스템 [[568_logs_distributed_logging_elk_fluentd|로그]] 등에서 [[001_dikw_pyramid|데이터]]에 대한 '신뢰'를 담보하며, [[002_confidentiality|기밀성]]이 뚫리더라도 무결성이 보장되면 [[001_dikw_pyramid|데이터]]의 오염에 의한 2차 피해(예: [[737_backdoor_c2_beacon_behavior_analysis|백도어]] 설치, 송금액 변경)를 막을 수 있다.

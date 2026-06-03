@@ -6,7 +6,6 @@ tags:
 - software_engineering
 ---
 
-# 소프트웨어 공학 (Software Engineering)의 정의 및 목표
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소프트웨어의 개발, 운영, 유지보수에 공학적 원리를 적용하여 정량적, 체계적으로 관리하는 학문.
 > 2. **가치**: 예측 불가능한 소프트웨어 개발 과정의 비용과 일정을 통제하고, [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]/효율성/[[346_maintainability_portability|유지보수성]] 등의 핵심 품질 목표를 달성.

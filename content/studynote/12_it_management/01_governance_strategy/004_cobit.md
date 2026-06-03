@@ -7,8 +7,6 @@ tags:
 - it_management
 ---
 
-# COBIT (Control Objectives for Information and Related Technologies)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: COBIT은 비즈니스 목표를 IT 목표로, 다시 IT 목표를 구체적인 프로세스와 통제(Control) 목표로 번역해 주는 IT 거버넌스의 실무 '실행 지침서'이다.
 > 2. **가치**: 이사회(비즈니스)와 IT 실무자 사이의 언어 장벽을 허물고, IT 투자가 가치를 창출하고 위험이 통제되고 있는지 [[606_auditing_linux_auditd|감사]]([[363_audit|Audit]])할 수 있는 객관적 기준을 제공한다.

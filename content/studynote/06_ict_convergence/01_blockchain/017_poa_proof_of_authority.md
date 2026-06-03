@@ -7,8 +7,6 @@ tags:
 - ict_convergence
 ---
 
-# 17. 권위 증명 (PoA, Proof of Authority)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 암호화폐 지분(Stake)이나 연산력(Work)이 아닌, 노드의 실제 '신원(Identity)'과 사회적 '권위(Authority)'를 담보로 블록을 [[087_process_state_transition|생성]]하는 합의 방식이다.
 > 2. **가치**: 퍼블릭 네트워크의 자원 낭비와 불확실성을 제거하여 빠르고 예측 가능한 블록 확정성을 제공하므로, B2B 프라이빗/[[021_consortium_blockchain|컨소시엄 블록체인]]에 최적화되어 있다.

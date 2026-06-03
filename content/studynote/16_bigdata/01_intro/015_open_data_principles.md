@@ -6,8 +6,6 @@ tags:
 - bigdata
 ---
 
-# 오픈데이터 원칙 (FAIR)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 단순히 [[001_dikw_pyramid|데이터]]를 웹에 공개하는 것을 넘어, 사람뿐만 아니라 기계(Machine) 시스템이 [[001_dikw_pyramid|데이터]]를 스스로 **찾고(Findable), 접근하고(Accessible), 연동하며(Interoperable), 재사용(Reusable)** 할 수 있도록 정의한 글로벌 [[001_dikw_pyramid|데이터]] 관리 지침이다.
 > 2. **가치**: 파편화된 [[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]]([[002_silo_hyeonhyung|Silo]])를 타파하고 고도화된 [[012_metadata|메타데이터]]와 영구 [[289_identification_flags_fragmentation_offset|식별자]](PID)를 통해 [[001_dikw_pyramid|데이터]]의 생명주기를 늘려 연구 및 비즈니스 융합의 한계 비용을 영점에 수렴하게 한다.

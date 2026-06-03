@@ -5,8 +5,6 @@ tags:
 - studynote-computer-architecture
 ---
 
-# 247. 시간적 지역성 (Temporal Locality)
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시간적 지역성 (Temporal Locality)은 한 번 참조한 주소나 [[001_dikw_pyramid|데이터]]가 가까운 시간 안에 다시 필요해질 확률이 높다는 실행 패턴의 재사용 법칙이다.

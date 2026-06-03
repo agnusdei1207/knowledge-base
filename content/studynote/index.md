@@ -5,8 +5,6 @@ tags:
 - studynote
 ---
 
-# 🏆 Study Note
-
 [ 🌌 [[index|종합 지식 포털]] ] > **🏆 Study Note**
 
 ---

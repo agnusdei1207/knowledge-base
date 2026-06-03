@@ -4,8 +4,6 @@ tags:
 - algorithm_stats
 ---
 
-# 20. 퀵 정렬 (Quick Sort)
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 퀵 정렬(Quick Sort)은 [[037_pivot|피벗]]([[037_pivot|Pivot]])이라는 기준값을 선정하고, 이를 기준으로 작은 값은 왼쪽, 큰 값은 오른쪽으로 [[179_table_partitioning_concept|파티셔닝]]([[179_table_partitioning_concept|Partitioning]])하는 과정을 [[014_recursion|재귀]]적으로 반복하는 [[005_divide_and_conquer|분할 정복]] 알고리즘이다.
 > 2. **가치**: 추가 메모리를 거의 쓰지 않는 제자리(In-place) 정렬이면서 하드웨어 캐시 효율이 극도로 높아, 현실의 일반적인 [[055_array|배열]] [[001_dikw_pyramid|데이터]]에서 상수항 오버헤드가 가장 낮고 압도적으로 빠르다.

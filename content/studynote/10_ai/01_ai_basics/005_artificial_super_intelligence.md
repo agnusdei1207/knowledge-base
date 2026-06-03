@@ -6,8 +6,6 @@ tags:
 - ai
 ---
 
-# 5. 초인공지능 (ASI, Artificial Super Intelligence)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 닉 보스트롬(Nick Bostrom)의 정의에 따라 과학적 창조, 일반 지혜, 사회적 기술 등 사실상 모든 지적 영역에서 인간 최고 천재들의 지능을 종합한 것보다 훨씬 더 뛰어난 초월적 인지 시스템이다.
 > 2. **가치**: 인류가 직면한 질병, 기후 변화, 우주 개척 등 물리적/과학적 난제를 단숨에 해결할 수 있는 무한한 잠재력을 지녔으나, 동시에 인류 멸종 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]](Existential [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])를 내포한 양날의 검이다.

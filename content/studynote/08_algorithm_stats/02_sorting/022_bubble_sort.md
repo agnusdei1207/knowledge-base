@@ -4,8 +4,6 @@ tags:
 - algorithm_stats
 ---
 
-# 15. 버블 정렬 (Bubble Sort)
-
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 버블 정렬(Bubble Sort)은 인접한 두 원소를 비교하고 교환하는 작업을 [[055_array|배열]]의 끝까지 반복하여, 가장 큰(또는 작은) 값을 끝으로 밀어내는 O(N²) 제자리(In-place) 정렬 [[001_algorithm_definition|알고리즘]]이다.
 > 2. **가치**: [[282_performance_tactics|성능]] 면에서는 극도로 비효율적이지만, 코드가 직관적이고 안정 정렬(Stable Sort)의 특성을 가져 정렬 [[001_algorithm_definition|알고리즘]]의 뼈대와 [[002_time_complexity|시간 복잡도]] 개념을 이해하는 교육적 기준점이 된다.

@@ -6,8 +6,6 @@ tags:
 - security
 ---
 
-# 기밀성 (Confidentiality)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기밀성은 '알 권리([[013_need_to_know|Need-to-Know]])'가 없는 주체로부터 정보 자산을 숨기고 유출을 차단하는 정보보안의 1차 방어선이다.
 > 2. **가치**: [[781_personal_information|개인정보]], 기업 영업비밀, 국가 기밀 등 민감 [[001_dikw_pyramid|데이터]]를 [[571_protection_vs_security|보호]]함으로써 컴플라이언스 준수와 비즈니스 신뢰도를 확보한다.

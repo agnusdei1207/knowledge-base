@@ -7,8 +7,6 @@ tags:
 - it_management
 ---
 
-# IT 거버넌스 (IT Governance)
-
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: IT 거버넌스 (IT Governance)는 IT가 비즈니스 목표를 달성할 수 있도록 이사회와 경영진이 통제하고 지휘하는 체계이자 프로세스이다.
 > 2. **가치**: 불투명한 IT 투자의 블랙박스 현상을 해소하고, [[268_strategy_pattern|전략]]적 연계([[002_it_governance_5_domains|Strategic Alignment]])를 통해 비즈니스 가치 창출을 극대화하며 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 최소화한다.

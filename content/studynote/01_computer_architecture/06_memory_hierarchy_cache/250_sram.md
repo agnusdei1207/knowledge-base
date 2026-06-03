@@ -5,8 +5,6 @@ tags:
 - studynote-computer-architecture
 ---
 
-# 250. SRAM (Static RAM)
-
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: SRAM (Static Random Access Memory)은 교차 결합 인버터와 접근 [[014_transistor|트랜지스터]]로 만든 쌍안정 래치에 비트를 붙잡아 두는, 초저지연 휘발성 메모리다.
