@@ -1,0 +1,30 @@
+# 클라이언트 목록 (사람이 직접 편집)
+# 원본은 레포 루트 data/clients.yaml — web 빌드 시 자동 복사됨
+
+clients:
+  - id: acme
+    name: Acme Corp
+    domain: 보안 컨설팅
+    status: active
+    mrr: 5000
+    contact: ceo@acme.example
+    addedAt: "2026-04-12"
+    notes: "분기별 보안 감사, GDPR 준수 지원"
+
+  - id: globex
+    name: Globex Inc
+    domain: AX 자문
+    status: pending
+    mrr: 0
+    contact: cto@globex.example
+    addedAt: "2026-05-30"
+    notes: "내부 LLM 도입 검토, 6월 중 견적 발송 예정"
+
+  - id: initech
+    name: Initech
+    domain: 침투 테스트
+    status: lost
+    mrr: 0
+    contact: security@initech.example
+    addedAt: "2026-03-08"
+    notes: "예산 부족으로 보류, 2026 Q4 재접촉"
