@@ -19,9 +19,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Build Quartz in Docker
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json' # tarball 다운로드 형식이므로 root에 package.json이 없는 경우를 대비해 cache가 유연하도록 처리
+
+      - name: Build Quartz (High-Performance Native Mode)
         env:
           BASE_DIR: /knowledge-base
+          USE_DOCKER: "false"
+          NODE_OPTIONS: "--max-old-space-size=4096"
         run: bash scripts/build-quartz.sh .quartz-build/public
 
       - name: Upload artifact

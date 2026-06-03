@@ -23,16 +23,27 @@ rm -rf "$TMP_DIR/content"
 cp -R "$ROOT_DIR/content" "$TMP_DIR/content"
 cp "$ROOT_DIR/quartz.config.yaml" "$TMP_DIR/quartz.config.yaml"
 
-echo "Building Quartz in ${NODE_IMAGE}..."
-docker run --rm \
-  -e QUARTZ_BASE_DIR="$BASE_DIR" \
-  -e HOST_UID="$(id -u)" \
-  -e HOST_GID="$(id -g)" \
-  -e npm_config_cache=/work/.npm-cache \
-  -v "$TMP_DIR:/work" \
-  -w /work \
-  "$NODE_IMAGE" \
-  sh -lc 'apk add --no-cache coreutils git >/dev/null && npm ci && npx quartz plugin install --from-config --concurrency 1 && npx quartz build --baseDir "$QUARTZ_BASE_DIR" --output public && chown -R "$HOST_UID:$HOST_GID" /work'
+USE_DOCKER="${USE_DOCKER:-true}"
+
+if [ "$USE_DOCKER" = "true" ]; then
+  echo "Building Quartz in ${NODE_IMAGE}..."
+  docker run --rm \
+    -e QUARTZ_BASE_DIR="$BASE_DIR" \
+    -e HOST_UID="$(id -u)" \
+    -e HOST_GID="$(id -g)" \
+    -e npm_config_cache=/work/.npm-cache \
+    -v "$TMP_DIR:/work" \
+    -w /work \
+    "$NODE_IMAGE" \
+    sh -lc 'apk add --no-cache coreutils git >/dev/null && npm ci && npx quartz plugin install --from-config --concurrency 1 && npx quartz build --baseDir "$QUARTZ_BASE_DIR" --output public && chown -R "$HOST_UID:$HOST_GID" /work'
+else
+  echo "Building Quartz (Local Native Mode)..."
+  cd "$TMP_DIR"
+  npm ci
+  npx quartz plugin install --from-config --concurrency 1
+  npx quartz build --baseDir "$BASE_DIR" --output public
+  cd "$ROOT_DIR"
+fi
 
 mkdir -p "$OUTPUT_DIR"
 rm -rf "$OUTPUT_DIR"/*

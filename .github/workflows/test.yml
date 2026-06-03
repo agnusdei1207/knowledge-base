@@ -16,5 +16,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
       - name: Run all build tests
+        env:
+          USE_DOCKER: "false"
+          NODE_OPTIONS: "--max-old-space-size=4096"
         run: bash scripts/test-all.sh
