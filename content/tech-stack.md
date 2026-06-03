@@ -26,6 +26,7 @@
 *   **LangChain / LlamaIndex:** AI 에이전트 워크플로우를 빌드하기 위한 오케스트레이션 프레임워크.
 *   **Model Context Protocol (MCP):** 에이전트가 CLI나 특정 IDE에 종속되지 않고 외부 시스템과 연결되도록 만드는 표준 인터페이스.
 *   **Claude Code:** 코드와 문서를 직접 읽고 수정하며, MCP를 통해 공용 지식 툴을 호출할 수 있는 작업형 AI 클라이언트.
+*   **Codex Python SDK (`openai-codex`):** 내부 문서 자동화 워커, PR 생성기, 검토 배치 작업을 Python 서비스로 구현할 때 쓰는 Codex 실행 SDK.
 
 ---
 

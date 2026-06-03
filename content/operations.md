@@ -7,11 +7,11 @@
 - [[development]]
 - [[sales]]
 - [[knowledgebase-decision-log]]
-- [[hermes-agent]]
-- [[hermes-pipeline]]
+- [[knowledge-pipeline]]
 - [[decap-cms]]
 - [[claude-code-mcp]]
 - [[mcp-client-setup]]
+- [[codex-sdk-operations]]
 
 ---
 
@@ -52,8 +52,8 @@
 - 배포 가이드: [[quartz-deployment]]
 - 구현 관점: [[development]]
 - 고객 대응과 전달 포인트: [[sales]]
-- Hermes Agent 운영: [[hermes-agent]]
-- 검색/적재 흐름: [[hermes-pipeline]]
+- 검색/적재 흐름: [[knowledge-pipeline]]
 - 웹 편집 계층: [[decap-cms]]
 - Claude Code 운영안: [[claude-code-mcp]]
 - MCP 클라이언트 표준: [[mcp-client-setup]]
+- Codex SDK 운영안: [[codex-sdk-operations]]

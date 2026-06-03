@@ -43,30 +43,26 @@
 *   고객 대화 포인트, 제안 메시지, FAQ를 영업 관점에서 정리합니다.
 *   👉 **[[sales]]**
 
-### 10. 헤르메스 아키텍처 (`Hermes`)
-*   여러 직원과 AI 에이전트가 같은 지식베이스를 쓰기 위한 전체 구조와 도입 방향을 정리합니다.
-*   👉 **[[hermes-architecture]]**
-
-### 11. 헤르메스 에이전트 (`Hermes Agent`)
-*   CLI/TUI에서 돌아가는 Hermes Agent 자체를 우리 지식베이스와 어떻게 결합할지 정리합니다.
-*   👉 **[[hermes-agent]]**
-
-### 12. 검색/저장 파이프라인 (`Knowledge Pipeline`)
+### 10. 검색/저장 파이프라인 (`Knowledge Pipeline`)
 *   검색 품질, 비정형 자료 적재, 사람 친화적 원본 유지라는 목표를 동시에 만족시키는 데이터 흐름을 설명합니다.
-*   👉 **[[hermes-pipeline]]**
+*   👉 **[[knowledge-pipeline]]**
 
-### 13. 웹 편집 계층 (`Decap CMS`)
+### 11. 웹 편집 계층 (`Decap CMS`)
 *   Decap CMS가 정확히 무엇이고, 왜 Quartz 단독 대신 같이 검토할 가치가 있는지 설명합니다.
 *   👉 **[[decap-cms]]**
 *   실제 편집기 주소: `/admin/`
 
-### 14. Claude Code + MCP (`AI Ops`)
+### 12. Claude Code + MCP (`AI Ops`)
 *   20명 규모에서 Claude Code와 MCP를 이용해 이 지식베이스를 공용 AI 컨텍스트로 운영하는 방안을 정리합니다.
 *   👉 **[[claude-code-mcp]]**
 
-### 15. MCP 클라이언트 설정 (`Client Profiles`)
-*   Claude Code, Codex, Hermes CLI, OpenCode가 같은 공용 MCP 서버를 보도록 맞추는 규격과 설정 방법입니다.
+### 13. MCP 클라이언트 설정 (`Client Profiles`)
+*   Claude Code, Codex, OpenCode가 같은 공용 MCP 서버를 보도록 맞추는 규격과 설정 방법입니다.
 *   👉 **[[mcp-client-setup]]**
+
+### 14. Codex SDK 운영안 (`Codex SDK`)
+*   전 직원이 Codex를 쓰는 상황에서, 내부적으로 Python Codex SDK를 문서 업무 자동화에 어떻게 활용할지 정리합니다.
+*   👉 **[[codex-sdk-operations]]**
 
 ---
 

@@ -9,7 +9,6 @@
 포함 파일:
 
 - `codex-config.toml`
-- `hermes-config.yaml`
 - `opencode.json`
 - `claude-code.txt`
 

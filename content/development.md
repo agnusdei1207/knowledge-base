@@ -7,11 +7,10 @@
 - [[r-and-d]]
 - [[operations]]
 - [[projects]]
-- [[hermes-architecture]]
-- [[hermes-agent]]
-- [[hermes-pipeline]]
+- [[knowledge-pipeline]]
 - [[claude-code-mcp]]
 - [[mcp-client-setup]]
+- [[codex-sdk-operations]]
 
 ---
 
@@ -56,8 +55,7 @@
 - 기반 기술: [[tech-stack]]
 - 실험과 검증: [[r-and-d]]
 - 운영 기준: [[operations]]
-- 헤르메스 구조: [[hermes-architecture]]
-- Hermes Agent 런타임: [[hermes-agent]]
-- 데이터 흐름: [[hermes-pipeline]]
+- 데이터 흐름: [[knowledge-pipeline]]
 - Claude Code + MCP: [[claude-code-mcp]]
 - 클라이언트 규격: [[mcp-client-setup]]
+- Codex SDK 운영안: [[codex-sdk-operations]]

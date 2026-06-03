@@ -3,8 +3,7 @@
 Decap CMS는 정적 사이트용 웹 편집기입니다. 더 정확히 말하면, **Git 저장소를 백엔드로 사용하는 오픈소스 CMS**입니다.
 
 관련 문서:
-- [[hermes-architecture]]
-- [[hermes-pipeline]]
+- [[knowledge-pipeline]]
 - [[quartz-deployment]]
 
 현재 편집기 경로:
@@ -162,6 +161,6 @@ Decap CMS는 "웹에서 문서를 쉽게 고치게 해주는 Git 기반 편집 �
 - Quartz 단독: 읽기/탐색은 강함
 - Decap CMS 추가: 수정/승인 UX 보강
 - 검색 고도화는 별도 인덱스 계층이 담당
-- 에이전트 접속 표준화는 Hermes MCP가 담당
+- 에이전트 접속 표준화는 MCP 계층이 담당
 
 따라서 현재 구조를 해치지 않으면서 현실적으로 붙일 수 있는 첫 번째 확장 카드로 볼 수 있습니다.

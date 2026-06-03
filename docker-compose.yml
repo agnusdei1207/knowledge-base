@@ -1,6 +1,6 @@
 services:
   quartz-server:
-    image: node:alpine
+    image: node:22-alpine
     container_name: quartz-local-wiki
     ports:
       - "8080:8080"

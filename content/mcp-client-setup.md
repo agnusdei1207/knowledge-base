@@ -1,10 +1,9 @@
 # 🔌 MCP 클라이언트 설정 규격
 
-이 문서는 Claude Code, Codex, Hermes CLI, OpenCode가 같은 공용 MCP 서버를 보도록 맞추는 표준 설정 문서입니다.
+이 문서는 Claude Code, Codex, OpenCode가 같은 공용 MCP 서버를 보도록 맞추는 표준 설정 문서입니다.
 
 관련 문서:
 - [[claude-code-mcp]]
-- [[hermes-agent]]
 - [[operations]]
 
 ---
@@ -83,16 +82,6 @@ claude mcp list
 - `mcp/clients/codex-config.toml`
 
 자동 등록 스크립트는 `~/.codex/config.toml`에 `knowledgebase` 엔트리를 넣습니다.
-
-### Hermes CLI
-
-공식 문서 기준으로 Hermes는 `hermes mcp add` 또는 `~/.hermes/config.yaml`의 `mcp_servers` 아래에 등록합니다.
-
-저장소 템플릿:
-
-- `mcp/clients/hermes-config.yaml`
-
-자동 등록 스크립트는 Hermes CLI가 설치되어 있으면 `hermes mcp add knowledgebase --url ...`를 사용하고, 없으면 `~/.hermes/config.yaml`에 스니펫을 써 줍니다.
 
 ### OpenCode
 

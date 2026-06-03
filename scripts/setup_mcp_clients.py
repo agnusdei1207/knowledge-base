@@ -10,7 +10,7 @@ from pathlib import Path
 
 DEFAULT_NAME = "knowledgebase"
 DEFAULT_URL = "http://127.0.0.1:8090/mcp"
-DEFAULT_CLIENTS = ["claude", "codex", "hermes", "opencode"]
+DEFAULT_CLIENTS = ["claude", "codex", "opencode"]
 
 
 def run_command(command: list[str]) -> bool:
@@ -96,32 +96,6 @@ def install_codex(server_name: str, url: str) -> str:
     return f"written: {config_path}"
 
 
-def install_hermes(server_name: str, url: str) -> str:
-    if shutil.which("hermes") is None:
-        target = Path.home() / ".hermes" / "config.yaml"
-        ensure_parent(target)
-        snippet = (
-            "mcp_servers:\n"
-            f'  {server_name}:\n'
-            f'    url: "{url}"\n'
-            "    enabled: true\n"
-        )
-        if target.exists():
-            current = target.read_text(encoding="utf-8")
-            if f"  {server_name}:" not in current:
-                if not current.endswith("\n"):
-                    current += "\n"
-                current += "\n" + snippet
-                target.write_text(current, encoding="utf-8")
-        else:
-            target.write_text(snippet, encoding="utf-8")
-        return f"written: {target}"
-
-    run_command(["hermes", "mcp", "remove", server_name])
-    ok = run_command(["hermes", "mcp", "add", server_name, "--url", url])
-    return "installed" if ok else "failed"
-
-
 def install_opencode(server_name: str, url: str) -> str:
     config_path = Path.home() / ".config" / "opencode" / "opencode.json"
     upsert_opencode_config(config_path, server_name, url)
@@ -135,14 +109,13 @@ def main() -> int:
     parser.add_argument(
         "--clients",
         default=",".join(DEFAULT_CLIENTS),
-        help="Comma-separated list: claude,codex,hermes,opencode",
+        help="Comma-separated list: claude,codex,opencode",
     )
     args = parser.parse_args()
 
     installers = {
         "claude": install_claude,
         "codex": install_codex,
-        "hermes": install_hermes,
         "opencode": install_opencode,
     }
 

@@ -7,9 +7,7 @@
 - [[quartz-deployment]]
 - [[business]]
 - [[r-and-d]]
-- [[hermes-architecture]]
-- [[hermes-agent]]
-- [[hermes-pipeline]]
+- [[knowledge-pipeline]]
 - [[decap-cms]]
 
 ---
@@ -251,9 +249,7 @@ AI 에이전트는 Quartz 엔진을 수정하는 존재가 아닙니다.
 하지만 직원 수가 늘고, 비개발자 편집 비중이 높아지고, 에이전트 접속 방식까지 표준화하려면 다음 계층이 추가로 필요합니다.
 
 - 웹 편집 계층: [[decap-cms]]
-- 에이전트 접속 계층: [[hermes-architecture]]
-- Hermes Agent 런타임: [[hermes-agent]]
-- 검색/인덱싱 파생 계층: [[hermes-pipeline]]
+- 검색/인덱싱 파생 계층: [[knowledge-pipeline]]
 
 중요한 원칙은 하나입니다.
 
